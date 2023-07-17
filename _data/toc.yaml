@@ -1,4 +1,3 @@
-
 horizontalnav:
 - title: Home
   path: /
@@ -12,9 +11,6 @@ horizontalnav:
 - title: Reference
   path: /reference/
   node: reference
-- title: Samples
-  path: /samples/
-  node: samples
 - title: Contribute
   path: /contribute/overview/
   node: contribute
