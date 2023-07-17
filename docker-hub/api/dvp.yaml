@@ -3,10 +3,10 @@ info:
   title: DVP Data API
   version: 1.0.0
   x-logo:
-    url: https://docs.docker.com/assets/images/logo-docker-main.png
+    url: /assets/images/logo-docker-main.png
     href: /reference
   description: |
-     The Docker DVP Data API allows [Docker Verified Publishers](https://docs.docker.com/docker-hub/publish/) to view image pull analytics data for their namespaces. Analytics data can be retrieved as raw data, or in a summary format.
+     The Docker DVP Data API allows [Docker Verified Publishers](/docker-hub/publish/) to view image pull analytics data for their namespaces. Analytics data can be retrieved as raw data, or in a summary format.
        
      #### Summary data
 
@@ -514,5 +514,5 @@ components:
           
         Note - PATs are not supported on this API  
           
-        This authentication documentation is duplicated from the [Hub API Authentication docs](https://docs.docker.com/docker-hub/api/latest/#tag/authentication)
+        This authentication documentation is duplicated from the [Hub API Authentication docs](/docker-hub/api/latest/#tag/authentication)
       x-displayName: Docker Hub Authentication

@@ -3,7 +3,7 @@ info:
   title: Docker HUB API
   version: beta
   x-logo:
-    url: https://docs.docker.com/assets/images/logo-docker-main.png
+    url: /assets/images/logo-docker-main.png
     href: /reference
   description: |
     Docker Hub is a service provided by Docker for finding and sharing container
@@ -11,7 +11,7 @@ info:
 
     It is the world's largest library and community for container images.
 
-    In addition to the [Docker Hub UI](https://docs.docker.com/docker-hub/) and [Docker Hub CLI tool](https://github.com/docker/hub-tool#readme) (currently experimental),
+    In addition to the [Docker Hub UI](/docker-hub/) and [Docker Hub CLI tool](https://github.com/docker/hub-tool#readme) (currently experimental),
 
     Docker provides an API that allows you to interact with Docker Hub.
 
@@ -47,7 +47,7 @@ tags:
 
       download, or pull rate limiting. To learn more about Docker Hub pull rate
 
-      limiting, see [Docker Hub download rate limit](https://docs.docker.com/docker-hub/download-rate-limit/).*
+      limiting, see [Docker Hub download rate limit](/docker-hub/download-rate-limit/).*
   - name: authentication
     x-displayName: Authentication
     description: |
@@ -62,9 +62,9 @@ tags:
     x-displayName: Personal Access Tokens
     description: |
       The Personal Access Token endpoints lets you manage personal access tokens. For more 
-      information, see [Access Tokens](https://docs.docker.com/docker-hub/access-tokens/).
+      information, see [Access Tokens](/docker-hub/access-tokens/).
 
-      You can use a personal access token instead of a password in the [Docker CLI](https://docs.docker.com/engine/reference/commandline/cli/) 
+      You can use a personal access token instead of a password in the [Docker CLI](/engine/reference/commandline/cli/) 
       or in the [Create an authentication token](#operation/PostUsersLogin) route to obtain a bearer 
       token.
 
@@ -83,14 +83,14 @@ tags:
       The Advanced Image Management API endpoints allow you to manage Docker
       images across all repositories.
 
-      For more information, see [Advanced Image Management dashboard](https://docs.docker.com/docker-hub/image-management/).
+      For more information, see [Advanced Image Management dashboard](/docker-hub/image-management/).
   - name: audit-logs
     x-displayName: Audit Logs
     description: |
       The Audit Logs API endpoints allow you to query audit log events across a
       namespace.
 
-      For more information, see [Audit Log](https://docs.docker.com/docker-hub/audit-log/)
+      For more information, see [Audit Log](/docker-hub/audit-log/)
   - name: org-settings
     x-displayName: Org Settings
     description: |
@@ -105,7 +105,7 @@ tags:
     x-displayName: SCIM
     description: |
       SCIM is a provisioning system that lets you manage users within your identity provider (IdP).
-      For more information, see [System for Cross-domain Identity management](https://docs.docker.com/docker-hub/scim/).
+      For more information, see [System for Cross-domain Identity management](/docker-hub/scim/).
 x-tagGroups:
   - name: General
     tags:
