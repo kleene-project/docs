@@ -473,28 +473,6 @@ reference:
       title: docker secret ls
     - path: /engine/reference/commandline/secret_rm/
       title: docker secret rm
-  - sectiontitle: docker service
-    section:
-    - path: /engine/reference/commandline/service/
-      title: docker service
-    - path: /engine/reference/commandline/service_create/
-      title: docker service create
-    - path: /engine/reference/commandline/service_inspect/
-      title: docker service inspect
-    - path: /engine/reference/commandline/service_logs/
-      title: docker service logs
-    - path: /engine/reference/commandline/service_ls/
-      title: docker service ls
-    - path: /engine/reference/commandline/service_ps/
-      title: docker service ps
-    - path: /engine/reference/commandline/service_rollback/
-      title: docker service rollback
-    - path: /engine/reference/commandline/service_rm/
-      title: docker service rm
-    - path: /engine/reference/commandline/service_scale/
-      title: docker service scale
-    - path: /engine/reference/commandline/service_update/
-      title: docker service update
   - sectiontitle: docker stack
     section:
     - path: /engine/reference/commandline/stack/
@@ -515,26 +493,6 @@ reference:
     title: docker stats
   - path: /engine/reference/commandline/stop/
     title: docker stop
-  - sectiontitle: docker swarm
-    section:
-    - path: /engine/reference/commandline/swarm/
-      title: docker swarm
-    - path: /engine/reference/commandline/swarm_ca/
-      title: docker swarm ca
-    - path: /engine/reference/commandline/swarm_init/
-      title: docker swarm init
-    - path: /engine/reference/commandline/swarm_join-token/
-      title: docker swarm join-token
-    - path: /engine/reference/commandline/swarm_join/
-      title: docker swarm join
-    - path: /engine/reference/commandline/swarm_leave/
-      title: docker swarm leave
-    - path: /engine/reference/commandline/swarm_unlock-key/
-      title: docker swarm unlock-key
-    - path: /engine/reference/commandline/swarm_unlock/
-      title: docker swarm unlock
-    - path: /engine/reference/commandline/swarm_update/
-      title: docker swarm update
   - sectiontitle: docker system
     section:
     - path: /engine/reference/commandline/system/
@@ -830,22 +788,6 @@ manuals:
         title: Remote access
       - path: /engine/context/working-with-contexts/
         title: Contexts
-    - sectiontitle: Engine plugins
-      section:
-      - path: /engine/extend/
-        title: Managed plugin system
-      - path: /engine/extend/plugins_authorization/
-        title: Access authorization plugin
-      - path: /engine/extend/legacy_plugins/
-        title: Extending Docker with plugins
-      - path: /engine/extend/plugins_network/
-        title: Docker network driver plugins
-      - path: /engine/extend/plugins_volume/
-        title: Volume plugins
-      - title: Plugin configuration
-        path: /engine/extend/config/
-      - path: /engine/extend/plugin_api/
-        title: Plugins
   - path: /engine/deprecated/
     title: Deprecated features
   - sectiontitle: Release notes
