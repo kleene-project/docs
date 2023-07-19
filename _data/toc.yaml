@@ -269,10 +269,6 @@ reference:
     title: docker kill
   - path: /engine/reference/commandline/load/
     title: docker load
-  - path: /engine/reference/commandline/login/
-    title: docker login
-  - path: /engine/reference/commandline/logout/
-    title: docker logout
   - path: /engine/reference/commandline/logs/
     title: docker logs
   - sectiontitle: docker manifest
@@ -662,8 +658,6 @@ manuals:
         title: Remote access
       - path: /engine/context/working-with-contexts/
         title: Contexts
-  - path: /engine/deprecated/
-    title: Deprecated features
   - sectiontitle: Release notes
     section:
     - path: /engine/release-notes/
@@ -704,50 +698,6 @@ manuals:
           title: Kubernetes driver
         - path: /build/drivers/remote/
           title: Remote driver
-    - sectiontitle: Cache
-      section:
-        - path: /build/cache/
-          title: Optimizing builds with cache
-        - path: /build/cache/garbage-collection/
-          title: Garbage collection
-        - sectiontitle: Cache backends
-          section:
-            - path: /build/cache/backends/
-              title: Overview
-            - path: /build/cache/backends/inline/
-              title: Inline
-            - path: /build/cache/backends/local/
-              title: Local
-            - path: /build/cache/backends/registry/
-              title: Registry
-            - path: /build/cache/backends/gha/
-              title: GitHub Actions
-            - path: /build/cache/backends/azblob/
-              title: Azure Blob Storage
-            - path: /build/cache/backends/s3/
-              title: Amazon S3
-    - sectiontitle: Exporters
-      section:
-      - path: /build/exporters/
-        title: Overview
-      - path: /build/exporters/image-registry/
-        title: Image and registry exporters
-      - path: /build/exporters/local-tar/
-        title: Local and tar exporters
-      - path: /build/exporters/oci-docker/
-        title: OCI and Docker exporters
-    - sectiontitle: Continuous integration
-      section:
-        - path: /build/ci/
-          title: CI with Docker
-        - sectiontitle: GitHub Actions
-          section:
-          - path: /build/ci/github-actions/
-            title: Introduction
-          - path: /build/ci/github-actions/examples/
-            title: Examples
-          - path: /build/ci/github-actions/configure-builder/
-            title: Configuring your builder
     - sectiontitle: Bake
       section:
         - path: /build/bake/
