@@ -478,18 +478,10 @@ manuals:
       title: Overview
     - path: /config/containers/container-networking/
       title: Container networking
-    - path: /network/proxy/
-      title: Configure Docker to use a proxy server
     - path: /network/bridge/
       title: Bridge networks
-    - path: /network/overlay/
-      title: Overlay networks
     - path: /network/host/
       title: Host networking
-    - path: /network/ipvlan/
-      title: IPvlan networks
-    - path: /network/macvlan/
-      title: Macvlan networks
     - path: /network/none/
       title: Disable networking for a container
     - sectiontitle: Networking tutorials
@@ -498,126 +490,34 @@ manuals:
         title: Bridge network tutorial
       - path: /network/network-tutorial-host/
         title: Host networking tutorial
-      - path: /network/network-tutorial-overlay/
-        title: Overlay networking tutorial
-      - path: /network/network-tutorial-macvlan/
-        title: Macvlan network tutorial
-    - sectiontitle: Legacy networking content
-      section:
-      - path: /network/links/
-        title: (Legacy) Container links
   - sectiontitle: Working with Docker Engine
     section:
     - path: /config/daemon/start/
       title: Start the daemon
     - path: /config/pruning/
       title: Prune unused objects
-    - path: /config/formatting/
-      title: Format command and log output
     - path: /config/containers/start-containers-automatically/
       title: Start containers automatically
-    - path: /config/labels-custom-metadata/
-      title: Labels
-    - path: /engine/scan/
-      title: Docker Scan
-    - path: /engine/sbom/
-      title: Docker SBOM (Experimental)
-  - sectiontitle: Logging
-    section:
-    - sectiontitle: Container logs
-      section:
-      - path: /config/containers/logging/
-        title: View container logs
-      - sectiontitle: Manage container logs
-        section:
-        - path: /config/containers/logging/configure/
-          title: Configure logging drivers
-        - path: /config/containers/logging/dual-logging/
-          title: Use a remote logging driver
-        - path: /config/containers/logging/plugins/
-          title: Use a logging driver plugin
-        - path: /config/containers/logging/log_tags/
-          title: Customize log driver output
-        - sectiontitle: Logging drivers
-          section:
-          - path: /config/containers/logging/local/
-            title: Local file logging driver
-          - path: /config/containers/logging/logentries/
-            title: Logentries logging driver
-          - path: /config/containers/logging/json-file/
-            title: JSON File logging driver
-          - path: /config/containers/logging/gelf/
-            title: Graylog Extended Format (GELF) logging driver
-          - path: /config/containers/logging/syslog/
-            title: Syslog logging driver
-          - path: /config/containers/logging/awslogs/
-            title: Amazon CloudWatch logs logging driver
-          - path: /config/containers/logging/etwlogs/
-            title: ETW logging driver
-          - path: /config/containers/logging/fluentd/
-            title: Fluentd logging driver
-          - path: /config/containers/logging/gcplogs/
-            title: Google Cloud logging driver
-          - path: /config/containers/logging/journald/
-            title: Journald logging driver
-          - path: /config/containers/logging/splunk/
-            title: Splunk logging driver
-    - path: /config/daemon/logs/
-      title: Daemon logs
   - sectiontitle: Security
     section:
       - path: /engine/security/
         title: Overview
-      - path: /engine/security/rootless/
-        title: Rootless mode
-      - path: /engine/security/non-events/
-        title: Docker security non-events
       - path: /engine/security/protect-access/
         title: Protect the Docker daemon socket
       - path: /engine/security/certificates/
         title: Using certificates for repository client verification
-      - sectiontitle: Use trusted images
-        section:
-        - path: /engine/security/trust/
-          title: Overview
-        - path: /engine/security/trust/trust_automation/
-          title: Automation
-        - path: /engine/security/trust/trust_delegation/
-          title: Delegations
-        - path: /engine/security/trust/deploying_notary/
-          title: Deploy Notary
-        - path: /engine/security/trust/trust_key_mng/
-          title: Manage content trust keys
-        - path: /engine/security/trust/trust_sandbox/
-          title: Play in a content trust sandbox
-      - path: /engine/security/antivirus/
-        title: Antivirus software
-      - path: /engine/security/apparmor/
-        title: AppArmor security profiles
-      - path: /engine/security/seccomp/
-        title: Seccomp security profiles
-      - path: /engine/security/userns-remap/
-        title: Isolate containers with a user namespace
   - sectiontitle: Advanced concepts
     section:
     - sectiontitle: Container runtime
       section:
       - path: /config/containers/resource_constraints/
         title: Configure runtime resource constraints
-      - path: /config/containers/runmetrics/
-        title: Collect runtime metrics
       - path: /config/containers/multi-service_container/
         title: Run multiple services in a container
-      - path: /config/daemon/prometheus/
-        title: Collect metrics with Prometheus
     - sectiontitle: Daemon configuration
       section:
       - path: /config/daemon/
         title: Configuration overview
-      - path: /config/daemon/systemd/
-        title: Configure with systemd
-      - path: /config/daemon/ipv6/
-        title: Use IPv6
       - path: /config/containers/live-restore/
         title: Keep containers alive during daemon downtime
       - path: /config/daemon/troubleshoot/
@@ -626,8 +526,6 @@ manuals:
         title: Docker and iptables
       - path: /config/daemon/remote-access/
         title: Remote access
-      - path: /engine/context/working-with-contexts/
-        title: Contexts
   - sectiontitle: Release notes
     section:
     - path: /engine/release-notes/
