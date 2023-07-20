@@ -55,8 +55,6 @@ guides:
     section:
     - path: /develop/develop-images/dockerfile_best-practices/
       title: Dockerfile best practices
-  - path: /develop/scan-images/
-    title: Scan images
 
 reference:
 - path: /reference/
@@ -454,20 +452,6 @@ manuals:
     section:
     - path: /engine/install/
       title: Overview
-    - path: /engine/install/centos/
-      title: CentOS
-    - path: /engine/install/debian/
-      title: Debian
-    - path: /engine/install/fedora/
-      title: Fedora
-    - path: /engine/install/rhel/
-      title: RHEL
-    - path: /engine/install/sles/
-      title: SLES
-    - path: /engine/install/ubuntu/
-      title: Ubuntu
-    - path: /engine/install/binaries/
-      title: Binaries
     - path: /engine/install/linux-postinstall/
       title: Post-installation steps
     - path: /engine/install/troubleshoot/
@@ -480,8 +464,6 @@ manuals:
       title: Volumes
     - path: /storage/bind-mounts/
       title: Bind mounts
-    - path: /storage/tmpfs/
-      title: tmpfs mounts
     - path: /storage/troubleshooting_volume_errors/
       title: Troubleshoot
     - sectiontitle: Storage drivers
