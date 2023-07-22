@@ -526,88 +526,22 @@ manuals:
         title: Docker and iptables
       - path: /config/daemon/remote-access/
         title: Remote access
-  - sectiontitle: Release notes
-    section:
-    - path: /engine/release-notes/
-      title: Engine 20.10
-    - sectiontitle: Previous versions
-      section:
-      - path: /engine/release-notes/19.03/
-        title: Engine 19.03
-      - path: /engine/release-notes/18.09/
-        title: Engine 18.09
-- sectiontitle: Docker Build
+- sectiontitle: Building images
   section:
     - path: /build/
       title: Overview
-    - path: /build/install-buildx/
-      title: Install Buildx
-    - sectiontitle: Building images
-      section:
-        - path: /build/building/packaging/
-          title: Packaging your software
-        - path: /build/building/context/
-          title: Build context
-        - path: /build/building/multi-stage/
-          title: Multi-stage builds
-        - path: /build/building/multi-platform/
-          title: Multi-platform images
-        - path: /build/building/base-images/
-          title: Create your own base image
-    - sectiontitle: Drivers
-      section:
-        - path: /build/drivers/
-          title: Drivers overview
-        - path: /build/drivers/docker/
-          title: Docker driver
-        - path: /build/drivers/docker-container/
-          title: Docker container driver
-        - path: /build/drivers/kubernetes/
-          title: Kubernetes driver
-        - path: /build/drivers/remote/
-          title: Remote driver
-    - sectiontitle: Bake
-      section:
-        - path: /build/bake/
-          title: Overview
-        - path: /build/bake/file-definition/
-          title: File definition
-        - path: /build/bake/configuring-build/
-          title: Configuring builds
-        - path: /build/bake/hcl-funcs/
-          title: User defined HCL functions
-        - path: /build/bake/build-contexts/
-          title: Build contexts and linking targets
-        - path: /build/bake/compose-file/
-          title: Building from Compose file
-    - sectiontitle: Attestations
-      section:
-        - path: /build/attestations/
-          title: Overview
-        - path: /build/attestations/sbom/
-          title: SBOM
-        - path: /build/attestations/slsa-provenance/
-          title: Provenance
-        - path: /build/attestations/slsa-definitions/
-          title: SLSA definitions
-        - path: /build/attestations/attestation-storage/
-          title: Attestation storage
-    - sectiontitle: BuildKit
-      section:
-        - path: /build/buildkit/
-          title: Overview
-        - path: /build/buildkit/dockerfile-frontend/
-          title: Custom Dockerfile syntax
-        - path: /build/buildkit/configure/
-          title: Configure
-        - path: /build/buildkit/toml-configuration/
-          title: TOML configuration
-        - path: /build/buildkit/color-output-controls/
-          title: Color output controls
-    - path: /build/release-notes/
-      title: Release notes
+    - path: /build/building/packaging/
+      title: Packaging your software
+    - path: /build/building/context/
+      title: Build context
+    - path: /build/building/multi-stage/
+      title: Multi-stage builds
+    - path: /build/building/base-images/
+      title: Create your own base image
 - path: /release-notes/
   title: Release notes
+
+
 contribute:
   - path: /contribute/overview/
     title: Contribute to Docker's docs
