@@ -147,26 +147,14 @@ reference:
       title: docker image
     - path: /engine/reference/commandline/image_build/
       title: docker image build
-    - path: /engine/reference/commandline/image_history/
-      title: docker image history
-    - path: /engine/reference/commandline/image_import/
-      title: docker image import
     - path: /engine/reference/commandline/image_inspect/
       title: docker image inspect
-    - path: /engine/reference/commandline/image_load/
-      title: docker image load
     - path: /engine/reference/commandline/image_ls/
       title: docker image ls
     - path: /engine/reference/commandline/image_prune/
       title: docker image prune
-    - path: /engine/reference/commandline/image_pull/
-      title: docker image pull
-    - path: /engine/reference/commandline/image_push/
-      title: docker image push
     - path: /engine/reference/commandline/image_rm/
       title: docker image rm
-    - path: /engine/reference/commandline/image_save/
-      title: docker image save
     - path: /engine/reference/commandline/image_tag/
       title: docker image tag
   - path: /engine/reference/commandline/images/
