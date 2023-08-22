@@ -71,8 +71,6 @@ reference:
     title: docker attach
   - path: /engine/reference/commandline/build/
     title: docker build
-  - path: /engine/reference/commandline/commit/
-    title: docker commit
   - sectiontitle: docker container
     section:
     - path: /engine/reference/commandline/container/
@@ -115,8 +113,6 @@ reference:
         title: docker context create
       - path: /engine/reference/commandline/context_export/
         title: docker context export
-      - path: /engine/reference/commandline/context_import/
-        title: docker context import
       - path: /engine/reference/commandline/context_inspect/
         title: docker context inspect
       - path: /engine/reference/commandline/context_ls/
@@ -127,20 +123,12 @@ reference:
         title: docker context update
       - path: /engine/reference/commandline/context_use/
         title: docker context use
-  - path: /engine/reference/commandline/cp/
-    title: docker cp
   - path: /engine/reference/commandline/create/
     title: docker create
   - path: /engine/reference/commandline/diff/
     title: docker diff
-  - path: /engine/reference/commandline/events/
-    title: docker events
   - path: /engine/reference/commandline/exec/
     title: docker exec
-  - path: /engine/reference/commandline/export/
-    title: docker export
-  - path: /engine/reference/commandline/history/
-    title: docker history
   - sectiontitle: docker image
     section:
     - path: /engine/reference/commandline/image/
@@ -161,16 +149,8 @@ reference:
     title: docker images
   - path: /engine/reference/commandline/import/
     title: docker import
-  - path: /engine/reference/commandline/info/
-    title: docker info
   - path: /engine/reference/commandline/inspect/
     title: docker inspect
-  - path: /engine/reference/commandline/kill/
-    title: docker kill
-  - path: /engine/reference/commandline/load/
-    title: docker load
-  - path: /engine/reference/commandline/logs/
-    title: docker logs
   - sectiontitle: docker manifest
     section:
     - path: /engine/reference/commandline/manifest/
@@ -221,8 +201,6 @@ reference:
       title: docker node rm
     - path: /engine/reference/commandline/node_update/
       title: docker node update
-  - path: /engine/reference/commandline/pause/
-    title: docker pause
   - sectiontitle: docker plugin
     section:
     - path: /engine/reference/commandline/plugin/
@@ -245,14 +223,8 @@ reference:
       title: docker plugin set
     - path: /engine/reference/commandline/plugin_upgrade/
       title: docker plugin upgrade
-  - path: /engine/reference/commandline/port/
-    title: docker port
   - path: /engine/reference/commandline/ps/
     title: docker ps
-  - path: /engine/reference/commandline/pull/
-    title: docker pull
-  - path: /engine/reference/commandline/push/
-    title: docker push
   - path: /engine/reference/commandline/rename/
     title: docker rename
   - path: /engine/reference/commandline/restart/
@@ -263,10 +235,6 @@ reference:
     title: docker rmi
   - path: /engine/reference/commandline/run/
     title: docker run
-  - path: /engine/reference/commandline/save/
-    title: docker save
-  - path: /engine/reference/commandline/search/
-    title: docker search
   - sectiontitle: docker secret
     section:
     - path: /engine/reference/commandline/secret/
@@ -281,8 +249,6 @@ reference:
       title: docker secret rm
   - path: /engine/reference/commandline/start/
     title: docker start
-  - path: /engine/reference/commandline/stats/
-    title: docker stats
   - path: /engine/reference/commandline/stop/
     title: docker stop
   - sectiontitle: docker system
@@ -299,14 +265,8 @@ reference:
       title: docker system prune
   - path: /engine/reference/commandline/tag/
     title: docker tag
-  - path: /engine/reference/commandline/top/
-    title: docker top
-  - path: /engine/reference/commandline/unpause/
-    title: docker unpause
   - path: /engine/reference/commandline/update/
     title: docker update
-  - path: /engine/reference/commandline/version/
-    title: docker version
   - sectiontitle: docker volume
     section:
     - path: /engine/reference/commandline/volume_create/
@@ -319,8 +279,6 @@ reference:
       title: docker volume prune
     - path: /engine/reference/commandline/volume_rm/
       title: docker volume rm
-  - path: /engine/reference/commandline/wait/
-    title: docker wait
 - sectiontitle: Docker Engine API
   section:
   - path: /engine/api/
