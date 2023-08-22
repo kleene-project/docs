@@ -151,28 +151,6 @@ reference:
       title: docker network prune
     - path: /engine/reference/commandline/network_rm/
       title: docker network rm
-  - sectiontitle: docker plugin
-    section:
-    - path: /engine/reference/commandline/plugin/
-      title: docker plugin
-    - path: /engine/reference/commandline/plugin_create/
-      title: docker plugin create
-    - path: /engine/reference/commandline/plugin_disable/
-      title: docker plugin disable
-    - path: /engine/reference/commandline/plugin_enable/
-      title: docker plugin enable
-    - path: /engine/reference/commandline/plugin_inspect/
-      title: docker plugin inspect
-    - path: /engine/reference/commandline/plugin_install/
-      title: docker plugin install
-    - path: /engine/reference/commandline/plugin_ls/
-      title: docker plugin ls
-    - path: /engine/reference/commandline/plugin_rm/
-      title: docker plugin rm
-    - path: /engine/reference/commandline/plugin_set/
-      title: docker plugin set
-    - path: /engine/reference/commandline/plugin_upgrade/
-      title: docker plugin upgrade
   - path: /engine/reference/commandline/ps/
     title: docker ps
   - path: /engine/reference/commandline/rename/
@@ -185,34 +163,10 @@ reference:
     title: docker rmi
   - path: /engine/reference/commandline/run/
     title: docker run
-  - sectiontitle: docker secret
-    section:
-    - path: /engine/reference/commandline/secret/
-      title: docker secret
-    - path: /engine/reference/commandline/secret_create/
-      title: docker secret create
-    - path: /engine/reference/commandline/secret_inspect/
-      title: docker secret inspect
-    - path: /engine/reference/commandline/secret_ls/
-      title: docker secret ls
-    - path: /engine/reference/commandline/secret_rm/
-      title: docker secret rm
   - path: /engine/reference/commandline/start/
     title: docker start
   - path: /engine/reference/commandline/stop/
     title: docker stop
-  - sectiontitle: docker system
-    section:
-    - path: /engine/reference/commandline/system/
-      title: docker system
-    - path: /engine/reference/commandline/system_df/
-      title: docker system df
-    - path: /engine/reference/commandline/system_events/
-      title: docker system events
-    - path: /engine/reference/commandline/system_info/
-      title: docker system info
-    - path: /engine/reference/commandline/system_prune/
-      title: docker system prune
   - path: /engine/reference/commandline/tag/
     title: docker tag
   - path: /engine/reference/commandline/update/
