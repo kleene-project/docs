@@ -71,68 +71,26 @@ reference:
     title: docker attach
   - path: /engine/reference/commandline/build/
     title: docker build
-  - sectiontitle: docker builder
-    section:
-      - path: /engine/reference/commandline/builder/
-        title: docker builder
-      - path: /engine/reference/commandline/builder_build/
-        title: docker builder build
-      - path: /engine/reference/commandline/builder_prune/
-        title: docker builder prune
-  - sectiontitle: docker checkpoint
-    section:
-    - path: /engine/reference/commandline/checkpoint/
-      title: docker checkpoint
-    - path: /engine/reference/commandline/checkpoint_create/
-      title: docker checkpoint create
-    - path: /engine/reference/commandline/checkpoint_ls/
-      title: docker checkpoint ls
-    - path: /engine/reference/commandline/checkpoint_rm/
-      title: docker checkpoint rm
   - path: /engine/reference/commandline/commit/
     title: docker commit
-  - sectiontitle: docker config
-    section:
-    - path: /engine/reference/commandline/config/
-      title: docker config
-    - path: /engine/reference/commandline/config_create/
-      title: docker config create
-    - path: /engine/reference/commandline/config_inspect/
-      title: docker config inspect
-    - path: /engine/reference/commandline/config_ls/
-      title: docker config ls
-    - path: /engine/reference/commandline/config_rm/
-      title: docker config rm
   - sectiontitle: docker container
     section:
     - path: /engine/reference/commandline/container/
       title: docker container
     - path: /engine/reference/commandline/container_attach/
       title: docker container attach
-    - path: /engine/reference/commandline/container_commit/
-      title: docker container commit
-    - path: /engine/reference/commandline/container_cp/
-      title: docker container cp
     - path: /engine/reference/commandline/container_create/
       title: docker container create
     - path: /engine/reference/commandline/container_diff/
       title: docker container diff
     - path: /engine/reference/commandline/container_exec/
       title: docker container exec
-    - path: /engine/reference/commandline/container_export/
-      title: docker container export
     - path: /engine/reference/commandline/container_inspect/
       title: docker container inspect
     - path: /engine/reference/commandline/container_kill/
       title: docker container kill
-    - path: /engine/reference/commandline/container_logs/
-      title: docker container logs
     - path: /engine/reference/commandline/container_ls/
       title: docker container ls
-    - path: /engine/reference/commandline/container_pause/
-      title: docker container pause
-    - path: /engine/reference/commandline/container_port/
-      title: docker container port
     - path: /engine/reference/commandline/container_prune/
       title: docker container prune
     - path: /engine/reference/commandline/container_rename/
@@ -145,18 +103,10 @@ reference:
       title: docker container run
     - path: /engine/reference/commandline/container_start/
       title: docker container start
-    - path: /engine/reference/commandline/container_stats/
-      title: docker container stats
     - path: /engine/reference/commandline/container_stop/
       title: docker container stop
-    - path: /engine/reference/commandline/container_top/
-      title: docker container top
-    - path: /engine/reference/commandline/container_unpause/
-      title: docker container unpause
     - path: /engine/reference/commandline/container_update/
       title: docker container update
-    - path: /engine/reference/commandline/container_wait/
-      title: docker container wait
   - sectiontitle: docker context
     section:
       - path: /engine/reference/commandline/context/
