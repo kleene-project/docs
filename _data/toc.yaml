@@ -187,10 +187,8 @@ reference:
   section:
   - path: /engine/api/
     title: Overview
-  - path: /engine/api/sdk/
-    title: SDKs
-  - path: /engine/api/sdk/examples/
-    title: SDK examples
+  - path: /engine/api/examples/
+    title: Curl examples
   - path: /engine/api/latest/
     title: v{{ site.latest_engine_api_version }} reference (latest)
   - sectiontitle: API reference by version
