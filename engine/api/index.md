@@ -125,12 +125,3 @@ You can specify the API version to use, in one of the following ways:
   [Go constructor](https://github.com/moby/moby/blob/v19.03.6/client/client.go#L119){: target="_blank" rel="noopener" class="_"}
   or the
   [Python SDK documentation for `client`](https://docker-py.readthedocs.io/en/stable/client.html){: target="_blank" rel="noopener" class="_"}.
-
-### API version matrix
-
-{% include api-version-matrix.md %}
-
-### Archived API versions
-
-Documentation for older versions of the API has been archived, but can be found
-in the [docker code repository on GitHub](https://github.com/moby/moby/tree/v1.9.1/docs/reference/api){: target="_blank" rel="noopener" class="_"}

@@ -214,7 +214,7 @@ manuals:
     section:
     - path: /engine/install/
       title: Overview
-    - path: /engine/install/linux-postinstall/
+    - path: /engine/install/postinstall/
       title: Post-installation steps
     - path: /engine/install/troubleshoot/
       title: Troubleshoot installation
