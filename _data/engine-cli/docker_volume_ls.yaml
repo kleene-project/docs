@@ -16,14 +16,12 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: format
   value_type: string
   description: Pretty-print volumes using a Go template
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: quiet
   shorthand: q
   value_type: bool
@@ -32,7 +30,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 examples: |-
   ### Create a volume
 
@@ -186,5 +183,4 @@ deprecated: false
 min_api_version: "1.21"
 experimental: false
 experimentalcli: false
-swarm: false
 

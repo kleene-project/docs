@@ -72,7 +72,6 @@ options:
   min_api_version: "1.25"
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: aux-address
   value_type: map
   default_value: map[]
@@ -80,7 +79,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: config-from
   value_type: string
   description: The network from which to copy the configuration
@@ -88,7 +86,6 @@ options:
   min_api_version: "1.30"
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: config-only
   value_type: bool
   default_value: "false"
@@ -97,7 +94,6 @@ options:
   min_api_version: "1.30"
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: driver
   shorthand: d
   value_type: string
@@ -106,7 +102,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: gateway
   value_type: stringSlice
   default_value: '[]'
@@ -114,7 +109,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: ingress
   value_type: bool
   default_value: "false"
@@ -123,7 +117,6 @@ options:
   min_api_version: "1.29"
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: internal
   value_type: bool
   default_value: "false"
@@ -131,7 +124,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: ip-range
   value_type: stringSlice
   default_value: '[]'
@@ -139,7 +131,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: ipam-driver
   value_type: string
   default_value: default
@@ -147,7 +138,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: ipam-opt
   value_type: map
   default_value: map[]
@@ -155,7 +145,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: ipv6
   value_type: bool
   default_value: "false"
@@ -163,14 +152,12 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: label
   value_type: list
   description: Set metadata on a network
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: opt
   shorthand: o
   value_type: map
@@ -179,7 +166,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: scope
   value_type: string
   description: Control the network's scope
@@ -187,7 +173,6 @@ options:
   min_api_version: "1.30"
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: subnet
   value_type: stringSlice
   default_value: '[]'
@@ -195,7 +180,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 examples: |-
   ### Connect containers
 
@@ -324,5 +308,4 @@ deprecated: false
 min_api_version: "1.21"
 experimental: false
 experimentalcli: false
-swarm: false
 

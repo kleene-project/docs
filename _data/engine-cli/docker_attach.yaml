@@ -70,7 +70,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: no-stdin
   value_type: bool
   default_value: "false"
@@ -78,7 +77,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: sig-proxy
   value_type: bool
   default_value: "true"
@@ -86,7 +84,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 examples: |-
   ### Attach to and detach from a running container
 
@@ -177,5 +174,4 @@ examples: |-
 deprecated: false
 experimental: false
 experimentalcli: false
-swarm: false
 

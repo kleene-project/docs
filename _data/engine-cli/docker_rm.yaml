@@ -13,7 +13,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: link
   shorthand: l
   value_type: bool
@@ -22,7 +21,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: volumes
   shorthand: v
   value_type: bool
@@ -31,7 +29,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 examples: |-
   ### Remove a container
 
@@ -124,5 +121,4 @@ examples: |-
 deprecated: false
 experimental: false
 experimentalcli: false
-swarm: false
 

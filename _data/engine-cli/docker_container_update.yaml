@@ -13,7 +13,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: cpu-period
   value_type: int64
   default_value: "0"
@@ -21,7 +20,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: cpu-quota
   value_type: int64
   default_value: "0"
@@ -29,7 +27,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: cpu-rt-period
   value_type: int64
   default_value: "0"
@@ -38,7 +35,6 @@ options:
   min_api_version: "1.25"
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: cpu-rt-runtime
   value_type: int64
   default_value: "0"
@@ -47,7 +43,6 @@ options:
   min_api_version: "1.25"
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: cpu-shares
   shorthand: c
   value_type: int64
@@ -56,7 +51,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: cpus
   value_type: decimal
   description: Number of CPUs
@@ -64,21 +58,18 @@ options:
   min_api_version: "1.29"
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: cpuset-cpus
   value_type: string
   description: CPUs in which to allow execution (0-3, 0,1)
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: cpuset-mems
   value_type: string
   description: MEMs in which to allow execution (0-3, 0,1)
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: kernel-memory
   value_type: bytes
   default_value: "0"
@@ -86,7 +77,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: memory
   shorthand: m
   value_type: bytes
@@ -95,7 +85,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: memory-reservation
   value_type: bytes
   default_value: "0"
@@ -103,7 +92,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: memory-swap
   value_type: bytes
   default_value: "0"
@@ -112,7 +100,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: pids-limit
   value_type: int64
   default_value: "0"
@@ -121,16 +108,13 @@ options:
   min_api_version: "1.40"
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: restart
   value_type: string
   description: Restart policy to apply when a container exits
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 deprecated: false
 experimental: false
 experimentalcli: false
-swarm: false
 

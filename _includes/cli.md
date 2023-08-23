@@ -63,11 +63,7 @@ your client and daemon API versions.
 {% endif %}
 
 {% capture command-orchestrator %}
-{% if controller_data.swarm %}
 
-<span class="badge badge-info" data-toggle="tooltip" data-placement="right" title="This command works with the Swarm orchestrator.">Swarm</span> This command works with the Swarm orchestrator.
-
-{% endif %}
 {% endcapture %}{{ command-orchestrator }}
 
 
@@ -126,7 +122,7 @@ For example uses of this command, refer to the [examples section](#examples) bel
   {%- else -%}
     {% capture min-api %}{%endcapture%}
   {%- endif -%}
-  {% capture flag-orchestrator %}{% if option.swarm %}<span class="badge badge-info" data-toggle="tooltip" title="This option works for the Swarm orchestrator.">Swarm</span>{% endif %}{% endcapture %}
+  {% capture flag-orchestrator %}{% endcapture %}
   {% capture all-badges %}{{ deprecated-badge }}{{ experimental-daemon-badge }}{{ experimental-cli-badge }}{{ min-api }}{{ flag-orchestrator }}{% endcapture %}
   {% capture defaults-to-skip-str %}[],map[],false,0,0s,default,'',""{% endcapture %}
   {% capture defaults-to-skip %}{{ defaults-to-skip-str | split: ',' }}{% endcapture %}

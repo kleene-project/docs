@@ -11,14 +11,12 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: build-arg
   value_type: list
   description: Set build-time variables
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: cache-from
   value_type: stringSlice
   default_value: '[]'
@@ -26,14 +24,12 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: cgroup-parent
   value_type: string
   description: Optional parent cgroup for the container
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: compress
   value_type: bool
   default_value: "false"
@@ -41,7 +37,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: cpu-period
   value_type: int64
   default_value: "0"
@@ -49,7 +44,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: cpu-quota
   value_type: int64
   default_value: "0"
@@ -57,7 +51,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: cpu-shares
   shorthand: c
   value_type: int64
@@ -66,21 +59,18 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: cpuset-cpus
   value_type: string
   description: CPUs in which to allow execution (0-3, 0,1)
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: cpuset-mems
   value_type: string
   description: MEMs in which to allow execution (0-3, 0,1)
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: disable-content-trust
   value_type: bool
   default_value: "true"
@@ -88,7 +78,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: file
   shorthand: f
   value_type: string
@@ -96,7 +85,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: force-rm
   value_type: bool
   default_value: "false"
@@ -104,28 +92,24 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: iidfile
   value_type: string
   description: Write the image ID to the file
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: isolation
   value_type: string
   description: Container isolation technology
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: label
   value_type: list
   description: Set metadata for an image
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: memory
   shorthand: m
   value_type: bytes
@@ -134,7 +118,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: memory-swap
   value_type: bytes
   default_value: "0"
@@ -143,7 +126,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: network
   value_type: string
   default_value: default
@@ -153,7 +135,6 @@ options:
   min_api_version: "1.25"
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: no-cache
   value_type: bool
   default_value: "false"
@@ -161,7 +142,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: output
   shorthand: o
   value_type: stringArray
@@ -171,7 +151,6 @@ options:
   min_api_version: "1.40"
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: platform
   value_type: string
   description: Set platform if server is multi-platform capable
@@ -179,7 +158,6 @@ options:
   min_api_version: "1.38"
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: progress
   value_type: string
   default_value: auto
@@ -188,7 +166,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: pull
   value_type: bool
   default_value: "false"
@@ -196,7 +173,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: quiet
   shorthand: q
   value_type: bool
@@ -205,7 +181,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: rm
   value_type: bool
   default_value: "true"
@@ -213,7 +188,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: secret
   value_type: stringArray
   default_value: '[]'
@@ -223,7 +197,6 @@ options:
   min_api_version: "1.39"
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: security-opt
   value_type: stringSlice
   default_value: '[]'
@@ -231,7 +204,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: shm-size
   value_type: bytes
   default_value: "0"
@@ -239,7 +211,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: squash
   value_type: bool
   default_value: "false"
@@ -248,7 +219,6 @@ options:
   min_api_version: "1.25"
   experimental: true
   experimentalcli: false
-  swarm: false
 - option: ssh
   value_type: stringArray
   default_value: '[]'
@@ -258,7 +228,6 @@ options:
   min_api_version: "1.39"
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: stream
   value_type: bool
   default_value: "false"
@@ -266,7 +235,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: tag
   shorthand: t
   value_type: list
@@ -274,14 +242,12 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: target
   value_type: string
   description: Set the target build stage to build.
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: ulimit
   value_type: ulimit
   default_value: '[]'
@@ -289,9 +255,7 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 deprecated: false
 experimental: false
 experimentalcli: false
-swarm: false
 

@@ -13,14 +13,12 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: detach-keys
   value_type: string
   description: Override the key sequence for detaching a container
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: env
   shorthand: e
   value_type: list
@@ -29,7 +27,6 @@ options:
   min_api_version: "1.25"
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: env-file
   value_type: list
   description: Read in a file of environment variables
@@ -37,7 +34,6 @@ options:
   min_api_version: "1.25"
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: interactive
   shorthand: i
   value_type: bool
@@ -46,7 +42,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: privileged
   value_type: bool
   default_value: "false"
@@ -54,7 +49,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: tty
   shorthand: t
   value_type: bool
@@ -63,7 +57,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: user
   shorthand: u
   value_type: string
@@ -71,7 +64,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: workdir
   shorthand: w
   value_type: string
@@ -80,9 +72,7 @@ options:
   min_api_version: "1.35"
   experimental: false
   experimentalcli: false
-  swarm: false
 deprecated: false
 experimental: false
 experimentalcli: false
-swarm: false
 

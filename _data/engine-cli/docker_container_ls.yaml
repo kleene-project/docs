@@ -14,7 +14,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: filter
   shorthand: f
   value_type: filter
@@ -22,14 +21,12 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: format
   value_type: string
   description: Pretty-print containers using a Go template
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: last
   shorthand: "n"
   value_type: int
@@ -38,7 +35,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: latest
   shorthand: l
   value_type: bool
@@ -47,7 +43,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: no-trunc
   value_type: bool
   default_value: "false"
@@ -55,7 +50,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: quiet
   shorthand: q
   value_type: bool
@@ -64,7 +58,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: size
   shorthand: s
   value_type: bool
@@ -73,9 +66,7 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 deprecated: false
 experimental: false
 experimentalcli: false
-swarm: false
 

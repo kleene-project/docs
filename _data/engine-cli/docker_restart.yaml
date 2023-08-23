@@ -13,7 +13,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 examples: |-
   ```console
   $ docker restart my_container
@@ -21,5 +20,4 @@ examples: |-
 deprecated: false
 experimental: false
 experimentalcli: false
-swarm: false
 

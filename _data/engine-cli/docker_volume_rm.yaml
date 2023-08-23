@@ -15,7 +15,6 @@ options:
   min_api_version: "1.25"
   experimental: false
   experimentalcli: false
-  swarm: false
 examples: |-
   ```console
   $ docker volume rm hello
@@ -26,5 +25,4 @@ deprecated: false
 min_api_version: "1.21"
 experimental: false
 experimentalcli: false
-swarm: false
 

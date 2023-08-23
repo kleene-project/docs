@@ -11,7 +11,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: attach
   shorthand: a
   value_type: list
@@ -19,7 +18,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: blkio-weight
   value_type: uint16
   default_value: "0"
@@ -28,7 +26,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: blkio-weight-device
   value_type: list
   default_value: '[]'
@@ -36,28 +33,24 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: cap-add
   value_type: list
   description: Add Linux capabilities
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: cap-drop
   value_type: list
   description: Drop Linux capabilities
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: cgroup-parent
   value_type: string
   description: Optional parent cgroup for the container
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: cgroupns
   value_type: string
   description: |-
@@ -70,14 +63,12 @@ options:
   min_api_version: "1.41"
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: cidfile
   value_type: string
   description: Write the container ID to the file
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: cpu-count
   value_type: int64
   default_value: "0"
@@ -85,7 +76,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
   os_type: windows
 - option: cpu-percent
   value_type: int64
@@ -94,7 +84,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
   os_type: windows
 - option: cpu-period
   value_type: int64
@@ -103,7 +92,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: cpu-quota
   value_type: int64
   default_value: "0"
@@ -111,7 +99,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: cpu-rt-period
   value_type: int64
   default_value: "0"
@@ -120,7 +107,6 @@ options:
   min_api_version: "1.25"
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: cpu-rt-runtime
   value_type: int64
   default_value: "0"
@@ -129,7 +115,6 @@ options:
   min_api_version: "1.25"
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: cpu-shares
   shorthand: c
   value_type: int64
@@ -138,7 +123,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: cpus
   value_type: decimal
   description: Number of CPUs
@@ -146,21 +130,18 @@ options:
   min_api_version: "1.25"
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: cpuset-cpus
   value_type: string
   description: CPUs in which to allow execution (0-3, 0,1)
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: cpuset-mems
   value_type: string
   description: MEMs in which to allow execution (0-3, 0,1)
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: detach
   shorthand: d
   value_type: bool
@@ -169,28 +150,24 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: detach-keys
   value_type: string
   description: Override the key sequence for detaching a container
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: device
   value_type: list
   description: Add a host device to the container
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: device-cgroup-rule
   value_type: list
   description: Add a rule to the cgroup allowed devices list
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: device-read-bps
   value_type: list
   default_value: '[]'
@@ -198,7 +175,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: device-read-iops
   value_type: list
   default_value: '[]'
@@ -206,7 +182,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: device-write-bps
   value_type: list
   default_value: '[]'
@@ -214,7 +189,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: device-write-iops
   value_type: list
   default_value: '[]'
@@ -222,7 +196,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: disable-content-trust
   value_type: bool
   default_value: "true"
@@ -230,49 +203,42 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: dns
   value_type: list
   description: Set custom DNS servers
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: dns-opt
   value_type: list
   description: Set DNS options
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: dns-option
   value_type: list
   description: Set DNS options
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: dns-search
   value_type: list
   description: Set custom DNS search domains
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: domainname
   value_type: string
   description: Container NIS domain name
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: entrypoint
   value_type: string
   description: Overwrite the default ENTRYPOINT of the image
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: env
   shorthand: e
   value_type: list
@@ -280,21 +246,18 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: env-file
   value_type: list
   description: Read in a file of environment variables
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: expose
   value_type: list
   description: Expose a port or a range of ports
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: gpus
   value_type: gpu-request
   description: GPU devices to add to the container ('all' to pass all GPUs)
@@ -302,21 +265,18 @@ options:
   min_api_version: "1.40"
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: group-add
   value_type: list
   description: Add additional groups to join
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: health-cmd
   value_type: string
   description: Command to run to check health
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: health-interval
   value_type: duration
   default_value: 0s
@@ -324,7 +284,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: health-retries
   value_type: int
   default_value: "0"
@@ -332,7 +291,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: health-start-period
   value_type: duration
   default_value: 0s
@@ -342,7 +300,6 @@ options:
   min_api_version: "1.29"
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: health-timeout
   value_type: duration
   default_value: 0s
@@ -351,7 +308,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: help
   value_type: bool
   default_value: "false"
@@ -359,7 +315,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: hostname
   shorthand: h
   value_type: string
@@ -367,7 +322,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: init
   value_type: bool
   default_value: "false"
@@ -377,7 +331,6 @@ options:
   min_api_version: "1.25"
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: interactive
   shorthand: i
   value_type: bool
@@ -386,7 +339,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: io-maxbandwidth
   value_type: bytes
   default_value: "0"
@@ -395,7 +347,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
   os_type: windows
 - option: io-maxiops
   value_type: uint64
@@ -404,7 +355,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
   os_type: windows
 - option: ip
   value_type: string
@@ -412,28 +362,24 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: ip6
   value_type: string
   description: IPv6 address (e.g., 2001:db8::33)
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: ipc
   value_type: string
   description: IPC mode to use
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: isolation
   value_type: string
   description: Container isolation technology
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: kernel-memory
   value_type: bytes
   default_value: "0"
@@ -441,7 +387,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: label
   shorthand: l
   value_type: list
@@ -449,49 +394,42 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: label-file
   value_type: list
   description: Read in a line delimited file of labels
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: link
   value_type: list
   description: Add link to another container
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: link-local-ip
   value_type: list
   description: Container IPv4/IPv6 link-local addresses
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: log-driver
   value_type: string
   description: Logging driver for the container
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: log-opt
   value_type: list
   description: Log driver options
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: mac-address
   value_type: string
   description: Container MAC address (e.g., 92:d0:c6:0a:29:33)
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: memory
   shorthand: m
   value_type: bytes
@@ -500,7 +438,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: memory-reservation
   value_type: bytes
   default_value: "0"
@@ -508,7 +445,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: memory-swap
   value_type: bytes
   default_value: "0"
@@ -517,7 +453,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: memory-swappiness
   value_type: int64
   default_value: "-1"
@@ -525,49 +460,42 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: mount
   value_type: mount
   description: Attach a filesystem mount to the container
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: name
   value_type: string
   description: Assign a name to the container
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: net
   value_type: network
   description: Connect a container to a network
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: net-alias
   value_type: list
   description: Add network-scoped alias for the container
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: network
   value_type: network
   description: Connect a container to a network
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: network-alias
   value_type: list
   description: Add network-scoped alias for the container
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: no-healthcheck
   value_type: bool
   default_value: "false"
@@ -575,7 +503,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: oom-kill-disable
   value_type: bool
   default_value: "false"
@@ -583,7 +510,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: oom-score-adj
   value_type: int
   default_value: "0"
@@ -591,14 +517,12 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: pid
   value_type: string
   description: PID namespace to use
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: pids-limit
   value_type: int64
   default_value: "0"
@@ -606,7 +530,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: platform
   value_type: string
   description: Set platform if server is multi-platform capable
@@ -614,7 +537,6 @@ options:
   min_api_version: "1.32"
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: privileged
   value_type: bool
   default_value: "false"
@@ -622,7 +544,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: publish
   shorthand: p
   value_type: list
@@ -630,7 +551,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: publish-all
   shorthand: P
   value_type: bool
@@ -639,7 +559,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: pull
   value_type: string
   default_value: missing
@@ -647,7 +566,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: read-only
   value_type: bool
   default_value: "false"
@@ -655,7 +573,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: restart
   value_type: string
   default_value: "no"
@@ -663,7 +580,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: rm
   value_type: bool
   default_value: "false"
@@ -671,21 +587,18 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: runtime
   value_type: string
   description: Runtime to use for this container
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: security-opt
   value_type: list
   description: Security Options
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: shm-size
   value_type: bytes
   default_value: "0"
@@ -693,7 +606,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: sig-proxy
   value_type: bool
   default_value: "true"
@@ -701,7 +613,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: stop-signal
   value_type: string
   default_value: SIGTERM
@@ -709,7 +620,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: stop-timeout
   value_type: int
   default_value: "0"
@@ -718,14 +628,12 @@ options:
   min_api_version: "1.25"
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: storage-opt
   value_type: list
   description: Storage driver options for the container
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: sysctl
   value_type: map
   default_value: map[]
@@ -733,14 +641,12 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: tmpfs
   value_type: list
   description: Mount a tmpfs directory
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: tty
   shorthand: t
   value_type: bool
@@ -749,7 +655,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: ulimit
   value_type: ulimit
   default_value: '[]'
@@ -757,7 +662,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: user
   shorthand: u
   value_type: string
@@ -765,21 +669,18 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: userns
   value_type: string
   description: User namespace to use
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: uts
   value_type: string
   description: UTS namespace to use
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: volume
   shorthand: v
   value_type: list
@@ -787,21 +688,18 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: volume-driver
   value_type: string
   description: Optional volume driver for the container
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: volumes-from
   value_type: list
   description: Mount volumes from the specified container(s)
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 - option: workdir
   shorthand: w
   value_type: string
@@ -809,9 +707,7 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  swarm: false
 deprecated: false
 experimental: false
 experimentalcli: false
-swarm: false
 

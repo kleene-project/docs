@@ -11,5 +11,4 @@ examples: |-
 deprecated: false
 experimental: false
 experimentalcli: false
-swarm: false
 
