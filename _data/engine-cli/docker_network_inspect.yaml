@@ -14,7 +14,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: verbose
   shorthand: v
@@ -24,12 +23,10 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 deprecated: false
 min_api_version: "1.21"
 experimental: false
 experimentalcli: false
-kubernetes: false
 swarm: false
 

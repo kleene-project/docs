@@ -11,7 +11,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: no-stdin
   value_type: bool
@@ -20,7 +19,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: sig-proxy
   value_type: bool
@@ -29,11 +27,9 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 deprecated: false
 experimental: false
 experimentalcli: false
-kubernetes: false
 swarm: false
 

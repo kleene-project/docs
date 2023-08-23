@@ -72,7 +72,6 @@ options:
   min_api_version: "1.25"
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: aux-address
   value_type: map
@@ -81,7 +80,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: config-from
   value_type: string
@@ -90,7 +88,6 @@ options:
   min_api_version: "1.30"
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: config-only
   value_type: bool
@@ -100,7 +97,6 @@ options:
   min_api_version: "1.30"
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: driver
   shorthand: d
@@ -110,7 +106,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: gateway
   value_type: stringSlice
@@ -119,7 +114,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: ingress
   value_type: bool
@@ -129,7 +123,6 @@ options:
   min_api_version: "1.29"
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: internal
   value_type: bool
@@ -138,7 +131,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: ip-range
   value_type: stringSlice
@@ -147,7 +139,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: ipam-driver
   value_type: string
@@ -156,7 +147,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: ipam-opt
   value_type: map
@@ -165,7 +155,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: ipv6
   value_type: bool
@@ -174,7 +163,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: label
   value_type: list
@@ -182,7 +170,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: opt
   shorthand: o
@@ -192,7 +179,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: scope
   value_type: string
@@ -201,7 +187,6 @@ options:
   min_api_version: "1.30"
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: subnet
   value_type: stringSlice
@@ -210,7 +195,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 examples: |-
   ### Connect containers
@@ -340,6 +324,5 @@ deprecated: false
 min_api_version: "1.21"
 experimental: false
 experimentalcli: false
-kubernetes: false
 swarm: false
 

@@ -11,7 +11,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: attach
   shorthand: a
@@ -20,7 +19,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: blkio-weight
   value_type: uint16
@@ -30,7 +28,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: blkio-weight-device
   value_type: list
@@ -39,7 +36,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: cap-add
   value_type: list
@@ -47,7 +43,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: cap-drop
   value_type: list
@@ -55,7 +50,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: cgroup-parent
   value_type: string
@@ -63,7 +57,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: cgroupns
   value_type: string
@@ -77,7 +70,6 @@ options:
   min_api_version: "1.41"
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: cidfile
   value_type: string
@@ -85,7 +77,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: cpu-count
   value_type: int64
@@ -94,7 +85,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
   os_type: windows
 - option: cpu-percent
@@ -104,7 +94,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
   os_type: windows
 - option: cpu-period
@@ -114,7 +103,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: cpu-quota
   value_type: int64
@@ -123,7 +111,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: cpu-rt-period
   value_type: int64
@@ -133,7 +120,6 @@ options:
   min_api_version: "1.25"
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: cpu-rt-runtime
   value_type: int64
@@ -143,7 +129,6 @@ options:
   min_api_version: "1.25"
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: cpu-shares
   shorthand: c
@@ -153,7 +138,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: cpus
   value_type: decimal
@@ -162,7 +146,6 @@ options:
   min_api_version: "1.25"
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: cpuset-cpus
   value_type: string
@@ -170,7 +153,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: cpuset-mems
   value_type: string
@@ -178,7 +160,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: detach
   shorthand: d
@@ -188,7 +169,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: detach-keys
   value_type: string
@@ -196,7 +176,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: device
   value_type: list
@@ -204,7 +183,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: device-cgroup-rule
   value_type: list
@@ -212,7 +190,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: device-read-bps
   value_type: list
@@ -221,7 +198,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: device-read-iops
   value_type: list
@@ -230,7 +206,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: device-write-bps
   value_type: list
@@ -239,7 +214,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: device-write-iops
   value_type: list
@@ -248,7 +222,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: disable-content-trust
   value_type: bool
@@ -257,7 +230,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: dns
   value_type: list
@@ -265,7 +237,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: dns-opt
   value_type: list
@@ -273,7 +244,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: dns-option
   value_type: list
@@ -281,7 +251,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: dns-search
   value_type: list
@@ -289,7 +258,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: domainname
   value_type: string
@@ -297,7 +265,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: entrypoint
   value_type: string
@@ -305,7 +272,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: env
   shorthand: e
@@ -314,7 +280,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: env-file
   value_type: list
@@ -322,7 +287,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: expose
   value_type: list
@@ -330,7 +294,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: gpus
   value_type: gpu-request
@@ -339,7 +302,6 @@ options:
   min_api_version: "1.40"
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: group-add
   value_type: list
@@ -347,7 +309,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: health-cmd
   value_type: string
@@ -355,7 +316,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: health-interval
   value_type: duration
@@ -364,7 +324,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: health-retries
   value_type: int
@@ -373,7 +332,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: health-start-period
   value_type: duration
@@ -384,7 +342,6 @@ options:
   min_api_version: "1.29"
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: health-timeout
   value_type: duration
@@ -394,7 +351,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: help
   value_type: bool
@@ -403,7 +359,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: hostname
   shorthand: h
@@ -412,7 +367,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: init
   value_type: bool
@@ -423,7 +377,6 @@ options:
   min_api_version: "1.25"
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: interactive
   shorthand: i
@@ -433,7 +386,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: io-maxbandwidth
   value_type: bytes
@@ -443,7 +395,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
   os_type: windows
 - option: io-maxiops
@@ -453,7 +404,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
   os_type: windows
 - option: ip
@@ -462,7 +412,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: ip6
   value_type: string
@@ -470,7 +419,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: ipc
   value_type: string
@@ -478,7 +426,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: isolation
   value_type: string
@@ -486,7 +433,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: kernel-memory
   value_type: bytes
@@ -495,7 +441,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: label
   shorthand: l
@@ -504,7 +449,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: label-file
   value_type: list
@@ -512,7 +456,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: link
   value_type: list
@@ -520,7 +463,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: link-local-ip
   value_type: list
@@ -528,7 +470,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: log-driver
   value_type: string
@@ -536,7 +477,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: log-opt
   value_type: list
@@ -544,7 +484,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: mac-address
   value_type: string
@@ -552,7 +491,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: memory
   shorthand: m
@@ -562,7 +500,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: memory-reservation
   value_type: bytes
@@ -571,7 +508,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: memory-swap
   value_type: bytes
@@ -581,7 +517,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: memory-swappiness
   value_type: int64
@@ -590,7 +525,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: mount
   value_type: mount
@@ -598,7 +532,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: name
   value_type: string
@@ -606,7 +539,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: net
   value_type: network
@@ -614,7 +546,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: net-alias
   value_type: list
@@ -622,7 +553,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: network
   value_type: network
@@ -630,7 +560,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: network-alias
   value_type: list
@@ -638,7 +567,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: no-healthcheck
   value_type: bool
@@ -647,7 +575,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: oom-kill-disable
   value_type: bool
@@ -656,7 +583,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: oom-score-adj
   value_type: int
@@ -665,7 +591,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: pid
   value_type: string
@@ -673,7 +598,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: pids-limit
   value_type: int64
@@ -682,7 +606,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: platform
   value_type: string
@@ -691,7 +614,6 @@ options:
   min_api_version: "1.32"
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: privileged
   value_type: bool
@@ -700,7 +622,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: publish
   shorthand: p
@@ -709,7 +630,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: publish-all
   shorthand: P
@@ -719,7 +639,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: pull
   value_type: string
@@ -728,7 +647,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: read-only
   value_type: bool
@@ -737,7 +655,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: restart
   value_type: string
@@ -746,7 +663,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: rm
   value_type: bool
@@ -755,7 +671,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: runtime
   value_type: string
@@ -763,7 +678,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: security-opt
   value_type: list
@@ -771,7 +685,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: shm-size
   value_type: bytes
@@ -780,7 +693,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: sig-proxy
   value_type: bool
@@ -789,7 +701,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: stop-signal
   value_type: string
@@ -798,7 +709,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: stop-timeout
   value_type: int
@@ -808,7 +718,6 @@ options:
   min_api_version: "1.25"
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: storage-opt
   value_type: list
@@ -816,7 +725,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: sysctl
   value_type: map
@@ -825,7 +733,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: tmpfs
   value_type: list
@@ -833,7 +740,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: tty
   shorthand: t
@@ -843,7 +749,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: ulimit
   value_type: ulimit
@@ -852,7 +757,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: user
   shorthand: u
@@ -861,7 +765,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: userns
   value_type: string
@@ -869,7 +772,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: uts
   value_type: string
@@ -877,7 +779,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: volume
   shorthand: v
@@ -886,7 +787,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: volume-driver
   value_type: string
@@ -894,7 +794,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: volumes-from
   value_type: list
@@ -902,7 +801,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: workdir
   shorthand: w
@@ -911,11 +809,9 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 deprecated: false
 experimental: false
 experimentalcli: false
-kubernetes: false
 swarm: false
 

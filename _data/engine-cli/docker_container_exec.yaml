@@ -13,7 +13,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: detach-keys
   value_type: string
@@ -21,7 +20,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: env
   shorthand: e
@@ -31,7 +29,6 @@ options:
   min_api_version: "1.25"
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: env-file
   value_type: list
@@ -40,7 +37,6 @@ options:
   min_api_version: "1.25"
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: interactive
   shorthand: i
@@ -50,7 +46,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: privileged
   value_type: bool
@@ -59,7 +54,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: tty
   shorthand: t
@@ -69,7 +63,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: user
   shorthand: u
@@ -78,7 +71,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: workdir
   shorthand: w
@@ -88,11 +80,9 @@ options:
   min_api_version: "1.35"
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 deprecated: false
 experimental: false
 experimentalcli: false
-kubernetes: false
 swarm: false
 

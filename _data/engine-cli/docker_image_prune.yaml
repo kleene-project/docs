@@ -14,7 +14,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: filter
   value_type: filter
@@ -22,7 +21,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: force
   shorthand: f
@@ -32,7 +30,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 examples: |-
   Example output:
@@ -211,6 +208,5 @@ deprecated: false
 min_api_version: "1.25"
 experimental: false
 experimentalcli: false
-kubernetes: false
 swarm: false
 

@@ -28,7 +28,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: digests
   value_type: bool
@@ -37,7 +36,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: filter
   shorthand: f
@@ -46,7 +44,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: format
   value_type: string
@@ -54,7 +51,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: no-trunc
   value_type: bool
@@ -63,7 +59,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: quiet
   shorthand: q
@@ -73,7 +68,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 examples: |-
   ### List the most recently created images
@@ -374,6 +368,5 @@ examples: |-
 deprecated: false
 experimental: false
 experimentalcli: false
-kubernetes: false
 swarm: false
 

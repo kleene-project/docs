@@ -15,7 +15,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: label
   value_type: list
@@ -23,7 +22,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: name
   value_type: string
@@ -31,7 +29,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: opt
   shorthand: o
@@ -41,7 +38,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 examples: |-
   Create a volume and then configure the container to use it:
@@ -129,6 +125,5 @@ deprecated: false
 min_api_version: "1.21"
 experimental: false
 experimentalcli: false
-kubernetes: false
 swarm: false
 

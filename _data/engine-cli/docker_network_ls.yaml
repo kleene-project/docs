@@ -15,7 +15,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: format
   value_type: string
@@ -23,7 +22,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: no-trunc
   value_type: bool
@@ -32,7 +30,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: quiet
   shorthand: q
@@ -42,7 +39,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 examples: |-
   ### List all networks
@@ -249,6 +245,5 @@ deprecated: false
 min_api_version: "1.21"
 experimental: false
 experimentalcli: false
-kubernetes: false
 swarm: false
 

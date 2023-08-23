@@ -13,7 +13,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: link
   shorthand: l
@@ -23,7 +22,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: volumes
   shorthand: v
@@ -33,7 +31,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 examples: |-
   ### Remove a container
@@ -127,6 +124,5 @@ examples: |-
 deprecated: false
 experimental: false
 experimentalcli: false
-kubernetes: false
 swarm: false
 

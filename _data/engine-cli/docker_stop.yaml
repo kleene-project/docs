@@ -17,7 +17,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 examples: |-
   ```console
@@ -26,6 +25,5 @@ examples: |-
 deprecated: false
 experimental: false
 experimentalcli: false
-kubernetes: false
 swarm: false
 

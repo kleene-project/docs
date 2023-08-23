@@ -14,7 +14,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: filter
   shorthand: f
@@ -23,7 +22,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: format
   value_type: string
@@ -31,7 +29,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: last
   shorthand: "n"
@@ -41,7 +38,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: latest
   shorthand: l
@@ -51,7 +47,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: no-trunc
   value_type: bool
@@ -60,7 +55,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: quiet
   shorthand: q
@@ -70,7 +64,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 - option: size
   shorthand: s
@@ -80,11 +73,9 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-  kubernetes: false
   swarm: false
 deprecated: false
 experimental: false
 experimentalcli: false
-kubernetes: false
 swarm: false
 
