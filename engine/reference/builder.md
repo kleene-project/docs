@@ -9,10 +9,12 @@ fetch_remote:
   line_start: 2
   line_end: -1
 ---
-Docker can build images automatically by reading the instructions from a
+Kleene can build images automatically by reading the instructions from a
 `Dockerfile`. A `Dockerfile` is a text document that contains all the commands a
-user could call on the command line to assemble an image. This page describes
-the commands you can use in a `Dockerfile`.
+user could call on the command line to assemble an image, including a few
+shortcuts to make it easier/more readable. Thus, a `Dockerfile` should be
+seen as a recipe for setting up and configuring a runtime environment.
+This page describes the commands you can use in a `Dockerfile`.
 
 ## Format
 
@@ -23,19 +25,30 @@ Here is the format of the `Dockerfile`:
 INSTRUCTION arguments
 ```
 
-The instruction is not case-sensitive. However, convention is for them to
-be UPPERCASE to distinguish them from arguments more easily.
+Unlike Docker, Kleene requires that instructions in Dockerfiles MUST
+be uppercase to distinguish them from arguments more easily.
 
-Docker runs instructions in a `Dockerfile` in order. A `Dockerfile` **must
-begin with a `FROM` instruction**. This may be after [parser
-directives](#parser-directives), [comments](#format), and globally scoped
-[ARGs](#arg). The `FROM` instruction specifies the [*Parent
+Kleene runs instructions in a `Dockerfile` in order. A `Dockerfile` **must
+begin with a `FROM` instruction**, with the exception of [comments](#format),
+and [ARGs](#arg). The `FROM` instruction specifies the [*Parent
 Image*](https://docs.docker.com/glossary/#parent-image) from which you are
-building. `FROM` may only be preceded by one or more `ARG` instructions, which
-declare arguments that are used in `FROM` lines in the `Dockerfile`.
+building.
 
-Docker treats lines that *begin* with `#` as a comment, unless the line is
-a valid [parser directive](#parser-directives). A `#` marker anywhere
+Kleene always treats a `\` as the last character of a line as an escaped
+newline, so
+
+```dockerfile
+RUN /bin/bash -c 'source $HOME/.bashrc; \
+echo $HOME'
+```
+
+are equivalent to this single line:
+
+```dockerfile
+RUN /bin/bash -c 'source $HOME/.bashrc; echo $HOME'
+```
+
+Kleene treats lines that *begin* with `#` as a comment. A `#` marker anywhere
 else in a line is treated as an argument. This allows statements like:
 
 ```dockerfile
@@ -58,239 +71,25 @@ RUN echo hello \
 world
 ```
 
-Line continuation characters are not supported in comments.
-
-> **Note on whitespace**
->
-> For backward compatibility, leading whitespace before comments (`#`) and
-> instructions (such as `RUN`) are ignored, but discouraged. Leading whitespace
-> is not preserved in these cases, and the following examples are therefore
-> equivalent:
->
-> ```dockerfile
->         # this is a comment-line
->     RUN echo hello
-> RUN echo world
-> ```
-> 
-> ```dockerfile
-> # this is a comment-line
-> RUN echo hello
-> RUN echo world
-> ```
-> 
-> Note however, that whitespace in instruction _arguments_, such as the commands
-> following `RUN`, are preserved, so the following example prints `    hello    world`
-> with leading whitespace as specified:
->
-> ```dockerfile
-> RUN echo "\
->      hello\
->      world"
-> ```
-
-## Parser directives
-
-Parser directives are optional, and affect the way in which subsequent lines
-in a `Dockerfile` are handled. Parser directives do not add layers to the build,
-and will not be shown as a build step. Parser directives are written as a
-special type of comment in the form `# directive=value`. A single directive
-may only be used once.
-
-Once a comment, empty line or builder instruction has been processed, Docker
-no longer looks for parser directives. Instead it treats anything formatted
-as a parser directive as a comment and does not attempt to validate if it might
-be a parser directive. Therefore, all parser directives must be at the very
-top of a `Dockerfile`.
-
-Parser directives are not case-sensitive. However, convention is for them to
-be lowercase. Convention is also to include a blank line following any
-parser directives. Line continuation characters are not supported in parser
-directives.
-
-Due to these rules, the following examples are all invalid:
-
-Invalid due to line continuation:
-
-```dockerfile
-# direc \
-tive=value
-```
-
-Invalid due to appearing twice:
-
-```dockerfile
-# directive=value1
-# directive=value2
-
-FROM ImageName
-```
-
-Treated as a comment due to appearing after a builder instruction:
-
-```dockerfile
-FROM ImageName
-# directive=value
-```
-
-Treated as a comment due to appearing after a comment which is not a parser
-directive:
-
-```dockerfile
-# About my dockerfile
-# directive=value
-FROM ImageName
-```
-
-The unknown directive is treated as a comment due to not being recognized. In
-addition, the known directive is treated as a comment due to appearing after
-a comment which is not a parser directive.
-
-```dockerfile
-# unknowndirective=value
-# knowndirective=value
-```
-
-Non line-breaking whitespace is permitted in a parser directive. Hence, the
-following lines are all treated identically:
-
-```dockerfile
-#directive=value
-# directive =value
-#	directive= value
-# directive = value
-#	  dIrEcTiVe=value
-```
-
-The following parser directives are supported:
-
-- `syntax`
-- `escape`
-
-### syntax
-
-<a name="external-implementation-features"><!-- included for deep-links to old section --></a>
-
-This feature is only available when using the [BuildKit](https://docs.docker.com/build/buildkit/)
-backend, and is ignored when using the classic builder backend.
-
-See [Custom Dockerfile syntax](https://docs.docker.com/build/buildkit/dockerfile-frontend/)
-page for more information.
-
-### escape
-
-```dockerfile
-# escape=\ (backslash)
-```
-
-Or
-
-```dockerfile
-# escape=` (backtick)
-```
-
-The `escape` directive sets the character used to escape characters in a
-`Dockerfile`. If not specified, the default escape character is `\`.
-
-The escape character is used both to escape characters in a line, and to
-escape a newline. This allows a `Dockerfile` instruction to
-span multiple lines. Note that regardless of whether the `escape` parser
-directive is included in a `Dockerfile`, *escaping is not performed in
-a `RUN` command, except at the end of a line.*
-
-Setting the escape character to `` ` `` is especially useful on
-`Windows`, where `\` is the directory path separator. `` ` `` is consistent
-with [Windows PowerShell](https://technet.microsoft.com/en-us/library/hh847755.aspx).
-
-Consider the following example which would fail in a non-obvious way on
-`Windows`. The second `\` at the end of the second line would be interpreted as an
-escape for the newline, instead of a target of the escape from the first `\`.
-Similarly, the `\` at the end of the third line would, assuming it was actually
-handled as an instruction, cause it be treated as a line continuation. The result
-of this dockerfile is that second and third lines are considered a single
-instruction:
-
-```dockerfile
-FROM microsoft/nanoserver
-COPY testfile.txt c:\\
-RUN dir c:\
-```
-
-Results in:
-
-```console
-PS E:\myproject> docker build -t cmd .
-
-Sending build context to Docker daemon 3.072 kB
-Step 1/2 : FROM microsoft/nanoserver
- ---> 22738ff49c6d
-Step 2/2 : COPY testfile.txt c:\RUN dir c:
-GetFileAttributesEx c:RUN: The system cannot find the file specified.
-PS E:\myproject>
-```
-
-One solution to the above would be to use `/` as the target of both the `COPY`
-instruction, and `dir`. However, this syntax is, at best, confusing as it is not
-natural for paths on `Windows`, and at worst, error prone as not all commands on
-`Windows` support `/` as the path separator.
-
-By adding the `escape` parser directive, the following `Dockerfile` succeeds as
-expected with the use of natural platform semantics for file paths on `Windows`:
-
-```dockerfile
-# escape=`
-
-FROM microsoft/nanoserver
-COPY testfile.txt c:\
-RUN dir c:\
-```
-
-Results in:
-
-```console
-PS E:\myproject> docker build -t succeeds --no-cache=true .
-
-Sending build context to Docker daemon 3.072 kB
-Step 1/3 : FROM microsoft/nanoserver
- ---> 22738ff49c6d
-Step 2/3 : COPY testfile.txt c:\
- ---> 96655de338de
-Removing intermediate container 4db9acbb1682
-Step 3/3 : RUN dir c:\
- ---> Running in a2c157f842f5
- Volume in drive C has no label.
- Volume Serial Number is 7E6D-E0F7
-
- Directory of c:\
-
-10/05/2016  05:04 PM             1,894 License.txt
-10/05/2016  02:22 PM    <DIR>          Program Files
-10/05/2016  02:14 PM    <DIR>          Program Files (x86)
-10/28/2016  11:18 AM                62 testfile.txt
-10/28/2016  11:20 AM    <DIR>          Users
-10/28/2016  11:20 AM    <DIR>          Windows
-           2 File(s)          1,956 bytes
-           4 Dir(s)  21,259,096,064 bytes free
- ---> 01c7f3bef04f
-Removing intermediate container a2c157f842f5
-Successfully built 01c7f3bef04f
-PS E:\myproject>
-```
+Line continuation characters are not supported in comments and leading
+whitespaces before comments (`#`) and instructions (such as `RUN`) are
+**not** allowed.
 
 ## Environment replacement
 
-Environment variables (declared with [the `ENV` statement](#env)) can also be
-used in certain instructions as variables to be interpreted by the
-`Dockerfile`. Escapes are also handled for including variable-like syntax
-into a statement literally.
+Environment variables (declared with [the `ENV` instruction](#env)) can also be
+used in certain instructions other than [the `RUN` instruction](#run) as
+variables to be interpreted by the `Dockerfile`.
+Environment replacement is done using the Bourne Shell (`sh(1)`) supplied
+with environment variables as given by the preceding `ENV`-instructions.
+Thus, the rules of notation and syntax are identical to `sh`, as discussed
+below.
 
 Environment variables are notated in the `Dockerfile` either with
-`$variable_name` or `${variable_name}`. They are treated equivalently and the
-brace syntax is typically used to address issues with variable names with no
-whitespace, like `${foo}_bar`.
+`$variable_name` or `${variable_name}`.
 
-The `${variable_name}` syntax also supports a few of the standard `bash`
-modifiers as specified below:
+The `${variable_name}` syntax also supports the standard `sh`
+modifiers, such as:
 
 - `${variable:-word}` indicates that if `variable` is set then the result
   will be that value. If `variable` is not set then `word` will be the result.
@@ -303,30 +102,29 @@ variables.
 Escaping is possible by adding a `\` before the variable: `\$foo` or `\${foo}`,
 for example, will translate to `$foo` and `${foo}` literals respectively.
 
-Example (parsed representation is displayed after the `#`):
+Example (results displayed after the `#`):
 
 ```dockerfile
 FROM busybox
 ENV FOO=/bar
-WORKDIR ${FOO}   # WORKDIR /bar
-ADD . $FOO       # ADD . /bar
+USER $FOO        # Uses the user 'bar' for subsequent RUN/CMD-instructions
+RUN mkdir ${FOO} # Creates /bar
 COPY \$FOO /quux # COPY $FOO /quux
 ```
 
 Environment variables are supported by the following list of instructions in
 the `Dockerfile`:
 
-- `ADD`
+- `FROM`
+- `RUN`
+- `CMD`
 - `COPY`
 - `ENV`
-- `EXPOSE`
-- `FROM`
-- `LABEL`
-- `STOPSIGNAL`
 - `USER`
-- `VOLUME`
-- `WORKDIR`
-- `ONBUILD` (when combined with one of the supported instructions above)
+
+Note that in case of the `RUN` and `CMD` instructions only works when using
+the *shell* form. When the *exec* form is used, the environment variables
+are supplied but the it is up to the executable to make use of them.
 
 Environment variable substitution will use the same value for each variable
 throughout the entire instruction. In other words, in this example:
@@ -341,150 +139,22 @@ will result in `def` having a value of `hello`, not `bye`. However,
 `ghi` will have a value of `bye` because it is not part of the same instruction
 that set `abc` to `bye`.
 
-## .dockerignore file
-
-Before the docker CLI sends the context to the docker daemon, it looks
-for a file named `.dockerignore` in the root directory of the context.
-If this file exists, the CLI modifies the context to exclude files and
-directories that match patterns in it.  This helps to avoid
-unnecessarily sending large or sensitive files and directories to the
-daemon and potentially adding them to images using `ADD` or `COPY`.
-
-The CLI interprets the `.dockerignore` file as a newline-separated
-list of patterns similar to the file globs of Unix shells.  For the
-purposes of matching, the root of the context is considered to be both
-the working and the root directory.  For example, the patterns
-`/foo/bar` and `foo/bar` both exclude a file or directory named `bar`
-in the `foo` subdirectory of `PATH` or in the root of the git
-repository located at `URL`.  Neither excludes anything else.
-
-If a line in `.dockerignore` file starts with `#` in column 1, then this line is
-considered as a comment and is ignored before interpreted by the CLI.
-
-Here is an example `.dockerignore` file:
-
-```gitignore
-# comment
-*/temp*
-*/*/temp*
-temp?
-```
-
-This file causes the following build behavior:
-
-| Rule        | Behavior                                                                                                                                                                                                       |
-|:------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `# comment` | Ignored.                                                                                                                                                                                                       |
-| `*/temp*`   | Exclude files and directories whose names start with `temp` in any immediate subdirectory of the root.  For example, the plain file `/somedir/temporary.txt` is excluded, as is the directory `/somedir/temp`. |
-| `*/*/temp*` | Exclude files and directories starting with `temp` from any subdirectory that is two levels below the root. For example, `/somedir/subdir/temporary.txt` is excluded.                                          |
-| `temp?`     | Exclude files and directories in the root directory whose names are a one-character extension of `temp`.  For example, `/tempa` and `/tempb` are excluded.                                                     |
-
-
-Matching is done using Go's
-[filepath.Match](https://golang.org/pkg/path/filepath#Match) rules.  A
-preprocessing step removes leading and trailing whitespace and
-eliminates `.` and `..` elements using Go's
-[filepath.Clean](https://golang.org/pkg/path/filepath/#Clean).  Lines
-that are blank after preprocessing are ignored.
-
-Beyond Go's filepath.Match rules, Docker also supports a special
-wildcard string `**` that matches any number of directories (including
-zero). For example, `**/*.go` will exclude all files that end with `.go`
-that are found in all directories, including the root of the build context.
-
-Lines starting with `!` (exclamation mark) can be used to make exceptions
-to exclusions.  The following is an example `.dockerignore` file that
-uses this mechanism:
-
-```gitignore
-*.md
-!README.md
-```
-
-All markdown files *except* `README.md` are excluded from the context.
-
-The placement of `!` exception rules influences the behavior: the last
-line of the `.dockerignore` that matches a particular file determines
-whether it is included or excluded.  Consider the following example:
-
-```gitignore
-*.md
-!README*.md
-README-secret.md
-```
-
-No markdown files are included in the context except README files other than
-`README-secret.md`.
-
-Now consider this example:
-
-```gitignore
-*.md
-README-secret.md
-!README*.md
-```
-
-All of the README files are included.  The middle line has no effect because
-`!README*.md` matches `README-secret.md` and comes last.
-
-You can even use the `.dockerignore` file to exclude the `Dockerfile`
-and `.dockerignore` files.  These files are still sent to the daemon
-because it needs them to do its job.  But the `ADD` and `COPY` instructions
-do not copy them to the image.
-
-Finally, you may want to specify which files to include in the
-context, rather than which to exclude. To achieve this, specify `*` as
-the first pattern, followed by one or more `!` exception patterns.
-
-> **Note**
->
-> For historical reasons, the pattern `.` is ignored.
-
 ## FROM
 
 ```dockerfile
-FROM [--platform=<platform>] <image> [AS <name>]
+FROM <image>[:<tag>]
 ```
 
-Or
-
-```dockerfile
-FROM [--platform=<platform>] <image>[:<tag>] [AS <name>]
-```
-
-Or
-
-```dockerfile
-FROM [--platform=<platform>] <image>[@<digest>] [AS <name>]
-```
-
-The `FROM` instruction initializes a new build stage and sets the
-[*Base Image*](https://docs.docker.com/glossary/#base-image) for subsequent instructions. As such, a
-valid `Dockerfile` must start with a `FROM` instruction. The image can be
-any valid image – it is especially easy to start by **pulling an image** from
-the [*Public Repositories*](https://docs.docker.com/docker-hub/repos/).
+where `<image>` can be the name or ID of an existing image.
+The `FROM` instruction initializes a [*buld container*](/glossary/#build-container)
+which is used for subsequent instructions. As such, a
+valid `Dockerfile` must start with a `FROM` instruction.
+The build container is named `build_<build ID>`.
 
 - `ARG` is the only instruction that may precede `FROM` in the `Dockerfile`.
   See [Understand how ARG and FROM interact](#understand-how-arg-and-from-interact).
-- `FROM` can appear multiple times within a single `Dockerfile` to
-  create multiple images or use one build stage as a dependency for another.
-  Simply make a note of the last image ID output by the commit before each new
-  `FROM` instruction. Each `FROM` instruction clears any state created by previous
-  instructions.
-- Optionally a name can be given to a new build stage by adding `AS name` to the
-  `FROM` instruction. The name can be used in subsequent `FROM` and
-  `COPY --from=<name>` instructions to refer to the image built in this stage.
-- The `tag` or `digest` values are optional. If you omit either of them, the
-  builder assumes a `latest` tag by default. The builder returns an error if it
-  cannot find the `tag` value.
-
-The optional `--platform` flag can be used to specify the platform of the image
-in case `FROM` references a multi-platform image. For example, `linux/amd64`,
-`linux/arm64`, or `windows/amd64`. By default, the target platform of the build
-request is used. Global build arguments can be used in the value of this flag,
-for example [automatic platform ARGs](#automatic-platform-args-in-the-global-scope)
-allow you to force a stage to native build platform (`--platform=$BUILDPLATFORM`),
-and use it to cross-compile to the target platform inside the stage.
+- The `tag` value is optional. If you omit it, the builder assumes a `latest` tag
+  by default. The builder returns an error if it cannot find the `tag` value.
 
 ### Understand how ARG and FROM interact
 
@@ -516,37 +186,16 @@ RUN echo $VERSION > image_version
 
 RUN has 2 forms:
 
-- `RUN <command>` (*shell* form, the command is run in a shell, which by
-default is `/bin/sh -c` on Linux or `cmd /S /C` on Windows)
+- `RUN <command>` (*shell* form, the command is, roughly, run in a shell using
+  `/bin/sh -c <command>`.)
 - `RUN ["executable", "param1", "param2"]` (*exec* form)
 
-The `RUN` instruction will execute any commands in a new layer on top of the
-current image and commit the results. The resulting committed image will be
-used for the next step in the `Dockerfile`.
-
-Layering `RUN` instructions and generating commits conforms to the core
-concepts of Docker where commits are cheap and containers can be created from
-any point in an image's history, much like source control.
+After a `RUN` instruction have been succesfully executed in the build-container,
+a ZFS snapshot is created. Snapshotting instructions in this way makes it possible
+to create containers from any point in an image's history.
 
 The *exec* form makes it possible to avoid shell string munging, and to `RUN`
 commands using a base image that does not contain the specified shell executable.
-
-The default shell for the *shell* form can be changed using the `SHELL`
-command.
-
-In the *shell* form you can use a `\` (backslash) to continue a single
-RUN instruction onto the next line. For example, consider these two lines:
-
-```dockerfile
-RUN /bin/bash -c 'source $HOME/.bashrc; \
-echo $HOME'
-```
-
-Together they are equivalent to this single line:
-
-```dockerfile
-RUN /bin/bash -c 'source $HOME/.bashrc; echo $HOME'
-```
 
 To use a different shell, other than '/bin/sh', use the *exec* form passing in
 the desired shell. For example:
@@ -571,313 +220,21 @@ expansion, not docker.
 
 > **Note**
 >
-> In the *JSON* form, it is necessary to escape backslashes. This is
-> particularly relevant on Windows where the backslash is the path separator.
-> The following line would otherwise be treated as *shell* form due to not
-> being valid JSON, and fail in an unexpected way:
->
-> ```dockerfile
-> RUN ["c:\windows\system32\tasklist.exe"]
-> ```
-> 
-> The correct syntax for this example is:
->
-> ```dockerfile
-> RUN ["c:\\windows\\system32\\tasklist.exe"]
-> ```
-
-The cache for `RUN` instructions isn't invalidated automatically during
-the next build. The cache for an instruction like
-`RUN apt-get dist-upgrade -y` will be reused during the next build. The
-cache for `RUN` instructions can be invalidated by using the `--no-cache`
-flag, for example `docker build --no-cache`.
-
-See the [`Dockerfile` Best Practices
-guide](https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/) for more information.
-
-The cache for `RUN` instructions can be invalidated by [`ADD`](#add) and [`COPY`](#copy) instructions.
-
-### Known issues (RUN)
-
-- [Issue 783](https://github.com/docker/docker/issues/783) is about file
-  permissions problems that can occur when using the AUFS file system. You
-  might notice it during an attempt to `rm` a file, for example.
-
-  For systems that have recent aufs version (i.e., `dirperm1` mount option can
-  be set), docker will attempt to fix the issue automatically by mounting
-  the layers with `dirperm1` option. More details on `dirperm1` option can be
-  found at [`aufs` man page](https://github.com/sfjro/aufs3-linux/tree/aufs3.18/Documentation/filesystems/aufs)
-
-  If your system doesn't have support for `dirperm1`, the issue describes a workaround.
-
-## RUN --mount
-
-> **Note**
->
-> Added in [`docker/dockerfile:1.2`](#syntax)
-
-`RUN --mount` allows you to create filesystem mounts that the build can access.
-This can be used to:
-
-- Create bind mount to the host filesystem or other build stages
-- Access build secrets or ssh-agent sockets
-- Use a persistent package management cache to speed up your build
-
-Syntax: `--mount=[type=<TYPE>][,option=<value>[,option=<value>]...]`
-
-### Mount types
-
-| Type                                     | Description                                                                                               |
-|------------------------------------------|-----------------------------------------------------------------------------------------------------------|
-| [`bind`](#run---mounttypebind) (default) | Bind-mount context directories (read-only).                                                               |
-| [`cache`](#run---mounttypecache)         | Mount a temporary directory to cache directories for compilers and package managers.                  |
-| [`secret`](#run---mounttypesecret)       | Allow the build container to access secure files such as private keys without baking them into the image. |
-| [`ssh`](#run---mounttypessh)             | Allow the build container to access SSH keys via SSH agents, with support for passphrases.                |
-
-### RUN --mount=type=bind
-
-This mount type allows binding files or directories to the build container. A
-bind mount is read-only by default.
-
-| Option               | Description                                                                          |
-|----------------------|--------------------------------------------------------------------------------------|
-| `target`[^1]         | Mount path.                                                                          |
-| `source`             | Source path in the `from`. Defaults to the root of the `from`.                       |
-| `from`               | Build stage or image name for the root of the source. Defaults to the build context. |
-| `rw`,`readwrite`     | Allow writes on the mount. Written data will be discarded.                           |
-
-### RUN --mount=type=cache
-
-This mount type allows the build container to cache directories for compilers
-and package managers.
-
-| Option              | Description                                                                                                                                                                                                                                                                |
-|---------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `id`                | Optional ID to identify separate/different caches. Defaults to value of `target`.                                                                                                                                                                                          |
-| `target`[^1]        | Mount path.                                                                                                                                                                                                                                                                |
-| `ro`,`readonly`     | Read-only if set.                                                                                                                                                                                                                                                          |
-| `sharing`           | One of `shared`, `private`, or `locked`. Defaults to `shared`. A `shared` cache mount can be used concurrently by multiple writers. `private` creates a new mount if there are multiple writers. `locked` pauses the second writer until the first one releases the mount. |
-| `from`              | Build stage to use as a base of the cache mount. Defaults to empty directory.                                                                                                                                                                                              |
-| `source`            | Subpath in the `from` to mount. Defaults to the root of the `from`.                                                                                                                                                                                                        |
-| `mode`              | File mode for new cache directory in octal. Default `0755`.                                                                                                                                                                                                                |
-| `uid`               | User ID for new cache directory. Default `0`.                                                                                                                                                                                                                              |
-| `gid`               | Group ID for new cache directory. Default `0`.                                                                                                                                                                                                                             |
-
-Contents of the cache directories persists between builder invocations without
-invalidating the instruction cache. Cache mounts should only be used for better
-performance. Your build should work with any contents of the cache directory as
-another build may overwrite the files or GC may clean it if more storage space
-is needed.
-
-#### Example: cache Go packages
-
-```dockerfile
-# syntax=docker/dockerfile:1
-FROM golang
-RUN --mount=type=cache,target=/root/.cache/go-build \
-  go build ...
-```
-
-#### Example: cache apt packages
-
-```dockerfile
-# syntax=docker/dockerfile:1
-FROM ubuntu
-RUN rm -f /etc/apt/apt.conf.d/docker-clean; echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache
-RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
-  --mount=type=cache,target=/var/lib/apt,sharing=locked \
-  apt update && apt-get --no-install-recommends install -y gcc
-```
-
-Apt needs exclusive access to its data, so the caches use the option
-`sharing=locked`, which will make sure multiple parallel builds using
-the same cache mount will wait for each other and not access the same
-cache files at the same time. You could also use `sharing=private` if
-you prefer to have each build create another cache directory in this
-case.
-
-### RUN --mount=type=tmpfs
-
-This mount type allows mounting tmpfs in the build container.
-
-| Option              | Description                                           |
-|---------------------|-------------------------------------------------------|
-| `target`[^1]        | Mount path.                                           |
-| `size`              | Specify an upper limit on the size of the filesystem. |
-
-### RUN --mount=type=secret
-
-This mount type allows the build container to access secure files such as
-private keys without baking them into the image.
-
-| Option              | Description                                                                                       |
-|---------------------|---------------------------------------------------------------------------------------------------|
-| `id`                | ID of the secret. Defaults to basename of the target path.                                        |
-| `target`            | Mount path. Defaults to `/run/secrets/` + `id`.                                                   |
-| `required`          | If set to `true`, the instruction errors out when the secret is unavailable. Defaults to `false`. |
-| `mode`              | File mode for secret file in octal. Default `0400`.                                               |
-| `uid`               | User ID for secret file. Default `0`.                                                             |
-| `gid`               | Group ID for secret file. Default `0`.                                                            |
-
-#### Example: access to S3
-
-```dockerfile
-# syntax=docker/dockerfile:1
-FROM python:3
-RUN pip install awscli
-RUN --mount=type=secret,id=aws,target=/root/.aws/credentials \
-  aws s3 cp s3://... ...
-```
-
-```console
-$ docker buildx build --secret id=aws,src=$HOME/.aws/credentials .
-```
-
-### RUN --mount=type=ssh
-
-This mount type allows the build container to access SSH keys via SSH agents,
-with support for passphrases.
-
-| Option              | Description                                                                                    |
-|---------------------|------------------------------------------------------------------------------------------------|
-| `id`                | ID of SSH agent socket or key. Defaults to "default".                                          |
-| `target`            | SSH agent socket path. Defaults to `/run/buildkit/ssh_agent.${N}`.                             |
-| `required`          | If set to `true`, the instruction errors out when the key is unavailable. Defaults to `false`. |
-| `mode`              | File mode for socket in octal. Default `0600`.                                                 |
-| `uid`               | User ID for socket. Default `0`.                                                               |
-| `gid`               | Group ID for socket. Default `0`.                                                              |
-
-#### Example: access to Gitlab
-
-```dockerfile
-# syntax=docker/dockerfile:1
-FROM alpine
-RUN apk add --no-cache openssh-client
-RUN mkdir -p -m 0700 ~/.ssh && ssh-keyscan gitlab.com >> ~/.ssh/known_hosts
-RUN --mount=type=ssh \
-  ssh -q -T git@gitlab.com 2>&1 | tee /hello
-# "Welcome to GitLab, @GITLAB_USERNAME_ASSOCIATED_WITH_SSHKEY" should be printed here
-# with the type of build progress is defined as `plain`.
-```
-
-```console
-$ eval $(ssh-agent)
-$ ssh-add ~/.ssh/id_rsa
-(Input your passphrase here)
-$ docker buildx build --ssh default=$SSH_AUTH_SOCK .
-```
-
-You can also specify a path to `*.pem` file on the host directly instead of `$SSH_AUTH_SOCK`.
-However, pem files with passphrases are not supported.
-
-## RUN --network
-
-> **Note**
->
-> Added in [`docker/dockerfile:1.1`](#syntax)
-
-`RUN --network` allows control over which networking environment the command
-is run in.
-
-Syntax: `--network=<TYPE>`
-
-### Network types
-
-| Type                                         | Description                            |
-|----------------------------------------------|----------------------------------------|
-| [`default`](#run---networkdefault) (default) | Run in the default network.            |
-| [`none`](#run---networknone)                 | Run with no network access.            |
-| [`host`](#run---networkhost)                 | Run in the host's network environment. |
-
-### RUN --network=default
-
-Equivalent to not supplying a flag at all, the command is run in the default
-network for the build.
-
-### RUN --network=none
-
-The command is run with no network access (`lo` is still available, but is
-isolated to this process)
-
-#### Example: isolating external effects
-
-```dockerfile
-# syntax=docker/dockerfile:1
-FROM python:3.6
-ADD mypackage.tgz wheels/
-RUN --network=none pip install --find-links wheels mypackage
-```
-
-`pip` will only be able to install the packages provided in the tarfile, which
-can be controlled by an earlier build stage.
-
-### RUN --network=host
-
-The command is run in the host's network environment (similar to
-`docker build --network=host`, but on a per-instruction basis)
-
-> **Warning**
->
-> The use of `--network=host` is protected by the `network.host` entitlement, 
-> which needs to be enabled when starting the buildkitd daemon with
-> `--allow-insecure-entitlement network.host` flag or in [buildkitd config](https://github.com/moby/buildkit/blob/master/docs/buildkitd.toml.md),
-> and for a build request with [`--allow network.host` flag](https://docs.docker.com/engine/reference/commandline/buildx_build/#allow).
-{:.warning}
-
-## RUN --security
-
-> **Note**
->
-> Not yet available in stable syntax, use [`docker/dockerfile:1-labs`](#syntax) version.
-
-### RUN --security=insecure
-
-With `--security=insecure`, builder runs the command without sandbox in insecure
-mode, which allows to run flows requiring elevated privileges (e.g. containerd).
-This is equivalent to running `docker run --privileged`.
-
-> **Warning**
->
-> In order to access this feature, entitlement `security.insecure` should be
-> enabled when starting the buildkitd daemon with
-> `--allow-insecure-entitlement security.insecure` flag or in [buildkitd config](https://github.com/moby/buildkit/blob/master/docs/buildkitd.toml.md),
-> and for a build request with [`--allow security.insecure` flag](https://docs.docker.com/engine/reference/commandline/buildx_build/#allow).
-{:.warning}
-
-#### Example: check entitlements
-
-```dockerfile
-# syntax=docker/dockerfile:1-labs
-FROM ubuntu
-RUN --security=insecure cat /proc/self/status | grep CapEff
-```
-```text
-#84 0.093 CapEff:	0000003fffffffff
-```
-
-### RUN --security=sandbox
-
-Default sandbox mode can be activated via `--security=sandbox`, but that is no-op.
+> In the *JSON* form, it is necessary to escape backslashes.
 
 ## CMD
 
 The `CMD` instruction has three forms:
 
 - `CMD ["executable","param1","param2"]` (*exec* form, this is the preferred form)
-- `CMD ["param1","param2"]` (as *default parameters to ENTRYPOINT*)
 - `CMD command param1 param2` (*shell* form)
 
 There can only be one `CMD` instruction in a `Dockerfile`. If you list more than one `CMD`
 then only the last `CMD` will take effect.
 
 **The main purpose of a `CMD` is to provide defaults for an executing
-container.** These defaults can include an executable, or they can omit
-the executable, in which case you must specify an `ENTRYPOINT`
-instruction as well.
-
-If `CMD` is used to provide default arguments for the `ENTRYPOINT` instruction,
-both the `CMD` and `ENTRYPOINT` instructions should be specified with the JSON
-array format.
+container, i.e., `CMD` does nothing during the image build and is only used by
+containers.**
 
 > **Note**
 >
@@ -900,7 +257,7 @@ If you use the *shell* form of the `CMD`, then the `<command>` will execute in
 `/bin/sh -c`:
 
 ```dockerfile
-FROM ubuntu
+FROM FreeBSD
 CMD echo "This is a test." | wc -
 ```
 
@@ -910,22 +267,12 @@ express the command as a JSON array and give the full path to the executable.
 must be individually expressed as strings in the array:
 
 ```dockerfile
-FROM ubuntu
+FROM FreeBSD
 CMD ["/usr/bin/wc","--help"]
 ```
 
-If you would like your container to run the same executable every time, then
-you should consider using `ENTRYPOINT` in combination with `CMD`. See
-[*ENTRYPOINT*](#entrypoint).
-
 If the user specifies arguments to `docker run` then they will override the
-default specified in `CMD`.
-
-> **Note**
->
-> Do not confuse `RUN` with `CMD`. `RUN` actually runs a command and commits
-> the result; `CMD` does not execute anything at build time, but specifies
-> the intended command for the image.
+default specified by `CMD`.
 
 ## LABEL
 

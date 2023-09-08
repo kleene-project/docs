@@ -12,6 +12,8 @@ btrfs: |
 build: |
   build is the process of building Docker images using a [Dockerfile](#dockerfile).
   The build uses a Dockerfile and a "context". The context is the set of files in the directory in which the image is built.
+build container: |
+  The container created during the image building process. If the build succeeds, the build container is converted to an image.
 cgroups: |
   cgroups is a Linux kernel feature that limits, accounts for, and isolates
   the resource usage (CPU, memory, disk I/O, network, etc.) of a collection
