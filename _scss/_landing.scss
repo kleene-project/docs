@@ -1,5 +1,6 @@
 $dark-blue: #002c66;
 
+
 body.landing {
   background-color: $bg-body-landing;
 
@@ -141,7 +142,7 @@ body.landing {
     }
   }
 
-  $icons: rocket, download-docker, guides, language-guides, whats-new, manuals, reference;
+  $icons: rocket, download-kleene, guides, language-guides, whats-new, manuals, reference;
 
   .card {
     color: $body-text;

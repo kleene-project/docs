@@ -1,7 +1,7 @@
 html.night {
     color-scheme: dark;
   
-    $icons: rocket, download-docker, guides, language-guides, whats-new, manuals, reference;
+    $icons: rocket, download-kleene, guides, language-guides, whats-new, manuals, reference;
 
     body {
         background-color: $bg-body-night;
@@ -18,8 +18,8 @@ html.night {
             &.rocket {
                 background-image: url(/assets/images/rocket-dark.svg)
             }
-            &.download-docker {
-                background-image: url(/assets/images/download-docker-dark.svg)
+            &.download-kleene {
+                background-image: url(/assets/images/download-kleene-dark.svg)
             }
             &.guides {
                 background-image: url(/assets/images/guides-dark.svg)
