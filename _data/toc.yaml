@@ -56,6 +56,12 @@ handbook:
       title: Multi-stage builds
     - path: /build/building/base-images/
       title: Create your own base image
+- sectiontitle: Running containers
+  section:
+  - path: /run/overview/
+    title: Overview
+  - path: /run/networkingcontainers/
+    title: Container networking
 - sectiontitle: Docker Engine
   section:
   - path: /engine/
@@ -147,8 +153,6 @@ reference:
   title: Reference documentation
 - sectiontitle: Docker CLI (docker)
   section:
-  - path: /engine/reference/run/
-    title: Docker run reference
   - path: /engine/reference/commandline/cli/
     title: Use the Docker command line
   - path: /engine/reference/commandline/docker/
