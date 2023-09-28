@@ -3,9 +3,9 @@
 // in light mode, you should the same-named color in the dark palette in
 // dark mode.
 
-$white: #FFFFFF;
-$light-page-background: #F9F9FA;
-$dark-palette-background: #1C262D;
+$white: #f8fff3;
+$light-page-background: #e3f1da;
+$dark-palette-background: #203d14;
 $grey-100: #EFEFF2;
 $black: #000000;
 
@@ -31,12 +31,13 @@ $light-viole-500: #7D2EFF;
 $light-viole-600: #6D00EB;
 $light-viole-700: #5700BB;
 $light-viole-800: #220041;
-$light-blue-100: #E5F2FC;
-$light-blue-200: #C0E0FA;
+// Changed to kleene-green:
+$light-blue-100: #304c25;
+$light-blue-200: #99cb90;
 $light-blue-300: #8BC7F5;
 $light-blue-400: #1C90ED;
-$light-blue-500: #086DD7;
-$light-blue-600: #0055BD;
+$light-blue-500: #5f8955;
+$light-blue-600: #447027;
 $light-blue-700: #1144A6;
 $light-blue-800: #00084D;
 $light-green-200: #C6EAE1;
@@ -53,8 +54,8 @@ $light-amber-500: #B85504;
 
 // dark palette contrast colors:
 
-$dark-grey-100: #141B1F;
-$dark-grey-200: #27343E;
+$dark-grey-100: #304c25;
+$dark-grey-200: #38592a;
 $dark-grey-300: #364754;
 $dark-grey-400: #465C6E;
 $dark-grey-500: #7794AB;
@@ -76,14 +77,15 @@ $dark-viole-500: #A371FC;
 $dark-viole-600: #B38BFC;
 $dark-viole-700: #C5A6FD;
 $dark-viole-800: #D4BDFE;
-$dark-blue-100: #06326D;
-$dark-blue-200: #08489B;
-$dark-blue-300: #1760CA;
-$dark-blue-400: #2673E3;
-$dark-blue-500: #3391EE;
-$dark-blue-600: #55A4F1;
-$dark-blue-700: #7CB9F4;
-$dark-blue-800: #98C8F6;
+// Changed to kleene-green:
+$dark-blue-100: #304c25;
+$dark-blue-200: #4a8132;
+$dark-blue-300: #59894b;
+$dark-blue-400: #98b448;
+$dark-blue-500: #abcf83;
+$dark-blue-600: #a6cb7c;
+$dark-blue-700: #a2d765;
+$dark-blue-800: #a2d765;
 $dark-green-200: #155048;
 $dark-green-300: #176254;
 $dark-green-400: #228375;
