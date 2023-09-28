@@ -279,16 +279,10 @@ reference:
     title: Overview
   - path: /engine/api/examples/
     title: Curl examples
-  - path: /engine/api/kleened-v0.01/
-    title: Kleened v0.01 reference
-  - sectiontitle: API reference by version
-    section:
-    - path: /engine/api/version-history/
-      title: Version history overview
-    - path: /engine/api/v1.41/
-      title: v1.41 reference
-    - path: /engine/api/kleened-v0.01/
-      title: Kleened v0.01 reference
+  - path: /engine/api/kleened-v0.0.1/
+    title: Kleened API v0.0.1
+  - path: /engine/api/version-history/
+    title: Version history overview
 - title: Dockerfile reference
   path: /engine/reference/builder/
 - path: /glossary/
