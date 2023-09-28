@@ -212,55 +212,6 @@ repository) use a `.dockerignore` file. This file supports exclusion patterns
 similar to `.gitignore` files. For information on creating one, see the
 [.dockerignore file](../../engine/reference/builder.md#dockerignore-file).
 
-### Use multi-stage builds
-
-[Multi-stage builds](../../build/building/multi-stage.md) allow you to
-drastically reduce the size of your final image, without struggling to reduce
-the number of intermediate layers and files.
-
-Because an image is built during the final stage of the build process, you can
-minimize image layers by [leveraging build cache](#leverage-build-cache).
-
-For example, if your build contains several layers, you can order them from the
-less frequently changed (to ensure the build cache is reusable) to the more
-frequently changed:
-
-* Install tools you need to build your application
-
-* Install or update library dependencies
-
-* Generate your application
-
-A Dockerfile for a Go application could look like:
-
-```dockerfile
-# syntax=docker/dockerfile:1
-FROM golang:1.16-alpine AS build
-
-# Install tools required for project
-# Run `docker build --no-cache .` to update dependencies
-RUN apk add --no-cache git
-RUN go get github.com/golang/dep/cmd/dep
-
-# List project dependencies with Gopkg.toml and Gopkg.lock
-# These layers are only re-built when Gopkg files are updated
-COPY Gopkg.lock Gopkg.toml /go/src/project/
-WORKDIR /go/src/project/
-# Install library dependencies
-RUN dep ensure -vendor-only
-
-# Copy the entire project and build it
-# This layer is rebuilt when a file changes in the project directory
-COPY . /go/src/project/
-RUN go build -o /bin/project
-
-# This results in a single layer image
-FROM scratch
-COPY --from=build /bin/project /bin/project
-ENTRYPOINT ["/bin/project"]
-CMD ["--help"]
-```
-
 ### Don't install unnecessary packages
 
 To reduce complexity, dependencies, file sizes, and build times, avoid
@@ -370,54 +321,6 @@ Whenever possible, use current official images as the basis for your
 images. We recommend the [Alpine image](https://hub.docker.com/_/alpine/) as it
 is tightly controlled and small in size (currently under 6 MB), while still
 being a full Linux distribution.
-
-### LABEL
-
-[Understanding object labels](../../config/labels-custom-metadata.md)
-
-You can add labels to your image to help organize images by project, record
-licensing information, to aid in automation, or for other reasons. For each
-label, add a line beginning with `LABEL` and with one or more key-value pairs.
-The following examples show the different acceptable formats. Explanatory comments are included inline.
-
-> Strings with spaces must be quoted **or** the spaces must be escaped. Inner
-> quote characters (`"`), must also be escaped.
-
-```dockerfile
-# Set one or more individual labels
-LABEL com.example.version="0.0.1-beta"
-LABEL vendor1="ACME Incorporated"
-LABEL vendor2=ZENITH\ Incorporated
-LABEL com.example.release-date="2015-02-12"
-LABEL com.example.version.is-production=""
-```
-
-An image can have more than one label. Prior to Docker 1.10, it was recommended
-to combine all labels into a single `LABEL` instruction, to prevent extra layers
-from being created. This is no longer necessary, but combining labels is still
-supported.
-
-```dockerfile
-# Set multiple labels on one line
-LABEL com.example.version="0.0.1-beta" com.example.release-date="2015-02-12"
-```
-
-The above can also be written as:
-
-```dockerfile
-# Set multiple labels at once, using line-continuation characters to break long lines
-LABEL vendor=ACME\ Incorporated \
-      com.example.is-beta= \
-      com.example.is-production="" \
-      com.example.version="0.0.1-beta" \
-      com.example.release-date="2015-02-12"
-```
-
-See [Understanding object labels](../../config/labels-custom-metadata.md)
-for guidelines about acceptable label keys and values. For information about
-querying labels, refer to the items related to filtering in
-[Managing labels on objects](../../config/labels-custom-metadata.md#manage-labels-on-objects).
-See also [LABEL](../../engine/reference/builder.md#label) in the Dockerfile reference.
 
 ### RUN
 
@@ -572,21 +475,6 @@ conjunction with [`ENTRYPOINT`](../../engine/reference/builder.md#entrypoint), u
 you and your expected users are already quite familiar with how `ENTRYPOINT`
 works.
 
-### EXPOSE
-
-[Dockerfile reference for the EXPOSE instruction](../../engine/reference/builder.md#expose)
-
-The `EXPOSE` instruction indicates the ports on which a container listens
-for connections. Consequently, you should use the common, traditional port for
-your application. For example, an image containing the Apache web server would
-use `EXPOSE 80`, while an image containing MongoDB would use `EXPOSE 27017` and
-so on.
-
-For external access, your users can execute `docker run` with a flag indicating
-how to map the specified port to the port of their choice.
-For container linking, Docker provides environment variables for the path from
-the recipient container back to the source (ie, `MYSQL_PORT_3306_TCP`).
-
 ### ENV
 
 [Dockerfile reference for the ENV instruction](../../engine/reference/builder.md#env)
@@ -656,17 +544,9 @@ $ docker run --rm test sh -c 'echo $ADMIN_USER'
 ```
 
 
-### ADD or COPY
+### COPY
 
-- [Dockerfile reference for the ADD instruction](../../engine/reference/builder.md#add)
 - [Dockerfile reference for the COPY instruction](../../engine/reference/builder.md#copy)
-
-Although `ADD` and `COPY` are functionally similar, generally speaking, `COPY`
-is preferred. That’s because it’s more transparent than `ADD`. `COPY` only
-supports the basic copying of local files into the container, while `ADD` has
-some features (like local-only tar extraction and remote URL support) that are
-not immediately obvious. Consequently, the best use for `ADD` is local tar file
-auto-extraction into the image, as in `ADD rootfs.tar.xz /`.
 
 If you have multiple `Dockerfile` steps that use different files from your
 context, `COPY` them individually, rather than all at once. This ensures that
@@ -684,119 +564,8 @@ COPY . /tmp/
 Results in fewer cache invalidations for the `RUN` step, than if you put the
 `COPY . /tmp/` before it.
 
-Because image size matters, using `ADD` to fetch packages from remote URLs is
-strongly discouraged; you should use `curl` or `wget` instead. That way you can
-delete the files you no longer need after they've been extracted and you don't
-have to add another layer in your image. For example, you should avoid doing
-things like:
-
-```dockerfile
-ADD https://example.com/big.tar.xz /usr/src/things/
-RUN tar -xJf /usr/src/things/big.tar.xz -C /usr/src/things
-RUN make -C /usr/src/things all
-```
-
-And instead, do something like:
-
-```dockerfile
-RUN mkdir -p /usr/src/things \
-    && curl -SL https://example.com/big.tar.xz \
-    | tar -xJC /usr/src/things \
-    && make -C /usr/src/things all
-```
-
 For other items (files, directories) that do not require `ADD`’s tar
 auto-extraction capability, you should always use `COPY`.
-
-### ENTRYPOINT
-
-[Dockerfile reference for the ENTRYPOINT instruction](../../engine/reference/builder.md#entrypoint)
-
-The best use for `ENTRYPOINT` is to set the image's main command, allowing that
-image to be run as though it was that command (and then use `CMD` as the
-default flags).
-
-Let's start with an example of an image for the command line tool `s3cmd`:
-
-```dockerfile
-ENTRYPOINT ["s3cmd"]
-CMD ["--help"]
-```
-
-Now the image can be run like this to show the command's help:
-
-```console
-$ docker run s3cmd
-```
-
-Or using the right parameters to execute a command:
-
-```console
-$ docker run s3cmd ls s3://mybucket
-```
-
-This is useful because the image name can double as a reference to the binary as
-shown in the command above.
-
-The `ENTRYPOINT` instruction can also be used in combination with a helper
-script, allowing it to function in a similar way to the command above, even
-when starting the tool may require more than one step.
-
-For example, the [Postgres Official Image](https://hub.docker.com/_/postgres/)
-uses the following script as its `ENTRYPOINT`:
-
-```bash
-#!/bin/bash
-set -e
-
-if [ "$1" = 'postgres' ]; then
-    chown -R postgres "$PGDATA"
-
-    if [ -z "$(ls -A "$PGDATA")" ]; then
-        gosu postgres initdb
-    fi
-
-    exec gosu postgres "$@"
-fi
-
-exec "$@"
-```
-
-> Configure app as PID 1
->
-> This script uses [the `exec` Bash command](https://wiki.bash-hackers.org/commands/builtin/exec)
-> so that the final running application becomes the container's PID 1. This
-> allows the application to receive any Unix signals sent to the container.
-> For more, see the [`ENTRYPOINT` reference](../../engine/reference/builder.md#entrypoint).
-
-The helper script is copied into the container and run via `ENTRYPOINT` on
-container start:
-
-```dockerfile
-COPY ./docker-entrypoint.sh /
-ENTRYPOINT ["/docker-entrypoint.sh"]
-CMD ["postgres"]
-```
-
-This script allows the user to interact with Postgres in several ways.
-
-It can simply start Postgres:
-
-```console
-$ docker run postgres
-```
-
-Or, it can be used to run Postgres and pass parameters to the server:
-
-```console
-$ docker run postgres postgres --help
-```
-
-Lastly, it could also be used to start a totally different tool, such as Bash:
-
-```console
-$ docker run --rm -it postgres bash
-```
 
 ### VOLUME
 
@@ -848,46 +617,3 @@ For clarity and reliability, you should always use absolute paths for your
 `WORKDIR`. Also, you should use `WORKDIR` instead of  proliferating instructions
 like `RUN cd … && do-something`, which are hard to read, troubleshoot, and
 maintain.
-
-### ONBUILD
-
-[Dockerfile reference for the ONBUILD instruction](../../engine/reference/builder.md#onbuild)
-
-An `ONBUILD` command executes after the current `Dockerfile` build completes.
-`ONBUILD` executes in any child image derived `FROM` the current image.  Think
-of the `ONBUILD` command as an instruction the parent `Dockerfile` gives
-to the child `Dockerfile`.
-
-A Docker build executes `ONBUILD` commands before any command in a child
-`Dockerfile`.
-
-`ONBUILD` is useful for images that are going to be built `FROM` a given
-image. For example, you would use `ONBUILD` for a language stack image that
-builds arbitrary user software written in that language within the
-`Dockerfile`, as you can see in [Ruby’s `ONBUILD` variants](https://github.com/docker-library/ruby/blob/c43fef8a60cea31eb9e7d960a076d633cb62ba8d/2.4/jessie/onbuild/Dockerfile).
-
-Images built with `ONBUILD` should get a separate tag, for example:
-`ruby:1.9-onbuild` or `ruby:2.0-onbuild`.
-
-Be careful when putting `ADD` or `COPY` in `ONBUILD`. The "onbuild" image
-fails catastrophically if the new build's context is missing the resource being
-added. Adding a separate tag, as recommended above, helps mitigate this by
-allowing the `Dockerfile` author to make a choice.
-
-## Examples of Docker Official Images
-
-These Official Images have exemplary `Dockerfile`s:
-
-* [Go](https://hub.docker.com/_/golang/)
-* [Perl](https://hub.docker.com/_/perl/)
-* [Hy](https://hub.docker.com/_/hylang/)
-* [Ruby](https://hub.docker.com/_/ruby/)
-
-## Additional resources:
-
-* [Dockerfile Reference](../../engine/reference/builder.md)
-* [More about Automated Builds](../../docker-hub/builds/index.md)
-* [Guidelines for Creating Docker Official Images](../../docker-hub/official_images.md)
-* [Best practices to containerize Node.js web applications with Docker](https://snyk.io/blog/10-best-practices-to-containerize-nodejs-web-applications-with-docker){:target="_blank" rel="noopener" class="_"}
-* [More about Base Images](../../build/building/base-images.md)
-

@@ -228,7 +228,44 @@ From your computer, open a browser and navigate to `http://localhost:8000`
 > You can also build and run using [Play with Docker](https://labs.play-with-docker.com){:target="blank" rel="noopener" class=""}
 > that provides you with a temporary Docker instance in the cloud.
 
-## Other resources
+## Image design
+The following development patterns have proven to be helpful for people
+building applications with Docker. If you have discovered something we should
+add,
+[let us know]({{ site.repo }}/issues/new){: target="_blank" rel="noopener" class="_"}.
 
-If you are interested in examples in other languages, such as Go, check out
-our [language-specific guides](../../language/index.md) in the Guides section.
+### How to keep your images small
+
+Small images are faster to pull over the network and faster to load into
+memory when starting containers or services. There are a few rules of thumb to
+keep image size small:
+
+- If you have multiple images with a lot in common, consider creating your own
+  [base image](../build/building/base-images.md) with the shared
+  components, and basing your unique images on that. Docker only needs to load
+  the common layers once, and they are cached. This means that your
+  derivative images use memory on the Docker host more efficiently and load more
+  quickly.
+
+- To keep your production image lean but allow for debugging, consider using the
+  production image as the base image for the debug image. Additional testing or
+  debugging tooling can be added on top of the production image.
+
+- When building images, always tag them with useful tags which codify version
+  information, intended destination (`prod` or `test`, for instance), stability,
+  or other information that is useful when deploying the application in
+  different environments. Do not rely on the automatically-created `latest` tag.
+
+### Where and how to persist application data
+
+- Store data using [volumes](../storage/volumes.md).
+- One case where it is appropriate to use
+  [bind mounts](../storage/bind-mounts.md) is during development,
+  when you may want to mount your source directory or a binary you just built
+  into your container. For production, use a volume instead, mounting it into
+  the same location as you mounted a bind mount during development.
+- For production, use [secrets](../engine/swarm/secrets.md) to store sensitive
+  application data used by services, and use [configs](../engine/swarm/configs.md)
+  for non-sensitive data such as configuration files. If you currently use
+  standalone containers, consider migrating to use single-replica services, so
+  that you can take advantage of these service-only features.
