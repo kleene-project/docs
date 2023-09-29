@@ -1,7 +1,7 @@
 html.night {
     color-scheme: dark;
   
-    $icons: rocket, download-kleene, guides, language-guides, whats-new, manuals, reference;
+    $icons: get-started, download-kleene, under-hood, build-images, build-containers, reference;
 
     body {
         background-color: $bg-body-night;
@@ -15,23 +15,23 @@ html.night {
             .card, .cardlet {
                 color: inherit;
                 background-color: $bg-card-night;
-            &.rocket {
-                background-image: url(/assets/images/rocket-dark.svg)
+            &.get-started {
+                background-image: url(/assets/kl_images/get-started-dark.svg)
             }
             &.download-kleene {
-                background-image: url(/assets/images/download-kleene-dark.svg)
+                background-image: url(/assets/kl_images/download-kleene-dark.svg)
             }
-            &.guides {
-                background-image: url(/assets/images/guides-dark.svg)
+            &.under-hood {
+                background-image: url(/assets/kl_images/under-hood-dark.svg)
             }
-            &.language-guides {
-                background-image: url(/assets/images/language-guides-dark.svg)
+            &.build-images {
+                background-image: url(/assets/kl_images/build-images-dark.svg)
             }
-            &.manuals {
-                background-image: url(/assets/images/manuals-dark.svg)
+            &.build-containers {
+                background-image: url(/assets/kl_images/build-containers-dark.svg)
             }
             &.reference {
-                background-image: url(/assets/images/reference-dark.svg)
+                background-image: url(/assets/kl_images/reference-dark.svg)
             }
         }
             footer {
