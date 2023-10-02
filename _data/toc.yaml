@@ -157,16 +157,12 @@ reference:
     title: Use the Docker command line
   - path: /engine/reference/commandline/docker/
     title: docker (base command)
-  - path: /engine/reference/commandline/attach/
-    title: docker attach
   - path: /engine/reference/commandline/build/
     title: docker build
   - sectiontitle: docker container
     section:
     - path: /engine/reference/commandline/container/
       title: docker container
-    - path: /engine/reference/commandline/container_attach/
-      title: docker container attach
     - path: /engine/reference/commandline/container_create/
       title: docker container create
     - path: /engine/reference/commandline/container_diff/
@@ -219,8 +215,6 @@ reference:
       title: docker image tag
   - path: /engine/reference/commandline/images/
     title: docker images
-  - path: /engine/reference/commandline/import/
-    title: docker import
   - path: /engine/reference/commandline/inspect/
     title: docker inspect
   - sectiontitle: docker network
