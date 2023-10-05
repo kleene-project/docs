@@ -157,8 +157,34 @@ reference:
     title: Use the Docker command line
   - path: /engine/reference/commandline/docker/
     title: docker (base command)
-  - path: /engine/reference/commandline/build/
-    title: docker build
+  - sectiontitle: shortcut commands
+    section:
+    - path: /engine/reference/commandline/build/
+      title: docker build
+    - path: /engine/reference/commandline/create/
+      title: docker create
+    - path: /engine/reference/commandline/exec/
+      title: docker exec
+    - path: /engine/reference/commandline/images/
+      title: docker images
+    - path: /engine/reference/commandline/ps/
+      title: docker ps
+    - path: /engine/reference/commandline/rename/
+      title: docker rename
+    - path: /engine/reference/commandline/restart/
+      title: docker restart
+    - path: /engine/reference/commandline/rm/
+      title: docker rm
+    - path: /engine/reference/commandline/rmi/
+      title: docker rmi
+    - path: /engine/reference/commandline/start/
+      title: docker start
+    - path: /engine/reference/commandline/stop/
+      title: docker stop
+    - path: /engine/reference/commandline/tag/
+      title: docker tag
+    - path: /engine/reference/commandline/update/
+      title: docker update
   - sectiontitle: docker container
     section:
     - path: /engine/reference/commandline/container/
@@ -191,12 +217,6 @@ reference:
       title: docker container stop
     - path: /engine/reference/commandline/container_update/
       title: docker container update
-  - path: /engine/reference/commandline/create/
-    title: docker create
-  - path: /engine/reference/commandline/diff/
-    title: docker diff
-  - path: /engine/reference/commandline/exec/
-    title: docker exec
   - sectiontitle: docker image
     section:
     - path: /engine/reference/commandline/image/
@@ -213,8 +233,6 @@ reference:
       title: docker image rm
     - path: /engine/reference/commandline/image_tag/
       title: docker image tag
-  - path: /engine/reference/commandline/images/
-    title: docker images
   - path: /engine/reference/commandline/inspect/
     title: docker inspect
   - sectiontitle: docker network
@@ -235,26 +253,8 @@ reference:
       title: docker network prune
     - path: /engine/reference/commandline/network_rm/
       title: docker network rm
-  - path: /engine/reference/commandline/ps/
-    title: docker ps
-  - path: /engine/reference/commandline/rename/
-    title: docker rename
-  - path: /engine/reference/commandline/restart/
-    title: docker restart
-  - path: /engine/reference/commandline/rm/
-    title: docker rm
-  - path: /engine/reference/commandline/rmi/
-    title: docker rmi
   - path: /engine/reference/commandline/run/
     title: docker run
-  - path: /engine/reference/commandline/start/
-    title: docker start
-  - path: /engine/reference/commandline/stop/
-    title: docker stop
-  - path: /engine/reference/commandline/tag/
-    title: docker tag
-  - path: /engine/reference/commandline/update/
-    title: docker update
   - sectiontitle: docker volume
     section:
     - path: /engine/reference/commandline/volume_create/
