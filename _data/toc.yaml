@@ -163,8 +163,6 @@ reference:
       title: docker build
     - path: /engine/reference/commandline/create/
       title: docker create
-    - path: /engine/reference/commandline/exec/
-      title: docker exec
     - path: /engine/reference/commandline/images/
       title: docker images
     - path: /engine/reference/commandline/ps/
@@ -217,6 +215,8 @@ reference:
       title: docker container stop
     - path: /engine/reference/commandline/container_update/
       title: docker container update
+  - path: /engine/reference/commandline/exec/
+    title: docker exec
   - sectiontitle: docker image
     section:
     - path: /engine/reference/commandline/image/
