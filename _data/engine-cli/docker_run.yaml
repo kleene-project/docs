@@ -1,5 +1,5 @@
 command: docker run
-short: Run a command in a new container
+short: Create and start a command in a new container.
 long: |-
   The `docker run` command first `creates` a writeable container layer over the
   specified image, and then `starts` it using the specified command. That is,

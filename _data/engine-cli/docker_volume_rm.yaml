@@ -1,6 +1,6 @@
 command: docker volume rm
 aliases: remove
-short: Remove one or more volumes
+short: Remove one or more volumes. You cannot remove a volume that is in use by a container.
 long: Remove one or more volumes. You cannot remove a volume that is in use by a container.
 usage: docker volume rm [OPTIONS] VOLUME [VOLUME...]
 pname: docker volume
@@ -17,7 +17,7 @@ options:
   experimentalcli: false
 examples: |-
   ```console
-  $ docker volume rm hello
+  $ klee volume rm hello
 
   hello
   ```

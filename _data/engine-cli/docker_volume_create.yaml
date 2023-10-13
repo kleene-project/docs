@@ -1,8 +1,6 @@
 command: docker volume create
-short: Create a volume
-long: |-
-  Creates a new volume that containers can consume and store data in. If a name is
-  not specified, Docker generates a random name.
+short: Create a new volume. If the volume name already exists nothing happens.
+long: Create a new volume. If the volume name already exists nothing happens.
 usage: docker volume create [OPTIONS] [VOLUME]
 pname: docker volume
 plink: docker_volume.yaml

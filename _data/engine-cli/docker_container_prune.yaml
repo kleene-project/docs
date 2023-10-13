@@ -1,6 +1,6 @@
 command: docker container prune
-short: Remove all stopped containers
-long: Removes all stopped containers.
+short: Remove all stopped containers.
+long: Remove all stopped containers.
 usage: docker container prune [OPTIONS]
 pname: docker container
 plink: docker_container.yaml

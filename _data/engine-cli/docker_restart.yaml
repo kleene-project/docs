@@ -13,10 +13,6 @@ options:
   deprecated: false
   experimental: false
   experimentalcli: false
-examples: |-
-  ```console
-  $ docker restart my_container
-  ```
 deprecated: false
 experimental: false
 experimentalcli: false

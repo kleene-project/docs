@@ -1,5 +1,8 @@
 command: docker network connect
-short: Connect a container to a network
+short: |-
+  Connects a container to a network. You can connect a container by name
+  or by ID. Once connected, the container can communicate with other containers in
+  the same network.
 long: |-
   Connects a container to a network. You can connect a container by name
   or by ID. Once connected, the container can communicate with other containers in

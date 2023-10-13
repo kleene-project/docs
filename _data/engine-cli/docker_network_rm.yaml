@@ -1,9 +1,7 @@
 command: docker network rm
 aliases: remove
-short: Remove one or more networks
-long: |-
-  Removes one or more networks by name or identifier. To remove a network,
-  you must first disconnect any containers connected to it.
+short: Remove one or more networks. Any connected containers will be disconnected.
+long: Remove one or more networks. Any connected containers will be disconnected.
 usage: docker network rm NETWORK [NETWORK...]
 pname: docker network
 plink: docker_network.yaml
