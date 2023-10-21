@@ -1,0 +1,25 @@
+clink:
+- klee_image_create.yaml
+- klee_image_build.yaml
+- klee_image_ls.yaml
+- klee_image_rm.yaml
+cname:
+- klee image create
+- klee image build
+- klee image ls
+- klee image rm
+command: klee image
+deprecated: false
+experimental: false
+experimentalcli: false
+long: Manage images
+options:
+- deprecated: false
+  description: Show this message and exit.
+  experimental: false
+  experimentalcli: false
+  option: help
+plink: klee.yaml
+pname: klee
+short: Manage images
+usage: klee image [OPTIONS] COMMAND [ARGS]...

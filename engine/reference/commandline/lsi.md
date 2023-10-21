@@ -1,6 +1,6 @@
 ---
 datafolder: engine-cli
-datafile: klee_image_ls
-title: klee image ls
+datafile: klee_lsi
+title: klee lsi
 ---
 {% include cli.md datafolder=page.datafolder datafile=page.datafile %}

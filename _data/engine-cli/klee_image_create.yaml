@@ -1,0 +1,26 @@
+clink:
+- klee_image create_fetch.yaml
+- klee_image create_zfs.yaml
+cname:
+- klee image create fetch
+- klee image create zfs
+command: klee image create
+deprecated: false
+experimental: false
+experimentalcli: false
+long: 'Create a base image from a remote tar-archive or a ZFS dataset using the subcommands
+
+  listed below.
+
+
+  See the documentation for details on base images and how to create them.'
+options:
+- deprecated: false
+  description: Show this message and exit.
+  experimental: false
+  experimentalcli: false
+  option: help
+plink: klee_image.yaml
+pname: klee image
+short: Create a base image from a remote...
+usage: klee image create [OPTIONS] COMMAND [ARGS]...

@@ -160,11 +160,11 @@ reference:
   - sectiontitle: shortcut commands
     section:
     - path: /engine/reference/commandline/build/
-      title: docker build
+      title: klee build
     - path: /engine/reference/commandline/create/
       title: docker create
-    - path: /engine/reference/commandline/images/
-      title: docker images
+    - path: /engine/reference/commandline/lsi/
+      title: klee lsi
     - path: /engine/reference/commandline/ps/
       title: docker ps
     - path: /engine/reference/commandline/rename/
@@ -174,7 +174,7 @@ reference:
     - path: /engine/reference/commandline/rm/
       title: docker rm
     - path: /engine/reference/commandline/rmi/
-      title: docker rmi
+      title: klee rmi
     - path: /engine/reference/commandline/start/
       title: docker start
     - path: /engine/reference/commandline/stop/
@@ -220,17 +220,25 @@ reference:
   - sectiontitle: docker image
     section:
     - path: /engine/reference/commandline/image/
-      title: docker image
+      title: klee image
     - path: /engine/reference/commandline/image_build/
-      title: docker image build
-    - path: /engine/reference/commandline/image_inspect/
-      title: docker image inspect
+      title: klee image build
+    - sectiontitle: klee image create
+      section:
+      - path: /engine/reference/commandline/image_create/
+        title: klee image create
+      - path: /engine/reference/commandline/image_create_fetch/
+        title: klee image create fetch
+      - path: /engine/reference/commandline/image_create_zfs/
+        title: klee image create zfs
     - path: /engine/reference/commandline/image_ls/
-      title: docker image ls
+      title: klee image ls
+    - path: /engine/reference/commandline/image_rm/
+      title: klee image rm
     - path: /engine/reference/commandline/image_prune/
       title: docker image prune
-    - path: /engine/reference/commandline/image_rm/
-      title: docker image rm
+    - path: /engine/reference/commandline/image_inspect/
+      title: docker image inspect
     - path: /engine/reference/commandline/image_tag/
       title: docker image tag
   - path: /engine/reference/commandline/inspect/
