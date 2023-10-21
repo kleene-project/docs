@@ -266,15 +266,15 @@ reference:
   - sectiontitle: docker volume
     section:
     - path: /engine/reference/commandline/volume_create/
-      title: docker volume create
+      title: klee volume create
     - path: /engine/reference/commandline/volume_inspect/
       title: docker volume inspect
     - path: /engine/reference/commandline/volume_ls/
-      title: docker volume ls
+      title: klee volume ls
     - path: /engine/reference/commandline/volume_prune/
       title: docker volume prune
     - path: /engine/reference/commandline/volume_rm/
-      title: docker volume rm
+      title: klee volume rm
 - sectiontitle: Docker Engine API
   section:
   - path: /engine/api/

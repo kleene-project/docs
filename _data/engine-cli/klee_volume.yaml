@@ -1,0 +1,23 @@
+clink:
+- klee_volume_create.yaml
+- klee_volume_ls.yaml
+- klee_volume_rm.yaml
+cname:
+- klee volume create
+- klee volume ls
+- klee volume rm
+command: klee volume
+deprecated: false
+experimental: false
+experimentalcli: false
+long: Manage volumes
+options:
+- deprecated: false
+  description: Show this message and exit.
+  experimental: false
+  experimentalcli: false
+  option: help
+plink: klee.yaml
+pname: klee
+short: Manage volumes
+usage: klee volume [OPTIONS] COMMAND [ARGS]...
