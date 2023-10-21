@@ -216,7 +216,7 @@ reference:
     - path: /engine/reference/commandline/container_update/
       title: docker container update
   - path: /engine/reference/commandline/exec/
-    title: docker exec
+    title: klee exec
   - sectiontitle: docker image
     section:
     - path: /engine/reference/commandline/image/
@@ -246,23 +246,23 @@ reference:
   - sectiontitle: docker network
     section:
     - path: /engine/reference/commandline/network/
-      title: docker network
+      title: klee network
     - path: /engine/reference/commandline/network_connect/
-      title: docker network connect
+      title: klee network connect
     - path: /engine/reference/commandline/network_create/
-      title: docker network create
+      title: klee network create
     - path: /engine/reference/commandline/network_disconnect/
-      title: docker network disconnect
+      title: klee network disconnect
     - path: /engine/reference/commandline/network_inspect/
       title: docker network inspect
     - path: /engine/reference/commandline/network_ls/
-      title: docker network ls
+      title: klee network ls
     - path: /engine/reference/commandline/network_prune/
       title: docker network prune
     - path: /engine/reference/commandline/network_rm/
-      title: docker network rm
+      title: klee network rm
   - path: /engine/reference/commandline/run/
-    title: docker run
+    title: klee run
   - sectiontitle: docker volume
     section:
     - path: /engine/reference/commandline/volume_create/

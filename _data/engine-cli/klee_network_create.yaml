@@ -1,0 +1,210 @@
+command: klee network create
+deprecated: false
+examples: "### Connect containers\n\nWhen you start a container, use the `--network`\
+  \ flag to connect it to a network.\nThis example adds the `busybox` container to\
+  \ the `mynet` network:\n\n```console\n$ docker run -itd --network=mynet busybox\n\
+  ```\n\nIf you want to add a container to a network after the container is already\n\
+  running, use the `docker network connect` subcommand.\n\nYou can connect multiple\
+  \ containers to the same network. Once connected, the\ncontainers can communicate\
+  \ using only another container's IP address or name.\nFor `overlay` networks or\
+  \ custom plugins that support multi-host connectivity,\ncontainers connected to\
+  \ the same multi-host network but launched from different\nEngines can also communicate\
+  \ in this way.\n\nYou can disconnect a container from a network using the `docker\
+  \ network\ndisconnect` command.\n\n### Specify advanced options\n\nWhen you create\
+  \ a network, Engine creates a non-overlapping subnetwork for the\nnetwork by default.\
+  \ This subnetwork is not a subdivision of an existing\nnetwork. It is purely for\
+  \ ip-addressing purposes. You can override this default\nand specify subnetwork\
+  \ values directly using the `--subnet` option. On a\n`bridge` network you can only\
+  \ create a single subnet:\n\n```console\n$ docker network create --driver=bridge\
+  \ --subnet=192.168.0.0/16 br0\n```\n\nAdditionally, you also specify the `--gateway`\
+  \ `--ip-range` and `--aux-address`\noptions.\n\n```console\n$ docker network create\
+  \ \\\n  --driver=bridge \\\n  --subnet=172.28.0.0/16 \\\n  --ip-range=172.28.5.0/24\
+  \ \\\n  --gateway=172.28.5.254 \\\n  br0\n```\n\nIf you omit the `--gateway` flag\
+  \ the Engine selects one for you from inside a\npreferred pool. For `overlay` networks\
+  \ and for network driver plugins that\nsupport it you can create multiple subnetworks.\
+  \ This example uses two `/25`\nsubnet mask to adhere to the current guidance of\
+  \ not having more than 256 IPs in\na single overlay network. Each of the subnetworks\
+  \ has 126 usable addresses.\n\n```console\n$ docker network create -d overlay \\\
+  \n  --subnet=192.168.10.0/25 \\\n  --subnet=192.168.20.0/25 \\\n  --gateway=192.168.10.100\
+  \ \\\n  --gateway=192.168.20.100 \\\n  --aux-address=\"my-router=192.168.10.5\"\
+  \ --aux-address=\"my-switch=192.168.10.6\" \\\n  --aux-address=\"my-printer=192.168.20.5\"\
+  \ --aux-address=\"my-nas=192.168.20.6\" \\\n  my-multihost-network\n```\n\nBe sure\
+  \ that your subnetworks do not overlap. If they do, the network create\nfails and\
+  \ Engine returns an error.\n\n### Bridge driver options\n\nWhen creating a custom\
+  \ network, the default network driver (i.e. `bridge`) has\nadditional options that\
+  \ can be passed. The following are those options and the\nequivalent docker daemon\
+  \ flags used for docker0 bridge:\n\n| Option                                   \
+  \        | Equivalent  | Description                                           |\n\
+  |--------------------------------------------------|-------------|-------------------------------------------------------|\n\
+  | `com.docker.network.bridge.name`                 | -           | Bridge name to\
+  \ be used when creating the Linux bridge |\n| `com.docker.network.bridge.enable_ip_masquerade`\
+  \ | `--ip-masq` | Enable IP masquerading                                |\n| `com.docker.network.bridge.enable_icc`\
+  \           | `--icc`     | Enable or Disable Inter Container Connectivity     \
+  \   |\n| `com.docker.network.bridge.host_binding_ipv4`    | `--ip`      | Default\
+  \ IP when binding container ports               |\n| `com.docker.network.driver.mtu`\
+  \                  | `--mtu`     | Set the containers network MTU              \
+  \          |\n| `com.docker.network.container_iface_prefix`      | -           |\
+  \ Set a custom prefix for container interfaces          |\n\nThe following arguments\
+  \ can be passed to `docker network create` for any\nnetwork driver, again with their\
+  \ approximate equivalents to `docker daemon`.\n\n| Argument     | Equivalent   \
+  \  | Description                                |\n|--------------|----------------|--------------------------------------------|\n\
+  | `--gateway`  | -              | IPv4 or IPv6 Gateway for the master subnet |\n\
+  | `--ip-range` | `--fixed-cidr` | Allocate IPs from a range                  |\n\
+  | `--internal` | -              | Restrict external access to the network    |\n\
+  | `--ipv6`     | `--ipv6`       | Enable IPv6 networking                     |\n\
+  | `--subnet`   | `--bip`        | Subnet for network                         |\n\
+  \nFor example, let's use `-o` or `--opt` options to specify an IP address binding\n\
+  when publishing ports:\n\n```console\n$ docker network create \\\n    -o \"com.docker.network.bridge.host_binding_ipv4\"\
+  =\"172.19.0.1\" \\\n    simple-network\n```\n\n### <a name=\"internal\"></a> Network\
+  \ internal mode (--internal)\n\nBy default, when you connect a container to an `overlay`\
+  \ network, Docker also\nconnects a bridge network to it to provide external connectivity.\
+  \ If you want\nto create an externally isolated `overlay` network, you can specify\
+  \ the\n`--internal` option.\n\n### <a name=\"ingress\"></a> Network ingress mode\
+  \ (--ingress)\n\nYou can create the network which will be used to provide the routing-mesh\
+  \ in the\nswarm cluster. You do so by specifying `--ingress` when creating the network.\
+  \ Only\none ingress network can be created at the time. The network can be removed\
+  \ only\nif no services depend on it. Any option available when creating an overlay\
+  \ network\nis also available when creating the ingress network, besides the `--attachable`\
+  \ option.\n\n```console\n$ docker network create -d overlay \\\n  --subnet=10.11.0.0/16\
+  \ \\\n  --ingress \\\n  --opt com.docker.network.driver.mtu=9216 \\\n  --opt encrypted=true\
+  \ \\\n  my-ingress-network\n```"
+experimental: false
+experimentalcli: false
+long: 'Creates a new network. The `DRIVER` accepts `bridge` or `overlay` which are
+  the
+
+  built-in network drivers. If you have installed a third party or your own custom
+
+  network driver you can specify that `DRIVER` here also. If you don''t specify the
+
+  `--driver` option, the command automatically creates a `bridge` network for you.
+
+  When you install Docker Engine it creates a `bridge` network automatically. This
+
+  network corresponds to the `docker0` bridge that Engine has traditionally relied
+
+  on. When you launch a new container with  `docker run` it automatically connects
+  to
+
+  this bridge network. You cannot remove this default bridge network, but you can
+
+  create new ones using the `network create` command.
+
+
+  ```console
+
+  $ docker network create -d bridge my-bridge-network
+
+  ```
+
+
+  Bridge networks are isolated networks on a single Engine installation. If you
+
+  want to create a network that spans multiple Docker hosts each running an
+
+  Engine, you must create an `overlay` network. Unlike `bridge` networks, overlay
+
+  networks require some pre-existing conditions before you can create one. These
+
+  conditions are:
+
+
+  * Access to a key-value store. Engine supports Consul, Etcd, and ZooKeeper (Distributed
+  store) key-value stores.
+
+  * A cluster of hosts with connectivity to the key-value store.
+
+  * A properly configured Engine `daemon` on each host in the cluster.
+
+
+  The `dockerd` options that support the `overlay` network are:
+
+
+  * `--cluster-store`
+
+  * `--cluster-store-opt`
+
+  * `--cluster-advertise`
+
+
+  To read more about these options and how to configure them, see ["*Get started
+
+  with multi-host network*"](https://docs.docker.com/engine/userguide/networking/get-started-overlay).
+
+
+  While not required, it is a good idea to install Docker Swarm to
+
+  manage the cluster that makes up your network. Swarm provides sophisticated
+
+  discovery and server management tools that can assist your implementation.
+
+
+  Once you have prepared the `overlay` network prerequisites you simply choose a
+
+  Docker host in the cluster and issue the following to create the network:
+
+
+  ```console
+
+  $ docker network create -d overlay my-multihost-network
+
+  ```
+
+
+  Network names must be unique. The Docker daemon attempts to identify naming
+
+  conflicts but this is not guaranteed. It is the user''s responsibility to avoid
+
+  name conflicts.
+
+
+  ### Overlay network limitations
+
+
+  You should create overlay networks with `/24` blocks (the default), which limits
+
+  you to 256 IP addresses, when you create networks using the default VIP-based
+
+  endpoint-mode. This recommendation addresses
+
+  [limitations with swarm mode](https://github.com/moby/moby/issues/30820). If you
+
+  need more than 256 IP addresses, do not increase the IP block size. You can
+
+  either use `dnsrr` endpoint mode with an external load balancer, or use multiple
+
+  smaller overlay networks. See
+
+  [Configure service discovery](https://docs.docker.com/engine/swarm/networking/#configure-service-discovery)
+
+  for more information about different endpoint modes.
+
+  '
+options:
+- deprecated: false
+  description: 'Which driver to use for the network. Possible values are ''vnet'',
+    ''loopback'', and ''host''. See jails(8) and the networking documentation for
+    details.  [default: loopback]'
+  experimental: false
+  experimentalcli: false
+  option: driver
+  shorthand: d
+- deprecated: false
+  description: Name of the loopback interface used for the loopback network
+  experimental: false
+  experimentalcli: false
+  option: ifname
+- deprecated: false
+  description: Subnet in CIDR format for the network  [required]
+  experimental: false
+  experimentalcli: false
+  option: subnet
+- deprecated: false
+  description: Show this message and exit.
+  experimental: false
+  experimentalcli: false
+  option: help
+plink: klee_network.yaml
+pname: klee network
+short: Create a new network
+usage: klee network create [OPTIONS] NETWORK_NAME

@@ -1,0 +1,18 @@
+command: klee network disconnect
+deprecated: false
+experimental: false
+experimentalcli: false
+long: 'Disconnect a container from a network.
+
+
+  The container must be stopped before it can be disconnected.'
+options:
+- deprecated: false
+  description: Show this message and exit.
+  experimental: false
+  experimentalcli: false
+  option: help
+plink: klee_network.yaml
+pname: klee network
+short: Disconnect a container from a network.
+usage: klee network disconnect [OPTIONS] NETWORK CONTAINER
