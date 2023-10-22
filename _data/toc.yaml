@@ -162,62 +162,58 @@ reference:
     - path: /engine/reference/commandline/build/
       title: klee build
     - path: /engine/reference/commandline/create/
-      title: docker create
+      title: klee create
+    - path: /engine/reference/commandline/exec/
+      title: klee exec
     - path: /engine/reference/commandline/lsi/
       title: klee lsi
-    - path: /engine/reference/commandline/ps/
-      title: docker ps
+    - path: /engine/reference/commandline/lsc/
+      title: klee lsc
     - path: /engine/reference/commandline/rename/
       title: docker rename
     - path: /engine/reference/commandline/restart/
-      title: docker restart
-    - path: /engine/reference/commandline/rm/
-      title: docker rm
+      title: klee restart
+    - path: /engine/reference/commandline/rmc/
+      title: klee rmc
     - path: /engine/reference/commandline/rmi/
       title: klee rmi
     - path: /engine/reference/commandline/start/
-      title: docker start
+      title: klee start
     - path: /engine/reference/commandline/stop/
-      title: docker stop
+      title: klee stop
     - path: /engine/reference/commandline/tag/
       title: docker tag
     - path: /engine/reference/commandline/update/
       title: docker update
-  - sectiontitle: docker container
+  - sectiontitle: klee container
     section:
     - path: /engine/reference/commandline/container/
-      title: docker container
+      title: klee container
     - path: /engine/reference/commandline/container_create/
-      title: docker container create
-    - path: /engine/reference/commandline/container_diff/
-      title: docker container diff
+      title: klee container create
     - path: /engine/reference/commandline/container_exec/
-      title: docker container exec
+      title: klee container exec
     - path: /engine/reference/commandline/container_inspect/
       title: docker container inspect
-    - path: /engine/reference/commandline/container_kill/
-      title: docker container kill
     - path: /engine/reference/commandline/container_ls/
-      title: docker container ls
+      title: klee container ls
     - path: /engine/reference/commandline/container_prune/
       title: docker container prune
     - path: /engine/reference/commandline/container_rename/
       title: docker container rename
     - path: /engine/reference/commandline/container_restart/
-      title: docker container restart
+      title: klee container restart
     - path: /engine/reference/commandline/container_rm/
-      title: docker container rm
+      title: klee container rm
     - path: /engine/reference/commandline/container_run/
       title: docker container run
     - path: /engine/reference/commandline/container_start/
-      title: docker container start
+      title: klee container start
     - path: /engine/reference/commandline/container_stop/
-      title: docker container stop
+      title: klee container stop
     - path: /engine/reference/commandline/container_update/
       title: docker container update
-  - path: /engine/reference/commandline/exec/
-    title: klee exec
-  - sectiontitle: docker image
+  - sectiontitle: klee image
     section:
     - path: /engine/reference/commandline/image/
       title: klee image
@@ -243,7 +239,7 @@ reference:
       title: docker image tag
   - path: /engine/reference/commandline/inspect/
     title: docker inspect
-  - sectiontitle: docker network
+  - sectiontitle: klee network
     section:
     - path: /engine/reference/commandline/network/
       title: klee network
@@ -263,7 +259,7 @@ reference:
       title: klee network rm
   - path: /engine/reference/commandline/run/
     title: klee run
-  - sectiontitle: docker volume
+  - sectiontitle: klee volume
     section:
     - path: /engine/reference/commandline/volume_create/
       title: klee volume create

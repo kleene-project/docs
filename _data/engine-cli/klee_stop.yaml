@@ -1,0 +1,28 @@
+command: klee stop
+deprecated: false
+examples: '```console
+
+  $ docker stop my_container
+
+  ```'
+experimental: false
+experimentalcli: false
+long: 'The main process inside the container will receive `SIGTERM`, and after a grace
+
+  period, `SIGKILL`. The first signal can be changed with the `STOPSIGNAL`
+
+  instruction in the container''s Dockerfile, or the `--stop-signal` option to
+
+  `docker run`.
+
+  '
+options:
+- deprecated: false
+  description: Show this message and exit.
+  experimental: false
+  experimentalcli: false
+  option: help
+plink: klee.yaml
+pname: klee
+short: Stop one or more running containers
+usage: klee stop [OPTIONS] [CONTAINERS]...

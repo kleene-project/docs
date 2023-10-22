@@ -1,0 +1,45 @@
+command: klee container exec
+deprecated: false
+experimental: false
+experimentalcli: false
+long: Run a command in a container
+options:
+- deprecated: false
+  description: Attach to STDOUT/STDERR
+  experimental: false
+  experimentalcli: false
+  option: attach
+  shorthand: a
+- deprecated: false
+  description: Set environment variables (e.g. --env FIRST=env --env SECOND=env)
+  experimental: false
+  experimentalcli: false
+  option: env
+  shorthand: e
+- deprecated: false
+  description: Send terminal input to STDIN. Ignored if '--attach' is not used.
+  experimental: false
+  experimentalcli: false
+  option: interactive
+  shorthand: i
+- deprecated: false
+  description: Allocate a pseudo-TTY
+  experimental: false
+  experimentalcli: false
+  option: tty
+  shorthand: t
+- deprecated: false
+  description: Username or UID of the executing user
+  experimental: false
+  experimentalcli: false
+  option: user
+  shorthand: u
+- deprecated: false
+  description: Show this message and exit.
+  experimental: false
+  experimentalcli: false
+  option: help
+plink: klee_container.yaml
+pname: klee container
+short: Run a command in a container
+usage: klee container exec [OPTIONS] CONTAINER [COMMAND]...

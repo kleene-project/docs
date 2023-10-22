@@ -1,0 +1,31 @@
+clink:
+- klee_container_create.yaml
+- klee_container_ls.yaml
+- klee_container_rm.yaml
+- klee_container_start.yaml
+- klee_container_stop.yaml
+- klee_container_restart.yaml
+- klee_container_exec.yaml
+cname:
+- klee container create
+- klee container ls
+- klee container rm
+- klee container start
+- klee container stop
+- klee container restart
+- klee container exec
+command: klee container
+deprecated: false
+experimental: false
+experimentalcli: false
+long: Manage containers
+options:
+- deprecated: false
+  description: Show this message and exit.
+  experimental: false
+  experimentalcli: false
+  option: help
+plink: klee.yaml
+pname: klee
+short: Manage containers
+usage: klee container [OPTIONS] COMMAND [ARGS]...
