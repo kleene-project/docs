@@ -154,7 +154,7 @@ For example uses of this command, refer to the [examples section](#examples) bel
 
 ## Parent command
 
-{% capture parentfile %}{{ controller_data.plink | remove_first: ".yaml" | remove_first: "docker_" }}{% endcapture %}
+{% capture parentfile %}{{ controller_data.plink | remove_first: ".yaml" | remove_first: "klee_" }}{% endcapture %}
 {% capture parentdatafile %}{{ controller_data.plink | remove_first: ".yaml" }}{% endcapture %}
 {% capture parentDesc %}{{ site.data[include.datafolder][parentdatafile].short }}{% endcapture %}
 
@@ -180,7 +180,7 @@ For example uses of this command, refer to the [examples section](#examples) bel
 {% for command in controller_data.cname %}
   {% capture dataFileName %}{{ command | strip | replace: " ", "_" }}{% endcapture %}
   <tr>
-    <td markdown="span">[{{ command }}]({{ parentPath }}{{ dataFileName | remove_first: "docker_" }}/)</td>
+    <td markdown="span">[{{ command }}]({{ parentPath }}{{ dataFileName | remove_first: "klee_" }}/)</td>
     <td markdown="span">{{ site.data[include.datafolder][dataFileName].short }}</td>
   </tr>
 {% endfor %}
@@ -203,7 +203,7 @@ For example uses of this command, refer to the [examples section](#examples) bel
 {% for command in site.data[include.datafolder][parentdatafile].cname %}
   {% capture dataFileName %}{{ command | strip | replace: " ", "_" }}{% endcapture %}
   <tr>
-    <td markdown="span">[{{ command }}]({{ parentPath }}{{ dataFileName | remove_first: "docker_" }}/)</td>
+    <td markdown="span">[{{ command }}]({{ parentPath }}{{ dataFileName | remove_first: "klee_" }}/)</td>
     <td markdown="span">{{ site.data[include.datafolder][dataFileName].short }}</td>
   </tr>
 {% endfor %}
