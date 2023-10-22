@@ -157,7 +157,7 @@ reference:
     title: Use the Docker command line
   - path: /engine/reference/commandline/docker/
     title: docker (base command)
-  - sectiontitle: shortcut commands
+  - sectiontitle: klee shortcut commands
     section:
     - path: /engine/reference/commandline/build/
       title: klee build
@@ -239,8 +239,6 @@ reference:
       title: docker image inspect
     - path: /engine/reference/commandline/image_tag/
       title: docker image tag
-  - path: /engine/reference/commandline/inspect/
-    title: docker inspect
   - sectiontitle: klee network
     section:
     - path: /engine/reference/commandline/network/
