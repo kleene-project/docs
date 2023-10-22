@@ -177,6 +177,8 @@ reference:
       title: klee rmc
     - path: /engine/reference/commandline/rmi/
       title: klee rmi
+    - path: /engine/reference/commandline/run/
+      title: klee run
     - path: /engine/reference/commandline/start/
       title: klee start
     - path: /engine/reference/commandline/stop/
@@ -206,7 +208,7 @@ reference:
     - path: /engine/reference/commandline/container_rm/
       title: klee container rm
     - path: /engine/reference/commandline/container_run/
-      title: docker container run
+      title: klee container run
     - path: /engine/reference/commandline/container_start/
       title: klee container start
     - path: /engine/reference/commandline/container_stop/
@@ -257,8 +259,6 @@ reference:
       title: docker network prune
     - path: /engine/reference/commandline/network_rm/
       title: klee network rm
-  - path: /engine/reference/commandline/run/
-    title: klee run
   - sectiontitle: klee volume
     section:
     - path: /engine/reference/commandline/volume_create/
