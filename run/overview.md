@@ -90,6 +90,8 @@ default foreground mode:
 
 To start a container in detached mode, you use `-d=true` or just `-d` option.
 
+FIXME: Describe how jailed-processes exits vs. when the entire jail is shutting down (e.g., when /etc/rc exists the jail is still running)
+
 To reattach to a detached container, use `docker`
 [*attach*](commandline/attach.md) command.
 
@@ -137,6 +139,7 @@ Docker containers.
 
 ### Image identification
 
+FIXME This notation needs to be explained.: `image_id|[image_name[:tag]][:@snapshot]`
 
 
 ### Example: run htop inside a container
@@ -269,6 +272,7 @@ examples on using the [`--rm` (clean up)](#clean-up---rm) flag later in this pag
 
 ## Runtime constraints on resources
 
+FIXME: Describe the possible ways of constratining container resources using `rctl(8)` + `jail`-params + `devfs.conf/devfs.rules`
 
 
 ## Overriding Dockerfile image defaults
