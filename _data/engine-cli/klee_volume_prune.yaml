@@ -1,0 +1,66 @@
+command: klee volume prune
+deprecated: false
+examples: '```console
+
+  $ docker volume prune
+
+
+  WARNING! This will remove all local volumes not used by at least one container.
+
+  Are you sure you want to continue? [y/N] y
+
+  Deleted Volumes:
+
+  07c7bdf3e34ab76d921894c2b834f073721fccfbbcba792aa7648e3a7a664c2e
+
+  my-named-vol
+
+
+  Total reclaimed space: 36 B
+
+  ```
+
+
+  ### <a name="filter"></a> Filtering (--filter)
+
+
+  The filtering flag (`--filter`) format is of "key=value". If there is more
+
+  than one filter, then pass multiple flags (e.g., `--filter "foo=bar" --filter "bif=baz"`)
+
+
+  The currently supported filters are:
+
+
+  * label (`label=<key>`, `label=<key>=<value>`, `label!=<key>`, or `label!=<key>=<value>`)
+  - only remove volumes with (or without, in case `label!=...` is used) the specified
+  labels.
+
+
+  The `label` filter accepts two formats. One is the `label=...` (`label=<key>` or
+  `label=<key>=<value>`),
+
+  which removes volumes with the specified labels. The other
+
+  format is the `label!=...` (`label!=<key>` or `label!=<key>=<value>`), which removes
+
+  volumes without the specified labels.'
+experimental: false
+experimentalcli: false
+long: Remove all volumes that are not being mounted into any containers.
+options:
+- deprecated: false
+  description: Do not prompt for confirmation
+  experimental: false
+  experimentalcli: false
+  option: force
+  shorthand: f
+- deprecated: false
+  description: Show this message and exit.
+  experimental: false
+  experimentalcli: false
+  option: help
+plink: klee_volume.yaml
+pname: klee volume
+short: Remove all volumes that are not being...
+usage: klee volume prune [OPTIONS]

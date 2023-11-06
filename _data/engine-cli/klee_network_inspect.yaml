@@ -1,0 +1,20 @@
+command: klee network inspect
+deprecated: false
+experimental: false
+experimentalcli: false
+long: 'Returns information about one or more networks. By default, this command renders
+
+  all results in a JSON object.
+
+
+  '
+options:
+- deprecated: false
+  description: Show this message and exit.
+  experimental: false
+  experimentalcli: false
+  option: help
+plink: klee_network.yaml
+pname: klee network
+short: Display detailed information on a network.
+usage: klee network inspect [OPTIONS] NETWORK

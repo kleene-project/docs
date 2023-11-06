@@ -1,19 +1,29 @@
 clink:
 - klee_container_create.yaml
 - klee_container_ls.yaml
+- klee_container_inspect.yaml
 - klee_container_rm.yaml
+- klee_container_prune.yaml
 - klee_container_start.yaml
 - klee_container_stop.yaml
 - klee_container_restart.yaml
 - klee_container_exec.yaml
+- klee_container_update.yaml
+- klee_container_rename.yaml
+- klee_container_run.yaml
 cname:
 - klee container create
 - klee container ls
+- klee container inspect
 - klee container rm
+- klee container prune
 - klee container start
 - klee container stop
 - klee container restart
 - klee container exec
+- klee container update
+- klee container rename
+- klee container run
 command: klee container
 deprecated: false
 experimental: false

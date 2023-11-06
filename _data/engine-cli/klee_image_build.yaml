@@ -1,78 +1,179 @@
 command: klee image build
 deprecated: false
-examples: "### Build with PATH\n\n```console\n$ docker build .\n\nUploading context\
-  \ 10240 bytes\nStep 1/3 : FROM busybox\nPulling repository busybox\n ---> e9aa60c60128MB/2.284\
-  \ MB (100%) endpoint: https://cdn-registry-1.docker.io/v1/\nStep 2/3 : RUN ls -lh\
-  \ /\n ---> Running in 9c9e81692ae9\ntotal 24\ndrwxr-xr-x    2 root     root    \
-  \    4.0K Mar 12  2013 bin\ndrwxr-xr-x    5 root     root        4.0K Oct 19 00:19\
-  \ dev\ndrwxr-xr-x    2 root     root        4.0K Oct 19 00:19 etc\ndrwxr-xr-x  \
-  \  2 root     root        4.0K Nov 15 23:34 lib\nlrwxrwxrwx    1 root     root \
-  \          3 Mar 12  2013 lib64 -> lib\ndr-xr-xr-x  116 root     root          \
-  \ 0 Nov 15 23:34 proc\nlrwxrwxrwx    1 root     root           3 Mar 12  2013 sbin\
-  \ -> bin\ndr-xr-xr-x   13 root     root           0 Nov 15 23:34 sys\ndrwxr-xr-x\
-  \    2 root     root        4.0K Mar 12  2013 tmp\ndrwxr-xr-x    2 root     root\
-  \        4.0K Nov 15 23:34 usr\n ---> b35f4035db3f\nStep 3/3 : CMD echo Hello world\n\
-  \ ---> Running in 02071fceb21b\n ---> f52f38b7823e\nSuccessfully built f52f38b7823e\n\
-  Removing intermediate container 9c9e81692ae9\nRemoving intermediate container 02071fceb21b\n\
-  ```\n\nThis example specifies that the `PATH` is `.`, and so all the files in the\n\
-  local directory get `tar`d and sent to the Docker daemon. The `PATH` specifies\n\
-  where to find the files for the \"context\" of the build on the Docker daemon.\n\
-  Remember that the daemon could be running on a remote machine and that no\nparsing\
-  \ of the Dockerfile happens at the client side (where you're running\n`docker build`).\
-  \ That means that *all* the files at `PATH` get sent, not just\nthe ones listed\
-  \ to [*ADD*](../builder.md#add) in the Dockerfile.\n\nThe transfer of context from\
-  \ the local machine to the Docker daemon is what the\n`docker` client means when\
-  \ you see the \"Sending build context\" message.\n\nIf you wish to keep the intermediate\
-  \ containers after the build is complete,\nyou must use `--rm=false`. This does\
-  \ not affect the build cache.\n\n### <a name=\"tag\"></a> Tag an image (-t, --tag)\n\
-  \n```console\n$ docker build -t vieux/apache:2.0 .\n```\n\nThis will build like\
-  \ the previous example, but it will then tag the resulting\nimage. The repository\
-  \ name will be `vieux/apache` and the tag will be `2.0`.\n[Read more about valid\
-  \ tags](tag.md).\n\nYou can apply multiple tags to an image. For example, you can\
-  \ apply the `latest`\ntag to a newly built image and add another tag that references\
-  \ a specific\nversion.\nFor example, to tag an image both as `whenry/fedora-jboss:latest`\
-  \ and\n`whenry/fedora-jboss:v2.1`, use the following:\n\n```console\n$ docker build\
-  \ -t whenry/fedora-jboss:latest -t whenry/fedora-jboss:v2.1 .\n```\n\n### <a name=\"\
-  file\"></a> Specify a Dockerfile (-f, --file)\n\n```console\n$ docker build -f Dockerfile.debug\
-  \ .\n```\n\nThis will use a file called `Dockerfile.debug` for the build instructions\n\
-  instead of `Dockerfile`.\n\n```console\n$ curl example.com/remote/Dockerfile | docker\
-  \ build -f - .\n```\n\nThe above command will use the current directory as the build\
-  \ context and read\na Dockerfile from stdin.\n\n```console\n$ docker build -f dockerfiles/Dockerfile.debug\
-  \ -t myapp_debug .\n$ docker build -f dockerfiles/Dockerfile.prod  -t myapp_prod\
-  \ .\n```\n\nThe above commands will build the current build context (as specified\
-  \ by the\n`.`) twice, once using a debug version of a `Dockerfile` and once using\
-  \ a\nproduction version.\n\n```console\n$ cd /home/me/myapp/some/dir/really/deep\n\
-  $ docker build -f /home/me/myapp/dockerfiles/debug /home/me/myapp\n$ docker build\
-  \ -f ../../../../dockerfiles/debug /home/me/myapp\n```\n\nThese two `docker build`\
-  \ commands do the exact same thing. They both use the\ncontents of the `debug` file\
-  \ instead of looking for a `Dockerfile` and will use\n`/home/me/myapp` as the root\
-  \ of the build context. Note that `debug` is in the\ndirectory structure of the\
-  \ build context, regardless of how you refer to it on\nthe command line.\n\n> **Note**\n\
-  >\n> `docker build` returns a `no such file or directory` error if the\n> file or\
-  \ directory does not exist in the uploaded context. This may\n> happen if there\
-  \ is no context, or if you specify a file that is\n> elsewhere on the Host system.\
-  \ The context is limited to the current\n> directory (and its children) for security\
-  \ reasons, and to ensure\n> repeatable builds on remote Docker hosts. This is also\
-  \ the reason why\n> `ADD ../file` does not work.\n\n### <a name=\"build-arg\"></a>\
-  \ Set build-time variables (--build-arg)\n\nYou can use `ENV` instructions in a\
-  \ Dockerfile to define variable\nvalues. These values persist in the built image.\
-  \ However, often\npersistence is not what you want. Users want to specify variables\
-  \ differently\ndepending on which host they build an image on.\n\nA good example\
-  \ is `http_proxy` or source versions for pulling intermediate\nfiles. The `ARG`\
-  \ instruction lets Dockerfile authors define values that users\ncan set at build-time\
-  \ using the  `--build-arg` flag:\n\n```console\n$ docker build --build-arg HTTP_PROXY=http://10.20.30.2:1234\
-  \ --build-arg FTP_PROXY=http://40.50.60.5:4567 .\n```\n\nThis flag allows you to\
-  \ pass the build-time variables that are\naccessed like regular environment variables\
-  \ in the `RUN` instruction of the\nDockerfile. Also, these values don't persist\
-  \ in the intermediate or final images\nlike `ENV` values do.   You must add `--build-arg`\
-  \ for each build argument.\n\nUsing this flag will not alter the output you see\
-  \ when the `ARG` lines from the\nDockerfile are echoed during the build process.\n\
-  \nFor detailed information on using `ARG` and `ENV` instructions, see the\n[Dockerfile\
-  \ reference](../builder.md).\n\nYou may also use the `--build-arg` flag without\
-  \ a value, in which case the value\nfrom the local environment will be propagated\
-  \ into the Docker container being\nbuilt:\n\n```console\n$ export HTTP_PROXY=http://10.20.30.2:1234\n\
-  $ docker build --build-arg HTTP_PROXY .\n```\n\nThis is similar to how `docker run\
-  \ -e` works. Refer to the [`docker run` documentation](run.md#env)\nfor more information."
+examples: '### Build with PATH
+
+
+  ```console
+
+  $ klee image build .
+
+  Started to build image with ID f7b6cc114e75
+
+  Step 1/3 : FROM FreeBSD13.2-STABLE:latest
+
+  Step 2/3 : RUN ls -lh /
+
+  total 72
+
+  -rw-r--r--   2 root  wheel   1.0K May 12  2022 .cshrc
+
+  -rw-r--r--   2 root  wheel   507B May 12  2022 .profile
+
+  -r--r--r--   1 root  wheel   6.0K May 12  2022 COPYRIGHT
+
+  drwxr-xr-x   2 root  wheel    46B May 12  2022 bin
+
+  drwxr-xr-x  14 root  wheel    65B May 12  2022 boot
+
+  dr-xr-xr-x   7 root  wheel   512B Nov  6 18:40 dev
+
+  drwxr-xr-x  28 root  wheel   104B May 12  2022 etc
+
+  drwxr-xr-x   5 root  wheel    67B May 12  2022 lib
+
+  drwxr-xr-x   3 root  wheel     5B May 12  2022 libexec
+
+  drwxr-xr-x   2 root  wheel     2B May 12  2022 media
+
+  drwxr-xr-x   2 root  wheel     2B May 12  2022 mnt
+
+  drwxr-xr-x   2 root  wheel     2B May 12  2022 net
+
+  dr-xr-xr-x   2 root  wheel     2B May 12  2022 proc
+
+  drwxr-xr-x   2 root  wheel   150B May 12  2022 rescue
+
+  drwxr-x---   2 root  wheel     7B May 12  2022 root
+
+  drwxr-xr-x   2 root  wheel   149B May 12  2022 sbin
+
+  lrwxr-xr-x   1 root  wheel    11B May 12  2022 sys -> usr/src/sys
+
+  drwxrwxrwt   2 root  wheel     2B May 12  2022 tmp
+
+  drwxr-xr-x  14 root  wheel    14B May 12  2022 usr
+
+  drwxr-xr-x  24 root  wheel    24B May 12  2022 var
+
+  --> Snapshot created: @7cb0ccbebd9d
+
+  Step 3/3 : CMD echo "Hello World"
+
+
+  image created
+
+  f7b6cc114e75
+
+  ```
+
+
+  This example specifies that the `PATH` is `.`, and so Klee will resolve this to
+  an
+
+  absolute path and send it to Kleened. The `PATH` specifies
+
+  where to find the files for the "context" of the build on Kleened.
+
+  If Klee is used on the same machine as Kleened, the resolved absolute `PATH` will
+
+  be the same for Klee and Kleened. If not, remember to specify the correct path
+
+  on the remote machine where Kleened is running.
+
+
+  ### Tag an image (-t, --tag)
+
+
+  ```console
+
+  $ klee image build -t nginx:1.24.0_13 .
+
+  ```
+
+
+  This will build like the previous example, but it will then tag the resulting
+
+  image. The image name will be `apache` and the tag will be `2.0`.
+
+  [Read more about valid tags](tag.md).
+
+
+  ### Specify a Dockerfile (-f, --file)
+
+
+  ```console
+
+  $ klee image build -f Dockerfile.debug .
+
+  ```
+
+
+  This will use a file called `Dockerfile.debug` for the build instructions
+
+  instead of `Dockerfile`.
+
+
+  ```console
+
+  $ klee image build -f dockerfiles/Dockerfile.debug -t myapp_debug .
+
+  $ klee image build -f dockerfiles/Dockerfile.prod  -t myapp_prod .
+
+  ```
+
+
+  The previous commands will build the current build context (as specified by the
+
+  `.`) twice, once using a debug version of a `Dockerfile` and once using a
+
+  production version.
+
+
+  ### Set build-time variables (--build-arg)
+
+
+  You can use `ENV` instructions in a Dockerfile to define variable
+
+  values. These values persist in the built image. However, often
+
+  persistence is not what you want. Users want to specify variables differently
+
+  depending on which host they build an image on.
+
+
+  A good example is `HTTP_PROXY` for pulling intermediate files.
+
+  The `ARG` instruction lets Dockerfile authors define values that users
+
+  can set at build-time using the  `--build-arg` flag:
+
+
+  ```console
+
+  $ klee image build --build-arg HTTP_PROXY=http://10.20.30.2:1234 .
+
+  ```
+
+
+  This flag allows you to pass the build-time variables that are
+
+  accessed like regular environment variables in the `RUN` instruction of the
+
+  Dockerfile. Also, these values don''t persist in the intermediate or final images
+
+  like `ENV` values do. You must add `--build-arg` for each build argument.
+
+
+  Using this flag will not alter the output you see when the `ARG` lines from the
+
+  Dockerfile are echoed during the build process.
+
+
+  For detailed information on using `ARG` and `ENV` instructions, see the
+
+  [Dockerfile reference](../builder.md).
+
+  '
 experimental: false
 experimentalcli: false
 long: 'The `klee image build` command builds images from a Dockerfile and a
@@ -83,7 +184,7 @@ long: 'The `klee image build` command builds images from a Dockerfile and a
 
   context. For example, your build can use a [*COPY*](../builder.md#copy)
 
-  instruction to reference a file in the context.
+  instruction to copy a file from the context path into the build container.
 
 
   Note that `PATH` refers to a location in the filesystem on the host where Kleened
@@ -101,23 +202,12 @@ long: 'The `klee image build` command builds images from a Dockerfile and a
 
   This is useful in cases where the same set of files are used for multiple builds.
 
-  The path must be to a file within the build context.
-
-  If a relative path is specified then it is interpreted as relative to the root of
-
-  the context.
+  the context. The path is interpreted relative to the context `PATH`.
 
 
   In most cases, it''s best to put each Dockerfile in an empty directory. Then,
 
   add to that directory only the files needed for building the Dockerfile.
-
-
-  If the Docker client loses connection to the daemon, the build is canceled.
-
-  This happens if you interrupt the Docker client with `CTRL-c` or if the Docker
-
-  client is killed for any reason.
 
   '
 options:

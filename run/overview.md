@@ -272,7 +272,7 @@ examples on using the [`--rm` (clean up)](#clean-up---rm) flag later in this pag
 
 ## Runtime constraints on resources
 
-FIXME: Describe the possible ways of constratining container resources using `rctl(8)` + `jail`-params + `devfs.conf/devfs.rules`
+FIXME: Describe the possible ways of constratining container resources using `rctl(8)` + `jail`-params (especiall `persist`) + `devfs.conf/devfs.rules`
 
 
 ## Overriding Dockerfile image defaults

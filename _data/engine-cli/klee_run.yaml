@@ -1,427 +1,236 @@
 command: klee run
 deprecated: false
-examples: "### <a name=\"name\"></a> Assign name and allocate pseudo-TTY (--name,\
-  \ -it)\n\n```console\n$ docker run --name test -it debian\n\nroot@d6c0fe130dba:/#\
-  \ exit 13\n$ echo $?\n13\n$ docker ps -a | grep test\nd6c0fe130dba        debian:7\
-  \            \"/bin/bash\"         26 seconds ago      Exited (13) 17 seconds ago\
-  \                         test\n```\n\nThis example runs a container named `test`\
-  \ using the `debian:latest`\nimage. The `-it` instructs Docker to allocate a pseudo-TTY\
-  \ connected to\nthe container's stdin; creating an interactive `bash` shell in the\
-  \ container.\nIn the example, the `bash` shell is quit by entering\n`exit 13`. This\
-  \ exit code is passed on to the caller of\n`docker run`, and is recorded in the\
-  \ `test` container's metadata.\n\n### <a name=\"cidfile\"></a> Capture container\
-  \ ID (--cidfile)\n\n```console\n$ docker run --cidfile /tmp/docker_test.cid ubuntu\
-  \ echo \"test\"\n```\n\nThis will create a container and print `test` to the console.\
-  \ The `cidfile`\nflag makes Docker attempt to create a new file and write the container\
-  \ ID to it.\nIf the file exists already, Docker will return an error. Docker will\
-  \ close this\nfile when `docker run` exits.\n\n### <a name=\"privileged\"></a> Full\
-  \ container capabilities (--privileged)\n\n```console\n$ docker run -t -i --rm ubuntu\
-  \ bash\nroot@bc338942ef20:/# mount -t tmpfs none /mnt\nmount: permission denied\n\
-  ```\n\nThis will *not* work, because by default, most potentially dangerous kernel\n\
-  capabilities are dropped; including `cap_sys_admin` (which is required to mount\n\
-  filesystems). However, the `--privileged` flag will allow it to run:\n\n```console\n\
-  $ docker run -t -i --privileged ubuntu bash\nroot@50e3f57e16e6:/# mount -t tmpfs\
-  \ none /mnt\nroot@50e3f57e16e6:/# df -h\nFilesystem      Size  Used Avail Use% Mounted\
-  \ on\nnone            1.9G     0  1.9G   0% /mnt\n```\n\nThe `--privileged` flag\
-  \ gives *all* capabilities to the container, and it also\nlifts all the limitations\
-  \ enforced by the `device` cgroup controller. In other\nwords, the container can\
-  \ then do almost everything that the host can do. This\nflag exists to allow special\
-  \ use-cases, like running Docker within Docker.\n\n### <a name=\"workdir\"></a>\
-  \ Set working directory (-w, --workdir)\n\n```console\n$ docker  run -w /path/to/dir/\
-  \ -i -t  ubuntu pwd\n```\n\nThe `-w` lets the command being executed inside directory\
-  \ given, here\n`/path/to/dir/`. If the path does not exist it is created inside\
-  \ the container.\n\n### <a name=\"storage-opt\"></a> Set storage driver options\
-  \ per container (--storage-opt)\n\n```console\n$ docker run -it --storage-opt size=120G\
-  \ fedora /bin/bash\n```\n\nThis (size) will allow to set the container filesystem\
-  \ size to 120G at creation time.\nThis option is only available for the `devicemapper`,\
-  \ `btrfs`, `overlay2`,\n`windowsfilter` and `zfs` graph drivers.\nFor the `devicemapper`,\
-  \ `btrfs`, `windowsfilter` and `zfs` graph drivers,\nuser cannot pass a size less\
-  \ than the Default BaseFS Size.\nFor the `overlay2` storage driver, the size option\
-  \ is only available if the\nbacking filesystem is `xfs` and mounted with the `pquota`\
-  \ mount option.\nUnder these conditions, user can pass any size less than the backing\
-  \ filesystem size.\n\n### <a name=\"tmpfs\"></a> Mount tmpfs (--tmpfs)\n\n```console\n\
-  $ docker run -d --tmpfs /run:rw,noexec,nosuid,size=65536k my_image\n```\n\nThe `--tmpfs`\
-  \ flag mounts an empty tmpfs into the container with the `rw`,\n`noexec`, `nosuid`,\
-  \ `size=65536k` options.\n\n### <a name=\"volume\"></a> Mount volume (-v, --read-only)\n\
-  \n```console\n$ docker  run  -v `pwd`:`pwd` -w `pwd` -i -t  ubuntu pwd\n```\n\n\
-  The `-v` flag mounts the current working directory into the container. The `-w`\n\
-  lets the command being executed inside the current working directory, by\nchanging\
-  \ into the directory to the value returned by `pwd`. So this\ncombination executes\
-  \ the command using the container, but inside the\ncurrent working directory.\n\n\
-  ```console\n$ docker run -v /doesnt/exist:/foo -w /foo -i -t ubuntu bash\n```\n\n\
-  When the host directory of a bind-mounted volume doesn't exist, Docker\nwill automatically\
-  \ create this directory on the host for you. In the\nexample above, Docker will\
-  \ create the `/doesnt/exist`\nfolder before starting your container.\n\n```console\n\
-  $ docker run --read-only -v /icanwrite busybox touch /icanwrite/here\n```\n\nVolumes\
-  \ can be used in combination with `--read-only` to control where\na container writes\
-  \ files. The `--read-only` flag mounts the container's root\nfilesystem as read\
-  \ only prohibiting writes to locations other than the\nspecified volumes for the\
-  \ container.\n\n```console\n$ docker run -t -i -v /var/run/docker.sock:/var/run/docker.sock\
-  \ -v /path/to/static-docker-binary:/usr/bin/docker busybox sh\n```\n\nBy bind-mounting\
-  \ the Docker Unix socket and statically linked Docker\nbinary (refer to [get the\
-  \ Linux binary](https://docs.docker.com/engine/install/binaries/#install-static-binaries)),\n\
-  you give the container the full access to create and manipulate the host's\nDocker\
-  \ daemon.\n\nOn Windows, the paths must be specified using Windows-style semantics.\n\
-  \n```powershell\nPS C:\\> docker run -v c:\\foo:c:\\dest microsoft/nanoserver cmd\
-  \ /s /c type c:\\dest\\somefile.txt\nContents of file\n\nPS C:\\> docker run -v\
-  \ c:\\foo:d: microsoft/nanoserver cmd /s /c type d:\\somefile.txt\nContents of file\n\
-  ```\n\nThe following examples will fail when using Windows-based containers, as\
-  \ the\ndestination of a volume or bind mount inside the container must be one of:\n\
-  a non-existing or empty directory; or a drive other than C:. Further, the source\n\
-  of a bind mount must be a local directory, not a file.\n\n```powershell\nnet use\
-  \ z: \\\\remotemachine\\share\ndocker run -v z:\\foo:c:\\dest ...\ndocker run -v\
-  \ \\\\uncpath\\to\\directory:c:\\dest ...\ndocker run -v c:\\foo\\somefile.txt:c:\\\
-  dest ...\ndocker run -v c:\\foo:c: ...\ndocker run -v c:\\foo:c:\\existing-directory-with-contents\
-  \ ...\n```\n\nFor in-depth information about volumes, refer to [manage data in containers](https://docs.docker.com/storage/volumes/)\n\
-  \n\n### <a name=\"mount\"></a> Add bind mounts or volumes using the --mount flag\n\
-  \nThe `--mount` flag allows you to mount volumes, host-directories and `tmpfs`\n\
-  mounts in a container.\n\nThe `--mount` flag supports most options that are supported\
-  \ by the `-v` or the\n`--volume` flag, but uses a different syntax. For in-depth\
-  \ information on the\n`--mount` flag, and a comparison between `--volume` and `--mount`,\
-  \ refer to\n[Bind mounts](https://docs.docker.com/storage/bind-mounts/).\n\nEven\
-  \ though there is no plan to deprecate `--volume`, usage of `--mount` is recommended.\n\
-  \nExamples:\n\n```console\n$ docker run --read-only --mount type=volume,target=/icanwrite\
-  \ busybox touch /icanwrite/here\n```\n\n```console\n$ docker run -t -i --mount type=bind,src=/data,dst=/data\
-  \ busybox sh\n```\n\n### <a name=\"publish\"></a> Publish or expose port (-p, --expose)\n\
-  \n```console\n$ docker run -p 127.0.0.1:80:8080/tcp ubuntu bash\n```\n\nThis binds\
-  \ port `8080` of the container to TCP port `80` on `127.0.0.1` of the host\nmachine.\
-  \ You can also specify `udp` and `sctp` ports.\nThe [Docker User Guide](https://docs.docker.com/network/links/)\n\
-  explains in detail how to manipulate ports in Docker.\n\nNote that ports which are\
-  \ not bound to the host (i.e., `-p 80:80` instead of\n`-p 127.0.0.1:80:80`) will\
-  \ be accessible from the outside. This also applies if\nyou configured UFW to block\
-  \ this specific port, as Docker manages its\nown iptables rules. [Read more](https://docs.docker.com/network/iptables/)\n\
-  \n```console\n$ docker run --expose 80 ubuntu bash\n```\n\nThis exposes port `80`\
-  \ of the container without publishing the port to the host\nsystem's interfaces.\n\
-  \n### <a name=\"pull\"></a> Set the pull policy (--pull)\n\nUse the `--pull` flag\
-  \ to set the image pull policy when creating (and running)\nthe container.\n\nThe\
-  \ `--pull` flag can take one of these values:\n\n| Value               | Description\
-  \                                                                              \
-  \                         |\n|:--------------------|:------------------------------------------------------------------------------------------------------------------|\n\
-  | `missing` (default) | Pull the image if it was not found in the image cache, or\
-  \ use the cached image otherwise.                         |\n| `never`         \
-  \    | Do not pull the image, even if it's missing, and produce an error if the\
-  \ image does not exist in the image cache. |\n| `always`            | Always perform\
-  \ a pull before creating the container.                                        \
-  \                      |\n\nWhen creating (and running) a container from an image,\
-  \ the daemon checks if the\nimage exists in the local image cache. If the image\
-  \ is missing, an error is\nreturned to the CLI, allowing it to initiate a pull.\n\
-  \nThe default (`missing`) is to only pull the image if it is not present in the\n\
-  daemon's image cache. This default allows you to run images that only exist\nlocally\
-  \ (for example, images you built from a Dockerfile, but that have not\nbeen pushed\
-  \ to a registry), and reduces networking.\n\nThe `always` option always initiates\
-  \ a pull before creating the container. This\noption makes sure the image is up-to-date,\
-  \ and prevents you from using outdated\nimages, but may not be suitable in situations\
-  \ where you want to test a locally\nbuilt image before pushing (as pulling the image\
-  \ overwrites the existing image\nin the image cache).\n\nThe `never` option disables\
-  \ (implicit) pulling images when creating containers,\nand only uses images that\
-  \ are available in the image cache. If the specified\nimage is not found, an error\
-  \ is produced, and the container is not created.\nThis option is useful in situations\
-  \ where networking is not available, or to\nprevent images from being pulled implicitly\
-  \ when creating containers.\n\nThe following example shows `docker run` with the\
-  \ `--pull=never` option set,\nwhich produces en error as the image is missing in\
-  \ the image-cache:\n\n```console\n$ docker run --pull=never hello-world\ndocker:\
-  \ Error response from daemon: No such image: hello-world:latest.\n```\n\n### <a\
-  \ name=\"env\"></a> Set environment variables (-e, --env, --env-file)\n\n```console\n\
-  $ docker run -e MYVAR1 --env MYVAR2=foo --env-file ./env.list ubuntu bash\n```\n\
-  \nUse the `-e`, `--env`, and `--env-file` flags to set simple (non-array)\nenvironment\
-  \ variables in the container you're running, or overwrite variables\nthat are defined\
-  \ in the Dockerfile of the image you're running.\n\nYou can define the variable\
-  \ and its value when running the container:\n\n```console\n$ docker run --env VAR1=value1\
-  \ --env VAR2=value2 ubuntu env | grep VAR\nVAR1=value1\nVAR2=value2\n```\n\nYou\
-  \ can also use variables that you've exported to your local environment:\n\n```console\n\
-  export VAR1=value1\nexport VAR2=value2\n\n$ docker run --env VAR1 --env VAR2 ubuntu\
-  \ env | grep VAR\nVAR1=value1\nVAR2=value2\n```\n\nWhen running the command, the\
-  \ Docker CLI client checks the value the variable\nhas in your local environment\
-  \ and passes it to the container.\nIf no `=` is provided and that variable is not\
-  \ exported in your local\nenvironment, the variable won't be set in the container.\n\
-  \nYou can also load the environment variables from a file. This file should use\n\
-  the syntax `<variable>=value` (which sets the variable to the given value) or\n\
-  `<variable>` (which takes the value from the local environment), and `#` for comments.\n\
-  \n```console\n$ cat env.list\n# This is a comment\nVAR1=value1\nVAR2=value2\nUSER\n\
-  \n$ docker run --env-file env.list ubuntu env | grep -E 'VAR|USER'\nVAR1=value1\n\
-  VAR2=value2\nUSER=jonzeolla\n```\n\n### <a name=\"label\"></a> Set metadata on container\
-  \ (-l, --label, --label-file)\n\nA label is a `key=value` pair that applies metadata\
-  \ to a container. To label a container with two labels:\n\n```console\n$ docker\
-  \ run -l my-label --label com.example.foo=bar ubuntu bash\n```\n\nThe `my-label`\
-  \ key doesn't specify a value so the label defaults to an empty\nstring (`\"\"`).\
-  \ To add multiple labels, repeat the label flag (`-l` or `--label`).\n\nThe `key=value`\
-  \ must be unique to avoid overwriting the label value. If you\nspecify labels with\
-  \ identical keys but different values, each subsequent value\noverwrites the previous.\
-  \ Docker uses the last `key=value` you supply.\n\nUse the `--label-file` flag to\
-  \ load multiple labels from a file. Delimit each\nlabel in the file with an EOL\
-  \ mark. The example below loads labels from a\nlabels file in the current directory:\n\
-  \n```console\n$ docker run --label-file ./labels ubuntu bash\n```\n\nThe label-file\
-  \ format is similar to the format for loading environment\nvariables. (Unlike environment\
-  \ variables, labels are not visible to processes\nrunning inside a container.) The\
-  \ following example illustrates a label-file\nformat:\n\n```console\ncom.example.label1=\"\
-  a label\"\n\n# this is a comment\ncom.example.label2=another\\ label\ncom.example.label3\n\
-  ```\n\nYou can load multiple label-files by supplying multiple  `--label-file` flags.\n\
-  \nFor additional information on working with labels, see [*Labels - custom\nmetadata\
-  \ in Docker*](https://docs.docker.com/config/labels-custom-metadata/) in\nthe Docker\
-  \ User Guide.\n\n### <a name=\"network\"></a> Connect a container to a network (--network)\n\
-  \nWhen you start a container use the `--network` flag to connect it to a network.\n\
-  The following commands create a network named `my-net`, and adds a `busybox` container\n\
-  to the `my-net` network.\n\n```console\n$ docker network create my-net\n$ docker\
-  \ run -itd --network=my-net busybox\n```\n\nYou can also choose the IP addresses\
-  \ for the container with `--ip` and `--ip6`\nflags when you start the container\
-  \ on a user-defined network.\n\n```console\n$ docker run -itd --network=my-net --ip=10.10.9.75\
-  \ busybox\n```\n\nIf you want to add a running container to a network use the `docker\
-  \ network connect` subcommand.\n\nYou can connect multiple containers to the same\
-  \ network. Once connected, the\ncontainers can communicate easily using only another\
-  \ container's IP address\nor name. For `overlay` networks or custom plugins that\
-  \ support multi-host\nconnectivity, containers connected to the same multi-host\
-  \ network but launched\nfrom different Engines can also communicate in this way.\n\
-  \n> **Note**\n>\n> The default bridge network only allow containers to communicate\
-  \ with each other using\n> internal IP addresses. User-created bridge networks provide\
-  \ DNS resolution between\n> containers using container names.\n\nYou can disconnect\
-  \ a container from a network using the `docker network\ndisconnect` command.\n\n\
-  ### <a name=\"volumes-from\"></a> Mount volumes from container (--volumes-from)\n\
-  \n```console\n$ docker run --volumes-from 777f7dc92da7 --volumes-from ba8c0c54f0f2:ro\
-  \ -i -t ubuntu pwd\n```\n\nThe `--volumes-from` flag mounts all the defined volumes\
-  \ from the referenced\ncontainers. Containers can be specified by repetitions of\
-  \ the `--volumes-from`\nargument. The container ID may be optionally suffixed with\
-  \ `:ro` or `:rw` to\nmount the volumes in read-only or read-write mode, respectively.\
-  \ By default,\nthe volumes are mounted in the same mode (read write or read only)\
-  \ as\nthe reference container.\n\nLabeling systems like SELinux require that proper\
-  \ labels are placed on volume\ncontent mounted into a container. Without a label,\
-  \ the security system might\nprevent the processes running inside the container\
-  \ from using the content. By\ndefault, Docker does not change the labels set by\
-  \ the OS.\n\nTo change the label in the container context, you can add either of\
-  \ two suffixes\n`:z` or `:Z` to the volume mount. These suffixes tell Docker to\
-  \ relabel file\nobjects on the shared volumes. The `z` option tells Docker that\
-  \ two containers\nshare the volume content. As a result, Docker labels the content\
-  \ with a shared\ncontent label. Shared volume labels allow all containers to read/write\
-  \ content.\nThe `Z` option tells Docker to label the content with a private unshared\
-  \ label.\nOnly the current container can use a private volume.\n\n### <a name=\"\
-  attach\"></a> Attach to STDIN/STDOUT/STDERR (-a, --attach)\n\nThe `--attach` (or\
-  \ `-a`) flag tells `docker run` to bind to the container's\n`STDIN`, `STDOUT` or\
-  \ `STDERR`. This makes it possible to manipulate the output\nand input as needed.\n\
-  \n```console\n$ echo \"test\" | docker run -i -a stdin ubuntu cat -\n```\n\nThis\
-  \ pipes data into a container and prints the container's ID by attaching\nonly to\
-  \ the container's `STDIN`.\n\n```console\n$ docker run -a stderr ubuntu echo test\n\
-  ```\n\nThis isn't going to print anything unless there's an error because we've\n\
-  only attached to the `STDERR` of the container. The container's logs\nstill store\
-  \ what's been written to `STDERR` and `STDOUT`.\n\n```console\n$ cat somefile |\
-  \ docker run -i -a stdin mybuilder dobuild\n```\n\nThis is a way of using `--attach`\
-  \ to pipe a build file into a container.\nThe container's ID will be printed after\
-  \ the build is done and the build\nlogs could be retrieved using `docker logs`.\
-  \ This is\nuseful if you need to pipe a file or something else into a container\
-  \ and\nretrieve the container's ID once the container has finished running.\n\n\
-  See also [the `docker cp` command](cp.md).\n\n### <a name=\"device\"></a> Add host\
-  \ device to container (--device)\n\n```console\n$ docker run -it --rm \\\n    --device=/dev/sdc:/dev/xvdc\
-  \ \\\n    --device=/dev/sdd \\\n    --device=/dev/zero:/dev/foobar \\\n    ubuntu\
-  \ ls -l /dev/{xvdc,sdd,foobar}\n\nbrw-rw---- 1 root disk 8, 2 Feb  9 16:05 /dev/xvdc\n\
-  brw-rw---- 1 root disk 8, 3 Feb  9 16:05 /dev/sdd\ncrw-rw-rw- 1 root root 1, 5 Feb\
-  \  9 16:05 /dev/foobar\n```\n\nIt is often necessary to directly expose devices\
-  \ to a container. The `--device`\noption enables that. For example, a specific block\
-  \ storage device or loop\ndevice or audio device can be added to an otherwise unprivileged\
-  \ container\n(without the `--privileged` flag) and have the application directly\
-  \ access it.\n\nBy default, the container will be able to `read`, `write` and `mknod`\
-  \ these devices.\nThis can be overridden using a third `:rwm` set of options to\
-  \ each `--device`\nflag. If the container is running in privileged mode, then the\
-  \ permissions specified\nwill be ignored.\n\n```console\n$ docker run --device=/dev/sda:/dev/xvdc\
-  \ --rm -it ubuntu fdisk  /dev/xvdc\n\nCommand (m for help): q\n$ docker run --device=/dev/sda:/dev/xvdc:r\
-  \ --rm -it ubuntu fdisk  /dev/xvdc\nYou will not be able to write the partition\
-  \ table.\n\nCommand (m for help): q\n\n$ docker run --device=/dev/sda:/dev/xvdc:rw\
-  \ --rm -it ubuntu fdisk  /dev/xvdc\n\nCommand (m for help): q\n\n$ docker run --device=/dev/sda:/dev/xvdc:m\
-  \ --rm -it ubuntu fdisk  /dev/xvdc\nfdisk: unable to open /dev/xvdc: Operation not\
-  \ permitted\n```\n\n> **Note**\n>\n> The `--device` option cannot be safely used\
-  \ with ephemeral devices. Block devices\n> that may be removed should not be added\
-  \ to untrusted containers with `--device`.\n\nFor Windows, the format of the string\
-  \ passed to the `--device` option is in\nthe form of `--device=<IdType>/<Id>`. Beginning\
-  \ with Windows Server 2019\nand Windows 10 October 2018 Update, Windows only supports\
-  \ an IdType of\n`class` and the Id as a [device interface class\nGUID](https://docs.microsoft.com/en-us/windows-hardware/drivers/install/overview-of-device-interface-classes).\n\
-  Refer to the table defined in the [Windows container\ndocs](https://docs.microsoft.com/en-us/virtualization/windowscontainers/deploy-containers/hardware-devices-in-containers)\n\
-  for a list of container-supported device interface class GUIDs.\n\nIf this option\
-  \ is specified for a process-isolated Windows container, _all_\ndevices that implement\
-  \ the requested device interface class GUID are made\navailable in the container.\
-  \ For example, the command below makes all COM\nports on the host visible in the\
-  \ container.\n\n```powershell\nPS C:\\> docker run --device=class/86E0D1E0-8089-11D0-9CE4-08003E301F73\
-  \ mcr.microsoft.com/windows/servercore:ltsc2019\n```\n\n> **Note**\n>\n> The `--device`\
-  \ option is only supported on process-isolated Windows containers.\n> This option\
-  \ fails if the container isolation is `hyperv` or when running Linux\n> Containers\
-  \ on Windows (LCOW).\n\n### <a name=\"device-cgroup-rule\"></a> Using dynamically\
-  \ created devices (--device-cgroup-rule)\n\nDevices available to a container are\
-  \ assigned at creation time. The\nassigned devices will both be added to the cgroup.allow\
-  \ file and\ncreated into the container once it is run. This poses a problem when\n\
-  a new device needs to be added to running container.\n\nOne of the solutions is\
-  \ to add a more permissive rule to a container\nallowing it access to a wider range\
-  \ of devices. For example, supposing\nour container needs access to a character\
-  \ device with major `42` and\nany number of minor number (added as new devices appear),\
-  \ the\nfollowing rule would be added:\n\n```console\n$ docker run -d --device-cgroup-rule='c\
-  \ 42:* rmw' -name my-container my-image\n```\n\nThen, a user could ask `udev` to\
-  \ execute a script that would `docker exec my-container mknod newDevX c 42 <minor>`\n\
-  the required device when it is added.\n\n> **Note**: initially present devices still\
-  \ need to be explicitly added to the\n> `docker run` / `docker create` command.\n\
-  \n### <a name=\"gpus\"></a> Access an NVIDIA GPU\n\nThe `--gpus` flag allows you\
-  \ to access NVIDIA GPU resources. First you need to\ninstall [nvidia-container-runtime](https://nvidia.github.io/nvidia-container-runtime/).\n\
-  Visit [Specify a container's resources](https://docs.docker.com/config/containers/resource_constraints/)\n\
-  for more information.\n\nTo use `--gpus`, specify which GPUs (or all) to use. If\
-  \ no value is provided, all\navailable GPUs are used. The example below exposes\
-  \ all available GPUs.\n\n```console\n$ docker run -it --rm --gpus all ubuntu nvidia-smi\n\
-  ```\n\nUse the `device` option to specify GPUs. The example below exposes a specific\n\
-  GPU.\n\n```console\n$ docker run -it --rm --gpus device=GPU-3a23c669-1f69-c64e-cf85-44e9b07e7a2a\
-  \ ubuntu nvidia-smi\n```\n\nThe example below exposes the first and third GPUs.\n\
-  \n```console\n$ docker run -it --rm --gpus '\"device=0,2\"' nvidia-smi\n```\n\n\
-  ### <a name=\"restart\"></a> Restart policies (--restart)\n\nUse Docker's `--restart`\
-  \ to specify a container's *restart policy*. A restart\npolicy controls whether\
-  \ the Docker daemon restarts a container after exit.\nDocker supports the following\
-  \ restart policies:\n\n| Policy                     | Result                   \
-  \                                                                              \
-  \                                                                              \
-  \                                                                            |\n\
-  |:---------------------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|\n\
-  | `no`                       | Do not automatically restart the container when it\
-  \ exits. This is the default.                                                  \
-  \                                                                              \
-  \                                                   |\n| `on-failure[:max-retries]`\
-  \ | Restart only if the container exits with a non-zero exit status. Optionally,\
-  \ limit the number of restart retries the Docker daemon attempts.              \
-  \                                                                              \
-  \                         |\n| `unless-stopped`           | Restart the container\
-  \ unless it is explicitly stopped or Docker itself is stopped or restarted.    \
-  \                                                                              \
-  \                                                                              \
-  \  |\n| `always`                   | Always restart the container regardless of\
-  \ the exit status. When you specify always, the Docker daemon will try to restart\
-  \ the container indefinitely. The container will also always start on daemon startup,\
-  \ regardless of the current state of the container. |\n\n```console\n$ docker run\
-  \ --restart=always redis\n```\n\nThis will run the `redis` container with a restart\
-  \ policy of **always**\nso that if the container exits, Docker will restart it.\n\
-  \nMore detailed information on restart policies can be found in the\n[Restart Policies\
-  \ (--restart)](../run.md#restart-policies---restart)\nsection of the Docker run\
-  \ reference page.\n\n### <a name=\"add-host\"></a> Add entries to container hosts\
-  \ file (--add-host)\n\nYou can add other hosts into a container's `/etc/hosts` file\
-  \ by using one or\nmore `--add-host` flags. This example adds a static address for\
-  \ a host named\n`docker`:\n\n```console\n$ docker run --add-host=docker:93.184.216.34\
-  \ --rm -it alpine\n\n/ # ping docker\nPING docker (93.184.216.34): 56 data bytes\n\
-  64 bytes from 93.184.216.34: seq=0 ttl=37 time=93.052 ms\n64 bytes from 93.184.216.34:\
-  \ seq=1 ttl=37 time=92.467 ms\n64 bytes from 93.184.216.34: seq=2 ttl=37 time=92.252\
-  \ ms\n^C\n--- docker ping statistics ---\n4 packets transmitted, 4 packets received,\
-  \ 0% packet loss\nround-trip min/avg/max = 92.209/92.495/93.052 ms\n```\n\nSometimes\
-  \ you need to connect to the Docker host from within your\ncontainer. To enable\
-  \ this, pass the Docker host's IP address to\nthe container using the `--add-host`\
-  \ flag. To find the host's address,\nuse the `ip addr show` command.\n\nThe flags\
-  \ you pass to `ip addr show` depend on whether you are\nusing IPv4 or IPv6 networking\
-  \ in your containers. Use the following\nflags for IPv4 address retrieval for a\
-  \ network device named `eth0`:\n\n```console\n$ HOSTIP=`ip -4 addr show scope global\
-  \ dev eth0 | grep inet | awk '{print $2}' | cut -d / -f 1 | sed -n 1p`\n$ docker\
-  \ run  --add-host=docker:${HOSTIP} --rm -it debian\n```\n\nFor IPv6 use the `-6`\
-  \ flag instead of the `-4` flag. For other network\ndevices, replace `eth0` with\
-  \ the correct device name (for example `docker0`\nfor the bridge device).\n\n###\
-  \ <a name=\"ulimit\"></a> Set ulimits in container (--ulimit)\n\nSince setting `ulimit`\
-  \ settings in a container requires extra privileges not\navailable in the default\
-  \ container, you can set these using the `--ulimit` flag.\n`--ulimit` is specified\
-  \ with a soft and hard limit as such:\n`<type>=<soft limit>[:<hard limit>]`, for\
-  \ example:\n\n```console\n$ docker run --ulimit nofile=1024:1024 --rm debian sh\
-  \ -c \"ulimit -n\"\n1024\n```\n\n> **Note**\n>\n> If you do not provide a `hard\
-  \ limit`, the `soft limit` is used\n> for both values. If no `ulimits` are set,\
-  \ they are inherited from\n> the default `ulimits` set on the daemon. The `as` option\
-  \ is disabled now.\n> In other words, the following script is not supported:\n>\n\
-  > ```console\n> $ docker run -it --ulimit as=1024 fedora /bin/bash\n> ```\n\nThe\
-  \ values are sent to the appropriate `syscall` as they are set.\nDocker doesn't\
-  \ perform any byte conversion. Take this into account when setting the values.\n\
-  \n#### For `nproc` usage\n\nBe careful setting `nproc` with the `ulimit` flag as\
-  \ `nproc` is designed by Linux to set the\nmaximum number of processes available\
-  \ to a user, not to a container. For example, start four\ncontainers with `daemon`\
-  \ user:\n\n```console\n$ docker run -d -u daemon --ulimit nproc=3 busybox top\n\n\
-  $ docker run -d -u daemon --ulimit nproc=3 busybox top\n\n$ docker run -d -u daemon\
-  \ --ulimit nproc=3 busybox top\n\n$ docker run -d -u daemon --ulimit nproc=3 busybox\
-  \ top\n```\n\nThe 4th container fails and reports \"[8] System error: resource temporarily\
-  \ unavailable\" error.\nThis fails because the caller set `nproc=3` resulting in\
-  \ the first three containers using up\nthe three processes quota set for the `daemon`\
-  \ user.\n\n### <a name=\"stop-signal\"></a> Stop container with signal (--stop-signal)\n\
-  \nThe `--stop-signal` flag sets the system call signal that will be sent to the\n\
-  container to exit. This signal can be a signal name in the format `SIG<NAME>`,\n\
-  for instance `SIGKILL`, or an unsigned number that matches a position in the\nkernel's\
-  \ syscall table, for instance `9`.\n\nThe default is `SIGTERM` if not specified.\n\
-  \n### <a name=\"security-opt\"></a> Optional security options (--security-opt)\n\
-  \nOn Windows, this flag can be used to specify the `credentialspec` option.\nThe\
-  \ `credentialspec` must be in the format `file://spec.txt` or `registry://keyname`.\n\
-  \n### <a name=\"stop-timeout\"></a> Stop container with timeout (--stop-timeout)\n\
-  \nThe `--stop-timeout` flag sets the number of seconds to wait for the container\n\
-  to stop after sending the pre-defined (see `--stop-signal`) system call signal.\n\
-  If the container does not exit after the timeout elapses, it is forcibly killed\n\
-  with a `SIGKILL` signal.\n\nIf `--stop-timeout` is set to `-1`, no timeout is applied,\
-  \ and the daemon will\nwait indefinitely for the container to exit.\n\nThe default\
-  \ is determined by the daemon, and is 10 seconds for Linux containers,\nand 30 seconds\
-  \ for Windows containers.\n\n### <a name=\"isolation\"></a> Specify isolation technology\
-  \ for container (--isolation)\n\nThis option is useful in situations where you are\
-  \ running Docker containers on\nWindows. The `--isolation=<value>` option sets a\
-  \ container's isolation technology.\nOn Linux, the only supported is the `default`\
-  \ option which uses Linux namespaces.\nThese two commands are equivalent on Linux:\n\
-  \n```console\n$ docker run -d busybox top\n$ docker run -d --isolation default busybox\
-  \ top\n```\n\nOn Windows, `--isolation` can take one of these values:\n\n| Value\
-  \     | Description                                                            \
-  \                    |\n|:----------|:-------------------------------------------------------------------------------------------|\n\
-  | `default` | Use the value specified by the Docker daemon's `--exec-opt` or system\
-  \ default (see below). |\n| `process` | Shared-kernel namespace isolation.     \
-  \                                                    |\n| `hyperv`  | Hyper-V hypervisor\
-  \ partition-based isolation.                                              |\n\n\
-  The default isolation on Windows server operating systems is `process`, and `hyperv`\n\
-  on Windows client operating systems, such as Windows 10. Process isolation has better\n\
-  performance, but requires that the image and host use the same kernel version.\n\
-  \nOn Windows server, assuming the default configuration, these commands are equivalent\n\
-  and result in `process` isolation:\n\n```powershell\nPS C:\\> docker run -d microsoft/nanoserver\
-  \ powershell echo process\nPS C:\\> docker run -d --isolation default microsoft/nanoserver\
-  \ powershell echo process\nPS C:\\> docker run -d --isolation process microsoft/nanoserver\
-  \ powershell echo process\n```\n\nIf you have set the `--exec-opt isolation=hyperv`\
-  \ option on the Docker `daemon`, or\nare running against a Windows client-based\
-  \ daemon, these commands are equivalent and\nresult in `hyperv` isolation:\n\n```powershell\n\
-  PS C:\\> docker run -d microsoft/nanoserver powershell echo hyperv\nPS C:\\> docker\
-  \ run -d --isolation default microsoft/nanoserver powershell echo hyperv\nPS C:\\\
-  > docker run -d --isolation hyperv microsoft/nanoserver powershell echo hyperv\n\
-  ```\n\n### <a name=\"memory\"></a> Specify hard limits on memory available to containers\
-  \ (-m, --memory)\n\nThese parameters always set an upper limit on the memory available\
-  \ to the container. On Linux, this\nis set on the cgroup and applications in a container\
-  \ can query it at `/sys/fs/cgroup/memory/memory.limit_in_bytes`.\n\nOn Windows,\
-  \ this will affect containers differently depending on what type of isolation is\
-  \ used.\n\n- With `process` isolation, Windows will report the full memory of the\
-  \ host system, not the limit to applications running inside the container\n\n  \
-  \  ```powershell\n    PS C:\\> docker run -it -m 2GB --isolation=process microsoft/nanoserver\
-  \ powershell Get-ComputerInfo *memory*\n\n    CsTotalPhysicalMemory      : 17064509440\n\
-  \    CsPhyicallyInstalledMemory : 16777216\n    OsTotalVisibleMemorySize   : 16664560\n\
-  \    OsFreePhysicalMemory       : 14646720\n    OsTotalVirtualMemorySize   : 19154928\n\
-  \    OsFreeVirtualMemory        : 17197440\n    OsInUseVirtualMemory       : 1957488\n\
-  \    OsMaxProcessMemorySize     : 137438953344\n    ```\n\n- With `hyperv` isolation,\
-  \ Windows will create a utility VM that is big enough to hold the memory limit,\
-  \ plus the minimal OS needed to host the container. That size is reported as \"\
-  Total Physical Memory.\"\n\n    ```powershell\n    PS C:\\> docker run -it -m 2GB\
-  \ --isolation=hyperv microsoft/nanoserver powershell Get-ComputerInfo *memory*\n\
-  \n    CsTotalPhysicalMemory      : 2683355136\n    CsPhyicallyInstalledMemory :\n\
-  \    OsTotalVisibleMemorySize   : 2620464\n    OsFreePhysicalMemory       : 2306552\n\
-  \    OsTotalVirtualMemorySize   : 2620464\n    OsFreeVirtualMemory        : 2356692\n\
-  \    OsInUseVirtualMemory       : 263772\n    OsMaxProcessMemorySize     : 137438953344\n\
-  \    ```\n\n\n### <a name=\"sysctl\"></a> Configure namespaced kernel parameters\
-  \ (sysctls) at runtime (--sysctl)\n\nThe `--sysctl` sets namespaced kernel parameters\
-  \ (sysctls) in the\ncontainer. For example, to turn on IP forwarding in the containers\n\
-  network namespace, run this command:\n\n```console\n$ docker run --sysctl net.ipv4.ip_forward=1\
-  \ someimage\n```\n\n> **Note**\n>\n> Not all sysctls are namespaced. Docker does\
-  \ not support changing sysctls\n> inside of a container that also modify the host\
-  \ system. As the kernel\n> evolves we expect to see more sysctls become namespaced.\n\
-  \n#### Currently supported sysctls\n\nIPC Namespace:\n\n- `kernel.msgmax`, `kernel.msgmnb`,\
-  \ `kernel.msgmni`, `kernel.sem`,\n  `kernel.shmall`, `kernel.shmmax`, `kernel.shmmni`,\
-  \ `kernel.shm_rmid_forced`.\n- Sysctls beginning with `fs.mqueue.*`\n- If you use\
-  \ the `--ipc=host` option these sysctls are not allowed.\n\nNetwork Namespace:\n\
-  \n- Sysctls beginning with `net.*`\n- If you use the `--network=host` option using\
-  \ these sysctls are not allowed."
+examples: '
+
+  ### <a name="name"></a> Assign name and allocate pseudo-TTY (--name, -it)
+
+
+  ```console
+
+  $ klee run --name test -ait FreeBSD-13.2-STABLE /bin/sh
+
+  839aee293db2
+
+  created execution instance 176b56a85a4a
+
+  #
+
+  root@d6c0fe130dba:/# exit
+
+  exit
+
+
+  executable 176b56a85a4a and its container exited with exit-code 0
+
+  $
+
+  ```
+
+
+  This example runs a container named `test` using the `FreeBSD-13.2-STABLE:latest`
+
+  image. The `-ait` options instructs Kleene to allocate a pseudo-TTY connected to
+
+  the container''s stdin; creating an interactive Bourne shell in the container.
+
+  In the example, the Bourne shell is quit by entering `exit`.
+
+
+  ### <a name="volume"></a> Mount volume (-v, --read-only)
+
+
+  ```console
+
+  $ klee run -v /foo/bar -ait FreeBSD-13.2-STABLE /bin/sh
+
+  # ls /foo
+
+  bar
+
+  ```
+
+
+  When the target directory of a volume-mount doesn''t exist, Kleened
+
+  will automatically create this directory in the container. The previous example
+
+  caused Kleened to create `/foo/bar` folder before starting the container.
+
+
+  ```console
+
+  $ klee run -a -v /writeprotected:ro FreeBSD13.2-STABLE touch /writeprotected/here
+
+  50d478460a91
+
+  created execution instance badd96b047a5
+
+  touch: /writeprotected/here: Read-only file system
+
+  jail: /usr/bin/env -i touch /writeprotected/here: failed
+
+
+  executable badd96b047a5 and its container exited with exit-code 1
+
+  ```
+
+
+  Volumes can be mounted read-only to control where a container writes files.
+
+  The `:ro` option must be postfixed the mountpoint to mark the mount as read only.
+
+
+  ### <a name="env"></a> Set environment variables (-e, --env, --env-file)
+
+
+  You can define the variable and its value when running the container:
+
+
+  ```console
+
+  $ klee run -a --env VAR1=value1 --env VAR2=value2 FreeBSD-13.2-STABLE env | grep
+  VAR
+
+  VAR1=value1
+
+  VAR2=value2
+
+  ```
+
+
+  If you need to use variables that you''ve exported to your local environment:
+
+
+  ```console
+
+  export VAR1=value1
+
+  export VAR2=value2
+
+
+  $ klee run -a --env VAR1=$VAR1 --env VAR2=$VAR2 FreeBSD-13.2-STABLE env | grep VAR
+
+  VAR1=value1
+
+  VAR2=value2
+
+  ```
+
+
+  ### <a name="network"></a> Connect a container to a network (--network)
+
+
+  When you start a container use the `--network` flag to connect it to a network.
+
+
+  The following commands create a network named `my-net`, and adds a container
+
+  to the `my-net` network.
+
+
+  ```console
+
+  $ klee network create --subnet 10.20.30.0/24 --driver vnet my-net
+
+  0974802b8ba1
+
+  $ klee container run --network=my-net FreeBSD-13.2-STABLE
+
+  f25a12f7c2e0
+
+  created execution instance a6172d3be00f
+
+  ```
+
+
+  You can also choose the IP addresses for the container with the `--ip`
+
+  flag when you start the container on a user-defined network.
+
+
+  ```console
+
+  $ klee run --network=my-net --ip=10.20.30.75 FreeBSD-13.2-STABLE
+
+  ```
+
+
+  You can also start a container using the `host` network, meaning the container
+
+  will have full access to the networks of the host system.
+
+
+  ```console
+
+  $ klee run --network=host FreeBSD-13.2-STABLE
+
+  ```
+
+
+  When you run a command using, e.g., `klee run` you can only connect the container
+
+  to a single network. However, you can add a (possibly) running container to another
+
+  network using the `klee network connect` subcommand.
+
+
+  You can connect multiple containers to the same network. Once connected, the
+
+  containers can communicate easily using only another container''s IP address.
+
+
+  You can disconnect a container from a network using the `docker network
+
+  disconnect` command.
+
+
+  ### <a name="attach"></a> Attach to STDIN/STDOUT/STDERR (-a, --attach)
+
+
+  The `--attach` (or `-a`) flag tells `docker run` to bind to the container''s
+
+  `STDOUT` and `STDERR`. This makes it possible to see the output if needed.
+
+
+  ```console
+
+  $ klee run -a FreeBSD-13.2-STABLE echo test
+
+  422100eb65cc
+
+  created execution instance 29096db4ca54
+
+  test
+
+
+  executable 29096db4ca54 and its container exited with exit-code 0
+
+  ```
+
+
+  ### <a name="jailparam"></a> Specifying Jail parameters (-J, --jailparam)
+
+  FIXME
+
+  '
 experimental: false
 experimentalcli: false
-long: 'The `docker run` command first `creates` a writeable container layer over the
+long: 'The `klee container run` command first creates a container based on the
 
   specified image, and then `starts` it using the specified command. That is,
 
-  `docker run` is equivalent to the API `/containers/create` then
+  `klee container run` is equivalent to `klee container create` followed by
 
-  `/containers/(id)/start`. A stopped container can be restarted with all its
+  `klee container start`. A stopped container can be restarted with all its
 
-  previous changes intact using `docker start`. See `docker ps -a` to view a list
+  previous changes intact using `klee container start`.
 
-  of all containers.
+  Use `klee container ls -a` to view a list of all containers.
 
 
-  For information on connecting a container to a network, see the ["*Docker network
-  overview*"](https://docs.docker.com/network/).
+  For information on connecting a container to a network, see the
+
+  ["*Kleene network overview*"](/config/containers/container-networking/).
 
   '
 options:
@@ -492,5 +301,5 @@ options:
   option: help
 plink: klee.yaml
 pname: klee
-short: Create and start a command in a new...
+short: Run a command in a new container.
 usage: klee run [OPTIONS] IMAGE [COMMAND]...

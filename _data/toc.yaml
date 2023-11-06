@@ -50,6 +50,8 @@ handbook:
       title: Introduction
     - path: /build/building/context/
       title: Build context
+    - path: /build/building/snapshots/
+      title: Build snapshots
     - path: /build/building/dockerfile_best-practices/
       title: Dockerfile best practices
     - path: /build/building/multi-stage/
@@ -196,13 +198,13 @@ reference:
     - path: /engine/reference/commandline/container_exec/
       title: klee container exec
     - path: /engine/reference/commandline/container_inspect/
-      title: docker container inspect
+      title: klee container inspect
     - path: /engine/reference/commandline/container_ls/
       title: klee container ls
     - path: /engine/reference/commandline/container_prune/
-      title: docker container prune
+      title: klee container prune
     - path: /engine/reference/commandline/container_rename/
-      title: docker container rename
+      title: klee container rename
     - path: /engine/reference/commandline/container_restart/
       title: klee container restart
     - path: /engine/reference/commandline/container_rm/
@@ -214,7 +216,7 @@ reference:
     - path: /engine/reference/commandline/container_stop/
       title: klee container stop
     - path: /engine/reference/commandline/container_update/
-      title: docker container update
+      title: klee container update
   - sectiontitle: klee image
     section:
     - path: /engine/reference/commandline/image/
@@ -234,11 +236,11 @@ reference:
     - path: /engine/reference/commandline/image_rm/
       title: klee image rm
     - path: /engine/reference/commandline/image_prune/
-      title: docker image prune
+      title: klee image prune
     - path: /engine/reference/commandline/image_inspect/
-      title: docker image inspect
+      title: klee image inspect
     - path: /engine/reference/commandline/image_tag/
-      title: docker image tag
+      title: klee image tag
   - sectiontitle: klee network
     section:
     - path: /engine/reference/commandline/network/
@@ -250,11 +252,11 @@ reference:
     - path: /engine/reference/commandline/network_disconnect/
       title: klee network disconnect
     - path: /engine/reference/commandline/network_inspect/
-      title: docker network inspect
+      title: klee network inspect
     - path: /engine/reference/commandline/network_ls/
       title: klee network ls
     - path: /engine/reference/commandline/network_prune/
-      title: docker network prune
+      title: klee network prune
     - path: /engine/reference/commandline/network_rm/
       title: klee network rm
   - sectiontitle: klee volume
@@ -262,11 +264,11 @@ reference:
     - path: /engine/reference/commandline/volume_create/
       title: klee volume create
     - path: /engine/reference/commandline/volume_inspect/
-      title: docker volume inspect
+      title: klee volume inspect
     - path: /engine/reference/commandline/volume_ls/
       title: klee volume ls
     - path: /engine/reference/commandline/volume_prune/
-      title: docker volume prune
+      title: klee volume prune
     - path: /engine/reference/commandline/volume_rm/
       title: klee volume rm
 - sectiontitle: Docker Engine API

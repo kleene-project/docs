@@ -1,10 +1,5 @@
 command: klee container start
 deprecated: false
-examples: '```console
-
-  $ docker start my_container
-
-  ```'
 experimental: false
 experimentalcli: false
 long: 'Start one or more stopped containers.

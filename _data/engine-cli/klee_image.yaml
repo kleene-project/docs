@@ -2,12 +2,18 @@ clink:
 - klee_image_create.yaml
 - klee_image_build.yaml
 - klee_image_ls.yaml
+- klee_image_inspect.yaml
 - klee_image_rm.yaml
+- klee_image_prune.yaml
+- klee_image_tag.yaml
 cname:
 - klee image create
 - klee image build
 - klee image ls
+- klee image inspect
 - klee image rm
+- klee image prune
+- klee image tag
 command: klee image
 deprecated: false
 experimental: false

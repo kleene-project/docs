@@ -1,10 +1,5 @@
 command: klee restart
 deprecated: false
-examples: '```console
-
-  $ docker restart my_container
-
-  ```'
 experimental: false
 experimentalcli: false
 long: Restart one or more containers

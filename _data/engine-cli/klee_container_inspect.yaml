@@ -1,8 +1,8 @@
-command: klee container restart
+command: klee container inspect
 deprecated: false
 experimental: false
 experimentalcli: false
-long: Restart one or more containers
+long: Display detailed information on a container.
 options:
 - deprecated: false
   description: Show this message and exit.
@@ -11,5 +11,5 @@ options:
   option: help
 plink: klee_container.yaml
 pname: klee container
-short: Restart one or more containers
-usage: klee container restart [OPTIONS] [CONTAINERS]...
+short: Display detailed information on a container.
+usage: klee container inspect [OPTIONS] CONTAINER
