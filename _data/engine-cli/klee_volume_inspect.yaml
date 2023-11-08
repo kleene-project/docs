@@ -1,28 +1,12 @@
 command: klee volume inspect
 deprecated: false
-examples: "```console\n$ docker volume create myvolume\n\nmyvolume\n```\n\nUse the\
-  \ `docker volume inspect` comment to inspect the configuration of the volume:\n\n\
-  ```console\n$ docker volume inspect myvolume\n```\n\nThe output is in JSON format,\
-  \ for example:\n\n```json\n[\n  {\n    \"CreatedAt\": \"2020-04-19T11:00:21Z\",\n\
-  \    \"Driver\": \"local\",\n    \"Labels\": {},\n    \"Mountpoint\": \"/var/lib/docker/volumes/8140a838303144125b4f54653b47ede0486282c623c3551fbc7f390cdc3e9cf5/_data\"\
-  ,\n    \"Name\": \"myvolume\",\n    \"Options\": {},\n    \"Scope\": \"local\"\n\
-  \  }\n]\n```\n\n### <a name=\"format\"></a> Format the output (--format)\n\nUse\
-  \ the `--format` flag to format the output using a Go template, for example,\nto\
-  \ print the `Mountpoint` property:\n\n```console\n$ docker volume inspect --format\
-  \ '{{ .Mountpoint }}' myvolume\n\n/var/lib/docker/volumes/myvolume/_data\n```"
+examples: "```console\n$ klee volume inspect 42664b400bcd\n{\n  \"mountpoints\": [],\n\
+  \  \"volume\": {\n    \"created\": \"2023-11-06T19:13:03.130738Z\",\n    \"dataset\"\
+  : \"zroot/kleene/volumes/42664b400bcd\",\n    \"mountpoint\": \"/zroot/kleene/volumes/42664b400bcd\"\
+  ,\n    \"name\": \"42664b400bcd\"\n  }\n}\n```\n"
 experimental: false
 experimentalcli: false
-long: 'Returns information about a volume. By default, this command renders all results
-
-  in a JSON array. You can specify an alternate format to execute a
-
-  given template for each result. Go''s
-
-  [text/template](https://golang.org/pkg/text/template/) package describes all the
-
-  details of the format.
-
-  '
+long: Display detailed information on an volume.
 options:
 - deprecated: false
   description: Show this message and exit.

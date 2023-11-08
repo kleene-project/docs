@@ -1,37 +1,40 @@
 command: klee volume create
 deprecated: false
-examples: "Create a volume and then configure the container to use it:\n\n```console\n\
-  $ docker volume create hello\n\nhello\n\n$ docker run -d -v hello:/world busybox\
-  \ ls /world\n```\n\nThe mount is created inside the container's `/world` directory.\
-  \ Docker does not\nsupport relative paths for mount points inside the container.\n\
-  \nMultiple containers can use the same volume in the same time period. This is\n\
-  useful if two containers need access to shared data. For example, if one\ncontainer\
-  \ writes and the other reads the data.\n\nVolume names must be unique among drivers.\
-  \ This means you cannot use the same\nvolume name with two different drivers. If\
-  \ you attempt this `docker` returns an\nerror:\n\n```console\nA volume named  \"\
-  hello\"  already exists with the \"some-other\" driver. Choose a different volume\
-  \ name.\n```\n\nIf you specify a volume name already in use on the current driver,\
-  \ Docker\nassumes you want to re-use the existing volume and does not return an\
-  \ error.\n\n### <a name=\"opt\"></a> Driver-specific options (-o, --opt)\n\nSome\
-  \ volume drivers may take options to customize the volume creation. Use the\n`-o`\
-  \ or `--opt` flags to pass driver options:\n\n```console\n$ docker volume create\
-  \ --driver fake \\\n    --opt tardis=blue \\\n    --opt timey=wimey \\\n    foo\n\
-  ```\n\nThese options are passed directly to the volume driver. Options for\ndifferent\
-  \ volume drivers may do different things (or nothing at all).\n\nThe built-in `local`\
-  \ driver on Windows does not support any options.\n\nThe built-in `local` driver\
-  \ on Linux accepts options similar to the linux\n`mount` command. You can provide\
-  \ multiple options by passing the `--opt` flag\nmultiple times. Some `mount` options\
-  \ (such as the `o` option) can take a\ncomma-separated list of options. Complete\
-  \ list of available mount options can be\nfound [here](https://man7.org/linux/man-pages/man8/mount.8.html).\n\
-  \nFor example, the following creates a `tmpfs` volume called `foo` with a size of\n\
-  100 megabyte and `uid` of 1000.\n\n```console\n$ docker volume create --driver local\
-  \ \\\n    --opt type=tmpfs \\\n    --opt device=tmpfs \\\n    --opt o=size=100m,uid=1000\
-  \ \\\n    foo\n```\n\nAnother example that uses `btrfs`:\n\n```console\n$ docker\
-  \ volume create --driver local \\\n    --opt type=btrfs \\\n    --opt device=/dev/sda2\
-  \ \\\n    foo\n```\n\nAnother example that uses `nfs` to mount the `/path/to/dir`\
-  \ in `rw` mode from\n`192.168.1.1`:\n\n```console\n$ docker volume create --driver\
-  \ local \\\n    --opt type=nfs \\\n    --opt o=addr=192.168.1.1,rw \\\n    --opt\
-  \ device=:/path/to/dir \\\n    foo\n```"
+examples: 'Create a volume and then configure a container to use it:
+
+
+  ```console
+
+  $ klee volume create hello
+
+  hello
+
+  $ sudo touch /zroot/kleene/volumes/hello/world
+
+  $ klee run -a -v hello:/there FreeBSD-13.2-STABLE ls /there
+
+  968414ee0599
+
+  created execution instance 7dbade0564df
+
+  world
+
+
+  executable 7dbade0564df and its container exited with exit-code 0
+
+  ```
+
+
+  The mount is created inside the container''s `/there` directory.
+
+
+  Multiple containers can use the same volume in the same time period. This is
+
+  useful if two containers need access to shared data. For example, if one
+
+  container writes and the other reads the data.
+
+  '
 experimental: false
 experimentalcli: false
 long: Create a new volume. If the volume name already exists nothing happens.

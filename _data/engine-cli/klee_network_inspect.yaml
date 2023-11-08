@@ -1,13 +1,12 @@
 command: klee network inspect
 deprecated: false
+examples: "```console\n$ klee network inspect my-net\n{\n  \"network\": {\n    \"\
+  bridge_if\": \"bridge0\",\n    \"driver\": \"vnet\",\n    \"id\": \"0974802b8ba1\"\
+  ,\n    \"loopback_if\": \"\",\n    \"name\": \"my-net\",\n    \"subnet\": \"10.20.30.0/24\"\
+  \n  },\n  \"network_endpoints\": []\n}\n```\n"
 experimental: false
 experimentalcli: false
-long: 'Returns information about one or more networks. By default, this command renders
-
-  all results in a JSON object.
-
-
-  '
+long: Display detailed information on a network.
 options:
 - deprecated: false
   description: Show this message and exit.
