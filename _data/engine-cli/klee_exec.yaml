@@ -185,4 +185,5 @@ options:
 plink: klee.yaml
 pname: klee
 short: Run a command in a container
+shortcut: container exec
 usage: klee exec [OPTIONS] CONTAINER [COMMAND]...

@@ -161,4 +161,5 @@ options:
 plink: klee.yaml
 pname: klee
 short: Create a new container.
+shortcut: container create
 usage: klee create [OPTIONS] IMAGE [COMMAND]...

@@ -2,14 +2,16 @@ command: klee image create fetch
 deprecated: false
 experimental: false
 experimentalcli: false
-long: 'Create a base image from a tar-archive fetched using `fetch(1)`.
+long: 'Fetch and create a base image from a tar-archive downloaded with `fetch(1)`.
 
 
-  Fetch and create a base image from a tar-archive downloaded with `fetch(1)`.
+  If `METHOD` is set to `auto`, Kleene will try to create the image from a userland
+  (`base.txz`) fetched
 
-  If no url is provided, kleened will download a base system from the official FreeBSD
+  from the official FreeBSD repositories, based on the host OS information from `uname(1)`.
 
-  repositories based on host OS information from the `uname(1)` utility.'
+
+  Otherwise, `METHOD` should be an URL pointing to a tar-archive of the userland.'
 options:
 - deprecated: false
   description: Name and optionally a tag in the 'name:tag' format
@@ -17,14 +19,6 @@ options:
   experimentalcli: false
   option: tag
   shorthand: t
-- deprecated: false
-  description: URL to a tar-archive of the userland that the image should be created
-    from. If no url is supplied kleened will try and fetch the userland from a FreeBSD
-    mirror.
-  experimental: false
-  experimentalcli: false
-  option: url
-  shorthand: u
 - deprecated: false
   description: Proceed using a userland from a FreeBSD mirror even if a customized
     build is detected on the kleened host.
@@ -39,5 +33,5 @@ options:
   option: help
 plink: klee_image_create.yaml
 pname: klee image create
-short: Create a base image from a tar-archive...
-usage: klee image create fetch [OPTIONS]
+short: Create a base image from a local or remote tar-archive.
+usage: klee image create fetch [OPTIONS] METHOD

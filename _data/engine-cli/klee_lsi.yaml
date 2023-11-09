@@ -28,4 +28,5 @@ options:
 plink: klee.yaml
 pname: klee
 short: List images
+shortcut: image ls
 usage: klee lsi [OPTIONS]

@@ -31,4 +31,5 @@ options:
 plink: klee.yaml
 pname: klee
 short: Remove one or more containers
+shortcut: container rm
 usage: klee rmc [OPTIONS] CONTAINERS...

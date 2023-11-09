@@ -35,4 +35,5 @@ options:
 plink: klee.yaml
 pname: klee
 short: Remove one or more images
+shortcut: image rm
 usage: klee rmi [OPTIONS] IMAGES...

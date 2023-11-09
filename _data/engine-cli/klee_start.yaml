@@ -33,4 +33,5 @@ options:
 plink: klee.yaml
 pname: klee
 short: Start one or more stopped containers.
+shortcut: container start
 usage: klee start [OPTIONS] CONTAINERS...

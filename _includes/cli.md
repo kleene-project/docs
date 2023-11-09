@@ -4,6 +4,11 @@
 
 <br />
 
+{% if controller_data.shortcut %}
+> **Note** This command is a shortcut to [`klee {{ controller_data.shortcut}}`](/engine/reference/commandline/{{ controller_data.shortcut | replace: " ", "_"}}).
+{: .note }
+{% endif %}
+
 {{ controller_data.short | replace_relative_links: page.path }}
 
 {% if controller_data.min_api_version %}

@@ -30,4 +30,5 @@ options:
 plink: klee.yaml
 pname: klee
 short: Stop one or more running containers
+shortcut: container stop
 usage: klee stop [OPTIONS] [CONTAINERS]...

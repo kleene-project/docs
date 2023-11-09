@@ -250,4 +250,5 @@ options:
 plink: klee.yaml
 pname: klee
 short: Build a new image
+shortcut: image build
 usage: klee build [OPTIONS] PATH

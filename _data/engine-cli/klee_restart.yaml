@@ -12,4 +12,5 @@ options:
 plink: klee.yaml
 pname: klee
 short: Restart one or more containers
+shortcut: container restart
 usage: klee restart [OPTIONS] [CONTAINERS]...

@@ -34,4 +34,5 @@ options:
 plink: klee.yaml
 pname: klee
 short: List containers
+shortcut: container ls
 usage: klee lsc [OPTIONS]
