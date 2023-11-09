@@ -157,8 +157,8 @@ reference:
   section:
   - path: /engine/reference/commandline/cli/
     title: Use the Docker command line
-  - path: /engine/reference/commandline/docker/
-    title: docker (base command)
+  - path: /engine/reference/commandline/klee/
+    title: klee (root command)
   - sectiontitle: klee shortcut commands
     section:
     - path: /engine/reference/commandline/build/

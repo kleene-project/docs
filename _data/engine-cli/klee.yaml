@@ -1,0 +1,55 @@
+clink:
+- klee_container.yaml
+- klee_image.yaml
+- klee_network.yaml
+- klee_volume.yaml
+cname:
+- klee container
+- klee image
+- klee network
+- klee volume
+command: klee
+deprecated: false
+experimental: false
+experimentalcli: false
+long: CLI to interact with Kleened.
+options:
+- deprecated: false
+  description: Show the version and exit.
+  experimental: false
+  experimentalcli: false
+  option: version
+- deprecated: false
+  description: 'Host address and protocol to use. See the docs for details.  [default:
+    http:///var/run/kleened.sock]'
+  experimental: false
+  experimentalcli: false
+  option: host
+- deprecated: false
+  description: 'Verify the server cert. Uses the CA bundle provided by Certifi unless
+    the ''--cacert'' is set.  [default: tlsverify]'
+  experimental: false
+  experimentalcli: false
+  option: tlsverify
+- deprecated: false
+  description: Path to TLS certificate file used for client authentication (PEM encoded)
+  experimental: false
+  experimentalcli: false
+  option: tlscert
+- deprecated: false
+  description: Path to TLS key file used for the '--tlscert' certificate (PEM encoded)
+  experimental: false
+  experimentalcli: false
+  option: tlskey
+- deprecated: false
+  description: Trust certs signed only by this CA (PEM encoded). Implies '--tlsverify'.
+  experimental: false
+  experimentalcli: false
+  option: tlscacert
+- deprecated: false
+  description: Show this message and exit.
+  experimental: false
+  experimentalcli: false
+  option: help
+short: CLI to interact with Kleened.
+usage: klee [OPTIONS] COMMAND [ARGS]...
