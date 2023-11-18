@@ -20,14 +20,25 @@ options:
   experimentalcli: false
   option: version
 - deprecated: false
-  description: 'Host address and protocol to use. See the docs for details.  [default:
-    http:///var/run/kleened.sock]'
+  description: Location of Klee config file.
+  experimental: false
+  experimentalcli: false
+  option: config
+- deprecated: false
+  description: 'Theme used for Klee''s output. Possible values: ''fancy'' or ''simple''.
+    Default is ''fancy''.'
+  experimental: false
+  experimentalcli: false
+  option: theme
+- deprecated: false
+  description: Host address and protocol to use. See the docs for details. If no host
+    is defined anywhere, Klee uses `http:///var/run/kleened.sock`.
   experimental: false
   experimentalcli: false
   option: host
 - deprecated: false
-  description: 'Verify the server cert. Uses the CA bundle provided by Certifi unless
-    the ''--cacert'' is set.  [default: tlsverify]'
+  description: Verify the server cert. Uses the CA bundle provided by Certifi unless
+    the '--cacert' is set.
   experimental: false
   experimentalcli: false
   option: tlsverify

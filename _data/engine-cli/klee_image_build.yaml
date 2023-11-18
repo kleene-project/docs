@@ -212,14 +212,14 @@ long: 'The `klee image build` command builds images from a Dockerfile and a
   '
 options:
 - deprecated: false
-  description: 'Alternative location of the Dockerfile. The location should be relative
+  description: 'Alternative location of the `Dockerfile`. The location should be relative
     to `PATH` (default: ''Dockerfile'')'
   experimental: false
   experimentalcli: false
   option: file
   shorthand: f
 - deprecated: false
-  description: Name and optionally a tag in the 'name:tag' format
+  description: Name and optionally a tag in the `name:tag` format
   experimental: false
   experimentalcli: false
   option: tag

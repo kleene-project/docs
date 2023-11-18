@@ -148,7 +148,8 @@ long: 'The `klee container exec` command runs a new command in a running contain
   '
 options:
 - deprecated: false
-  description: Attach to STDOUT/STDERR
+  description: Attach to STDOUT/STDERR. If this flag is omitted the container will
+    run detached from klee.
   experimental: false
   experimentalcli: false
   option: attach
@@ -167,8 +168,8 @@ options:
   shorthand: i
 - deprecated: false
   description: Allocate a pseudo-TTY
-  experimental: false
-  experimentalcli: false
+  experimental: true
+  experimentalcli: true
   option: tty
   shorthand: t
 - deprecated: false

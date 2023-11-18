@@ -344,11 +344,13 @@ options:
   option: jailparam
   shorthand: J
 - deprecated: false
-  description: Attach to STDOUT/STDERR
+  description: Attach to STDOUT/STDERR. If this flag is omitted the container will
+    run detached from klee.
   experimental: false
   experimentalcli: false
   option: attach
   shorthand: a
+  value_type: flag
 - deprecated: false
   description: Send terminal input to container's STDIN. Ignored if '--attach' is
     not used.
@@ -358,8 +360,8 @@ options:
   shorthand: i
 - deprecated: false
   description: Allocate a pseudo-TTY
-  experimental: false
-  experimentalcli: false
+  experimental: true
+  experimentalcli: true
   option: tty
   shorthand: t
 - deprecated: false
