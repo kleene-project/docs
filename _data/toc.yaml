@@ -16,9 +16,9 @@ horizontalnav:
 home: {}
 
 handbook:
-- title: Docker overview
+- title: Kleene overview
   path: /get-started/overview/
-- sectiontitle: Kleene installation
+- sectiontitle: Installation
   section:
     - title: Overview
       path: /install/
@@ -34,20 +34,14 @@ handbook:
       path: /get-started/02_our_app/
     - title: "Part 3: Update the application"
       path: /get-started/03_updating_app/
-    - title: "Part 4: Share the application"
-      path: /get-started/04_sharing_app/
     - title: "Part 5: Persist the DB"
       path: /get-started/05_persisting_data/
     - title: "Part 6: Use bind mounts"
       path: /get-started/06_bind_mounts/
     - title: "Part 7: Multi-container apps"
       path: /get-started/07_multi_container/
-    - title: "Part 8: Use Docker Compose"
-      path: /get-started/08_using_compose/
     - title: "Part 9: Image-building best practices"
       path: /get-started/09_image_best/
-    - title: "Part 10: What next?"
-      path: /get-started/11_what_next/
 - sectiontitle: Building images
   section:
     - path: /build/building/introduction/
@@ -58,8 +52,6 @@ handbook:
       title: Build snapshots
     - path: /build/building/dockerfile_best-practices/
       title: Dockerfile best practices
-    - path: /build/building/multi-stage/
-      title: Multi-stage builds
     - path: /build/building/base-images/
       title: Create your own base image
 - sectiontitle: Running containers
@@ -68,18 +60,10 @@ handbook:
     title: Overview
   - path: /run/networkingcontainers/
     title: Container networking
-- sectiontitle: Docker Engine
+- sectiontitle: Kleened
   section:
   - path: /engine/
     title: Overview
-  - sectiontitle: Install
-    section:
-    - path: /engine/install/
-      title: Overview
-    - path: /engine/install/postinstall/
-      title: Post-installation steps
-    - path: /engine/install/troubleshoot/
-      title: Troubleshoot installation
   - sectiontitle: Storage
     section:
     - path: /storage/
@@ -114,7 +98,7 @@ handbook:
         title: Bridge network tutorial
       - path: /network/network-tutorial-host/
         title: Host networking tutorial
-  - sectiontitle: Working with Docker Engine
+  - sectiontitle: Working with Kleened
     section:
     - path: /config/daemon/start/
       title: Start the daemon
@@ -127,7 +111,7 @@ handbook:
       - path: /engine/security/
         title: Overview
       - path: /engine/security/protect-access/
-        title: Protect the Docker daemon socket
+        title: Protect the Kleened socket
       - path: /engine/security/certificates/
         title: Using certificates for repository client verification
   - sectiontitle: Advanced concepts
