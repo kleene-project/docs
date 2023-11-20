@@ -18,8 +18,14 @@ home: {}
 handbook:
 - title: Docker overview
   path: /get-started/overview/
-- title: Get Docker
-  path: /get-docker/
+- sectiontitle: Kleene installation
+  section:
+    - title: Overview
+      path: /install/
+    - title: Install Klee
+      path: /install/klee/
+    - title: Install Kleened
+      path: /install/kleened/
 - sectiontitle: Get started
   section:
     - title: "Part 1: Overview"
@@ -144,7 +150,8 @@ handbook:
         title: Docker and iptables
       - path: /config/daemon/remote-access/
         title: Remote access
-
+    - path: /engine/under-the-hood/
+      title: Implementation details
 - path: /release-notes/
   title: Release notes
 
