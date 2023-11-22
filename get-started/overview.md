@@ -1,202 +1,201 @@
 ---
-description: Docker explained in depth
-keywords: docker, introduction, documentation, about, technology, understanding
-redirect_from:
-- /introduction/understanding-docker/
-- /engine/userguide/basics/
-- /engine/introduction/understanding-docker/
-- /engine/understanding-docker/
-- /engine/docker-overview/
-title: Docker overview
+description: Kleene explained in general terms
+keywords: kleene, introduction, documentation, about, technology, understanding
+title: Kleene overview
 ---
 
-Docker is an open platform for developing, shipping, and running applications.
-Docker enables you to separate your applications from your infrastructure so
-you can deliver software quickly. With Docker, you can manage your infrastructure
-in the same ways you manage your applications. By taking advantage of Docker's
-methodologies for shipping, testing, and deploying code quickly, you can
-significantly reduce the delay between writing code and running it in production.
+Kleene is a container management platform based on the concepts and abstractions
+known from Docker, but adapted to a FreeBSD context.
+Kleene aims to extend FreeBSDs 'The Power to Serve', by making it easier to develop,
+maintain, upgrade, and retire applications running on a FreeBSD system.
 
-## The Docker platform
+## What can I use Kleene for?
+Effective development of application environments, easy application deployment
+and maintenance. Consider the following example scenarios:
 
-Docker provides the ability to package and run an application in a loosely isolated
-environment called a container. The isolation and security allows you to run many
-containers simultaneously on a given host. Containers are lightweight and contain
-everything needed to run the application, so you do not need to rely on what is
-currently installed on the host. You can easily share containers while you work,
-and be sure that everyone you share with gets the same container that works in the
-same way.
+- You need to run several services on the same FreeBSD machine, that could be databases,
+  webservers, mailservers.
 
-Docker provides tooling and a platform to manage the lifecycle of your containers:
+- You need 'development environments' that behave like virtual machines for development
+  and exploratory purposes. It should be cheap to destroy and
+  spin up a fresh environment whenever the need arises.
 
-* Develop your application and its supporting components using containers.
-* The container becomes the unit for distributing and testing your application.
-* When you're ready, deploy your application into your production environment,
-  as a container or an orchestrated service. This works the same whether your
-  production environment is a local data center, a cloud provider, or a hybrid
-  of the two.
+- You need to easily rebuild and replace your existing runtime environments when,
+  e.g., the FreeBSD host have been upgraded or new versions of the application
+  packages are available. This should be done with minimal downtime or unforseable
+  complications during deployment.
 
-## What can I use Docker for?
+- You need to deploy the same runtime environments on several FreeBSD machines and
+  therefore you need to share the configuration code, preferable through `git` or
+  another VCS.
 
-**Fast, consistent delivery of your applications**
+Kleene builds on the experiences from Docker and the Linux world to provide appropriate
+tooling so you can focus on how to build, run and deploy your applications and spend
+less time on network device management, firewall configuration and setting up ZFS datasets.
 
-Docker streamlines the development lifecycle by allowing developers to work in
-standardized environments using local containers which provide your applications
-and services. Containers are great for continuous integration and continuous
-delivery (CI/CD) workflows.
+This is done by introducing highlevel concepts of containers, images, and
+networks, encapsulating OS-specfic primitives and taking care of the nitty gritty
+details of the system configration, such as:
 
-Consider the following example scenario:
+- Setting up [jailed](https://man.freebsd.org/cgi/man.cgi?query=jail&sektion=8) applications in lightweight environments using [zfs(8)](https://man.freebsd.org/cgi/man.cgi?query=zfs&sektion=8).
+- Configuring host networking and creating necessary interface devices.
+- Setting up the [packet filter](https://man.freebsd.org/cgi/man.cgi?query=pf&sektion=4) firewall.
 
-- Your developers write code locally and share their work with their colleagues
-  using Docker containers.
-- They use Docker to push their applications into a test environment and execute
-  automated and manual tests.
-- When developers find bugs, they can fix them in the development environment
-  and redeploy them to the test environment for testing and validation.
-- When testing is complete, getting the fix to the customer is as simple as
-  pushing the updated image to the production environment.
+At the same time, Kleene aims to be transparent in its interaction
+with the FreeBSD host system, such that the user
+can make special customizations tailored to special needs.
 
-**Responsive deployment and scaling**
+If you are new to containers it is recommended to consult
+[Docker's high-level overview](https://docs.docker.com/get-started/overview/)
+for an introduction to containerisation. However, while Kleene is heavily
+inspired by Docker, there are also some substantial differences, which is
+the topic of the next section.
 
-Docker's container-based platform allows for highly portable workloads. Docker
-containers can run on a developer's local laptop, on physical or virtual
-machines in a data center, on cloud providers, or in a mixture of environments.
+## Kleene's approach to container management
 
-Docker's portability and lightweight nature also make it easy to dynamically
-manage workloads, scaling up or tearing down applications and services as
-business needs dictate, in near real time.
+If you already have experience using Docker then Kleene will seem very familiar.
+The `klee` command line tool follows (almost) the same structure as `docker` and
+the basic concepts (container, image, network, volume) are the same.
+Furthermore, Kleene follows (a subset of) Dockers `Dockerfile` specification closely.
 
-**Running more workloads on the same hardware**
+While there might come new features in the future that diverts from Docker,
+this core will remain the same.
 
-Docker is lightweight and fast. It provides a viable, cost-effective alternative
-to hypervisor-based virtual machines, so you can use more of your server
-capacity to achieve your business goals. Docker is perfect for high density
-environments and for small and medium deployments where you need to do more with
-fewer resources.
+A few differences worth highlighting, however, are the following:
 
-## Docker architecture
+- The network/volume drivers are different compared to Docker,
+  as well as system-specific configuration options for containers,
+  since they are based on different OS primitives than what exists on Linux.
+  Most notably the [jail](https://man.freebsd.org/cgi/man.cgi?query=jail&sektion=8)-mechanism
+  of process isolation differs from the Linux-world.
+  See the [FIXME]() for further details.
 
-Docker uses a client-server architecture. The Docker *client* talks to the
-Docker *daemon*, which does the heavy lifting of building, running, and
-distributing your Docker containers. The Docker client and daemon *can*
-run on the same system, or you can connect a Docker client to a remote Docker
-daemon. The Docker client and daemon communicate using a REST API, over UNIX
-sockets or a network interface. Another Docker client is Docker Compose,
-that lets you work with applications consisting of a set of containers.
+- Kleene tries to make its use of the host system as transparant as possible
+  for the user and to make it easy to use FreeBSD's built-in tooling.
+  FreeBSD already contain a few helpful tools that can be used in conjunction
+  with Kleene, such as `jls(8)`, `jexec(8)`, `zfs(8)` etc.
+  These and similar tools provide ways of further customizing your FreeBSD
+  host environment and its containers. See [FIXME]() for details on how Kleene
+  interacts with FreeBSD and how to use the existing tooling with Kleene.
 
+- Reproducibility starts with the Dockerfile, which should be used often
+  to re-build imagaes every time FreeBSD is upgraded or when versions of software
+  packages become available. This is the philosophy behind further development of
+  Kleene and this implies that packaging and distributing images have not been
+  prioritised for now. Build your own images and share code, not binaries.
+
+- Containers are often used as thin virtual machines. While it is possible to use
+  containers "the Docker way" by starting the main application with the `CMD`-instruction,
+  it is a common pattern to run the system startup script `/etc/rc`.
+  This affects the way images are designed and containers are managed.
+
+These differences will explained throughout the Kleene handbook.
+It is also worth reading some of the chapters in the FreeBSD handbook
+[about jails](https://docs.freebsd.org/en/books/handbook/jails/).
+In general, the FreeBSD handbook is a great resource on the operating system.
+
+## The Kleene components
+
+Kleene uses a client-server design. Klee (the client) tells Kleened (the server)
+what to do, and the latter does all the work with building and running your containers.
+Klee and Kleened can run on the same system, or you can connect Klee to a remote
+Kleened host. They communicate using a REST API, over UNIX sockets or a network interface.
+
+### Kleened, the backend daemon
+
+Kleened listens for API requests and manages objects such as images, containers,
+networks, and volumes. It is Kleened that does all the heavy lifting like manipulating
+the ZFS filesystem, creating jailed processes, configuring the network and so on.
+
+### Klee, the command line tool
+
+The Klee command line tool (`klee`) is the primary way to interact
+with Kleened. When you use commands such as `klee run`, Klee makes the needed
+API requests to Kleened and renders the result to the user.
+
+## Kleene conceptual architecture
+
+FIXME
 ![Docker Architecture diagram](/engine/images/architecture.svg)
 
-### The Docker daemon
+### Kleene objects
 
-The Docker daemon (`dockerd`) listens for Docker API requests and manages Docker
-objects such as images, containers, networks, and volumes. A daemon can also
-communicate with other daemons to manage Docker services.
-
-### The Docker client
-
-The Docker client (`docker`) is the primary way that many Docker users interact
-with Docker. When you use commands such as `docker run`, the client sends these
-commands to `dockerd`, which carries them out. The `docker` command uses the
-Docker API. The Docker client can communicate with more than one daemon.
-
-### Docker Desktop
-
-Docker Desktop is an easy-to-install application for your Mac, Windows or Linux environment that enables you to build and share containerized applications and microservices. Docker Desktop includes the Docker daemon (`dockerd`), the Docker client (`docker`), Docker Compose, Docker Content Trust, Kubernetes, and Credential Helper. For more information, see [Docker Desktop](../desktop/index.md).
-
-### Docker registries
-
-A Docker _registry_ stores Docker images. Docker Hub is a public
-registry that anyone can use, and Docker is configured to look for images on
-Docker Hub by default. You can even run your own private registry.
-
-When you use the `docker pull` or `docker run` commands, the required images are
-pulled from your configured registry. When you use the `docker push` command,
-your image is pushed to your configured registry.
-
-### Docker objects
-
-When you use Docker, you are creating and using images, containers, networks,
-volumes, plugins, and other objects. This section is a brief overview of some
+When you use Kleene, you are creating and using images, containers, networks,
+volumes, and other objects. This section is a brief overview of some
 of those objects.
 
 #### Images
 
-An _image_ is a read-only template with instructions for creating a Docker
-container. Often, an image is _based on_ another image, with some additional
-customization. For example, you may build an image which is based on the `ubuntu`
-image, but installs the Apache web server and your application, as well as the
-configuration details needed to make your application run.
+An _image_ is a zfs dataset containing configured runtime, used for creating containers.
+Images usually including an entire userland (`base.txz`) with application-specific
+configurations. Often, an image is based on another image, adding some additional
+configurations. For example, you may build an image based on a parent-image of
+FreeBSD 13.2-RELEASE, that installs the Nginx web server and your application,
+as well as the configuration details needed to make your application run.
 
-You might create your own images or you might only use those created by others
-and published in a registry. To build your own image, you create a _Dockerfile_
-with a simple syntax for defining the steps needed to create the image and run
-it. Each instruction in a Dockerfile creates a layer in the image. When you
-change the Dockerfile and rebuild the image, only those layers which have
-changed are rebuilt. This is part of what makes images so lightweight, small,
-and fast, when compared to other virtualization technologies.
+To build your own image, you create a _Dockerfile_
+with a simple syntax for defining the commands needed to create the image and run
+it.
 
 #### Containers
 
-A container is a runnable instance of an image. You can create, start, stop,
-move, or delete a container using the Docker API or CLI. You can connect a
-container to one or more networks, attach storage to it, or even create a new
-image based on its current state.
+A container is a writable copy of an image to run in a OS-level virtual environment
+(a FreeBSD jail). You can create, start, stop, or delete a container using
+the Kleened API og the Klee, the Kleene CLI.
+You can connect a container to one or more networks, attach storage volumes to it
+and so on.
 
-By default, a container is relatively well isolated from other containers and
+By default, a container is mostly isolated from other containers and
 its host machine. You can control how isolated a container's network, storage,
 or other underlying subsystems are from other containers or from the host
-machine.
+system.
 
 A container is defined by its image as well as any configuration options you
-provide to it when you create or start it. When a container is removed, any changes to
-its state that are not stored in persistent storage disappear.
+provide to it when you create or start it. When a container is removed,
+any changes to its state that are not stored in persistent storage volumes disappear.
 
-##### Example `docker run` command
+#### Networks
 
-The following command runs an `ubuntu` container, attaches interactively to your
-local command-line session, and runs `/bin/bash`.
+In order for containers to be able to communicate with the surroundings,
+they need to be attache to a network. A network connects one or more containers
+to eachother and to other networks. There exists a couple of different network-types,
+based on how the contaner-connectivity is configured in FreeBSD.
 
-```console
-$ docker run -i -t ubuntu /bin/bash
-```
+#### Volumes
 
-When you run this command, the following happens (assuming you are using
-the default registry configuration):
-
-1.  If you do not have the `ubuntu` image locally, Docker pulls it from your
-    configured registry, as though you had run `docker pull ubuntu` manually.
-
-2.  Docker creates a new container, as though you had run a `docker container create`
-    command manually.
-
-3.  Docker allocates a read-write filesystem to the container, as its final
-    layer. This allows a running container to create or modify files and
-    directories in its local filesystem.
-
-4.  Docker creates a network interface to connect the container to the default
-    network, since you did not specify any networking options. This includes
-    assigning an IP address to the container. By default, containers can
-    connect to external networks using the host machine's network connection.
-
-5.  Docker starts the container and executes `/bin/bash`. Because the container
-    is running interactively and attached to your terminal (due to the `-i` and `-t`
-    flags), you can provide input using your keyboard while the output is logged to
-    your terminal.
-
-6.  When you type `exit` to terminate the `/bin/bash` command, the container
-    stops but is not removed. You can start it again or remove it.
+Volumes are used to provide persistent storage for the ephemeral containers.
+Basically, volumes are zfs datasets that are mounted into one or more containers.
 
 ## The underlying technology
-Docker is written in the [Go programming language](https://golang.org/) and takes
-advantage of several features of the Linux kernel to deliver its functionality.
-Docker uses a technology called `namespaces` to provide the isolated workspace
-called the *container*. When you run a container, Docker creates a set of
-*namespaces* for that container.
 
-These namespaces provide a layer of isolation. Each aspect of a container runs
-in a separate namespace and its access is limited to that namespace.
+Kleened is written in the [Elixir programming language](https://elixir-lang.org/)
+and is closely integrated with FreeBSD, using zfs, jails, pf and other functionality.
+Kleened's API is mostly a HTTP-based REST API and is specificed using OpenAPI.
+A few special endpoints uses websockets for streaming/interactive interaction.
+Klee is written in [Python](https://www.python.org/) using the `click` and `rich`
+packages. Klee communicates with Kleened through the API and Klee can run on a
+seperate machine as Kleened. However, for now it is recommended to use Klee
+directly on the same machine as Kleened.
 
-## Next steps
-- Read about [installing Docker](../get-docker.md).
-- Get hands-on experience with the [Getting started with Docker](index.md)
-    tutorial.
+## Project status
+
+The project is considere beta, and bugs and quirks here and there is to be expected.
+Testing of Kleene is now paramount in maturing the software.
+Both with respect to bugs, as well as design-principles and practicability.
+
+Most of the present functionality should not be subject to major changes, but tweaks
+and minor additions should be expected.
+
+Feature-wise, Kleene can be considered a minimal version of Docker, with Dockerfiles,
+images containers, volumes, and networks. There are a few differences in design
+compared to Docker, as described previously on this page.
+
+Major features not part of Kleene (for now) includes:
+
+- Multi-container orchestration similar to docker-compose.
+- Built-in functionality for distributing images across host systems like
+  Docker Hub.
+- Clustering of several FreBSD Kleene hosts.
+
+If resources permit, some of these features, especially multi-container orchestration,
+will be implemented in the future.
