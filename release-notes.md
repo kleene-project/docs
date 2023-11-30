@@ -1,16 +1,11 @@
 ---
-description: Release notes for Docker
-keywords: docker, documentation, about, technology, understanding,  release
-title: Docker release notes
+description: Release notes for Kleene
+keywords: kleene, documentation,  release
+title: Kleene release notes
 ---
 
-Find out what's new in Docker! Release notes contain information about new
-features, improvements, known issues, and bug fixes in each release. You can
-find release notes for each component in the Manuals section. We suggest
-that you regularly visit the release notes to learn about updates.
+This place will be the place to see release descriptions about new
+features, improvements, known issues, and bug fixes in each release.
 
-- [Docker Engine](../engine/release-notes/index.md)
-- [Docker Desktop](../desktop/release-notes.md)
-- [Docker Hub](../docker-hub/release-notes.md)
-- [Docker Compose](../compose/release-notes.md)
-- [Docker Build](../build/release-notes.md)
+At the moment all Kleene componenents are under heavy development
+and no stable releases of Klee nor Kleened have been made yet.
