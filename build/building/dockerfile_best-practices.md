@@ -62,6 +62,11 @@ stateless fashion.
 
 See [Build context](../../build/building/context.md) page for more information.
 
+### Whether to use `/etc/rc` as `CMD`
+TBD:
+- jail/FreeBSD-approach vs. Docker
+- "Create multiple services in an image"
+
 ### Pipe Dockerfile through `stdin`
 
 Docker has the ability to build images by piping `Dockerfile` through `stdin`
@@ -73,7 +78,7 @@ afterwards.
 > The examples in this section use [here documents](https://tldp.org/LDP/abs/html/here-docs.html)
 > for convenience, but any method to provide the `Dockerfile` on `stdin` can be
 > used.
-> 
+>
 > For example, the following commands are equivalent: 
 > 
 > ```bash
