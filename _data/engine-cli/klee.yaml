@@ -42,6 +42,7 @@ options:
   experimental: false
   experimentalcli: false
   option: tlsverify
+  value_type: bool
 - deprecated: false
   description: Path to TLS certificate file used for client authentication (PEM encoded)
   experimental: false

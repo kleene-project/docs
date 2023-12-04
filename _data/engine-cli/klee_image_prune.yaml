@@ -38,7 +38,7 @@ examples: 'Example output:
   '
 experimental: false
 experimentalcli: false
-long: Remove images that are not being used by containers.
+long: Remove images that are not being used by containers
 options:
 - deprecated: false
   description: Remove tagged containers as well.

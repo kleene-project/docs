@@ -1,20 +1,45 @@
-clink:
-- klee_image_create_fetch.yaml
-- klee_image_create_zfs.yaml
-cname:
-- klee image create fetch
-- klee image create zfs
 command: klee image create
 deprecated: false
 experimental: false
 experimentalcli: false
-long: 'Create a base image from a remote tar-archive or a ZFS dataset using the subcommands
-
-  listed below.
-
-
-  See the documentation for details on base images and how to create them.'
+long: "Create a base image from a remote tar-archive or a ZFS dataset.\n\n**METHOD**\
+  \ can be one of the following:\n\n- **fetch**: Fetch a custom version of the base\
+  \ system and use it for image creation.\n  **SOURCE** is a valid url for `fetch(1)`\
+  \ pointing to a `base.txz` file.\n- **fetch-auto**: Automatically fetch a release/snapshot\
+  \ from the offical FreeBSD\n  mirrors, based on information from `uname(1)`. **SOURCE**\
+  \ is not used.\n- **zfs-copy**: Create the base image based on a copy of an existing\
+  \ ZFS dataset. **SOURCE** is the dataset.\n- **zfs-clone**: Create the base image\
+  \ based on a clone of an existing ZFS dataset. **SOURCE** is the dataset."
 options:
+- deprecated: false
+  description: Name and optionally a tag in the 'name:tag' format
+  experimental: false
+  experimentalcli: false
+  option: tag
+  shorthand: t
+- deprecated: false
+  description: 'Whether or not to copy `/etc/resolv.conf` from the host to the new
+    image.  [default: dns]'
+  experimental: false
+  experimentalcli: false
+  option: dns
+  value_type: bool
+- deprecated: false
+  description: Proceed using a userland from a FreeBSD mirror even if a customized
+    build is detected on the kleened host. Method **fetch-auto** only.
+  experimental: false
+  experimentalcli: false
+  option: force
+  shorthand: f
+  value_type: bool
+- deprecated: false
+  description: Whether or not to auto-genereate a nametag `FreeBSD-<version>:latest`
+    based on `uname(1)`. Method **fetch-auto** only.
+  experimental: false
+  experimentalcli: false
+  option: autotag
+  shorthand: a
+  value_type: bool
 - deprecated: false
   description: Show this message and exit.
   experimental: false
@@ -22,5 +47,5 @@ options:
   option: help
 plink: klee_image.yaml
 pname: klee image
-short: Create a base image from a remote...
-usage: klee image create [OPTIONS] COMMAND [ARGS]...
+short: Create a new base image
+usage: klee image create [OPTIONS] METHOD [SOURCE]...

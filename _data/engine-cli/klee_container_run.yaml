@@ -7,7 +7,7 @@ examples: '
 
   ```console
 
-  $ klee run --name test -ait FreeBSD-13.2-STABLE /bin/sh
+  $ klee run --name test -ait FreeBSD-13.2-RELEASE /bin/sh
 
   839aee293db2
 
@@ -308,7 +308,10 @@ options:
   experimentalcli: false
   option: name
 - deprecated: false
-  description: Alternate user that should be used for starting the container
+  description: 'Alternate user that should be used for starting the container.
+
+    This parameter will be overwritten by the jail parameter `exec.jail_user` if it
+    is set.'
   experimental: false
   experimentalcli: false
   option: user
@@ -338,7 +341,11 @@ options:
   option: env
   shorthand: e
 - deprecated: false
-  description: 'Specify a jail parameters, see jail(8) for details  [default: mount.devfs]'
+  description: 'Specify one or more jail parameters to use. See the `jail(8)` man-page
+    for details.
+
+    If you do not want `exec.clean` and `mount.devfs` enabled, you must actively disable
+    them.  [default: mount.devfs]'
   experimental: false
   experimentalcli: false
   option: jailparam

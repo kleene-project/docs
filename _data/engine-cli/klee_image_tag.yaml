@@ -71,5 +71,5 @@ options:
   option: help
 plink: klee_image.yaml
 pname: klee image
-short: Update the tag of image **SOURCE_IMAGE**...
+short: Rename an image
 usage: klee image tag [OPTIONS] SOURCE_IMAGE NAMETAG

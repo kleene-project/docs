@@ -24,6 +24,12 @@ experimentalcli: false
 long: Remove one or more containers
 options:
 - deprecated: false
+  description: Stop containers before removing them.
+  experimental: false
+  experimentalcli: false
+  option: force
+  shorthand: f
+- deprecated: false
   description: Show this message and exit.
   experimental: false
   experimentalcli: false

@@ -202,14 +202,8 @@ reference:
       title: klee image
     - path: /engine/reference/commandline/image_build/
       title: klee image build
-    - sectiontitle: klee image create
-      section:
-      - path: /engine/reference/commandline/image_create/
-        title: klee image create
-      - path: /engine/reference/commandline/image_create_fetch/
-        title: klee image create fetch
-      - path: /engine/reference/commandline/image_create_zfs/
-        title: klee image create zfs
+    - path: /engine/reference/commandline/image_create/
+      title: klee image create
     - path: /engine/reference/commandline/image_ls/
       title: klee image ls
     - path: /engine/reference/commandline/image_rm/
