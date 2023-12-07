@@ -124,7 +124,7 @@ options:
   experimentalcli: false
   option: user
   shorthand: u
-  value_type: TEXT
+  value_type: text
 - deprecated: false
   description: Set environment variables (e.g. --env FIRST=env --env SECOND=env)
   experimental: false

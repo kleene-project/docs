@@ -18,97 +18,42 @@ examples: "\nMore examples available at the [`klee container run` command](conta
   \u2500\u2500\u2500\u2500\u2500\u2500\u2500\n 6dedc1df7b42   10 secondsago\n```\n"
 experimental: false
 experimentalcli: false
-long: 'The `klee container create` (or shorthand: `klee create`) command creates a
-
-  new container from the specified image, without starting it.
-
-
-  This command is useful when you want to set up a container configuration ahead of
-  time
-
-  so that it is ready to start when you need it.
-
-
-  When creating a container, Kleened creates a ZFS dataset based
-
-  on the image and prepares it for running the specified command.
-
-  If no command is specified, Kleened uses the `CMD` specified in the image.
-
-  The container ID is then printed to `STDOUT`.
-
-
-  ### Specifying IMAGE
-
-  The `IMAGE` argument takes the following two forms:
-
-
-  - `<image_id>[:@<snapshot_id>]`
-
-  - `<image_name>[:<tag>][:@<snapshot_id>]`
-
-
-  If `<tag>` is omitted `latest` is assumed. For example,
-
-
-  - `FreeBSD` means the image `FreeBSD` with tag `latest`
-
-  - `FreeBSD:13.2-STABLE` means the image `FreeBSD` with tag `13.2-STABLE`
-
-  - `FreeBSD:base:@6b3c821605d4` means the `FreeBSD:base` image but create the container
-  from the snapshot `6b3c821605d4`
-
-  - `48fa55889b0f` use the image having ID `48fa55889b0f`
-
-  - `48fa55889b0f:@2028818d6f06` use the image as above but create the container from
-  the snapshot `2028818d6f06`
-
-
-  For more information about snapshots see the [Build snapshots](/build/building/snapshots/)
-  section.
-
-
-  ### Specifying volumes
-
-  When creating containers it is also possible to mount one or more volumes using
-  one or
-
-  more instances of the `--volume/-v` option following the syntax `[name:]location[:ro]`.
-
-  If `name` is supplied it implies that a volume with `name` has previously been created,
-  otherwise
-
-  a new nameless volume is created on-the-fly. If `:ro` is supplied, the volume is
-  mounted read-only
-
-  into the newly created container. For example:
-
-
-  - `klee container create -v /storage:ro ...` create a read-only `storage` mountpoint
-  in the container root.
-
-  - `klee container create -v logs:/var/log/db ...` mount the volume named `logs`
-  into the container at `/var/log/db`.
-
-
-  ### Starting the container
-
-  You can then use the `klee container start`
-
-  (or shorthand: `klee start`) command to start the container at any point.
-
-  Combinining `klee container create` and `klee container start` is equivalent to
-
-  `klee container run`.
-
-
-  The `klee create` command shares most of its options with the `klee run`
-
-  command. Refer to the [`klee container run` command](container_run.md) section
-
-  for details on the available flags and options.
-
-  '
+long: "The `klee container create` (or shorthand: `klee create`) command creates a\n\
+  new container from the specified image, without starting it.\n\nThis command is\
+  \ useful when you want to set up a container configuration ahead of time\nso that\
+  \ it is ready to start when you need it.\n\nWhen creating a container, Kleened creates\
+  \ a ZFS dataset based\non the image and prepares it for running the specified command.\n\
+  If no command is specified, Kleened uses the `CMD` specified in the image.\nThe\
+  \ container ID is then printed to `STDOUT`.\n\n### Specifying IMAGE\nThe `IMAGE`\
+  \ argument takes the following two forms:\n\n- `<image_id>[:@<snapshot_id>]`\n-\
+  \ `<image_name>[:<tag>][:@<snapshot_id>]`\n\nIf `<tag>` is omitted `latest` is assumed.\
+  \ For example,\n\n- `FreeBSD` means the image `FreeBSD` with tag `latest`\n- `FreeBSD:13.2-STABLE`\
+  \ means the image `FreeBSD` with tag `13.2-STABLE`\n- `FreeBSD:base:@6b3c821605d4`\
+  \ means the `FreeBSD:base` image but create the container from the snapshot `6b3c821605d4`\n\
+  - `48fa55889b0f` use the image having ID `48fa55889b0f`\n- `48fa55889b0f:@2028818d6f06`\
+  \ use the image as above but create the container from the snapshot `2028818d6f06`\n\
+  \nFor more information about snapshots see the [Build snapshots](/build/building/snapshots/)\
+  \ section.\n\n### Specifying mounts\nWhen creating containers it is also possible\
+  \ to mount volumes/directories/files\ninto the container using one or more `--mount\
+  \ <mount>` flags. `<mount>` must use\nthe following syntax:\n\n```console\n--mount/-m\
+  \ SOURCE:DESTINATION[:rw|ro]\n```\n\nwhere\n\n- `SOURCE` can be either a volume\
+  \ name or an absolute path on the host system.\n  If `SOURCE` starts with '`/`'\
+  \ it is interpreted as an host path.\n  If a volume name is specified, and the volume\
+  \ does not exist, it will be created.\n- `DESTINATION` is the path of the mount\
+  \ within the container. If it does not exist it\n  will be created.\n- Optionally,\
+  \ if the mount is postfixed with `:ro` or `:rw` the mount will be read-only\n  or\
+  \ read-write, respectively. If omitted, `:ro` is assumed.\n\nFor example:\n\n- `klee\
+  \ container create -m logs:/var/log ...` mount a volume named `logs` into the container\
+  \ at `/var/log`.\n- `klee container create -m my_archive:/archive:ro ...` create\
+  \ a read-only `archive` mountpoint in the\n  container root for the `my_archive`\
+  \ volume.\n- `klee container create -m /home/some_user:/home/some_user ...` mount\
+  \ the host directory `/home/some_user`\n  into the same path within the container.\n\
+  \n### Starting the container\nYou can then use the `klee container start`\n(or shorthand:\
+  \ `klee start`) command to start the container at any point.\nCombinining `klee\
+  \ container create` and `klee container start` is equivalent to\n`klee container\
+  \ run`.\n\nThe `klee create` command shares most of its options with the `klee run`\n\
+  command. Refer to the [`klee container run` command](container_run.md) section\n\
+  for details on the available flags and options.\n"
 options:
 - deprecated: false
   description: Assign a name to the container
@@ -121,7 +66,7 @@ options:
   experimentalcli: false
   option: user
   shorthand: u
-  value_type: TEXT
+  value_type: text
 - deprecated: false
   description: Connect a container to a network.
   experimental: false
@@ -135,11 +80,14 @@ options:
   experimentalcli: false
   option: ip
 - deprecated: false
-  description: Mount a volume to the container
+  description: 'Mount a volume/directory/file on the host filesystem into the container.
+
+    Mounts are specfied using a `--mount <source>:<destination>[:rw|ro]` syntax.'
   experimental: false
   experimentalcli: false
-  option: volume
-  shorthand: v
+  option: mount
+  shorthand: m
+  value_type: list
 - deprecated: false
   description: Set environment variables (e.g. --env FIRST=SomeValue --env SECOND=AnotherValue)
   experimental: false
