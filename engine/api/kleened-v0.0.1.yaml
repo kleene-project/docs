@@ -122,6 +122,15 @@
             "nullable": true,
             "type": "array"
           },
+          "mounts": {
+            "default": [],
+            "description": "List of files/directories/volumes on the host filesystem that should be mounted into the container.",
+            "items": {
+              "$ref": "#/components/schemas/MountPointConfig"
+            },
+            "nullable": true,
+            "type": "array"
+          },
           "name": {
             "description": "Name of the container. Must match `/?[a-zA-Z0-9][a-zA-Z0-9_.-]+`.",
             "nullable": true,
@@ -132,15 +141,6 @@
             "description": "User that executes the command (cmd).\nIf no user is set, the user from the image will be used, which in turn is 'root' if no user is specified there.\n\nThis parameter will be overwritten by the jail parameter `exec.jail_user` if it is set.\n",
             "nullable": true,
             "type": "string"
-          },
-          "volumes": {
-            "default": [],
-            "description": "List of volumes that should be mounted into the container",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true,
-            "type": "array"
           }
         },
         "title": "ContainerConfig",
@@ -512,32 +512,44 @@
       "ImageCreateConfig": {
         "description": "Configuration for the creation of base images.",
         "properties": {
+          "autotag": {
+            "default": true,
+            "description": "Whether or not to auto-genereate a nametag `FreeBSD-<version>:latest` based on `uname(1)`.\n*Method `\"fetch-auto\"` only*.\n",
+            "type": "boolean"
+          },
+          "dns": {
+            "default": true,
+            "description": "Whether or not to copy `/etc/resolv.conf` from the host to the new image.",
+            "type": "boolean"
+          },
           "force": {
             "default": false,
-            "description": "Ignore any discrepancies detected when using `uname(1)` to fetch the base system (method `\"fetch\"` only).",
+            "description": "Ignore any discrepancies detected when using `uname(1)` to fetch the base system.\n*Method `\"fetch-auto\"` only*.\n",
             "type": "boolean"
           },
           "method": {
-            "description": "Method used for creating a new base image: If `\"fetch\"` is selected, kleened will fetch a release/snapshot of the base system and use it for image creation. When `\"zfs\"` is used, a copy of the supplied zfs dataset is used for the image.",
+            "description": "There are four methods for creating a new base image:\n\n- `\"fetch\"`: Fetch a release/snapshot of the base system and use it for image creation.\n- `\"fetch-auto\"`: Automatically fetch a release/snapshot from the offical FreeBSD mirrors, based on information from `uname(1)`.\n- `\"zfs-copy\"`: Create the base image based on a copy of `zfs_dataset`.\n- `\"zfs-clone\"`: Create the base image based on a clone of `zfs_dataset`.\n",
             "enum": [
               "fetch",
-              "zfs"
+              "fetch-auto",
+              "zfs-copy",
+              "zfs-clone"
             ],
             "type": "string"
           },
           "tag": {
             "default": "",
-            "description": "Name and optionally a tag in the `name:tag` format",
+            "description": "Name and optionally a tag in the `name:tag` format.\n",
             "type": "string"
           },
           "url": {
             "default": "",
-            "description": "URL to a remote location where the base system (as a base.txz file) is stored. If an empty string is supplied kleened will try to fetch a version of the base sytem from download.freebsd.org using information from `uname(1)` (required for method 'fetch').",
+            "description": "URL to a remote location where the base system (as a base.txz file) is stored.\n*Method `\"fetch\"` only*.\n",
             "type": "string"
           },
           "zfs_dataset": {
             "default": "",
-            "description": "Dataset path on the host used for the image (required for method `\"zfs\"` only).",
+            "description": "ZFS dataset that the image should be based on.\n*Method `\"zfs-*\"` only*.\n",
             "type": "string"
           }
         },
@@ -558,28 +570,65 @@
         "x-struct": "Elixir.Kleened.API.Schemas.ImageList"
       },
       "MountPoint": {
-        "description": "Detailed information on a volume.",
+        "description": "Mount point between some part of the host file system and a container.\nThere are two types of mountpoints:\n\n- `nullfs`: Mount from a user-specified file or directory from the host machine into the container.\n- `volume`: Mount from a Kleene volume into the container.\n",
         "properties": {
           "container_id": {
-            "description": "ID of the container where the volume is mounted.",
+            "description": "ID of the container that the mountpoint belongs to.",
             "type": "string"
           },
-          "location": {
-            "description": "Location of the mount within the container.",
+          "destination": {
+            "description": "Destination path of the mount within the container.",
             "type": "string"
           },
           "read_only": {
             "description": "Whether this mountpoint is read-only.",
             "type": "boolean"
           },
-          "volume_name": {
-            "description": "Name of the volume",
+          "source": {
+            "description": "Source used for the mount. Depends on `method`:\n\n- If `method=\"volume\"` then `source` should be a volume name\n- If `method=\"nullfs\"`  then `source` should be a (absolute) path on the host\n",
+            "type": "string"
+          },
+          "type": {
+            "description": "Kind of mount: `nullfs` or `volume`.",
+            "enum": [
+              "volume",
+              "nullfs"
+            ],
             "type": "string"
           }
         },
         "title": "MountPoint",
         "type": "object",
         "x-struct": "Elixir.Kleened.API.Schemas.MountPoint"
+      },
+      "MountPointConfig": {
+        "description": "Create a mount point between sthe host file system and a container.\n\nThere are two `type`'s of mount points:\n\n- `nullfs`: Mount a user-specified file or directory from the host machine into the container.\n- `volume`: Mount a Kleene volume into the container.\n",
+        "properties": {
+          "destination": {
+            "description": "Destination path of the mount within the container.",
+            "type": "string"
+          },
+          "read_only": {
+            "default": false,
+            "description": "Whether the mountpoint should be read-only.",
+            "type": "boolean"
+          },
+          "source": {
+            "description": "Source used for the mount. Depends on `method`:\n\n- If `method=\"volume\"` then `source` should be a volume name\n- If `method=\"nullfs\"`  then `source` should be a (absolute) path on the host\n",
+            "type": "string"
+          },
+          "type": {
+            "description": "Kind of mount to create: `nullfs` or `volume`.",
+            "enum": [
+              "volume",
+              "nullfs"
+            ],
+            "type": "string"
+          }
+        },
+        "title": "MountPointConfig",
+        "type": "object",
+        "x-struct": "Elixir.Kleened.API.Schemas.MountPointConfig"
       },
       "Network": {
         "description": "summary description of a network",
@@ -946,6 +995,16 @@
               }
             },
             "description": "no such container"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "container running"
           },
           "500": {
             "content": {
