@@ -10,7 +10,7 @@ examples: '
 
   ```console
 
-  $ klee run --name mycontainer -a 13.2-RELEASE /bin/sh /etc/rc
+  $ klee run --name mycontainer 13.2-RELEASE /bin/sh /etc/rc
 
   ad813478a0ec
 
@@ -65,7 +65,7 @@ examples: '
 
   ```console
 
-  $ klee container exec -a mycontainer touch /tmp/execWorks
+  $ klee container exec mycontainer touch /tmp/execWorks
 
   ```
 
@@ -80,7 +80,7 @@ examples: '
 
   ```console
 
-  $ klee container exec -ait mycontainer /bin/sh
+  $ klee container exec -it mycontainer /bin/sh
 
   ```
 
@@ -115,7 +115,7 @@ examples: '
 
   ```console
 
-  $ klee exec -a -e VAR_A=1 -e VAR_B=2 mycontainer env
+  $ klee exec -e VAR_A=1 -e VAR_B=2 mycontainer env
 
   created execution instance 73dbb1c9ee03
 
@@ -141,19 +141,21 @@ long: 'The `klee container exec` command runs a new command in a running contain
 
   `COMMAND` must be an executable. A chained or a quoted command does not work.
 
-  For example, `klee container exec -a my_container sh -c "echo a && echo b"` works,
+  For example, `klee container exec my_container sh -c "echo a && echo b"` works,
 
-  but `klee container exec -a my_container "echo a && echo b"` does not.
+  but `klee container exec my_container "echo a && echo b"` does not.
 
   '
 options:
 - deprecated: false
-  description: Attach to STDOUT/STDERR. If this flag is omitted the container will
-    run detached from klee.
+  description: 'Whether or not to attach to STDOUT/STDERR.
+
+    If this is set, Klee will exit and return the container ID when the container
+    has been started.'
   experimental: false
   experimentalcli: false
-  option: attach
-  shorthand: a
+  option: detach
+  shorthand: d
 - deprecated: false
   description: Set environment variables (e.g. --env FIRST=env --env SECOND=env)
   experimental: false
@@ -161,7 +163,8 @@ options:
   option: env
   shorthand: e
 - deprecated: false
-  description: Send terminal input to STDIN. Ignored if '--attach' is not used.
+  description: Send terminal input to container's STDIN. If set, `--detach` will be
+    ignored.
   experimental: false
   experimentalcli: false
   option: interactive

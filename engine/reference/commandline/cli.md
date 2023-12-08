@@ -140,35 +140,41 @@ To list the help on any command just execute the command, followed by the
 ```console
 $ klee run --help
 Usage: klee run [OPTIONS] IMAGE [COMMAND]...
-
-  Run a command in a new container.
-
-  The IMAGE syntax is: (IMAGE_ID|IMAGE_NAME[:TAG])[:@SNAPSHOT]
-
-╭─ Options ─────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│      --name         Assign a name to the container                                                                    │
-│  -u  --user         Alternate user that should be used for starting the container                                     │
-│  -n  --network      Connect a container to a network                                                                  │
-│      --ip           IPv4 address (e.g., 172.30.100.104). If the '--network' parameter is not set '--ip' is ignored.   │
-│  -v  --volume       Mount a volume within a container. The syntax is -v [volume-name]:/mountpoint/path[:ro].          │
-│  -e  --env          Set environment variables (e.g. --env FIRST=env --env SECOND=env)                                 │
-│  -J  --jailparam    Specify a jail parameters, see jail(8) for details  [default: mount.devfs]                        │
-│  -a  --attach       Attach to STDOUT/STDERR. If this flag is omitted the container will run detached from klee.       │
-│  -i  --interactive  Send terminal input to container's STDIN. Ignored if '--attach' is not used.                      │
-│  -t  --tty          Allocate a pseudo-TTY                                                                             │
-│      --help         Show this message and exit.                                                                       │
-╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+                                                                                                                       
+  Run a command in a new container.                                                                                    
+                                                                                                                       
+  The IMAGE syntax is: (IMAGE_ID|IMAGE_NAME[:TAG])[:@SNAPSHOT]                                                         
+                                                                                                                       
+╭─ Options ───────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│      --name         Assign a name to the container                                                                  │
+│  -u  --user         Alternate user that should be used for starting the container. This parameter will be           │
+│                     overwritten by the jail parameter exec.jail_user if it is set.                                  │
+│  -n  --network      Connect a container to a network                                                                │
+│      --ip           IPv4 address (e.g., 172.30.100.104). If the '--network' parameter is not set '--ip' is          │
+│                     ignored.                                                                                        │
+│  -m  --mount list   Mount a volume/directory/file on the host filesystem into the container. Mounts are specfied    │
+│                     using a --mount <source>:<destination>[:rw|ro] syntax.                                          │
+│  -e  --env          Set environment variables (e.g. --env FIRST=env --env SECOND=env)                               │
+│  -J  --jailparam    Specify one or more jail parameters to use. See the jail(8) man-page for details. If you do     │
+│                     not want exec.clean and mount.devfs enabled, you must actively disable them.  [default:         │
+│                     mount.devfs]                                                                                    │
+│  -d  --detach flag  Whether or not to attach to STDOUT/STDERR. If this is set, Klee will exit and return the        │
+│                     container ID when the container has been started.                                               │
+│  -i  --interactive  Send terminal input to container's STDIN. If set, --detach will be ignored.                     │
+│  -t  --tty          Allocate a pseudo-TTY                                                                           │
+│      --help         Show this message and exit.                                                                     │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ```
 
 ### Option types
 
 Single character command line options can be combined, so rather than
-typing `klee run -a -i -t --name test FreeBSD-13.1-RELEASE /bin/sh`,
-you can write `klee run -ait --name test FreeBSD-13.1-RELEASE /bin/sh`.
+typing `klee run -i -t --name test FreeBSD-13.1-RELEASE /bin/sh`,
+you can write `klee run -it --name test FreeBSD-13.1-RELEASE /bin/sh`.
 
 #### Flags
 
-Flag parameters take the form `-a`, `--attach`, `--tty`. Setting a flag
+Flag parameters take the form `-d`, `--detach`, `--tty`. Setting a flag
 will enable some functionality that would be otherwise unset.
 The help text describes what will happen if the flag i used.
 
@@ -182,7 +188,7 @@ You can specify `list` options like `--env <some value>` multiple times in a sin
 for example in these commands:
 
 ```console
-$ klee run -a --env SOME_VAR=value1 --env SOME_OTHER_VAR=value2 FreeBSD-13.1-RELEASE /bin/bash
+$ klee run --env SOME_VAR=value1 --env SOME_OTHER_VAR=value2 FreeBSD-13.1-RELEASE /bin/bash
 ```
 
 #### Strings and Integers

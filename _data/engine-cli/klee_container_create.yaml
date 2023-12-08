@@ -4,10 +4,10 @@ examples: "\nMore examples available at the [`klee container run` command](conta
   \ documentation.\n\n### Create and start a container\n\nThe following example creates\
   \ an interactive container with a pseudo-TTY attached,\nthen starts the container\
   \ and attaches to it:\n\n```console\n$ klee container create --name mycontainer\
-  \ hello-world:latest\n4d9d4e72a07f\n\n$ klee container start -ait mycontainer\n\
-  created execution instance 71c359af03f7\nHello World\n\nexecutable 71c359af03f7\
-  \ and its container exited with exit-code 0\n```\n\nThe above is the equivalent\
-  \ of a `klee run`:\n\n```console\n$ klee container run -ait --name mycontainer hello-world:latest\n\
+  \ hello-world:latest\n4d9d4e72a07f\n\n$ klee container start -it mycontainer\ncreated\
+  \ execution instance 71c359af03f7\nHello World\n\nexecutable 71c359af03f7 and its\
+  \ container exited with exit-code 0\n```\n\nThe above is the equivalent of a `klee\
+  \ run`:\n\n```console\n$ klee container run -it --name mycontainer hello-world:latest\n\
   6e33dbacde70\ncreated execution instance 4eb13ad4c3a4\nHello World\n\nexecutable\
   \ 4eb13ad4c3a4 and its container exited with exit-code 0\n```\n\n### Initialize\
   \ volumes\n\nContainer volumes can be automatically created during the `klee container\
@@ -34,26 +34,26 @@ long: "The `klee container create` (or shorthand: `klee create`) command creates
   \ use the image as above but create the container from the snapshot `2028818d6f06`\n\
   \nFor more information about snapshots see the [Build snapshots](/build/building/snapshots/)\
   \ section.\n\n### Specifying mounts\nWhen creating containers it is also possible\
-  \ to mount volumes/directories/files\ninto the container using one or more `--mount\
-  \ <mount>` flags. `<mount>` must use\nthe following syntax:\n\n```console\n--mount/-m\
-  \ SOURCE:DESTINATION[:rw|ro]\n```\n\nwhere\n\n- `SOURCE` can be either a volume\
-  \ name or an absolute path on the host system.\n  If `SOURCE` starts with '`/`'\
-  \ it is interpreted as an host path.\n  If a volume name is specified, and the volume\
-  \ does not exist, it will be created.\n- `DESTINATION` is the path of the mount\
-  \ within the container. If it does not exist it\n  will be created.\n- Optionally,\
-  \ if the mount is postfixed with `:ro` or `:rw` the mount will be read-only\n  or\
-  \ read-write, respectively. If omitted, `:ro` is assumed.\n\nFor example:\n\n- `klee\
-  \ container create -m logs:/var/log ...` mount a volume named `logs` into the container\
-  \ at `/var/log`.\n- `klee container create -m my_archive:/archive:ro ...` create\
-  \ a read-only `archive` mountpoint in the\n  container root for the `my_archive`\
-  \ volume.\n- `klee container create -m /home/some_user:/home/some_user ...` mount\
-  \ the host directory `/home/some_user`\n  into the same path within the container.\n\
-  \n### Starting the container\nYou can then use the `klee container start`\n(or shorthand:\
-  \ `klee start`) command to start the container at any point.\nCombinining `klee\
-  \ container create` and `klee container start` is equivalent to\n`klee container\
-  \ run`.\n\nThe `klee create` command shares most of its options with the `klee run`\n\
-  command. Refer to the [`klee container run` command](container_run.md) section\n\
-  for details on the available flags and options.\n"
+  \ to mount volumes/directories/files\ninto the container using one or more `--mount/-m\
+  \  <mount>` flags. `<mount>` must use\nthe following syntax:\n\n```console\nSOURCE:DESTINATION[:rw|ro]\n\
+  ```\n\nwhere\n\n- `SOURCE` can be either a volume name or an absolute path on the\
+  \ host system.\n  If `SOURCE` starts with '`/`' it is interpreted as a host path.\n\
+  \  If a volume name is specified, and the volume does not exist, it will be created.\n\
+  - `DESTINATION` is the path of the mount within the container. If it does not exist\
+  \ it\n  will be created.\n- Optionally, if the mount is postfixed with `:ro` or\
+  \ `:rw` the mount will be read-only\n  or read-write, respectively. If omitted,\
+  \ `:rw` is assumed.\n\nFor example:\n\n- `klee container create -m logs:/var/log\
+  \ ...` mount a volume named `logs` into the container at `/var/log`.\n- `klee container\
+  \ create -m my_archive:/archive:ro ...` create a read-only `archive` mountpoint\
+  \ in the\n  container root for the `my_archive` volume.\n- `klee container create\
+  \ -m /home/some_user:/home/some_user ...` mount the host directory `/home/some_user`\n\
+  \  into the same path within the container.\n\n### Starting the container\nYou can\
+  \ then use the `klee container start`\n(or shorthand: `klee start`) command to start\
+  \ the container at any point.\nCombinining `klee container create` and `klee container\
+  \ start` is equivalent to\n`klee container run`.\n\nThe `klee create` command shares\
+  \ most of its options with the `klee run`\ncommand. Refer to the [`klee container\
+  \ run` command](container_run.md) section\nfor details on the available flags and\
+  \ options.\n"
 options:
 - deprecated: false
   description: Assign a name to the container

@@ -7,15 +7,17 @@ long: 'Start one or more stopped containers.
   Attach only if a single container is started'
 options:
 - deprecated: false
-  description: Attach to STDOUT/STDERR. If this flag is omitted the container will
-    run detached from klee.
+  description: 'Whether or not to attach to STDOUT/STDERR.
+
+    If this is set, Klee will exit and return the container ID when the container
+    has been started.'
   experimental: false
   experimentalcli: false
-  option: attach
-  shorthand: a
+  option: detach
+  shorthand: d
 - deprecated: false
-  description: Send terminal input to container's STDIN. Ignored if '--attach' is
-    not used.
+  description: Send terminal input to container's STDIN. If set, `--detach` will be
+    ignored.
   experimental: false
   experimentalcli: false
   option: interactive
