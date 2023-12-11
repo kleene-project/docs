@@ -139,7 +139,7 @@ Docker containers.
 
 ### Image identification
 
-FIXME This notation needs to be explained.: `image_id|[image_name[:tag]][:@snapshot]`
+FIXME This notation needs to be explained.: `image_id|[image_name[:tag]][@snapshot]`
 
 
 ### Example: run htop inside a container

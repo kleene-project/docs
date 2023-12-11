@@ -3,9 +3,9 @@
     "responses": {},
     "schemas": {
       "Container": {
-        "description": "summary description of a container",
+        "description": "Summary description of a container",
         "properties": {
-          "command": {
+          "cmd": {
             "default": [],
             "description": "Command being used when starting the container",
             "items": {
@@ -15,6 +15,10 @@
           },
           "created": {
             "description": "When the container was created",
+            "type": "string"
+          },
+          "dataset": {
+            "description": "ZFS dataset of the container",
             "type": "string"
           },
           "env": {
@@ -48,10 +52,6 @@
               "type": "string"
             },
             "type": "array"
-          },
-          "layer_id": {
-            "description": "The id of the layer used by the container.",
-            "type": "string"
           },
           "name": {
             "description": "Name of the container.",
@@ -100,12 +100,12 @@
             "type": "array"
           },
           "image": {
-            "description": "The name or id and possibly a snapshot of the image used for creating the container.\nThe parameter uses the followinge format:\n\n- `<image_id>[:@<snapshot_id>]` or\n- `<name>[:<tag>][:@<snapshot_id>]`.\n\nIf `<tag>` is omitted, `latest` is assumed.\n",
+            "description": "The name or id and possibly a snapshot of the image used for creating the container.\nThe parameter uses the followinge format:\n\n- `<image_id>[@<snapshot_id>]` or\n- `<name>[:<tag>][@<snapshot_id>]`.\n\nIf `<tag>` is omitted, `latest` is assumed.\n",
             "example": [
               "FreeBSD:13.2-STABLE",
-              "FreeBSD:13.2-STABLE:@6b3c821605d4",
+              "FreeBSD:13.2-STABLE@6b3c821605d4",
               "48fa55889b0f",
-              "48fa55889b0f:@2028818d6f06"
+              "48fa55889b0f@2028818d6f06"
             ],
             "type": "string"
           },
@@ -175,7 +175,7 @@
       "ContainerSummary": {
         "description": "summary description of a container",
         "properties": {
-          "command": {
+          "cmd": {
             "description": "Command being used when starting the container",
             "type": "string"
           },
@@ -399,7 +399,7 @@
             },
             "type": "object"
           },
-          "command": {
+          "cmd": {
             "default": [],
             "description": "Default command used when creating a container from this image",
             "example": [
@@ -414,6 +414,10 @@
           },
           "created": {
             "description": "When the image was created",
+            "type": "string"
+          },
+          "dataset": {
+            "description": "ZFS dataset of the image",
             "type": "string"
           },
           "env": {
@@ -443,10 +447,6 @@
               "type": "array"
             },
             "type": "array"
-          },
-          "layer_id": {
-            "description": "Id of the layer containing the image",
-            "type": "string"
           },
           "name": {
             "description": "Name of the image",
@@ -732,11 +732,11 @@
             "type": "string"
           },
           "dataset": {
-            "description": "underlying zfs dataset of the volume",
+            "description": "ZFS dataset used for the volume",
             "type": "string"
           },
           "mountpoint": {
-            "description": "mountpoint of the volume's underlying zfs-dataset (the mountpoint shown with 'zfs list')",
+            "description": "Mountpoint of `dataset`",
             "type": "string"
           },
           "name": {

@@ -4,7 +4,7 @@
 # This file overrides options set in _config.yml for production / deploy
 ##
 
-name: Docker Documentation
+name: Kleene Documentation
 repo: https://github.com/docker/docs
 
 markdown: kramdown

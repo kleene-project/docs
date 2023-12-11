@@ -80,7 +80,7 @@ whitespaces before comments (`#`) and instructions (such as `RUN`) are
 Environment variables (declared with [the `ENV` instruction](#env)) can also be
 used in certain instructions other than [the `RUN` instruction](#run) as
 variables to be interpreted by the `Dockerfile`.
-Environment replacement is done using the Bourne Shell (`sh(1)`) supplied
+Environment replacement is done using the Bourne shell (`sh(1)`) supplied
 with environment variables as given by the preceding `ENV`-instructions.
 Thus, the rules of notation and syntax are identical to `sh`, as discussed
 below.
@@ -156,9 +156,9 @@ CMD  /code/run-app
 
 RUN has 2 forms:
 
-- `RUN <command>` (*shell* form, the command is, roughly, run in a shell using
-  `/bin/sh -c <command>`.)
-- `RUN ["executable", "param1", "param2"]` (*exec* form)
+- `RUN <command>` *shell* form, the command is run in a Bourne shell
+  `/bin/sh -c <command>`.
+- `RUN ["executable", "param1", "param2"]` *exec* form.
 
 After a `RUN` instruction have been succesfully executed in the build-container,
 a ZFS snapshot is created. Snapshotting instructions in this way makes it possible
@@ -174,11 +174,6 @@ the desired shell. For example:
 RUN ["/bin/bash", "-c", "echo hello"]
 ```
 
-> **Note**
->
-> The *exec* form is parsed as a JSON array, which means that
-> you must use double-quotes (") around words not single-quotes (').
-
 Unlike the *shell* form, the *exec* form does not invoke a command shell.
 This means that normal shell processing does not happen. For example,
 `RUN [ "echo", "$HOME" ]` will not do variable substitution on `$HOME`.
@@ -186,30 +181,27 @@ If you want shell processing then either use the *shell* form or execute
 a shell directly, for example: `RUN [ "sh", "-c", "echo $HOME" ]`.
 When using the exec form and executing a shell directly, as in the case for
 the shell form, it is the shell that is doing the environment variable
-expansion, not docker.
+expansion, not Kleened.
 
 > **Note**
 >
-> In the *JSON* form, it is necessary to escape backslashes.
+> The *exec* form is parsed as a JSON array, which means that
+> you must use double-quotes (") around words not single-quotes (').
+> Also, in the *JSON* form, it is necessary to escape backslashes.
 
 ## CMD
 
-The `CMD` instruction has three forms:
+The `CMD` instruction has two forms:
 
 - `CMD ["executable","param1","param2"]` (*exec* form, this is the preferred form)
 - `CMD command param1 param2` (*shell* form)
 
-There can only be one `CMD` instruction in a `Dockerfile`. If you list more than one `CMD`
-then only the last `CMD` will take effect.
+There can only be one `CMD` instruction in a `Dockerfile`. If you list more than
+one `CMD` then only the last `CMD` will take effect.
 
 **The main purpose of a `CMD` is to provide defaults for an executing
 container, i.e., `CMD` does nothing during the image build and is only used by
 containers.**
-
-> **Note**
->
-> The *exec* form is parsed as a JSON array, which means that you must use
-> double-quotes (") around words not single-quotes (').
 
 Unlike the *shell* form, the *exec* form does not invoke a command shell.
 This means that normal shell processing does not happen. For example,
@@ -218,7 +210,13 @@ If you want shell processing then either use the *shell* form or execute
 a shell directly, for example: `CMD [ "sh", "-c", "echo $HOME" ]`.
 When using the exec form and executing a shell directly, as in the case for
 the shell form, it is the shell that is doing the environment variable
-expansion, not docker.
+expansion, not Kleened.
+
+> **Note**
+>
+> The *exec* form is parsed as a JSON array, which means that
+> you must use double-quotes (") around words not single-quotes (').
+> Also, in the *JSON* form, it is necessary to escape backslashes.
 
 When used in the shell or exec formats, the `CMD` instruction sets the command
 to be executed when running the image.
@@ -438,10 +436,16 @@ USER patrick
 WORKDIR /path/to/workdir
 ```
 
-The `WORKDIR` instruction sets the working directory for the *shell form* of
-any subsequent `RUN`, and `COPY` instructions in the `Dockerfile`.
-If the `WORKDIR` doesn't exist, it will be created even if it's not used in any
-subsequent `Dockerfile` instruction.
+The `WORKDIR` instruction sets the working directory of any subsequent `RUN`, `CMD`,
+and `COPY` instructions in the `Dockerfile`.
+If the path specified in `WORKDIR` doesn't exist, it will be created even if it's
+not used in any subsequent `Dockerfile` instruction.
+
+> **Note**
+>
+> `WORKDIR` only works for `RUN` and `CMD` instructions in the *shell form*.
+> If `CMD` is replaced, the new command won't automatically be
+> executed in `WORKDIR`.
 
 The `WORKDIR` instruction can be used multiple times in a `Dockerfile`. If a
 relative path is provided, it will be relative to the path of the previous

@@ -140,11 +140,11 @@ To list the help on any command just execute the command, followed by the
 ```console
 $ klee run --help
 Usage: klee run [OPTIONS] IMAGE [COMMAND]...
-                                                                                                                       
-  Run a command in a new container.                                                                                    
-                                                                                                                       
-  The IMAGE syntax is: (IMAGE_ID|IMAGE_NAME[:TAG])[:@SNAPSHOT]                                                         
-                                                                                                                       
+
+  Run a command in a new container.
+
+  The IMAGE syntax is: (IMAGE_ID|IMAGE_NAME[:TAG])[@SNAPSHOT]
+
 ╭─ Options ───────────────────────────────────────────────────────────────────────────────────────────────────────────╮
 │      --name         Assign a name to the container                                                                  │
 │  -u  --user         Alternate user that should be used for starting the container. This parameter will be           │

@@ -25,14 +25,14 @@ long: "The `klee container create` (or shorthand: `klee create`) command creates
   \ a ZFS dataset based\non the image and prepares it for running the specified command.\n\
   If no command is specified, Kleened uses the `CMD` specified in the image.\nThe\
   \ container ID is then printed to `STDOUT`.\n\n### Specifying IMAGE\nThe `IMAGE`\
-  \ argument takes the following two forms:\n\n- `<image_id>[:@<snapshot_id>]`\n-\
-  \ `<image_name>[:<tag>][:@<snapshot_id>]`\n\nIf `<tag>` is omitted `latest` is assumed.\
-  \ For example,\n\n- `FreeBSD` means the image `FreeBSD` with tag `latest`\n- `FreeBSD:13.2-STABLE`\
-  \ means the image `FreeBSD` with tag `13.2-STABLE`\n- `FreeBSD:base:@6b3c821605d4`\
-  \ means the `FreeBSD:base` image but create the container from the snapshot `6b3c821605d4`\n\
-  - `48fa55889b0f` use the image having ID `48fa55889b0f`\n- `48fa55889b0f:@2028818d6f06`\
-  \ use the image as above but create the container from the snapshot `2028818d6f06`\n\
-  \nFor more information about snapshots see the [Build snapshots](/build/building/snapshots/)\
+  \ argument takes the following two forms:\n\n- `<image_id>[@<snapshot_id>]`\n- `<image_name>[:<tag>][@<snapshot_id>]`\n\
+  \nIf `<tag>` is omitted `latest` is assumed. For example,\n\n- `FreeBSD` means the\
+  \ image `FreeBSD` with tag `latest`\n- `FreeBSD:13.2-STABLE` means the image `FreeBSD`\
+  \ with tag `13.2-STABLE`\n- `FreeBSD:base@6b3c821605d4` means the `FreeBSD:base`\
+  \ image but create the container from the snapshot `6b3c821605d4`\n- `48fa55889b0f`\
+  \ use the image having ID `48fa55889b0f`\n- `48fa55889b0f@2028818d6f06` use the\
+  \ image as above but create the container from the snapshot `2028818d6f06`\n\nFor\
+  \ more information about snapshots see the [Build snapshots](/build/building/snapshots/)\
   \ section.\n\n### Specifying mounts\nWhen creating containers it is also possible\
   \ to mount volumes/directories/files\ninto the container using one or more `--mount/-m\
   \  <mount>` flags. `<mount>` must use\nthe following syntax:\n\n```console\nSOURCE:DESTINATION[:rw|ro]\n\

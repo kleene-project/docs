@@ -65,10 +65,10 @@ For more details, see
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 block">
       <div class="component">
         <div class="component-icon">
-          <a href="/config/containers/logging/"><img src="/assets/images/engine-logging.svg" alt="Document with a text outline" width="70px" height="70px"></a>
+          <a href="/engine/security/rootless/"><img src="/assets/images/engine-rootless.svg" alt="Checkered shield" width="70px" height="70px"></a>
         </div>
-        <h2><a href="/config/containers/logging/">Container logs</a></h2>
-        <p>Learn how to view and read container logs.</p>
+        <h2><a href="/engine/security/rootless/">Rootless mode</a></h2>
+        <p>Run Docker without root privileges.</p>
       </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 block">
@@ -87,36 +87,6 @@ For more details, see
         </div>
         <h2><a href="/config/daemon/">Configure the daemon</a></h2>
         <p>Delve into the configuration options of the Docker daemon.</p>
-      </div>
-    </div>
-  </div>
-  <!--start row-->
-  <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 block">
-      <div class="component">
-        <div class="component-icon">
-          <a href="/engine/security/rootless/"><img src="/assets/images/engine-rootless.svg" alt="Checkered shield" width="70px" height="70px"></a>
-        </div>
-        <h2><a href="/engine/security/rootless/">Rootless mode</a></h2>
-        <p>Run Docker without root privileges.</p>
-      </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 block">
-      <div class="component">
-        <div class="component-icon">
-          <a href="/engine/deprecated/"><img src="/assets/images/engine-deprecated.svg" alt="Alarm bell with an exclamation mark" width="70px" height="70px"></a>
-        </div>
-        <h2><a href="/engine/deprecated/">Deprecated features</a></h2>
-        <p>Find out what features of Docker Engine you should stop using.</p>
-      </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 block">
-      <div class="component">
-        <div class="component-icon">
-          <a href="/engine/release-notes/"><img src="/assets/images/note-add.svg" alt="Document with an overlaying plus sign" width="70px" height="70px"></a>
-        </div>
-        <h2><a href="/engine/release-notes/">Release notes</a></h2>
-        <p>Read the release notes for the latest version.</p>
       </div>
     </div>
   </div>
