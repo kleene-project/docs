@@ -1,21 +1,19 @@
 ---
 title: "Containerize an application"
-keywords: get started, setup, orientation, quickstart, intro, concepts, containers, docker desktop
-redirect_from:
-- /get-started/part2/
-description: Containerize and run a simple application to learn Docker
+keywords: get started, setup, orientation, quickstart, intro, concepts, containers
+description: Containerize and run a simple application to learn Kleene
 ---
 
-For the rest of this guide, you will be working with a simple todo
-list manager that's running in Node.js. If you're not familiar with Node.js,
-don't worry. This guide doesn't require JavaScript experience.
+In the following guide you will try and deploy a simple Node.js webapp, based on
+[Docker's get-started guide](https://docs.docker.com/get-started/02_our_app/).
+This guide does not go into details of the webapp, so no prior
+knowledge of Node.js or JavaScript is required.
 
-To complete this guide, you'll need the following:
+### Pre-requisites
 
-- Docker running locally. Follow the instructions to [download and install Docker](../get-docker.md).
-- A [Git client](https://git-scm.com/downloads){:target="_blank" rel="noopener" class="_"}.
-- An IDE or a text editor to edit files. Docker recommends using [Visual Studio Code](https://code.visualstudio.com/){:target="_blank" rel="noopener" class="_"}.
-- A conceptual understanding of [containers and images](../get-started/overview.md/#docker-objects).
+- A conceptual understanding of [containers and images](/get-started/overview/#the-kleene-components).
+- Kleened and Klee [installed and configured on the host](/FIXME) so they can communicate with each other.
+- `git`
 
 ## Get the app
 
@@ -27,120 +25,127 @@ Before you can run the application, you need to get the application source code 
    $ git clone https://github.com/docker/getting-started.git
    ```
 
-2. View the contents of the cloned repository. Inside the `getting-started/app` directory you should see `package.json` and two subdirectories (`src` and `spec`).
+2. View the contents of the cloned repository. Inside the `/app` directory of the repository you should see `package.json`, two subdirectories (`src` and `spec`),
+   and perhaps a few other files.
 
-    ![Screenshot of Visual Studio Code opened with the app loaded](images/ide-screenshot.png){: style="width:650px;margin-top:20px;"}
-    {: .text-center }
+## prepare the Kleened host
+
+When you have a fresh installation, a few preparations is needed before you can start
+building images and creating containers.
+
+You need to create a [base image](FIXME: link til glossary eller?) and a network to use for the images and containers that are created in this guide.
+
+1. Create a base image. The simplest way to do this is to let Kleened find and download an approriate relase of the FreeBSD userland:
+
+   ```console
+   $ klee image create fetch-auto
+   ```
+
+2. In order for you to isolate your containers from the host networking create a dedicated network to use for our containers:
+
+   ```console
+   $ klee network create --subnet 10.13.37.0/24 testnet
+   ```
 
 ## Build the app's container image
 
-In order to build the [container image](../get-started/overview.md/#docker-objects){:target="_blank" rel="noopener" class="_"}, you'll need to use a `Dockerfile`. A Dockerfile is simply a text-based file with no file extension. A Dockerfile contains a script of instructions that Docker uses to create a container image.
+In order to build the [container image](../get-started/overview.md/#kleene-objects){:target="_blank" rel="noopener" class="_"}, you'll need to use a `Dockerfile`.
+A Dockerfile contains the instructions that Kleened uses to create the image.
 
-1. In the `app` directory, the same location as the `package.json` file, create a file named `Dockerfile`. You can use the following commands below to create a Dockerfile based on your operating system.
+1. In the `app` directory mentioned previously, create a file named `Dockerfile`.
 
-   <ul class="nav nav-tabs">
-     <li class="active"><a data-toggle="tab" data-target="#mac-linux">Mac / Linux</a></li>
-     <li><a data-toggle="tab" data-target="#windows">Windows</a></li>
-   </ul>
-   <div class="tab-content">
-   <div id="mac-linux" class="tab-pane fade in active" markdown="1">
+   You can use the following commands below to create a Dockerfile, replacing `/path/to/` with the path to your `getting-started` repository.
 
-    In the terminal, run the following commands listed below.
+   ```console
+   $ cd /path/to/app
+   $ touch Dockerfile
+   ```
 
-    Change directory to the `app` directory. Replace `/path/to/app` with the path to your `getting-started/app` directory.
-    ```console
-    $ cd /path/to/app
-    ```
-    Create an empty file named `Dockerfile`.
-    ```console
-    $ touch Dockerfile
-    ```
-
-    <hr>
-   </div>
-   <div id="windows" class="tab-pane fade" markdown="1">
-
-    In the Windows Command Prompt, run the following commands listed below.
-
-    Change directory to the `app` directory. Replace `\path\to\app` with the path to your `getting-started\app` directory.
-    ```console
-    $ cd \path\to\app
-    ```
-    Create an empty file named `Dockerfile`.
-    ```console
-    $ type nul > Dockerfile
-    ```
-    <hr>
-   </div>
-   </div>
-
-2. Using a text editor or code editor, add the following contents to the Dockerfile:
+2. Add the following contents to the Dockerfile:
 
    ```dockerfile
-   # syntax=docker/dockerfile:1
-   FROM node:18-alpine
+   FROM FreeBSD-13.2-RELEASE:latest
+   RUN pkg install -y node20 npm-node20 yarn-node20
    WORKDIR /app
    COPY . .
    RUN yarn install --production
-   CMD ["node", "src/index.js"]
-   EXPOSE 3000
+   # Listens on port 3000
+   CMD cd /app && node src/index.js
    ```
    > **Note**
    >
    > Select an instruction in the Dockerfile example to learn more about the instruction.
 
-3. Build the container image using the following commands:
+4. Build the container image using the following commands:
 
-   In the terminal, change directory to the `getting-started/app` directory. Replace `/path/to/app` with the path to your `getting-started/app` directory.
+   Assuming you are still in the `app` directory, run
 
    ```console
-   $ cd /path/to/app
+   $ klee build -t webapp .
    ```
 
-   Build the container image.
-   ```console
-   $ docker build -t getting-started .
-   ```
+   to build the container image.
 
-   The `docker build` command uses the Dockerfile to build a new container image. You might have noticed that Docker downloaded a lot of "layers". This is because you instructed the builder that you wanted to start from the `node:18-alpine` image. But, since you didn't have that on your machine, Docker needed to download the image.
+   The `klee build` command uses the Dockerfile to build a new container image.
+   The `Dockerfile` starts with `FROM FreeBSD-13.2-RELEASE:latest` that refers to the base-image we created previously,
+   so it will be used as the foundation for our new `webapp` image.
 
-   After Docker downloaded the image, the instructions from the Dockerfile copied in your application and used `yarn` to install your application's dependencies. The `CMD` directive specifies the default command to run when starting a container from this image.
+   The remaining instructions from the Dockerfile installs the application dependencies, copies application data into the image, and uses `yarn` to install the application's JavaScript dependencies.
+   The `CMD` directive specifies the default command to run when starting a container from this image, which in this case is set to run the application.
 
-   Finally, the `-t` flag tags your image. Think of this simply as a human-readable name for the final image. Since you named the image `getting-started`, you can refer to that image when you run a container.
+   Finally, the `-t` flag tags your image. Think of this simply as a human-readable name for the final image. Since you named the image `webapp`,
+   you can refer to that image when you run a container. Since we have not specified a `tag`, Kleened tags the image with `latest`.
 
-   The `.` at the end of the `docker build` command tells Docker that it should look for the `Dockerfile` in the current directory.
+   The `.` at the end of the `klee build` command tells Docker that it should look for the `Dockerfile` in the current directory.
+
+   >**Note**
+   >
+   > The directory `.` is converted to its absolute path by Klee and then sent to Kleened.
+   > *Kleened will then interpret this as a path on the machine where it is running*.
+   > If Klee and Kleened are runnning on the same host this is fine, but if Klee is running
+   > on a remote machine this will probably not work. In the latter case, remember to use absolute
+   > paths on the host machine where Kleened is running.
 
 ## Start an app container
 
-Now that you have an image, you can run the application in a [container](../get-started/overview.md/#docker-objects){:target="_blank" rel="noopener" class="_"}. To do so, you will use the `docker run` command.
+Now that you have an image, you can run the application in a [container](/get-started/overview.md/#kleene-objects){:target="_blank" rel="noopener" class="_"}.
+To do so, you will use the `klee run` command. But first, we'll set up network for our containers.
 
-1. Start your container using the `docker run` command and specify the name of the image you just created:
+1. Start your container and specify the name of the image you just created:
 
    ```console
-   $ docker run -dp 3000:3000 getting-started
+   $ klee run -n testnet -d webapp
    ```
 
-   You use the `-d` flag to run the new container in "detached" mode (in the background). You also use the `-p` flag to create a mapping between the host's port 3000 to the container's port 3000.
-   Without the port mapping, you wouldn't be able to access the application.
+   Using `-n testnet` connects the new container to our recently created `testnet` network, which provides connectivity for your `webapp` container.
+   The new container runs in "detached" mode (in the background) when the `-d` flag is used.
 
-2. After a few seconds, open your web browser to [http://localhost:3000](http://localhost:3000){:target="_blank" rel="noopener" class="_"}.
-   You should see your app.
+2. Verify that the container is running as expected using `klee lsc`. This command also shows the id and auto-generated name of your new container.
+   It is also possible to verify that the container is running using the FreeBSD native tool `jls`:
+   ```
+   $ jls
+      JID  IP Address      Hostname                      Path
+        6  10.13.37.1                                    /zroot/kleene/container/d23e37375ffd
+   ```
+   This also shows the ip address of the container that is needed for accessing the web application.
+
+3. After a few seconds, open your web browser to [http://10.13.37.1:3000](http://10.13.37.1:3000){:target="_blank" rel="noopener" class="_"}.
+   If you are not running the container locally you might need to access the app at another location or use a port forward etc.
+   For example, using portforward with `ssh` such as `ssh -L 3000:10.13.37.1:3000 ...` you should be able to access the web application
+   on [http://localhost:3000](http://localhost:3000) instead.
 
    ![Empty todo list](images/todo-list-empty.png){: style="width:450px;margin-top:20px;"}
    {: .text-center }
 
-3. Go ahead and add an item or two and see that it works as you expect. You can mark items as complete and remove items. Your frontend is successfully storing items in the backend.
-
+4. Go ahead and add an item or two and see that it works as you expect. You can mark items as complete and remove items.
+   Your frontend is successfully storing items in the backend.
 
 At this point, you should have a running todo list manager with a few items, all built by you.
 
-If you take a quick look at your Docker Dashboard, you should see at least one container running that is using the `getting-started` image and on port `3000`.
-
-![Docker Dashboard with tutorial and app containers running](images/dashboard-two-containers.png)
+Note that our images and containers are just zfs datasets one the host. Use `zfs list` to get an overview of how Kleene
+stores its objects.
 
 ## Next steps
-
-In this short section, you learned the basics about creating a Dockerfile to build a container image. Once you built an image, you started a container and saw the running app.
 
 Next, you're going to make a modification to your app and learn how to update your running application with a new image. Along the way, you'll learn a few other useful commands.
 

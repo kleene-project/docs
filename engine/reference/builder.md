@@ -474,7 +474,7 @@ The output of the final `pwd` command in this `Dockerfile` would be
 `/path/$DIRNAME`
 
 If not specified, the default working directory is `/` and previously set working directories
-from the base image will not be inherited.
+from the parent image will not be inherited.
 
 ## ARG
 

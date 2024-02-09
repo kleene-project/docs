@@ -1,26 +1,9 @@
 #
 # pageless redirects
 # used by _plugins/pageless_redirects.rb
-#
+# See https://github.com/nquinlan/jekyll-pageless-redirects for syntax
 
 # Use the `/go/` URL prefix to provide "vanity" URLs linking to the
-# documentation. These URLs can be used in (for example) the `docker` CLI to
-# provide a short, permanent link to refer to a topic in the documentation.
-# For example, the docker CLI can output https://docs.docker.com/go/some-topic
-# in its help output, which can be redirected to elsewhere in the documentation.
-"/engine/security/#docker-daemon-attack-surface":
-  # Details about the "Docker Daemon attack surface". This redirect is currently
-  # used in warnings printed by the Docker Engine, and in the installation script
-  # at "get.docker.com"
-  - /go/attack-surface/
-"/engine/reference/commandline/compose_build/":
-  - /go/compose-native-build/
-"/engine/deprecated/#deprecated-engine-features-1":
-  - /go/deprecated/
-"/engine/reference/commandline/cli/#experimental-features":
-  - /go/experimental/
-"/config/formatting/":
-  # Instructions on using Go templates to format CLI output with --format
-  - /go/formatting/
-"/storage/storagedriver/select-storage-driver/":
-  - /go/storage-driver/
+# documentation. These URLs can be used in (for example) Klee's help-pages
+"/engine/reference/commandline/cli/":
+  - /go/klee/

@@ -24,8 +24,14 @@ handbook:
       path: /install/
     - title: Install Klee
       path: /install/klee/
-    - title: Install Kleened
-      path: /install/kleened/
+    - sectiontitle: Kleened
+      section:
+      - path: /install/kleened/
+        title: Installation
+      - path: /config/daemon/
+        title: Configuring Kleened
+      - path: /config/daemon/start/
+        title: Running Kleened
 - sectiontitle: Get started
   section:
     - title: "Part 1: Overview"
@@ -34,20 +40,18 @@ handbook:
       path: /get-started/02_our_app/
     - title: "Part 3: Update the application"
       path: /get-started/03_updating_app/
-    - title: "Part 5: Persist the DB"
-      path: /get-started/05_persisting_data/
-    - title: "Part 6: Use bind mounts"
-      path: /get-started/06_bind_mounts/
-    - title: "Part 7: Multi-container apps"
-      path: /get-started/07_multi_container/
-    - title: "Part 9: Image-building best practices"
-      path: /get-started/09_image_best/
+    - title: "Part 4: Persist the DB"
+      path: /get-started/04_persisting_data/
+    - title: "Part 5: Using nullfs mounts"
+      path: /get-started/05_nullfs_mounts/
+    - title: "Part 6: Multi-container apps"
+      path: /get-started/06_multi_container/
+    - title: "Part 7: Containerization best practices"
+      path: /get-started/07_best_practices/
 - sectiontitle: Building images
   section:
     - path: /build/building/introduction/
       title: Introduction
-    - path: /build/building/context/
-      title: Build context
     - path: /build/building/snapshots/
       title: Build snapshots
     - path: /build/building/dockerfile_best-practices/
@@ -60,26 +64,6 @@ handbook:
     title: Overview
   - path: /run/networkingcontainers/
     title: Container networking
-- sectiontitle: Kleened
-  section:
-  - path: /engine/
-    title: Overview
-  - sectiontitle: Storage
-    section:
-    - path: /storage/
-      title: Overview
-    - path: /storage/volumes/
-      title: Volumes
-    - path: /storage/bind-mounts/
-      title: Bind mounts
-    - path: /storage/troubleshooting_volume_errors/
-      title: Troubleshoot
-    - sectiontitle: Storage drivers
-      section:
-      - path: /storage/storagedriver/
-        title: Overview
-      - path: /storage/storagedriver/zfs-driver/
-        title: Use the ZFS storage driver
   - sectiontitle: Networking
     section:
     - path: /network/
@@ -98,38 +82,38 @@ handbook:
         title: Bridge network tutorial
       - path: /network/network-tutorial-host/
         title: Host networking tutorial
-  - sectiontitle: Working with Kleened
+  - sectiontitle: Storage
     section:
-    - path: /config/daemon/start/
-      title: Start the daemon
-    - path: /config/pruning/
-      title: Prune unused objects
-    - path: /config/containers/start-containers-automatically/
-      title: Start containers automatically
-  - sectiontitle: Security
-    section:
-      - path: /engine/security/
-        title: Overview
-      - path: /engine/security/protect-access/
-        title: Protect the Kleened socket
-      - path: /engine/security/certificates/
-        title: Using certificates for repository client verification
-  - sectiontitle: Advanced concepts
-    section:
-    - path: /config/containers/resource_constraints/
-      title: Configure runtime resource constraints
-    - sectiontitle: Daemon configuration
+    - path: /storage/
+      title: Overview
+    - path: /storage/volumes/
+      title: Volumes
+    - path: /storage/bind-mounts/
+      title: Bind mounts
+    - path: /storage/troubleshooting_volume_errors/
+      title: Troubleshoot
+    - sectiontitle: Storage drivers
       section:
-      - path: /config/daemon/
-        title: Configuration overview
-      - path: /config/containers/live-restore/
-        title: Keep containers alive during daemon downtime
-      - path: /config/daemon/troubleshoot/
-        title: Troubleshoot
-      - path: /config/daemon/remote-access/
-        title: Remote access
-    - path: /engine/under-the-hood/
-      title: Interaction with FreeBSD
+      - path: /storage/storagedriver/
+        title: Overview
+      - path: /storage/storagedriver/zfs-driver/
+        title: Use the ZFS storage driver
+  - path: /config/containers/resource_constraints/
+    title: Configure runtime resource constraints
+  - path: /config/containers/start-containers-automatically/
+    title: Start containers automatically
+- sectiontitle: Kleene operation
+  section:
+  - path: /engine/
+    title: Overview
+  - path: /config/containers/live-restore/
+    title: Keep containers alive during daemon downtime
+  - path: /config/pruning/
+    title: Prune unused objects
+  - path: /engine/security/freebsd/
+    title: FreeBSD jail security
+  - path: /engine/security/protect-access/
+    title: Protect the Kleened socket
 - path: /release-notes/
   title: Release notes
 

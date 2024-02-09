@@ -1,79 +1,58 @@
 ---
 description: How to setup and run Docker with SSH or HTTPS
 keywords: docker, docs, article, example, ssh, https, daemon, tls, ca,  certificate
-redirect_from:
-- /articles/https/
-- /engine/articles/https/
-- /engine/security/https/
 title: Protect the Docker daemon socket
 ---
 
-By default, Docker runs through a non-networked UNIX socket. It can also
-optionally communicate using SSH or a TLS (HTTPS) socket.
+## Docker daemon attack surface
 
-## Use SSH to protect the Docker daemon socket
+Running containers (and applications) with Docker implies running the
+Docker daemon. This daemon requires `root` privileges unless you opt-in
+to [Rootless mode](rootless.md), and you should therefore be aware of
+some important details.
 
-> **Note**
->
-> The given `USERNAME` must have permissions to access the docker socket on the
-> remote machine. Refer to [manage Docker as a non-root user](../install/linux-postinstall.md#manage-docker-as-a-non-root-user)
-> to learn how to give a non-root user access to the docker socket.
+First of all, **only trusted users should be allowed to control your
+Docker daemon**. This is a direct consequence of some powerful Docker
+features. Specifically, Docker allows you to share a directory between
+the Docker host and a guest container; and it allows you to do so
+without limiting the access rights of the container. This means that you
+can start a container where the `/host` directory is the `/` directory
+on your host; and the container can alter your host filesystem
+without any restriction. This is similar to how virtualization systems
+allow filesystem resource sharing. Nothing prevents you from sharing your
+root filesystem (or even your root block device) with a virtual machine.
 
-The following example creates a [`docker context`](../context/working-with-contexts.md)
-to connect with a remote `dockerd` daemon on `host1.example.com` using SSH, and
-as the `docker-user` user on the remote machine:
+This has a strong security implication: for example, if you instrument Docker
+from a web server to provision containers through an API, you should be
+even more careful than usual with parameter checking, to make sure that
+a malicious user cannot pass crafted parameters causing Docker to create
+arbitrary containers.
 
-```console
-$ docker context create \
-    --docker host=ssh://docker-user@host1.example.com \
-    --description="Remote engine" \
-    my-remote-engine
+For this reason, the REST API endpoint uses a UNIX socket by default,
+instead of, e.g., a TCP socket bound on 127.0.0.1 (the
+latter being prone to cross-site request forgery attacks if you happen to run
+Docker directly on your local machine, outside of a VM). You can then
+use traditional UNIX permission checks to limit access to the control
+socket.
 
-my-remote-engine
-Successfully created context "my-remote-engine"
-```
+You can expose the REST API over TCP if you explicitly decide to do so.
+However, if you do that, be aware of the above mentioned security
+implications.
+Note that even if you have a firewall to limit accesses to the REST API 
+endpoint from other hosts in the network, the endpoint can still be accessible
+from containers, and it can easily result in the privilege escalation.
+Therefore it is *mandatory* to secure exposed API endpoints with 
+TLS and certificates, as described in the following.
+It is also recommended to ensure that it is reachable only from a trusted
+network or VPN.
 
-After creating the context, use `docker context use` to switch the `docker` CLI
-to use it, and to connect to the remote engine:
+## Use SSH to access the Kleened daemon socket
 
-```console
-$ docker context use my-remote-engine
-my-remote-engine
-Current context is now "my-remote-engine"
+You can also use `ssh -L /path/to/docker.sock:/var/run/docker.sock`
+if you need remote access to Kleened. Remember that the user on the
+host that is used needs to have access to the root socket.
+FIXME: Kan man lave noget med ProxyCommand så man kan sudo'e til den socket?
 
-$ docker info
-<prints output of the remote engine>
-```
-
-Use the `default` context to switch back to the default (local) daemon:
-
-```console
-$ docker context use default
-default
-Current context is now "default"
-```
-
-Alternatively, use the `DOCKER_HOST` environment variable to temporarily switch
-the `docker` CLI to connect to the remote host using SSH. This does not require
-creating a context, and can be useful to create an ad-hoc connection with a different
-engine:
-
-```console
-$ export DOCKER_HOST=ssh://docker-user@host1.example.com
-$ docker info
-<prints output of the remote engine>
-```
-
-### SSH Tips
-
-For the best user experience with SSH, configure `~/.ssh/config` as follows to allow
-reusing a SSH connection for multiple invocations of the `docker` CLI:
-
-```
-ControlMaster     auto
-ControlPath       ~/.ssh/control-%C
-ControlPersist    yes
-```
 
 ## Use TLS (HTTPS) to protect the Docker daemon socket
 
