@@ -64,6 +64,15 @@ When there is no more instructions, Kleene saves all relevant metadata and
 converts the container's filesystem into an image-filesystem and the build
 is complete.
 
+Since the basis for an image build is a ZFS-clone, it is practically
+duplicated with zero storage costs. Only the data that is written during
+the build process takes up actual space on the hosts filesystem.
+
+Note that unlike Docker images there is concept of layers in Kleene.
+Kleene uses zfs [snapshots](https://man.freebsd.org/cgi/man.cgi?query=zfs-snapshot)
+and [clones](https://man.freebsd.org/cgi/man.cgi?query=zfs-clone)
+when creating images and containers.
+
 ## Example
 
 Here's a simple Dockerfile example to get you started with building images.

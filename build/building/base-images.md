@@ -1,112 +1,143 @@
 ---
-title: Create a base image
+title: Creating base images
 description: How to create base images
 keywords: images, base image, examples
-redirect_from:
-- /articles/baseimages/
-- /engine/articles/baseimages/
-- /engine/userguide/eng-image/baseimages/
-- /develop/develop-images/baseimages/
 ---
 
-Most Dockerfiles start from a parent image. If you need to completely control
-the contents of your image, you might need to create a base image instead.
-Here's the difference:
+Images form a hierachy since all Dockerfiles start by cloning the parent image that
+is specified in the `FROM`-instruction, which in turn can be used in other
+Dockerfiles etc. However, at some point a Dockerfile refers to an image without
+a parent, and that image is a base image.
 
-- A [parent image](../../glossary.md#parent-image) is the image that your
-  image is based on. It refers to the contents of the `FROM` directive in the
-  Dockerfile. Each subsequent declaration in the Dockerfile modifies this parent
-  image. Most Dockerfiles start from a parent image, rather than a base image.
-  However, the terms are sometimes used interchangeably.
+## Overview
 
-- A [base image](../../glossary.md#base-image) has `FROM scratch` in its Dockerfile.
+Base images are on the top of the image hierachy and they are created without
+Dockerfiles using `klee image create ..` instead of `klee image build ...`.
 
-This topic shows you several ways to create a base image. The specific process
-will depend heavily on the Linux distribution you want to package. We have some
-examples below, and you are encouraged to submit pull requests to contribute new
-ones.
+Usually, it is recommended to use a userland of the same version as the userland
+of the host. However, there can be many reasons to divert from this, and Kleene
+have different methods of creating base images to support many different use-cases.
 
-## Create a full image using tar
+`klee image create` supports four different methods of creating base images:
 
-In general, start with a working machine that is running
-the distribution you'd like to package as a parent image, though that is
-not required for some tools like Debian's [Debootstrap](https://wiki.debian.org/Debootstrap){:target="blank" rel="noopener" class=""},
-which you can also use to build Ubuntu images.
+- `fetch-auto`: Kleene tries to detect the userland of the host using `uname(1)`
+  and then creates a base image from a pre-compiled binary of the detected version,
+  fetched from the official FreeBSD repositories. If you are new to FreeBSD this is
+  probably a good place to start.
 
-It can be as simple as this to create an Ubuntu parent image:
+- `fetch`: Create a base image from a custom tar-archive stored locally or fetched
+  remotely using `fetch(1)`. For instance, a tar-archive of a pre-compiled userland
+  (`base.txz`) of a different version than what is running on the host.
 
-    $ sudo debootstrap focal focal > /dev/null
-    $ sudo tar -C focal -c . | docker import - focal
+- `zfs-clone`: Create a base image by [zfs-cloning](https://man.freebsd.org/cgi/man.cgi?query=zfs-clone)
+  an existing dataset on the Kleene host. This is ideal, for example, if you have
+  builded a custom version of the userland from source or have patched an official
+  release using `freebsd-update`. It can also be relevant for completely customized
+  base images. Note that this method does not require additional space but
+  implicitly creates a dependency on the dataset being cloned.
 
-    sha256:81ec9a55a92a5618161f68ae691d092bf14d700129093158297b3d01593f4ee3
+- `zfs-copy`: Similar to previous method but instead of cloning the dataset it is
+  copied using [`zfs-send`](https://man.freebsd.org/cgi/man.cgi?query=zfs-send) and
+  [`zfs-recv`](https://man.freebsd.org/cgi/man.cgi?query=zfs-recv).
+  This means that additional space is required for the base image and it is slower
+  than `zfs-clone` since data needs to be copied. However, the resulting base image
+  is independent of the source dataset.
 
-    $ docker run focal cat /etc/lsb-release
+The following sections discusses and exemplifies different usecases using
+the previously mentioned methods of creating base images.
 
-    DISTRIB_ID=Ubuntu
-    DISTRIB_RELEASE=20.04
-    DISTRIB_CODENAME=focal
-    DISTRIB_DESCRIPTION="Ubuntu 20.04 LTS"
+## Examples
 
-There are more example scripts for creating parent images in
-[the Docker GitHub repository](https://github.com/docker/docker/blob/master/contrib){:target="blank" rel="noopener" class=""}.
+### Creating base images automagically
 
-## Create a simple parent image using scratch
-
-You can use Docker's reserved, minimal image, `scratch`, as a starting point for
-building containers. Using the `scratch` "image" signals to the build process
-that you want the next command in the `Dockerfile` to be the first filesystem
-layer in your image.
-
-While `scratch` appears in Docker's repository on the hub, you can't pull it,
-run it, or tag any image with the name `scratch`. Instead, you can refer to it
-in your `Dockerfile`. For example, to create a minimal container using
-`scratch`:
-
-```dockerfile
-# syntax=docker/dockerfile:1
-FROM scratch
-ADD hello /
-CMD ["/hello"]
-```
-
-Assuming you built the "hello" executable example by using the source code at
-[https://github.com/docker-library/hello-world](https://github.com/docker-library/hello-world){:target="blank" rel="noopener" class=""},
-and you compiled it with the `-static` flag, you can build this Docker
-image using this `docker build` command:
+The easiest way to get a base image is to use the `fetch-auto` method
 
 ```console
-$ docker build --tag hello .
+$ klee image create -t FreeBSD fetch-auto
 ```
 
-Don't forget the `.` character at the end, which sets the [build context](../../build/building/context.md)
-to the current directory.
+where Kleened tries to detect the version of the host system and then downloads
+the corresponding userland (`base.txz`) from the official FreeBSD repositories.
+Note that if we omit the nametag `-t FreeBSD`, Kleened will derive a name based
+on the detected version and tag it with `latest`. Using `-t FreeBSD` keeps
+the nametag simple.
 
-> **Note**: Because Docker Desktop for Mac and Docker Desktop for Windows use a Linux VM,
-> you need a Linux binary, rather than a Mac or Windows binary.
-> You can use a Docker container to build it:
->
-> ```console
-> $ docker run --rm -it -v $PWD:/build ubuntu:20.04
->
-> container# apt-get update && apt-get install build-essential
-> container# cd /build
-> container# gcc -o hello -static hello.c
-> ```
+### Creating base images of custom versions of pre-built userlands
 
-To run your new image, use the `docker run` command:
+Similarily, if you want to pick a specific version you can use the `fetch` method:
 
 ```console
-$ docker run --rm hello
+$ export VERSION=13.3-BETA1
+$ klee image create -t FreeBSD:$VERSION fetch https://download.freebsd.org/releases/amd64/$VERSION/base.txz
 ```
 
-This example creates the hello-world image used in the tutorials.
-If you want to test it out, you can clone [the image repo](https://github.com/docker-library/hello-world){:target="blank" rel="noopener" class=""}.
+You do not need to use the official FreeBSD-mirror if you have a third-party
+site instead. Additionally, it is also possible to use a locally stored userland
 
-## More resources
+```console
+$ klee image create -t FreeBSD:testing fetch file:///my/own/releases/testting/base.txz
+```
 
-There are lots of resources available to help you write your `Dockerfile`.
+which can be handy in case of a locally built
+[releases](https://man.freebsd.org/cgi/man.cgi?query=release). Remember to use
+absolute paths when specifying the location of your TAR-archive.
 
-* There's a [complete guide to all the instructions](../../engine/reference/builder.md) available for use in a `Dockerfile` in the reference section.
-* To help you write a clear, readable, maintainable `Dockerfile`, we've also
-  written a [Dockerfile best practices guide](../../develop/develop-images/dockerfile_best-practices.md).
-* If your goal is to create a new Docker Official Image, read [Docker Official Images](../../docker-hub/official_images.md).
+### Creating base images of locally compiled userlands
+
+For instance, if your host system is running a custom version of FreeBSD by, .e.g,
+following a STABLE-branch you can build a base image using the `zfs-clone` or
+`zfs-copy` methods:
+
+```console
+$ D=/zroot/here/is/the/base_image
+$ cd /usr/src # This contains the source of your STABLE-branch
+$ mkdir -p $D
+$ make world DESTDIR=$D
+$ make distribution DESTDIR=$D
+$ klee image create -t FreeBSD:13-STABLE zfs-clone zroot/here/is/the/base_image
+```
+
+This assumes that you have already compiled and installed your preferred FreeBSD
+version. See the [handbook for details](https://docs.freebsd.org/en/books/handbook/cutting-edge/#makeworld).
+If you want a complete copy instead of a clone, use `zfs-copy` instead.
+
+### Creating a customized minimal base image (experimental)
+
+If you want to run a very minimal base image you can either trim-down a full base
+system like the ones used en the previous examples, or you can try to use a small
+tool, like `https://github.com/Freaky/mkjail` to help (requires `ruby`).
+In the following there is a small example. Note that it is assumed that `mkjail`
+is in your `PATH`.
+
+```
+$ mkjail -a minimal_testjail.txz /usr/bin/env /usr/local/bin/python3.9 -c "print('lol')"
+... output ...
+a var
+a var/run
+a var/run/ld-elf.so.hints
+Total bytes written: 2024168
+$ klee image create -t FreeBSD:testing fetch file://$(pwd)/minimal_testjail.txz
+/zroot/kleenebase.txz                           0% of 1976 kB    0  Bps
+/zroot/kleenebase.txz                                 1976 kB 1344 MBps    00s
+
+succesfully fetched base system.
+Unpacking contents and creating image...
+extracted 101 files...
+succesfully extracted binaries - creating image
+
+image created
+a9835b86808a
+$ klee run -J mount.devfs=false \
+  -J exec.system_jail_user \
+  -J exec.clean=false \
+  FreeBSD:testing /usr/local/bin/python3.9 -c "print('minimal jail')"
+157538749b34
+created execution instance 81bd541b6473
+minimal jail
+
+executable 81bd541b6473 and its container exited with exit-code 0
+```
+
+Note that `klee run` is executed with a special pairs of jail-parameters since the
+image does not contain basic components such as a user database, a `dev` directory
+and many of directories usually present in a `PATH` variable.

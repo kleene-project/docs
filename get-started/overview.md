@@ -167,13 +167,18 @@ Basically, volumes are zfs datasets that are mounted into one or more containers
 
 ## The underlying technology
 
-Kleened is written in the [Elixir programming language](https://elixir-lang.org/)
-and is closely integrated with FreeBSD, using zfs, jails, pf and other functionality.
-Kleened's API is mostly a HTTP-based REST API and is specificed using OpenAPI.
-A few special endpoints uses websockets for streaming/interactive interaction.
-Klee is written in [Python](https://www.python.org/) using the `click` and `rich`
-packages. Klee communicates with Kleened through the API and Klee can run on a
-seperate machine as Kleened. However, for now it is recommended to use Klee
+Kleene's backend, Kleened, is mostly written in the [Elixir programming language](https://elixir-lang.org/)
+using the underlying OTP-framework and BEAM VM of [Erlang](https://www.erlang.org/).
+This technology stack is chosen for it's high focus on concurrency and fault-tolerance.
+Kleened's objects (images, containers, networks etc.) is implemented by orchestrating
+FreeBSD's core technologies such as jails, pf, and zfs. These objects can be manipulated
+using Kleened's HTTP-based API which consist of a REST API and some websocket
+endpoints for streaming/interactive communication.
+
+Kleene's frontend CLI, Klee, is written in [Python](https://www.python.org/)
+using the `click` and `rich` packages.
+Klee communicates with Kleened through it's API and can thus run on a
+seperate machine from Kleened. However, for now it is recommended to use Klee
 directly on the same machine as Kleened.
 
 ## Project status

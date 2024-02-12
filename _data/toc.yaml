@@ -46,16 +46,14 @@ handbook:
       path: /get-started/05_nullfs_mounts/
     - title: "Part 6: Multi-container apps"
       path: /get-started/06_multi_container/
-    - title: "Part 7: Containerization best practices"
-      path: /get-started/07_best_practices/
 - sectiontitle: Building images
   section:
     - path: /build/building/introduction/
       title: Introduction
-    - path: /build/building/snapshots/
-      title: Build snapshots
     - path: /build/building/dockerfile_best-practices/
       title: Dockerfile best practices
+    - path: /build/building/snapshots/
+      title: Using build snapshots
     - path: /build/building/base-images/
       title: Create your own base image
 - sectiontitle: Running containers
