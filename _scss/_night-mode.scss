@@ -16,22 +16,22 @@ html.night {
                 color: inherit;
                 background-color: $bg-card-night;
             &.get-started {
-                background-image: url(/assets/kl_images/get-started-dark.svg)
+                background-image: url(/assets/images/get-started-dark.svg)
             }
             &.download-kleene {
-                background-image: url(/assets/kl_images/download-kleene-dark.svg)
+                background-image: url(/assets/images/download-kleene-dark.svg)
             }
             &.under-hood {
-                background-image: url(/assets/kl_images/under-hood-dark.svg)
+                background-image: url(/assets/images/under-hood-dark.svg)
             }
             &.build-images {
-                background-image: url(/assets/kl_images/build-images-dark.svg)
+                background-image: url(/assets/images/build-images-dark.svg)
             }
             &.build-containers {
-                background-image: url(/assets/kl_images/build-containers-dark.svg)
+                background-image: url(/assets/images/build-containers-dark.svg)
             }
             &.reference {
-                background-image: url(/assets/kl_images/reference-dark.svg)
+                background-image: url(/assets/images/reference-dark.svg)
             }
         }
             footer {

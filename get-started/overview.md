@@ -115,7 +115,7 @@ API requests to Kleened and renders the result to the user.
 
 ## Kleene conceptual architecture
 
-![Docker Architecture diagram](/assets/kl_images/kleene_conceptual_architecture.png)
+![Docker Architecture diagram](/assets/images/kleene_conceptual_architecture.png)
 
 ### Kleene objects
 

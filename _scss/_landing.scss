@@ -159,7 +159,7 @@ body.landing {
     @each $icon in $icons {
       &.#{$icon} {
         @extend %icon-card;
-        background-image: url("/assets/kl_images/#{$icon}.svg");
+        background-image: url("/assets/images/#{$icon}.svg");
       }
     }
 
@@ -203,7 +203,7 @@ body.landing {
     }
 
     &[target=_blank] {
-      background-image:    url(/assets/kl_images/arrow.svg);
+      background-image:    url(/assets/images/arrow.svg);
       background-position: top 10px right 10px;
       background-repeat:   no-repeat;
       background-size:     15px 15px;
