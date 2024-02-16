@@ -58,10 +58,8 @@ handbook:
       title: Create your own base image
 - sectiontitle: Running containers
   section:
-  - path: /run/overview/
-    title: Overview
-  - path: /run/networkingcontainers/
-    title: Container networking
+  - path: /run/introduction/
+    title: Introduction
   - sectiontitle: Networking
     section:
     - path: /network/
@@ -96,8 +94,12 @@ handbook:
         title: Overview
       - path: /storage/storagedriver/zfs-driver/
         title: Use the ZFS storage driver
-  - path: /config/containers/resource_constraints/
-    title: Configure runtime resource constraints
+  - sectiontitle: Advanced topics
+    section:
+    - path: /run/jail-parameters
+      title: Jail parameters
+    - path: /config/containers/resource_constraints/
+      title: Configure runtime resource constraints
   - path: /config/containers/start-containers-automatically/
     title: Start containers automatically
 - sectiontitle: Kleene operation

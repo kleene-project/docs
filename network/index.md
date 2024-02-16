@@ -1,71 +1,59 @@
 ---
 title: Networking overview
-description: Overview of Docker networks and networking concepts
-keywords: networking, bridge, routing, routing mesh, overlay, ports
-redirect_from:
-- /engine/userguide/networking/
-- /engine/userguide/networking/dockernetworks/
-- /articles/networking/
+description: Overview of networking concepts in Kleene
+keywords: networking, overview
 ---
 
-One of the reasons Docker containers and services are so powerful is that
-you can connect them together, or connect them to non-Docker workloads. Docker
-containers and services do not even need to be aware that they are deployed on
-Docker, or whether their peers are also Docker workloads or not. Whether your
-Docker hosts run Linux, Windows, or a mix of the two, you can use Docker to
-manage them in a platform-agnostic way.
+*It seems once people understand the basics of containers, networking is one of*
+*the first aspects they begin experimenting with. And regarding networking, it takes*
+*very little experimentation before ending up on the deep end of the pool.*
+– [Podman documentation](https://github.com/containers/podman/blob/e7a3236358c74c08fe33e860ec045c30468cbdcd/docs/tutorials/basic_networking.md)
 
-This topic defines some basic Docker networking concepts and prepares you to
-design and deploy your applications to take full advantage of these
-capabilities.
+This section deals with one of the more comprehensive topics when dealing with
+containers: Networking. For any readers having experience with networking in
+Docker, they should expect a substantially different approach to the subject.
 
-## Scope of this topic
+This page gives a brief introduction to the overall concepts related to
+networking and the remaning parts of this section covers them in more detail.
 
-This topic does **not** go into OS-specific details about how Docker networks
-work, so you will not find information about how Docker manipulates `iptables`
-rules on Linux or how it manipulates routing rules on Windows servers, and you
-will not find detailed information about how Docker forms and encapsulates
-packets or handles encryption. See [Docker and iptables](iptables.md).
+Most of these concepts fall into two categories: Networks and network drivers.
+The former are independent objects in Kleene and the latter are a property of
+containers. Networks are used to provide different kinds of connectivity to
+containers, and the capabilities of using networks, and networking in general,
+is determined by which kind of network driver it has.
 
-In addition, this topic does not provide any tutorials for how to create,
-manage, and use Docker networks. Each section includes links to relevant
-tutorials and command references.
+## Network types
+
+Networks fall into three types and are represented by a network interface on
+the host.
+
+- `loopback`: Kleene creates a [loopback](https://man.freebsd.org/cgi/man.cgi?query=lo) interface on the host for the network.
+  This has historically been a classical way to provide networking for jails
+  in FreeBSD. It is the default network type with Klee.
+
+- `bridge`: Kleene creates a [bridge](https://man.freebsd.org/cgi/man.cgi?query=if_bridge) interface on the host for the network.
+  The bridge network can be used to (logically) link interfaces on the host
+  machine (physical or virtual). The bridge network is used for containers with
+  the VNET network driver (see below).
+
+- `custom`: The user determines which interface on the host should be used for
+  the network. For instance, if the container should have an IP directly on the
+  physical interface, the default loopback interface (`lo0`) or more exotic use
+  cases. The user is expected to take care of creating/destroying the interface,
+  if needed.
 
 ## Network drivers
+FIXME: HERTIL
 
-Docker's networking subsystem is pluggable, using drivers. Several drivers
-exist by default, and provide core networking functionality:
+- `ipnet`:
 
-- `bridge`: The default network driver. If you don't specify a driver, this is
-  the type of network you are creating. **Bridge networks are usually used when
-  your applications run in standalone containers that need to communicate.** See
-  [bridge networks](bridge.md).
+- `vnet`:
 
 - `host`: For standalone containers, remove network isolation between the
   container and the Docker host, and use the host's networking directly. See
   [use the host network](host.md).
 
-- `overlay`: Overlay networks connect multiple Docker daemons together and
-  enable swarm services to communicate with each other. You can also use overlay
-  networks to facilitate communication between a swarm service and a standalone
-  container, or between two standalone containers on different Docker daemons.
-  This strategy removes the need to do OS-level routing between these
-  containers. See [overlay networks](overlay.md).
-
-- `ipvlan`: IPvlan networks give users total control over both IPv4 and IPv6
-  addressing. The VLAN driver builds on top of that in giving operators complete
-  control of layer 2 VLAN tagging and even IPvlan L3 routing for users
-  interested in underlay network integration. See [IPvlan networks](ipvlan.md).
-
-- `macvlan`: Macvlan networks allow you to assign a MAC address to a container,
-  making it appear as a physical device on your network. The Docker daemon
-  routes traffic to containers by their MAC addresses. Using the `macvlan`
-  driver is sometimes the best choice when dealing with legacy applications that
-  expect to be directly connected to the physical network, rather than routed
-  through the Docker host's network stack. See
-  [Macvlan networks](macvlan.md).
-
-- `none`: For this container, disable all networking. Usually used in
+- `disabled`: For this container, disable all networking. Usually used in
   conjunction with a custom network driver. `none` is not available for swarm
   services. See
   [disable container networking](none.md).
@@ -76,28 +64,18 @@ exist by default, and provide core networking functionality:
   or from third-party vendors. See the vendor's documentation for installing and
   using a given network plugin.
 
+## Simple example
+### Create your own loopback network
 
-### Network driver summary
+### Add containers to a network
 
-- **User-defined bridge networks** are best when you need multiple containers to
-  communicate on the same Docker host.
-- **Host networks** are best when the network stack should not be isolated from
-  the Docker host, but you want other aspects of the container to be isolated.
-- **Overlay networks** are best when you need containers running on different
-  Docker hosts to communicate, or when multiple applications work together using
-  swarm services.
-- **Macvlan networks** are best when you are migrating from a VM setup or
-  need your containers to look like physical hosts on your network, each with a
-  unique MAC address.
-- **Third-party network plugins** allow you to integrate Docker with specialized
-  network stacks.
+To build web applications that act in concert but do so securely, create a
+network. Networks, by definition, provide complete isolation for containers. You
+can add containers to a network when you first run a container.
 
-## Networking tutorials
+Launch a container running a PostgreSQL database and pass it the `--net=my_bridge` flag to connect it to your new network:
 
-Now that you understand the basics about Docker networks, deepen your
-understanding using the following tutorials:
+    $ docker run -d --net=my_bridge --name db training/postgres
 
-- [Standalone networking tutorial](network-tutorial-standalone.md)
-- [Host networking tutorial](network-tutorial-host.md)
-- [Overlay networking tutorial](network-tutorial-overlay.md)
-- [Macvlan networking tutorial](network-tutorial-macvlan.md)
+If you inspect your `my_bridge` you can see it has a container attached.
+You can also inspect your container to see where it is connected:

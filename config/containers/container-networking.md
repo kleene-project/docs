@@ -17,7 +17,7 @@ a gateway, a routing table, DNS services, and other networking details.
 That is, unless the container uses the `none` network driver.
 This page describes networking from the point of view of the container.
 
-## Published ports
+## Publishing ports
 
 By default, when you create or run a container using `docker create` or `docker run`,
 the container doesn't expose any of it's ports to the outside world.
@@ -55,30 +55,3 @@ In the same way, a container's hostname defaults to be the container's ID in Doc
 You can override the hostname using `--hostname`.
 When connecting to an existing network using `docker network connect`,
 you can use the `--alias` flag to specify an additional network alias for the container on that network.
-
-## DNS services
-
-By default, containers inherit the DNS settings of the host, as defined in the `/etc/resolv.conf` configuration file.
-Containers that attach to the default `bridge` network receive a copy of this file.
-Containers that attach to a
-[custom network](../../network/network-tutorial-standalone.md#use-user-defined-bridge-networks)
-use Docker's embedded DNS server.
-The embedded DNS server forwards external DNS lookups to the DNS servers configured on the host.
-
-Custom hosts, defined in `/etc/hosts` on the host machine, aren't inherited by containers.
-To pass additional hosts into container, refer to
-[add entries to container hosts file](../../engine/reference/commandline/run.md#add-host)
-in the `docker run` reference documentation.
-You can override these settings on a per-container basis.
-
-| Flag           | Description                                                                                                                                                                                                                                                         |
-| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `--dns`        | The IP address of a DNS server. To specify multiple DNS servers, use multiple `--dns` flags. If the container can't reach any of the IP addresses you specify, it uses Google's public DNS server at `8.8.8.8`. This allows containers to resolve internet domains. |
-| `--dns-search` | A DNS search domain to search non-fully-qualified hostnames. To specify multiple DNS search prefixes, use multiple `--dns-search` flags.                                                                                                                            |
-| `--dns-opt`    | A key-value pair representing a DNS option and its value. See your operating system's documentation for `resolv.conf` for valid options.                                                                                                                            |
-| `--hostname`   | The hostname a container uses for itself. Defaults to the container's ID if not specified.                                                                                                                                                                          |
-
-## Proxy server
-
-If your container needs to use a proxy server, see
-[Use a proxy server](../../network/proxy.md).
