@@ -34,7 +34,7 @@ options:
   value_type: bool
 - deprecated: false
   description: Whether or not to auto-genereate a nametag `FreeBSD-<version>:latest`
-    based on `uname(1)`. Method **fetch-auto** only.
+    based on `uname(1)`. If `tag` is set this is ignored. Method **fetch-auto** only.
   experimental: false
   experimentalcli: false
   option: autotag

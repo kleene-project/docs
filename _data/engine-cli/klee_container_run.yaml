@@ -96,12 +96,7 @@ long: 'The `klee container run` command first creates a container based on the
   '
 options:
 - deprecated: false
-  description: Assign a name to the container
-  experimental: false
-  experimentalcli: false
-  option: name
-- deprecated: false
-  description: 'Alternate user that should be used for starting the container.
+  description: 'Default user used when running the container.
 
     This parameter will be overwritten by the jail parameter `exec.jail_user` if it
     is set.'
@@ -109,18 +104,13 @@ options:
   experimentalcli: false
   option: user
   shorthand: u
+  value_type: text
 - deprecated: false
-  description: Connect a container to a network
+  description: Set environment variables (e.g. --env FIRST=SomeValue --env SECOND=AnotherValue)
   experimental: false
   experimentalcli: false
-  option: network
-  shorthand: n
-- deprecated: false
-  description: IPv4 address (e.g., 172.30.100.104). If the '--network' parameter is
-    not set '--ip' is ignored.
-  experimental: false
-  experimentalcli: false
-  option: ip
+  option: env
+  shorthand: e
 - deprecated: false
   description: 'Mount a volume/directory/file on the host filesystem into the container.
 
@@ -131,23 +121,47 @@ options:
   shorthand: m
   value_type: list
 - deprecated: false
-  description: Set environment variables (e.g. --env FIRST=env --env SECOND=env)
-  experimental: false
-  experimentalcli: false
-  option: env
-  shorthand: e
-- deprecated: false
   description: 'Specify one or more jail parameters to use. See the `jail(8)` man-page
     for details.
 
     If you do not want `exec.clean` and `mount.devfs` enabled, you must actively disable
-    them.  [default: mount.devfs]'
+    them.  [default: mount.devfs, exec.stop="/bin/sh /etc/rc.shutdown jail"]'
   experimental: false
   experimentalcli: false
   option: jailparam
   shorthand: J
 - deprecated: false
-  description: 'Whether or not to attach to STDOUT/STDERR.
+  description: 'Network driver of the container.
+
+    Possible values: `ipnet`, `host`, `vnet`, and `disabled`. If no network and no
+    network driver is supplied,
+
+    the network driver is set to `host`. If a network is specfied but no network driver,
+    it is set to `ipnet`,'
+  experimental: false
+  experimentalcli: false
+  option: driver
+  shorthand: l
+- deprecated: false
+  description: Connect container to this network.
+  experimental: false
+  experimentalcli: false
+  option: network
+  shorthand: n
+- deprecated: false
+  description: IPv4 address used for the container. If omitted, an unused ip is allocated
+    from the IPv4 subnet of `--network`.
+  experimental: false
+  experimentalcli: false
+  option: ip
+- deprecated: false
+  description: IPv6 address used for the container. If omitted, an unused ip is allocated
+    from the IPv6 subnet of `--network`.
+  experimental: false
+  experimentalcli: false
+  option: ip6
+- deprecated: false
+  description: 'Do not output STDOUT/STDERR to the terminal.
 
     If this is set, Klee will exit and return the container ID when the container
     has been started.'
@@ -155,7 +169,6 @@ options:
   experimentalcli: false
   option: detach
   shorthand: d
-  value_type: flag
 - deprecated: false
   description: Send terminal input to container's STDIN. If set, `--detach` will be
     ignored.
@@ -169,6 +182,22 @@ options:
   experimentalcli: true
   option: tty
   shorthand: t
+- deprecated: false
+  description: Assign a name to the container
+  experimental: false
+  experimentalcli: false
+  option: name
+- deprecated: false
+  description: 'Publish one or more ports using the syntax `<HOST-PORT>[:CONTAINER-PORT][/<PROTOCOL>]`
+    or
+
+    `<INTERFACE>:<HOST-PORT>:<CONTAINER-PORT>[/<PROTOCOL>]`.
+
+    `CONTAINER-PORT` defaults to `HOST-PORT` and `PROTOCOL` defaults to ''tcp''.'
+  experimental: false
+  experimentalcli: false
+  option: publish
+  shorthand: p
 - deprecated: false
   description: Show this message and exit.
   experimental: false

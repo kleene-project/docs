@@ -148,7 +148,7 @@ long: 'The `klee container exec` command runs a new command in a running contain
   '
 options:
 - deprecated: false
-  description: 'Whether or not to attach to STDOUT/STDERR.
+  description: 'Do not output STDOUT/STDERR to the terminal.
 
     If this is set, Klee will exit and return the container ID when the container
     has been started.'
@@ -156,12 +156,6 @@ options:
   experimentalcli: false
   option: detach
   shorthand: d
-- deprecated: false
-  description: Set environment variables (e.g. --env FIRST=env --env SECOND=env)
-  experimental: false
-  experimentalcli: false
-  option: env
-  shorthand: e
 - deprecated: false
   description: Send terminal input to container's STDIN. If set, `--detach` will be
     ignored.
@@ -175,6 +169,12 @@ options:
   experimentalcli: true
   option: tty
   shorthand: t
+- deprecated: false
+  description: Set environment variables (e.g. --env FIRST=env --env SECOND=env)
+  experimental: false
+  experimentalcli: false
+  option: env
+  shorthand: e
 - deprecated: false
   description: Username or UID of the executing user
   experimental: false

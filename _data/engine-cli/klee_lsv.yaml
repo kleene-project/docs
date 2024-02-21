@@ -1,0 +1,21 @@
+command: klee lsv
+deprecated: false
+examples: "### List all volumes\n\n```console\n$ klee volume ls\n VOLUME NAME    CREATED\n\
+  \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+  \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\
+  \ 978035cb4d1d   5 hoursago\n 68fc0701530b   5 hoursago\n 63cdec4a8241   5 hoursago\n\
+  \ de0a894352c2   5 hoursago\n```\n"
+experimental: false
+experimentalcli: false
+long: List volumes
+options:
+- deprecated: false
+  description: Show this message and exit.
+  experimental: false
+  experimentalcli: false
+  option: help
+plink: klee.yaml
+pname: klee
+short: List volumes
+shortcut: volume ls
+usage: klee lsv [OPTIONS]

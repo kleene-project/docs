@@ -42,23 +42,77 @@ long: 'Creates a new network using a specific subnet and networking driver.
   '
 options:
 - deprecated: false
-  description: 'Which driver to use for the network. Possible values are ''vnet'',
-    ''loopback'', and ''host''. See jails(8) and the networking documentation for
-    details.  [default: loopback]'
+  description: 'What kind of network should be created. Possible values are ''bridge'',
+    ''loopback'', and ''custom''.  [default: loopback]'
   experimental: false
   experimentalcli: false
-  option: driver
-  shorthand: d
+  option: type
+  shorthand: t
 - deprecated: false
-  description: Name of the loopback interface used for the loopback network
+  description: 'Name of the interface used for the host interface of the network.
+
+    If not set the interface name is set to `kleened` postfixed with an integer.
+
+    If the `type` is set to `custom` the value of `interface` must be the name of
+    an existing interface.'
   experimental: false
   experimentalcli: false
-  option: ifname
+  option: interface
+  shorthand: i
 - deprecated: false
-  description: Subnet in CIDR format for the network  [required]
+  description: Subnet in CIDR format for the network
   experimental: false
   experimentalcli: false
   option: subnet
+- deprecated: false
+  description: IPv6 subnet in CIDR format for the network
+  experimental: false
+  experimentalcli: false
+  option: subnet6
+- deprecated: false
+  description: 'The default IPv4 router that is added to ''vnet'' containers, if `--subnet`
+    is set.
+
+    Only affects bridge networks. Set `--gw=auto` to use the same gateway as the host
+    (default).
+
+    Setting `--gw=""` implies that no gateway is used.'
+  experimental: false
+  experimentalcli: false
+  option: gw
+- deprecated: false
+  description: 'The default IPv6 router that is added to ''vnet'' containers, if `--subnet6`
+    is set.
+
+    See `--gw` for details.'
+  experimental: false
+  experimentalcli: false
+  option: gw6
+- deprecated: false
+  description: Whether or not to use NAT for networks outgoing traffic. Default is
+    to use NAT, use `--no-nat` to disable it.
+  experimental: false
+  experimentalcli: false
+  option: nat
+- deprecated: false
+  description: 'Specify which interface to NAT the IPv4 network traffic to.
+
+    Defaults to the host''s gateway interface. Ignored if `--no-nat` is set.'
+  experimental: false
+  experimentalcli: false
+  option: nat-if
+- deprecated: false
+  description: Whether or not to enable connectivity between containers within the
+    same network.
+  experimental: false
+  experimentalcli: false
+  option: icc
+- deprecated: false
+  description: Whether or not the network is internal, i.e., not allowing outgoing
+    upstream traffic
+  experimental: false
+  experimentalcli: false
+  option: internal
 - deprecated: false
   description: Show this message and exit.
   experimental: false
@@ -66,5 +120,5 @@ options:
   option: help
 plink: klee_network.yaml
 pname: klee network
-short: Create a new network
-usage: klee network create [OPTIONS] NETWORK_NAME
+short: Create a new network named **NAME**.
+usage: klee network create [OPTIONS] NAME

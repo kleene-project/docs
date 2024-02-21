@@ -92,10 +92,19 @@ long: 'This command is used to provide access for containers to one og more netw
   '
 options:
 - deprecated: false
-  description: IPv4 address (e.g., 172.30.100.104) used for the container.
+  description: Specify an IPv4 address used for the container. If `--ip` is omitted
+    and a (ipv4) subnet exists for **NETWORK**, an unused ip is allocated from it.
+    Otherwise it is ignored.
   experimental: false
   experimentalcli: false
   option: ip
+- deprecated: false
+  description: Specify an IPv6 address used for the container. If `--ip6` is omitted
+    and a (ipv6) subnet exists for **NETWORK**, an unused ip is allocated from it.
+    Otherwise it is ignored.
+  experimental: false
+  experimentalcli: false
+  option: ip6
 - deprecated: false
   description: Show this message and exit.
   experimental: false

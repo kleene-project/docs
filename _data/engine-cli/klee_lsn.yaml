@@ -1,0 +1,24 @@
+command: klee lsn
+deprecated: false
+examples: "### List all networks\n\n```console\n$ klee network ls\n ID           \
+  \  NAME            DRIVER     SUBNET\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+  \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+  \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+  \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+  \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n host           host         \
+  \   host       n/a\n 0974802b8ba1   my-net          vnet       10.20.30.0/24\n f464657cf881\
+  \   my-second-net   loopback   10.30.40.0/24\n```\n"
+experimental: false
+experimentalcli: false
+long: List networks
+options:
+- deprecated: false
+  description: Show this message and exit.
+  experimental: false
+  experimentalcli: false
+  option: help
+plink: klee.yaml
+pname: klee
+short: List networks
+shortcut: network ls
+usage: klee lsn [OPTIONS]

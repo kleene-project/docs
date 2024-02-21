@@ -1,0 +1,15 @@
+command: klee volume lsv
+deprecated: false
+experimental: false
+experimentalcli: false
+long: List volumes
+options:
+- deprecated: false
+  description: Show this message and exit.
+  experimental: false
+  experimentalcli: false
+  option: help
+plink: klee_volume.yaml
+pname: klee volume
+short: List volumes
+usage: klee volume lsv [OPTIONS]

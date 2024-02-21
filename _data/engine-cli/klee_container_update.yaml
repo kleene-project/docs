@@ -119,7 +119,7 @@ options:
   experimentalcli: false
   option: name
 - deprecated: false
-  description: Alternate user that should be used for starting the container
+  description: Default user used when running commands in the container.
   experimental: false
   experimentalcli: false
   option: user

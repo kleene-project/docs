@@ -209,11 +209,87 @@ long: 'The `klee image build` command builds images from a Dockerfile and a
 
   add to that directory only the files needed for building the Dockerfile.
 
+
+  ### Build container configuration
+
+
+  FIXME
+
   '
 options:
 - deprecated: false
-  description: 'Alternative location of the `Dockerfile`. The location should be relative
-    to `PATH` (default: ''Dockerfile'')'
+  description: 'Default user used when running the container.
+
+    This parameter will be overwritten by the jail parameter `exec.jail_user` if it
+    is set.'
+  experimental: false
+  experimentalcli: false
+  option: user
+  shorthand: u
+  value_type: text
+- deprecated: false
+  description: Set environment variables (e.g. --env FIRST=SomeValue --env SECOND=AnotherValue)
+  experimental: false
+  experimentalcli: false
+  option: env
+  shorthand: e
+- deprecated: false
+  description: 'Mount a volume/directory/file on the host filesystem into the container.
+
+    Mounts are specfied using a `--mount <source>:<destination>[:rw|ro]` syntax.'
+  experimental: false
+  experimentalcli: false
+  option: mount
+  shorthand: m
+  value_type: list
+- deprecated: false
+  description: 'Specify one or more jail parameters to use. See the `jail(8)` man-page
+    for details.
+
+    If you do not want `exec.clean` and `mount.devfs` enabled, you must actively disable
+    them.  [default: mount.devfs, exec.stop="/bin/sh /etc/rc.shutdown jail"]'
+  experimental: false
+  experimentalcli: false
+  option: jailparam
+  shorthand: J
+- deprecated: false
+  description: 'Network driver of the container.
+
+    Possible values: `ipnet`, `host`, `vnet`, and `disabled`. If no network and no
+    network driver is supplied,
+
+    the network driver is set to `host`. If a network is specfied but no network driver,
+    it is set to `ipnet`,'
+  experimental: false
+  experimentalcli: false
+  option: driver
+  shorthand: l
+- deprecated: false
+  description: Connect container to this network.
+  experimental: false
+  experimentalcli: false
+  option: network
+  shorthand: n
+- deprecated: false
+  description: IPv4 address used for the container. If omitted, an unused ip is allocated
+    from the IPv4 subnet of `--network`.
+  experimental: false
+  experimentalcli: false
+  option: ip
+- deprecated: false
+  description: IPv6 address used for the container. If omitted, an unused ip is allocated
+    from the IPv6 subnet of `--network`.
+  experimental: false
+  experimentalcli: false
+  option: ip6
+- deprecated: false
+  description: Specify an image that will override the image in the Dockerfile's `FROM`
+    instruction.
+  experimental: false
+  experimentalcli: false
+  option: from
+- deprecated: false
+  description: 'Location of the `Dockerfile` relative to **PATH**.  [default: Dockerfile]'
   experimental: false
   experimentalcli: false
   option: file
@@ -231,11 +307,10 @@ options:
   option: quiet
   shorthand: q
 - deprecated: false
-  description: Whether or not to remove the build-container if the build fails
+  description: Whether or not to remove the image if the build fails
   experimental: false
   experimentalcli: false
-  option: cleanup
-  shorthand: l
+  option: rm
 - deprecated: false
   description: Set build-time variables (e.g. --build-arg FIRST=hello --build-arg
     SECOND=world)
