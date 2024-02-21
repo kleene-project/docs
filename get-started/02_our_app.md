@@ -47,6 +47,12 @@ You need to create a [base image](FIXME: link til glossary eller?) and a network
    $ klee network create --subnet 10.13.37.0/24 testnet
    ```
 
+   In general it is good practice to connect your containers to a network
+   instead of using the fallback `host` network driver, that does not use
+   networks but comes with much less networking isolation compared to containers
+   using the `ipnet` or `vnet` network driver.
+
+
 ## Build the app's container image
 
 In order to build the [container image](../get-started/overview.md/#kleene-objects){:target="_blank" rel="noopener" class="_"}, you'll need to use a `Dockerfile`.

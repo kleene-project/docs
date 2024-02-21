@@ -180,7 +180,7 @@ Once it has finished, you can run and instance of your new image.
 It will look something like this:
 
 ```console
-$ klee run -n testnet MyLiteVM
+$ klee run MyLiteVM
 dfd0bdf5c2c1
 created execution instance 168285340bb0
 ELF ldconfig path: /lib /usr/lib /usr/lib/compat /usr/local/lib /usr/local/lib/compat/pkg /usr/local/lib/compat/pkg

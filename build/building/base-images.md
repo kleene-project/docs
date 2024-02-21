@@ -109,7 +109,7 @@ tool, like `https://github.com/Freaky/mkjail` to help (requires `ruby`).
 In the following there is a small example. Note that it is assumed that `mkjail`
 is in your `PATH`.
 
-```
+```console
 $ mkjail -a minimal_testjail.txz /usr/bin/env /usr/local/bin/python3.9 -c "print('lol')"
 ... output ...
 a var

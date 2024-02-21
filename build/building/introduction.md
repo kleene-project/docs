@@ -1,8 +1,6 @@
 ---
 title: Packaging your runtime environments
-keywords: build, buildx, buildkit, getting started, dockerfile
-redirect_from:
-- /build/hellobuild/
+keywords: build, image, container, getting started, dockerfile
 ---
 
 ## Dockerfile
@@ -73,7 +71,7 @@ Kleene uses zfs [snapshots](https://man.freebsd.org/cgi/man.cgi?query=zfs-snapsh
 and [clones](https://man.freebsd.org/cgi/man.cgi?query=zfs-clone)
 when creating images and containers.
 
-## Example
+## Example: Creating an image
 
 Here's a simple Dockerfile example to get you started with building images.
 We'll take a simple "Hello World" Python Flask application, and bundle it into
@@ -83,10 +81,13 @@ Remember to [prepare the Kleene host](/get-started/02_our_app/#prepare-the-kleen
 if haven't already been done:
 
 ```console
-$ klee image create -t FreeBSD:testing fetch-auto
+$ klee image create -t FreeBSD fetch-auto
 ... a lot of output here ...
 $ klee network create --subnet 10.13.37.0/24 testnet
 ```
+
+Since no tag was given, kleene automatically uses `latest`, meaning that the
+nametag of the image created above will be `FreeBSD:latest`.
 
 Now, let's say we have a `hello.py` file with the following content:
 
@@ -106,7 +107,7 @@ preserve indentation.
 Here's the Dockerfile that will be used to create an image for our application:
 
 ```dockerfile
-FROM FreeBSD:testing
+FROM FreeBSD:latest
 
 # install app dependencies
 RUN pkg install -y py39-flask
@@ -122,14 +123,14 @@ CMD flask run --host 0.0.0.0 --port 8000
 First, we define the `FROM`-instruction:
 
 ```dockerfile
-FROM FreeBSD:testing
+FROM FreeBSD:latest
 ```
 
 Here the [`FROM` instruction](../../engine/reference/builder.md#from) sets the
 parent image of our "Hello World"-app to the [base image](FIXME) that we created just before.
 
 All following instructions are executed on (a clone of) this base image. The notation
-`FreeBSD:testing`, follows the `name:tag` standard for naming docker images.
+`FreeBSD:latest`, follows the `name:tag` standard for naming docker images.
 
 ```dockerfile
 # install app dependencies
@@ -174,7 +175,7 @@ command that is run when the user starts a container based on this image. In
 this case we'll start the flask development server listening on all addresses
 on port `8000`.
 
-## Testing
+### Building the image and running the app
 
 To test our Dockerfile, we'll first build it using the [`klee build` command](/engine/reference/commandline/build):
 
@@ -207,6 +208,19 @@ If you run this container locally, you can open a browser and navigate to
 `http://localhost:8000`. If you run the container on a remote server you
 can make a SSH-tunnel `ssh -L 8000:<container IP>:8000 <your-host>`
 before navigating to `http://localhost:8000`.
+
+## Build configuration
+
+Since the image creation uses a build container for running build commands, it
+can be configured like any other container. This can be necessary when some
+some build steps require non-standard privileges, as illustrated in the image
+[snapshots example](/build/building/snapshots). Conversely, there might be a
+need to restrict the build environment for security reasons.
+
+The configuration parameters used to configure the build container with
+`klee build` is almost identical to the container configuration of `klee run`.
+See the [the reference documentation](/engine/reference/commandline/build)
+for details.
 
 ## Image design
 
