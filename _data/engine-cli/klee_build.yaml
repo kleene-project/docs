@@ -176,49 +176,33 @@ examples: '### Build with PATH
   '
 experimental: false
 experimentalcli: false
-long: 'The `klee image build` command builds images from a Dockerfile and a
-
-  "context". A build''s context is the set of files and directories located in
-
-  the specified `PATH`. The build process can refer to any of the files in the
-
-  context. For example, your build can use a [*COPY*](../builder.md#copy)
-
-  instruction to copy a file from the context path into the build container.
-
-
-  Note that `PATH` refers to a location in the filesystem on the host where Kleened
-
-  is running. If you do not run `klee` on the host, it might be desirable to access
-
-  the context `PATH` using NFS, SSHFS or something similar.
-
-
-  By default the `klee image build` command will look for a `Dockerfile` at the root
-
-  of the build context (i.e., at `PATH`). The `-f`, `--file`, option lets you
-
-  specify the path to an alternative file to use instead.
-
-  This is useful in cases where the same set of files are used for multiple builds.
-
-  the context. The path is interpreted relative to the context `PATH`.
-
-
-  In most cases, it''s best to put each Dockerfile in an empty directory. Then,
-
-  add to that directory only the files needed for building the Dockerfile.
-
-
-  ### Build container configuration
-
-
-  FIXME
-
-  '
+long: "The `klee image build` command builds images from a Dockerfile and a\n\"context\"\
+  . A build's context is the set of files and directories located in\nthe specified\
+  \ `PATH`. The build process can refer to any of the files in the\ncontext. For example,\
+  \ your build can use a [*COPY*](../builder.md#copy)\ninstruction to copy a file\
+  \ from the context path into the build container.\n\nNote that `PATH` refers to\
+  \ a location in the filesystem on the host where Kleened\nis running. If you do\
+  \ not run `klee` on the host, it might be desirable to access\nthe context `PATH`\
+  \ using NFS, SSHFS or something similar.\n\nBy default the `klee image build` command\
+  \ will look for a `Dockerfile` at the root\nof the build context (i.e., at `PATH`).\
+  \ The `-f`, `--file`, option lets you\nspecify the path to an alternative file to\
+  \ use instead.\nThis is useful in cases where the same set of files are used for\
+  \ multiple builds.\nthe context. The path is interpreted relative to the context\
+  \ `PATH`.\n\nIn most cases, it's best to put each Dockerfile in an empty directory.\
+  \ Then,\nadd to that directory only the files needed for building the Dockerfile.\n\
+  \n### Build container configuration\n\nJust like you can configure the container\
+  \ environment with networking,\njail-parameters and mounts you can configure the\
+  \ build container used when\ncreating images. The parameters used to configure the\
+  \ build container is\nmostly identical to parameters used for `klee run`. A few\
+  \ differences to keep in\nmind, however:\n\n- `--from`: Override the image in the\
+  \ `FROM`-instruction.\n- `--user`: If it is not set, the user of the build container\
+  \ will be inherited\n  from the parent image. `USER`-instructions overrides this\
+  \ parameter.\n- `--env`: `ENV`-instructions override the values of this parameter.\n\
+  - `--jailparam`: `USER`-instructions can be affected if the\n  `exec.system_user`/`exec.jail_user`/`exec.system_jail_user`\
+  \ jail parameters\n  are manually set.\n"
 options:
 - deprecated: false
-  description: 'Default user used when running the container.
+  description: 'Default user used when running commands in the container.
 
     This parameter will be overwritten by the jail parameter `exec.jail_user` if it
     is set.'
@@ -236,7 +220,7 @@ options:
 - deprecated: false
   description: 'Mount a volume/directory/file on the host filesystem into the container.
 
-    Mounts are specfied using a `--mount <source>:<destination>[:rw|ro]` syntax.'
+    Mounts are specfied using a `--mount SOURCE:DESTINATION[:rw|ro]` syntax.'
   experimental: false
   experimentalcli: false
   option: mount

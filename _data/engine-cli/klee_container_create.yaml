@@ -56,7 +56,7 @@ long: "The `klee container create` (or shorthand: `klee create`) command creates
   \ options.\n"
 options:
 - deprecated: false
-  description: 'Default user used when running the container.
+  description: 'Default user used when running commands in the container.
 
     This parameter will be overwritten by the jail parameter `exec.jail_user` if it
     is set.'
@@ -74,7 +74,7 @@ options:
 - deprecated: false
   description: 'Mount a volume/directory/file on the host filesystem into the container.
 
-    Mounts are specfied using a `--mount <source>:<destination>[:rw|ro]` syntax.'
+    Mounts are specfied using a `--mount SOURCE:DESTINATION[:rw|ro]` syntax.'
   experimental: false
   experimentalcli: false
   option: mount
