@@ -24,12 +24,13 @@ is determined by which kind of network driver it has.
 
 ## Network types
 
-Networks fall into three types and are represented by a network interface on
-the host.
+Networks can be created as three different types and each network is represented
+by an interface on the host.
 
-- `loopback`: Kleene creates a [loopback](https://man.freebsd.org/cgi/man.cgi?query=lo) interface on the host for the network.
-  This has historically been a classical way to provide networking for jails
-  in FreeBSD. It is the default network type with Klee.
+- `loopback`: Kleene creates a [loopback](https://man.freebsd.org/cgi/man.cgi?query=lo)
+  interface on the host for the network. This has historically been a classical
+  way to provide networking for jails in FreeBSD. It is the default network type
+  with Klee.
 
 - `bridge`: Kleene creates a [bridge](https://man.freebsd.org/cgi/man.cgi?query=if_bridge) interface on the host for the network.
   The bridge network can be used to (logically) link interfaces on the host
@@ -42,40 +43,71 @@ the host.
   cases. The user is expected to take care of creating/destroying the interface,
   if needed.
 
-## Network drivers
-FIXME: HERTIL
+## Container network drivers
 
-- `ipnet`:
+The networking capabilities of a container is determined by it's network driver.
+There are four different network drivers a container can use and only one can be
+selected. They are derived directly from the underlying
+[jail-parameters](https://man.freebsd.org/cgi/man.cgi?query=lo).
 
-- `vnet`:
+- `ipnet` (default driver): Restricts which IP-addresses on the host that is
+  accesible to the container. Kleene restricts access to the IP-addresses such that
+  only IP's assigned to the container are visible from within the container. All
+  interfaces on the host is visible, but only allowed IP's on the interfaces
+  are visible, and modifying network interfaces using, .e.g.,
+  [`ifconfig(8)`](https://man.freebsd.org/cgi/man.cgi?query=ifconfig) is
+  prohibited. A few pro's and con's of ipnet-containers:
 
-- `host`: For standalone containers, remove network isolation between the
-  container and the Docker host, and use the host's networking directly. See
-  [use the host network](host.md).
+  - It is lightweight way of providing connectivity to a container while
+    retaining isolation from the host and other containers.
 
-- `disabled`: For this container, disable all networking. Usually used in
-  conjunction with a custom network driver. `none` is not available for swarm
-  services. See
-  [disable container networking](none.md).
+  - Ipnet containers can connect to all network types.
 
-- [Network plugins](/engine/extend/plugins_services/): You can install and use
-  third-party network plugins with Docker. These plugins are available from
-  [Docker Hub](https://hub.docker.com/search?category=network&q=&type=plugin)
-  or from third-party vendors. See the vendor's documentation for installing and
-  using a given network plugin.
+  - The IP's assigned to the container is also visible from the host so
+    getting an overview of IP usage of ipnet-containers is straightforward.
+
+  - Access to localhost aka. `127.0.0.1` is prohibited by default. This might
+    require additional configuration of applications that expects this IP to
+    be accessable.
+
+  - The restricted networking environment limits the possibilites of what you
+    can do within the container. For instance, it is not possible to setup a
+    firewall or manipulating routes, network interfaces etc. Use the `vnet`
+    driver in that case.
+
+- `vnet`: VNET-containers has their own virtual networkstack, such as
+  a dedicated `loopback` interface, routing table, firwall capabilities etc.
+  VNET-containers are connected through a virtual `cross-over` cable represented
+  by a pair of [`epair(4)`](https://man.freebsd.org/cgi/man.cgi?query=epair)
+  interfaces. One of these is designated to the container and the other resides
+  on the host, where it is added to a `bridge` interface.
+  A few pro's and con's of vnet-containers:
+
+  - Because VNET-containers have their own network stack, they can create
+    virtual interfaces, manipulate existing ones, and run their own firewall.
+    This makes them ideal for more complicated networking requirements.
+
+  - Slightly more host and container configuration is needed compared to
+    ipnet-containers since epair interfaces has to be allocated/configured
+    and gateways has to be added during container startup.
+
+  - VNET-containers can only connect to bridge-networks.
+
+- `host`: Inherit all network configuration from the host. The container is able
+  to see all ips of all interfaces. However, the container can't manipulate the
+  interfaces such as adding remove IP-addresses etc. This network driver
+  provides the least amount of isolation since the container can see (and use)
+  all IP-addresses on the host, including those used by other containers.
+  It is not possible to connect to any networks with this driver.
+
+- `disabled`: Networking capabilites are disabled. Containers using this driver
+  can see all network interfaces of the host but none of their IP-addresses.
 
 ## Simple example
+
+This section provide a simple example of how to use container networking. More
+detailed guides are available in the following sections.
+
 ### Create your own loopback network
 
 ### Add containers to a network
-
-To build web applications that act in concert but do so securely, create a
-network. Networks, by definition, provide complete isolation for containers. You
-can add containers to a network when you first run a container.
-
-Launch a container running a PostgreSQL database and pass it the `--net=my_bridge` flag to connect it to your new network:
-
-    $ docker run -d --net=my_bridge --name db training/postgres
-
-If you inspect your `my_bridge` you can see it has a container attached.
-You can also inspect your container to see where it is connected:

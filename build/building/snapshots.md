@@ -122,7 +122,7 @@ Failed to build image 5db4e03a7a4e. Most recent snapshot is @0b4c07e5d8ad
 The `RUN service postgresql initdb` now runs succesfully, but a new error occurs
 in `RUN psql -c "CREATE DATABASE my_db;"`.
 We immediately know what this error is about and we run a container to verify
-the solution to the problem:
+our solution to the problem:
 
 ```console
 $ klee run -J allow.sysvipc -it PostgreSQL:failed /bin/sh
