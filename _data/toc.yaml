@@ -64,20 +64,16 @@ handbook:
     section:
     - path: /network/
       title: Overview
-    - path: /config/containers/container-networking/
-      title: Container networking
-    - path: /network/bridge/
-      title: Bridge networks
+    - path: /network/ipnet/
+      title: IPNet networking
+    - path: /network/vnet/
+      title: VNet networking
     - path: /network/host/
       title: Host networking
     - path: /network/none/
       title: Disable networking for a container
-    - sectiontitle: Networking tutorials
-      section:
-      - path: /network/network-tutorial-standalone/
-        title: Bridge network tutorial
-      - path: /network/network-tutorial-host/
-        title: Host networking tutorial
+    - path: /network/firewall/
+      title: "Advanced: Firewall customization"
   - sectiontitle: Storage
     section:
     - path: /storage/
@@ -94,12 +90,10 @@ handbook:
         title: Overview
       - path: /storage/storagedriver/zfs-driver/
         title: Use the ZFS storage driver
-  - sectiontitle: Advanced topics
-    section:
-    - path: /run/jail-parameters
-      title: Jail parameters
-    - path: /config/containers/resource_constraints/
-      title: Configure runtime resource constraints
+  - path: /run/jail-parameters
+    title: Jail parameters
+  - path: /config/containers/resource_constraints/
+    title: Container resource constraints
   - path: /config/containers/start-containers-automatically/
     title: Start containers automatically
 - sectiontitle: Kleene operation

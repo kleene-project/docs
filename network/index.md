@@ -50,13 +50,23 @@ There are four different network drivers a container can use and only one can be
 selected. They are derived directly from the underlying
 [jail-parameters](https://man.freebsd.org/cgi/man.cgi?query=lo).
 
-- `ipnet` (default driver): Restricts which IP-addresses on the host that is
-  accesible to the container. Kleene restricts access to the IP-addresses such that
-  only IP's assigned to the container are visible from within the container. All
-  interfaces on the host is visible, but only allowed IP's on the interfaces
-  are visible, and modifying network interfaces using, .e.g.,
-  [`ifconfig(8)`](https://man.freebsd.org/cgi/man.cgi?query=ifconfig) is
-  prohibited. A few pro's and con's of ipnet-containers:
+- `host` (default driver): Inherit all network configuration from the host. The container is able
+  to see all ips of all interfaces. However, the container can't manipulate the
+  interfaces such as adding remove IP-addresses etc. This network driver
+  provides the least amount of isolation since the container can see (and use)
+  all IP-addresses on the host, *including those used by other containers*.
+  It is not possible to connect to any networks with this driver,
+  and since it does not require a network it is the default driver.
+  However, in production setups it is recommended to use networks and ipnet/VNET
+  drivers instead since they provide much better isolation from the host and
+  other containers.
+
+- `ipnet`: Restricts which IP-addresses of the host that is
+  accesible to the container.
+  All interfaces of the host are visible within the container but not the IP's.
+  Only assigned IP's are visible within the container, and configuring network
+  interfaces using tools such as [`ifconfig(8)`](https://man.freebsd.org/cgi/man.cgi?query=ifconfig)
+  is prohibited. A few pro's and con's of ipnet-containers:
 
   - It is lightweight way of providing connectivity to a container while
     retaining isolation from the host and other containers.
@@ -91,23 +101,20 @@ selected. They are derived directly from the underlying
     ipnet-containers since epair interfaces has to be allocated/configured
     and gateways has to be added during container startup.
 
+  - Since the network-stack is isolated from the host, the networking
+    configuration of the container is only visible from within the container.
+
   - VNET-containers can only connect to bridge-networks.
 
-- `host`: Inherit all network configuration from the host. The container is able
-  to see all ips of all interfaces. However, the container can't manipulate the
-  interfaces such as adding remove IP-addresses etc. This network driver
-  provides the least amount of isolation since the container can see (and use)
-  all IP-addresses on the host, including those used by other containers.
-  It is not possible to connect to any networks with this driver.
-
 - `disabled`: Networking capabilites are disabled. Containers using this driver
-  can see all network interfaces of the host but none of their IP-addresses.
+  can see all network interfaces of the host but none of the IP-addresses.
 
-## Simple example
 
-This section provide a simple example of how to use container networking. More
-detailed guides are available in the following sections.
+## Next steps
 
-### Create your own loopback network
+Go to on of driver-specific pages for details:
 
-### Add containers to a network
+- [Host networking]()
+- [IPNet networking]()
+- [VNET networking]()
+- [Disable networking]()
