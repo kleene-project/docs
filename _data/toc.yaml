@@ -72,24 +72,20 @@ handbook:
       title: Host networking
     - path: /network/none/
       title: Disable networking for a container
+    - path: /network/publish-ports/
+      title: Publishing ports
     - path: /network/firewall/
-      title: "Advanced: Firewall customization"
+      title: Firewall customization
+    - path: /network/troubleshoot/
+      title: Troubleshoot
   - sectiontitle: Storage
     section:
     - path: /storage/
       title: Overview
     - path: /storage/volumes/
-      title: Volumes
-    - path: /storage/bind-mounts/
-      title: Bind mounts
-    - path: /storage/troubleshooting_volume_errors/
-      title: Troubleshoot
-    - sectiontitle: Storage drivers
-      section:
-      - path: /storage/storagedriver/
-        title: Overview
-      - path: /storage/storagedriver/zfs-driver/
-        title: Use the ZFS storage driver
+      title: Volume mounts
+    - path: /storage/nullfs-mounts/
+      title: Nullfs mounts
   - path: /run/jail-parameters
     title: Jail parameters
   - path: /config/containers/resource_constraints/
@@ -108,6 +104,8 @@ handbook:
     title: FreeBSD jail security
   - path: /engine/security/protect-access/
     title: Protect the Kleened socket
+  - path: /engine/zfs/
+    title: ZFS configuration
 - path: /release-notes/
   title: Release notes
 
