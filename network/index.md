@@ -50,9 +50,9 @@ There are four different network drivers a container can use and only one can be
 selected. They are derived directly from the underlying
 [jail-parameters](https://man.freebsd.org/cgi/man.cgi?query=lo).
 
-- `host` (default driver): Inherit all network configuration from the host. The container is able
+- `host` (default driver): Inherit the network configuration from the host. The container is able
   to see all ips of all interfaces. However, the container can't manipulate the
-  interfaces such as adding remove IP-addresses etc. This network driver
+  interfaces such as adding and remove IP-addresses with `ifconfig` etc. This network driver
   provides the least amount of isolation since the container can see (and use)
   all IP-addresses on the host, *including those used by other containers*.
   It is not possible to connect to any networks with this driver,
@@ -61,8 +61,8 @@ selected. They are derived directly from the underlying
   drivers instead since they provide much better isolation from the host and
   other containers.
 
-- `ipnet`: Restricts which IP-addresses of the host that is
-  accesible to the container.
+- `ipnet`: Inherit the network configuration but restrict which IP-addresses of
+  the host that is accesible to the container.
   All interfaces of the host are visible within the container but not the IP's.
   Only assigned IP's are visible within the container, and configuring network
   interfaces using tools such as [`ifconfig(8)`](https://man.freebsd.org/cgi/man.cgi?query=ifconfig)
@@ -109,12 +109,15 @@ selected. They are derived directly from the underlying
 - `disabled`: Networking capabilites are disabled. Containers using this driver
   can see all network interfaces of the host but none of the IP-addresses.
 
-
 ## Next steps
 
-Go to on of driver-specific pages for details:
+Go to on of driver-specific pages for introductory walk-throughs:
 
 - [Host networking]()
 - [IPNet networking]()
 - [VNET networking]()
 - [Disable networking]()
+
+If you have experience with FreeBSD jails and know the different approaches to
+networking, the walk-throughs should be very familiar and hopefully it shows how
+Kleene incorporates it.

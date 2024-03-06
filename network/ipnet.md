@@ -21,17 +21,12 @@ can connect a container on-the-fly. For instance, creating a container using the
 ipnet network-driver, connecting it to our new network, and running `ifconfig`:
 
 ```console
-klee run -l ipnet -n testnet FreeBSD ifconfig
+$ klee run -l ipnet -n testnet FreeBSD ifconfig
 d763328950a2
 created execution instance ec74e2e87920
 em0: flags=8863<UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST> metric 0 mtu 1500
         options=481009b<RXCSUM,TXCSUM,VLAN_MTU,VLAN_HWTAGGING,VLAN_HWCSUM,VLAN_HWFILTER,NOMAP>
         ether 08:00:27:b2:00:96
-        media: Ethernet autoselect (1000baseT <full-duplex>)
-        status: active
-em1: flags=8863<UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST> metric 0 mtu 1500
-        options=481009b<RXCSUM,TXCSUM,VLAN_MTU,VLAN_HWTAGGING,VLAN_HWCSUM,VLAN_HWFILTER,NOMAP>
-        ether 08:00:27:a3:0d:42
         media: Ethernet autoselect (1000baseT <full-duplex>)
         status: active
 lo0: flags=8049<UP,LOOPBACK,RUNNING,MULTICAST> metric 0 mtu 16384
@@ -152,15 +147,17 @@ If we inspect the network with `klee network inspect testnet`, we get:
 }
 ```
 
-Here both endpoints are shown, one from each container that we have connected to
+Here both endpoints are shown, one from each container connected to
 the network. We can also see the properties that has been assigned to the
-network (the default values). The `gateway`/`gateway6` is not relevant here,
-since it is only used for VNET-containers, which can't connect to loopback
-networks, only bridge-networks.
+network (the default values), such as NAT'in, subnets etc.
+The `gateway`/`gateway6` properties is not relevant here,
+as they are only used for VNET-containers which can't connect to loopback
+networks.
 
-## Container communication
+## Inter-container communication on the same network
 
-Now, let's try and see if the two containers:
+By default, containers connected to the same network can communicate with
+each other. Now, let's try and see if the two containers:
 
 ```console
 $ klee lsc -a

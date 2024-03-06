@@ -4,51 +4,37 @@ description: How to disable networking by using the none driver
 keywords: network, none, standalone
 ---
 
-If you want to completely disable the networking stack on a container, you can
-use the `--network none` flag when starting the container. Within the container,
-only the loopback device is created. The following example illustrates this.
+If the container should not have any networking capabilities the network driver
+`disabled` can be used. It basically has the same effect as using the `ipnet`
+driver, except that not IP's are assigned:
 
-1.  Create the container.
+```console
+$ klee run -l disabled FreeBSD ifconfig
+79a401f5b4a1
+created execution instance 841bda6b7c21
+em0: flags=8863<UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST> metric 0 mtu 1500
+        options=481009b<RXCSUM,TXCSUM,VLAN_MTU,VLAN_HWTAGGING,VLAN_HWCSUM,VLAN_HWFILTER,NOMAP>
+        ether 08:00:27:b2:00:96
+        media: Ethernet autoselect (1000baseT <full-duplex>)
+        status: active
+em1: flags=8863<UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST> metric 0 mtu 1500
+        options=481009b<RXCSUM,TXCSUM,VLAN_MTU,VLAN_HWTAGGING,VLAN_HWCSUM,VLAN_HWFILTER,NOMAP>
+        ether 08:00:27:a3:0d:42
+        media: Ethernet autoselect (1000baseT <full-duplex>)
+        status: active
+lo0: flags=8049<UP,LOOPBACK,RUNNING,MULTICAST> metric 0 mtu 16384
+        options=680003<RXCSUM,TXCSUM,LINKSTATE,RXCSUM_IPV6,TXCSUM_IPV6>
+        groups: lo
+pflog0: flags=0<> metric 0 mtu 33160
+        groups: pflog
 
-    ```console
-    $ docker run --rm -dit \
-      --network none \
-      --name no-net-alpine \
-      alpine:latest \
-      ash
-    ```
+executable 841bda6b7c21 and its container exited with exit-code 0
+```
 
-2.  Check the container's network stack, by executing some common networking
-    commands within the container. Notice that no `eth0` was created.
+and it is not possible to publish ports
 
-    ```console
-    $ docker exec no-net-alpine ip link show
-
-    1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN qlen 1
-        link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
-    2: tunl0@NONE: <NOARP> mtu 1480 qdisc noop state DOWN qlen 1
-        link/ipip 0.0.0.0 brd 0.0.0.0
-    3: ip6tnl0@NONE: <NOARP> mtu 1452 qdisc noop state DOWN qlen 1
-        link/tunnel6 00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00 brd 00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00
-    ```
-
-    ```console
-    $ docker exec no-net-alpine ip route
-    ```
-
-    The second command returns empty because there is no routing table.
-
-3.  Stop the container. It is removed automatically because it was created with
-    the `--rm` flag.
-
-    ```console
-    $ docker stop no-net-alpine
-    ```
-
-## Next steps
-
--  Go through the [host networking tutorial](network-tutorial-host.md)
-- Learn about [networking from the container's point of view](../config/containers/container-networking.md)
-- Learn about [bridge networks](bridge.md)
-- Learn about [overlay networks](overlay.md)
-- Learn about [Macvlan networks](macvlan.md)
+```console
+$ klee run -l disabled -p 8080 FreeBSD
+cannot publish ports of a container using the 'disabled' network driver
+could not create container: cannot publish ports of a container using the 'disabled' network driver
+```

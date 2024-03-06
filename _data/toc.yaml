@@ -86,7 +86,7 @@ handbook:
       title: Volume mounts
     - path: /storage/nullfs-mounts/
       title: Nullfs mounts
-  - path: /run/jail-parameters
+  - path: /run/jail-parameters/
     title: Jail parameters
   - path: /config/containers/resource_constraints/
     title: Container resource constraints
