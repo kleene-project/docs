@@ -1,68 +1,64 @@
 ---
-description: How to setup and run Docker with SSH or HTTPS
-keywords: docker, docs, article, example, ssh, https, daemon, tls, ca,  certificate
-title: Protect the Docker daemon socket
+description: How to setup and run Kleene with SSH or HTTPS
+keywords: kleene, kleened, daemon, security, ssh, tls, ca,  certificate
+title: Protect the Kleened socket
 ---
 
-## Docker daemon attack surface
+## Kleened attack surface
 
-Running containers (and applications) with Docker implies running the
-Docker daemon. This daemon requires `root` privileges unless you opt-in
-to [Rootless mode](rootless.md), and you should therefore be aware of
-some important details.
-
-First of all, **only trusted users should be allowed to control your
-Docker daemon**. This is a direct consequence of some powerful Docker
-features. Specifically, Docker allows you to share a directory between
-the Docker host and a guest container; and it allows you to do so
-without limiting the access rights of the container. This means that you
-can start a container where the `/host` directory is the `/` directory
-on your host; and the container can alter your host filesystem
-without any restriction. This is similar to how virtualization systems
-allow filesystem resource sharing. Nothing prevents you from sharing your
-root filesystem (or even your root block device) with a virtual machine.
-
-This has a strong security implication: for example, if you instrument Docker
-from a web server to provision containers through an API, you should be
-even more careful than usual with parameter checking, to make sure that
-a malicious user cannot pass crafted parameters causing Docker to create
-arbitrary containers.
+Since the creation of containers, firewall manipulation etc. requires root, the
+Kleene backend daemon (Kleened) runs with `root` privileges.
+Given the capabilities of the Kleened API implies that having access to Kleened is
+equivalent to *having full root access to the host machine*. Therefore, obviously,
+**only trusted users should have access to Kleened**.
 
 For this reason, the REST API endpoint uses a UNIX socket by default,
-instead of, e.g., a TCP socket bound on 127.0.0.1 (the
-latter being prone to cross-site request forgery attacks if you happen to run
-Docker directly on your local machine, outside of a VM). You can then
-use traditional UNIX permission checks to limit access to the control
-socket.
+instead of, e.g., a TCP socket bound on 127.0.0.1 (or similar widely accessable
+TCP socket). You can then use traditional UNIX permission checks to limit
+access to the control socket.
 
 You can expose the REST API over TCP if you explicitly decide to do so.
 However, if you do that, be aware of the above mentioned security
 implications.
-Note that even if you have a firewall to limit accesses to the REST API 
+Note that even if you have a firewall to limit accesses to the REST API
 endpoint from other hosts in the network, the endpoint can still be accessible
 from containers, and it can easily result in the privilege escalation.
-Therefore it is *mandatory* to secure exposed API endpoints with 
+Therefore it is *mandatory* to secure exposed API endpoints with
 TLS and certificates, as described in the following.
 It is also recommended to ensure that it is reachable only from a trusted
-network or VPN.
+network and/or VPN.
 
 ## Use SSH to access the Kleened daemon socket
 
-You can also use `ssh -L /path/to/docker.sock:/var/run/docker.sock`
-if you need remote access to Kleened. Remember that the user on the
-host that is used needs to have access to the root socket.
-FIXME: Kan man lave noget med ProxyCommand så man kan sudo'e til den socket?
+You can use `ssh -L /path/to/kleened.sock:/var/run/kleened.sock`
+if you need remote access to Kleened. However, the drawback is
+that the user on the host needs to have direct access to the root socket.
 
+## Use TLS (HTTPS) to protect the Kleened socket
 
-## Use TLS (HTTPS) to protect the Docker daemon socket
+If you need Kleened to be reachable through TCP in a safe manner,
+you can configure TLS (HTTPS) for both Klee and Kleened.
 
-If you need Docker to be reachable through HTTP rather than SSH in a safe manner,
-you can enable TLS (HTTPS) by specifying the `tlsverify` flag and pointing Docker's
-`tlscacert` flag to a trusted CA certificate.
+There are essentially the following scenarios:
 
-In the daemon mode, it only allows connections from clients
-authenticated by a certificate signed by that CA. In the client mode,
-it only connects to servers with a certificate signed by that CA.
+- Establish connections using a self-signed certificate. Neither Klee nor
+  Kleened check certificate is correct and thus do not know if they are talking
+  to the correct party. **Not very secure!**
+
+- Establish connections using certificates signed by a CA in two different
+  scenarios:
+    1. Klee verifies if Kleened's sever certificate is from a trusted CA.
+    2. In addition the above, Kleened also requests a valid client certificate from Klee.
+
+  The latter is by far the most secure since it ensures that both client and
+  server knows that they are talking to the right party. Unless explicitly
+  specified, Klee relies on the [CA bundle from `py-certifi`](https://pypi.org/project/certifi/).
+  For Kleened, a specific CA-cert needs to be specified. If a common bundle is needed,
+  consider using the [`ca_root_nss` package](https://www.freshports.org/security/ca_root_nss/)
+  (similar to `py-certifi`).
+
+In the following, the latter scenario is chosen where both Klee and Kleened uses
+a certificate signed by a CA.
 
 > Advanced topic
 >
@@ -73,9 +69,9 @@ it only connects to servers with a certificate signed by that CA.
 ### Create a CA, server and client keys with OpenSSL
 
 > **Note**: Replace all instances of `$HOST` in the following example with the
-> DNS name of your Docker daemon's host.
+> DNS name of your Kleened daemon's host.
 
-First, on the **Docker daemon's host machine**, generate CA private and public keys:
+First, on the **Kleened host machine**, generate CA private and public keys:
 
 ```console
 $ openssl genrsa -aes256 -out ca-key.pem 4096
@@ -104,12 +100,12 @@ Common Name (e.g. server FQDN or YOUR name) []:$HOST
 Email Address []:Sven@home.org.au
 ```
 
-Now that you have a CA, you can create a server key and certificate
-signing request (CSR). Make sure that "Common Name" matches the hostname you use
-to connect to Docker:
+Now that a CA has been created, create the server key and certificate
+signing request (CSR). Make sure that "Common Name" matches the hostname used
+to connect to Kleened:
 
 > **Note**: Replace all instances of `$HOST` in the following example with the
-> DNS name of your Docker daemon's host.
+> DNS name of the Kleened host.
 
 ```console
 $ openssl genrsa -out server-key.pem 4096
@@ -121,7 +117,7 @@ e is 65537 (0x10001)
 $ openssl req -subj "/CN=$HOST" -sha256 -new -key server-key.pem -out server.csr
 ```
 
-Next, we're going to sign the public key with our CA:
+Next, sign the public key with the CA:
 
 Since TLS connections can be made through IP address as well as DNS name, the IP addresses
 need to be specified when creating the certificate. For example, to allow connections
@@ -131,7 +127,7 @@ using `10.10.10.20` and `127.0.0.1`:
 $ echo subjectAltName = DNS:$HOST,IP:10.10.10.20,IP:127.0.0.1 >> extfile.cnf
 ```
 
-Set the Docker daemon key's extended usage attributes to be used only for
+Set Kleened key's extended usage attributes to be used only for
 server authentication:
 
     $ echo extendedKeyUsage = serverAuth >> extfile.cnf
@@ -147,17 +143,11 @@ Getting CA Private Key
 Enter pass phrase for ca-key.pem:
 ```
 
-[Authorization plugins](/engine/extend/plugins_authorization/) offer more
-fine-grained control to supplement authentication from mutual TLS. In addition
-to other information described in the above document, authorization plugins
-running on a Docker daemon receive the certificate information for connecting
-Docker clients.
-
-For client authentication, create a client key and certificate signing
+For Klee client authentication, create a client key and certificate signing
 request:
 
-> **Note**: For simplicity of the next couple of steps, you may perform this
-> step on the Docker daemon's host machine as well.
+> **Note**: For simplicity of the next couple of steps, perform this
+> step on the Kleend host machine as well.
 
 ```console
 $ openssl genrsa -out key.pem 4096
@@ -185,18 +175,18 @@ Getting CA Private Key
 Enter pass phrase for ca-key.pem:
 ```
 
-After generating `cert.pem` and `server-cert.pem` you can safely remove the
-two certificate signing requests and extensions config files:
+After generating `cert.pem` and `server-cert.pem` the two certificate signing requests
+and extensions config files can be removed:
 
 ```console
 $ rm -v client.csr server.csr extfile.cnf extfile-client.cnf
 ```
 
-With a default `umask` of 022, your secret keys are *world-readable* and
-writable for you and your group.
+With a default `umask` of 022, the secret keys are *world-readable* and
+writable for the present user and it's group.
 
-To protect your keys from accidental damage, remove their
-write permissions. To make them only readable by you, change file modes as follows:
+To protect the keys from accidental damage, remove their
+write permissions. To make them only readable by the present user, change file modes as follows:
 
 ```console
 $ chmod -v 0400 ca-key.pem key.pem server-key.pem
@@ -209,109 +199,63 @@ prevent accidental damage:
 $ chmod -v 0444 ca.pem server-cert.pem cert.pem
 ```
 
-Now you can make the Docker daemon only accept connections from clients
-providing a certificate trusted by your CA:
+Now, configure Kleened to only accept connections from clients that
+presents a certificate trusted by the CA, replacing the previous socket
+configuration with this:
 
-```console
-$ dockerd \
-    --tlsverify \
-    --tlscacert=ca.pem \
-    --tlscert=server-cert.pem \
-    --tlskey=server-key.pem \
-    -H=0.0.0.0:2376
+```yaml
+# '/path/to/' could be '/usr/local/etc/kleened/certs/'
+api_listening_sockets:
+    - address: "https://127.0.0.1:8085"
+      tlsverify: true
+      tlscacert: "/path/to/ca.pem"
+      tlscert: "/path/to/server-cert.pem"
+      tlskey: "/path/to/server-key.pem"
 ```
 
-To connect to Docker and validate its certificate, provide your client keys,
-certificates and trusted CA:
+in `/usr/local/etc/kleened/kleened_config.yaml`.
 
-> Run it on the client machine
->
-> This step should be run on your Docker client machine. As such, you
-> need to copy your CA certificate, your server certificate, and your client
-> certificate to that machine.
-
-> **Note**: Replace all instances of `$HOST` in the following example with the
-> DNS name of your Docker daemon's host.
+To connect to Kleened and validate its certificate and present it's client
+certifcate:
 
 ```console
-$ docker --tlsverify \
-    --tlscacert=ca.pem \
-    --tlscert=cert.pem \
-    --tlskey=key.pem \
-    -H=$HOST:2376 version
+$ klee --tlsverify \
+    --tlscacert=/path/to/ca.pem \
+    --tlscert=/path/to/cert.pem \
+    --tlskey=/path/to/key.pem \
+    -H=$HOST:8085 version
 ```
 
-> **Note**:
-> Docker over TLS should run on TCP port 2376.
+This step should be run on your Klee client machine. As such, you
+need to copy your CA certificate and the client cert + key to that machine.
 
 > **Warning**:
-> As shown in the example above, you don't need to run the `docker` client
-> with `sudo` or the `docker` group when you use certificate authentication.
-> That means anyone with the keys can give any instructions to your Docker
-> daemon, giving them root access to the machine hosting the daemon. Guard
-> these keys as you would a root password!
+> Note that you don't need to run `klee` with `sudo` when you use certificate
+> authentication. That means anyone with the keys have root access to the
+> Kleened host. Guard these keys accordingly!
 {:.warning}
 
-### Secure by default
-
-If you want to secure your Docker client connections by default, you can move
-the files to the `.docker` directory in your home directory --- and set the
-`DOCKER_HOST` and `DOCKER_TLS_VERIFY` variables as well (instead of passing
-`-H=tcp://$HOST:2376` and `--tlsverify` on every call).
-
-```console
-$ mkdir -pv ~/.docker
-$ cp -v {ca,cert,key}.pem ~/.docker
-
-$ export DOCKER_HOST=tcp://$HOST:2376 DOCKER_TLS_VERIFY=1
-```
-
-Docker now connects securely by default:
-
-    $ docker ps
-
-### Other modes
-
-If you don't want to have complete two-way authentication, you can run
-Docker in various other modes by mixing the flags.
-
-#### Daemon modes
-
- - `tlsverify`, `tlscacert`, `tlscert`, `tlskey` set: Authenticate clients
- - `tls`, `tlscert`, `tlskey`: Do not authenticate clients
-
-#### Client modes
-
- - `tls`: Authenticate server based on public/default CA pool
- - `tlsverify`, `tlscacert`: Authenticate server based on given CA
- - `tls`, `tlscert`, `tlskey`: Authenticate with client certificate, do not
-   authenticate server based on given CA
- - `tlsverify`, `tlscacert`, `tlscert`, `tlskey`: Authenticate with client
-   certificate and authenticate server based on given CA
-
-If found, the client sends its client certificate, so you just need
-to drop your keys into `~/.docker/{ca,cert,key}.pem`. Alternatively,
-if you want to store your keys in another location, you can specify that
-location using the environment variable `DOCKER_CERT_PATH`.
-
-```console
-$ export DOCKER_CERT_PATH=~/.docker/zone1/
-$ docker --tlsverify ps
-```
-
-#### Connecting to the secure Docker port using `curl`
+#### Connecting to the secure Kleened port using `curl`
 
 To use `curl` to make test API requests, you need to use three extra command line
 flags:
 
 ```console
-$ curl https://$HOST:2376/images/json \
-  --cert ~/.docker/cert.pem \
-  --key ~/.docker/key.pem \
-  --cacert ~/.docker/ca.pem
+$ curl https://$HOST:2376/images/list \
+  --cert /path/to/cert.pem \
+  --key /path/to/key.pem \
+  --cacert /path/to/ca.pem
 ```
 
-## Related information
+## Use a combination of SSH and TLS
 
-* [Using certificates for repository client verification](certificates.md)
-* [Use trusted images](trust/index.md)
+Yet another approach is to combine the certificate approach, desecribed below,
+to expose Kleened through a TLS-socket on, e.g., 127.0.0.1, and then
+make a SSH portward from the client. You thus gain:
+
+- The possibilty to leverage sophisticated authentication mechanisms of SSH
+  (like 2FA) to gain host access, while
+
+- Protecting the socket on 127.0.0.1 with mutual (client/server) TLS to add a layer
+  of security against unintended access from containers or applications running on
+  the host.

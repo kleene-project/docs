@@ -4,9 +4,9 @@ description: How to add you own custom firewall rules to PF
 keywords: networking, customization, expose ports, publish ports
 ---
 
-Kleene manages the [PF](FIXME man) firewall but it is also possible to
-add additional firewall rules together with Kleene's.
-This section describes how and provides a simple example.
+Kleene manages the [PF](https://docs.freebsd.org/en/books/handbook/firewalls/#firewalls-pf)
+firewall but it is also possible to add additional firewall rules together with
+Kleene's. This section describes how and provides a simple example.
 
 > **Note**
 >
@@ -22,10 +22,11 @@ connecting a container to a network etc. Kleene updates the firewall
 configuration by
 
 - Updating its firewall rules and inserting them into the firewall
-   [configuration file](FIXME pf.conf manside) template. The default location of
-   the template is `/usr/local/etc/kleened/pf.conf.kleene`.
+  [configuration file](https://man.freebsd.org/cgi/man.cgi?query=pf.conf)
+  template.
+  The default location of the template is `/usr/local/etc/kleened/pf.conf.kleene`.
 
-- The rendered template is then written to an actual [`pf.conf` file](FIXME)
+- The rendered template is then written to an actual `pf.conf` file
    in `/etc/pf.conf` and then PF is updated using this new firewall
    configuration file.
 

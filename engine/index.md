@@ -1,100 +1,74 @@
 ---
-description: Engine
-keywords: Engine
-redirect_from:
-  - /edge/
-  - /engine/ce-ee-node-activate/
-  - /engine/misc/
-  - /linux/
-  - /manuals/ # TODO remove this redirect after we've created a landing page for the product manuals section
-title: Docker Engine overview
+title: Operating Kleene
+description: Kleene operation overview
+keywords: Kleene, operation, maintenance
 ---
 
-Docker Engine is an open source containerization technology for building and
-containerizing your applications. Docker Engine acts as a client-server
-application with:
+This section and its subsections discusses a few topics related to the operation and maintenance of a
+Kleene host.
 
-- A server with a long-running daemon process
-  [`dockerd`](/engine/reference/commandline/dockerd).
-- APIs which specify interfaces that programs can use to talk to and instruct
-  the Docker daemon.
-- A command line interface (CLI) client
-  [`docker`](/engine/reference/commandline/cli/).
+## Pruning unused objects
 
-The CLI uses [Docker APIs](api/index.md) to control or interact with the Docker
-daemon through scripting or direct CLI commands. Many other Docker applications
-use the underlying API and CLI. The daemon creates and manage Docker objects,
-such as images, containers, networks, and volumes.
+When developing images and experimenting with containers unused images,
+containers, networks and volumes can accumulate. To easily remove these,
+use the `klee <object> prune` family of commands. The conditions on what is
+removed differs, depending on which object is being pruned.
 
-For more details, see
-[Docker Architecture](../get-started/overview.md#docker-architecture).
+Use `klee <object> prune --help` to see what condition holds for a particular
+object. Note that using `klee <object> prune` *does not* output the help text as
+it usually does with most commands, but instead execute the command. Luckily, it
+does prompt the user before removing any objects.
 
-<div class="component-container">
-  <!--start row-->
-  <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 block">
-      <div class="component">
-        <div class="component-icon">
-          <a href="/engine/install/"><img src="/assets/images/download.svg" alt="Arrow pointing downwards" width="70px" height="70px"></a>
-        </div>
-        <h2><a href="/engine/install/">Install Docker Engine</a></h2>
-        <p>Learn how to install the open source Docker Engine for your distribution.</p>
-      </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 block">
-      <div class="component">
-        <div class="component-icon">
-          <a href="/storage/"><img src="/assets/images/engine-storage.svg" alt="Data disks" width="70px" height="70px"></a>
-        </div>
-        <h2><a href="/storage/">Storage</a></h2>
-        <p>Use persistent data with Docker containers.</p>
-      </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 block">
-      <div class="component">
-        <div class="component-icon">
-          <a href="/network/"><img src="/assets/images/engine-networking.svg" alt="Computers on a local area network" width="70px" height="70px"></a>
-        </div>
-        <h2><a href="/network/">Networking</a></h2>
-        <p>Manage network connections between containers.</p>
-      </div>
-    </div>
-  </div>
-  <!--start row-->
-  <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 block">
-      <div class="component">
-        <div class="component-icon">
-          <a href="/engine/security/rootless/"><img src="/assets/images/engine-rootless.svg" alt="Checkered shield" width="70px" height="70px"></a>
-        </div>
-        <h2><a href="/engine/security/rootless/">Rootless mode</a></h2>
-        <p>Run Docker without root privileges.</p>
-      </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 block">
-      <div class="component">
-        <div class="component-icon">
-          <a href="/config/pruning/"><img src="/assets/images/engine-pruning.svg" alt="A pair of scissors" width="70px" height="70px"></a>
-        </div>
-        <h2><a href="/config/pruning/">Prune</a></h2>
-        <p>Tidy up unused resources.</p>
-      </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 block">
-      <div class="component">
-        <div class="component-icon">
-          <a href="/config/daemon/"><img src="/assets/images/engine-configure-daemon.svg" alt="Settings cogwheel with stars" width="70px" height="70px"></a>
-        </div>
-        <h2><a href="/config/daemon/">Configure the daemon</a></h2>
-        <p>Delve into the configuration options of the Docker daemon.</p>
-      </div>
-    </div>
-  </div>
-</div>
+## Containers are independent from Kleene
 
-## Licensing
+It is worth mentioning the decoupling of Kleene and the containers that it
+starts. Since a container is essentially a FreeBSD jail, the underlying mechanism
+essentially is starting a FreeBSD jail, that jail is independently managed by
+FreeBSD and will continue running if Kleened is shutdown.
 
-The Docker Engine is licensed under the Apache License, Version 2.0. See
-[LICENSE](https://github.com/moby/moby/blob/master/LICENSE) for the full license
-text.
+```console
+$ klee run FreeBSD
+ab7857f95f13
+created execution instance a88528cd8383
+ELF ldconfig path: /lib /usr/lib /usr/lib/compat
+32-bit compatibility ldconfig path: /usr/lib32
+Updating motd:.
+Creating and/or trimming log files.
+Clearing /tmp (X related).
+Updating /var/run/os-release done.
+Starting syslogd.
+Starting sendmail_submit.
+Starting sendmail_msp_queue.
+Starting cron.
 
+Thu Mar  7 12:12:31 UTC 2024
+
+a88528cd8383 has exited with exit-code 0
+
+$ sudo kill 6117
+### Kleened has been shutdown ###
+$ klee lsc
+unable to connect to kleened: [Errno 61] Connection refused
+$ jls
+   JID  IP Address      Hostname                      Path
+    19                                                /zroot/kleene/container/ab7857f95f13
+$ sudo jexec 19 /bin/ls
+.cshrc          bin             COPYRIGHT       etc             libexec         mnt             proc            root            sys             usr
+.profile        boot            dev             lib             media           net             rescue          sbin            tmp             var
+```
+
+The jail is still running without Kleened. If we start Kleened up again, it will
+immediately recognize the running container:
+
+```console
+$ sudo service kleened start
+$ klee lsc
+ CONTAINER ID    NAME       IMAGE            COMMAND           CREATED          STATUS    JID
+──────────────────────────────────────────────────────────────────────────────────────────────
+ ab7857f95f13    funny_wu   FreeBSD:latest   /bin/sh /etc/rc   18 minutes ago   running   19
+```
+
+However, from the perspective of the FreeBSD host, it is a fire-and-forget
+action when Kleene starts a jail. This means that the jail/container
+will not survive a system reboot, if Kleened is not started at system boot,
+even though FreeBSD does have the functionality to do so with jails.

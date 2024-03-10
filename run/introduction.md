@@ -67,9 +67,8 @@ are equivalent. A few things to notice with these two examples:
 
 - Lastly, the containers do not have connectivity since no network was specified
   (using `--network`/`-n`) when the containers were created. An easy way to get
-  started with networking is in the [Get started](/get-started) guide
-  and a thorough discussion is given in the [networking section](FIXME)
-  following this introduction.
+  started with networking is the [Get started](/get-started) guide
+  with more details given in the [networking section](/network/).
 
 ## Detached vs. foreground
 
