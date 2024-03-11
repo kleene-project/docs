@@ -1,19 +1,40 @@
 ---
-title: Contribute to Docker's docs
+title: Contribute to Kleene's docs
 toc_max: 1
 redirect_from:
 - /CONTRIBUTING/
-- /opensource/
 ---
 
-We deeply value documentation contributions from the Docker community. We'd like to make it as easy
-as possible for you to work in this repository. The following sections guide you through the process of contributing to Docker documentation.
+Keeping documentation up to date, easy to understand and with lots of
+insightful/helpful examples is a huge task - and there is *always* more that
+could be done. If you want to help out that is greatly appreciated!
 
-### Additional resources
+The documentation source repos is based on Docker's, which in turn is built on Jekyll,
+and provides several helpful features to make it easy to contribute. For instance,
+useful UI components, easy ways to make PR's etc.
 
-We also provide:
+## Style Guide
 
-- A section of useful components you can add to your documentation. For components and controls, we use [Bootstrap](https://getbootstrap.com)
-- Information on Docker's [tone and voice](style/voice-tone.md).
-- A [writing checklist](checklist.md) to help you when you're contributing to Docker's documentation.
-- A command-line tool called vale to check the style and [help you find errors in your writing](contribute-guide.md#test-the-docs-locally). 
+The style of writing documentation is taken directly from Docker's
+[Style guide](https://docs.docker.com/contribute/style/grammar/) so please
+consult these pages to learn how to contribute to Kleene's docs.
+
+Note that there are a few modifications to Docker's style guide that is
+applied to Kleene's docs:
+
+- Kleene uses the *passive* form of writing to be more consistent with the style
+  of other important sources of documentation, such as the FreeBSD handbook and
+  man-pages. The only deviations from this rule is when referring directly to
+  the reader (e.g., as in the first paragraph of this section), and in the
+  'Getting Started' guide where the user should do what is described.
+
+- Klee is used to refer directly to the Kleene client and Kleened is used when
+  referring directly to the Kleene backend component. Use `klee` when referring
+  to one of Klee's commands. For instance: 'Klee is designed to be an easy,
+  effective and intuitive tools for humans to interact with Kleened.
+  Use `klee <subcommand>` without any arguments to print the help page of the
+  subcommand'
+
+- Kleene is used to refer to the entire Kleene stack and project. E.g., 'Kleene
+  is designed to make it easier for FreeBSD users to develop and maintain isolated
+  runtime environments (jails) on the FreeBSD platform'.

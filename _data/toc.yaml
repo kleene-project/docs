@@ -18,7 +18,7 @@ home: {}
 handbook:
 - title: Kleene overview
   path: /get-started/overview/
-- sectiontitle: Installation
+- sectiontitle: Get Kleene
   section:
     - title: Overview
       path: /install/
@@ -96,12 +96,6 @@ handbook:
   section:
   - path: /engine/
     title: Overview
-  - path: /config/containers/live-restore/
-    title: Keep containers alive during daemon downtime
-  - path: /config/pruning/
-    title: Prune unused objects
-  - path: /engine/security/freebsd/
-    title: FreeBSD jail security
   - path: /engine/security/protect-access/
     title: Protect the Kleened socket
   - path: /engine/zfs/
@@ -234,51 +228,47 @@ reference:
   title: Glossary
 
 contribute:
-  - path: /contribute/overview/
-    title: Contribute to Docker's docs
-  - path: /contribute/contribute-guide/
-    title: Contribution guidelines
-  - sectiontitle: Style guide
+  - sectiontitle: Contribute to Kleene's docs
     section:
-    - path: /contribute/style/grammar/
-      title: Grammar and style
-    - path: /contribute/style/formatting/
-      title: Formatting
-    - path: /contribute/style/recommended-words/
-      title: Recommended word list
-    - path: /contribute/style/terminology/
-      title: Docker terminology
-    - path: /contribute/style/voice-tone/
-      title: Voice and tone
-  - path: /contribute/file-conventions/
-    title: Source file conventions
-  - path: /contribute/ui/
-    title: UI elements in content
-  - sectiontitle: Useful components
-    section:
-    - path: /contribute/components/accordions/
-      title: Accordions
-    - path: /contribute/components/badges/
-      title: Badges
-    - path: /contribute/components/call-outs/
-      title: Callouts
-    - path: /contribute/components/cards/
-      title: Cards
-    - path: /contribute/components/code-blocks/
-      title: Code blocks
-    - path: /contribute/components/images/
-      title: Images
-    - path: /contribute/components/links/
-      title: Links
-    - path: /contribute/components/lists/
-      title: Lists
-    - path: /contribute/components/tables/
-      title: Tables
-    - path: /contribute/components/tabs/
-      title: Tabs
-    - path: /contribute/components/tooltips/
-      title: Tooltips
-    - path: /contribute/components/videos/
-      title: Videos
-  - path: /contribute/checklist/
-    title: Writing checklist
+    - path: /contribute/overview/
+      title: Overview
+    - path: /contribute/contribute-guide/
+      title: Contribution guidelines
+    - path: /contribute/file-conventions/
+      title: Source file conventions
+    - path: /contribute/ui/
+      title: UI elements in content
+    - sectiontitle: Useful components
+      section:
+      - path: /contribute/components/accordions/
+        title: Accordions
+      - path: /contribute/components/badges/
+        title: Badges
+      - path: /contribute/components/call-outs/
+        title: Callouts
+      - path: /contribute/components/cards/
+        title: Cards
+      - path: /contribute/components/code-blocks/
+        title: Code blocks
+      - path: /contribute/components/images/
+        title: Images
+      - path: /contribute/components/links/
+        title: Links
+      - path: /contribute/components/lists/
+        title: Lists
+      - path: /contribute/components/tables/
+        title: Tables
+      - path: /contribute/components/tabs/
+        title: Tabs
+      - path: /contribute/components/tooltips/
+        title: Tooltips
+      - path: /contribute/components/videos/
+        title: Videos
+    - path: /contribute/checklist/
+      title: Writing checklist
+  - path: /contribute/klee-kleened/
+    title: Contribute to Klee and Kleened
+  - path: /contribute/project-status/
+    title: Project status
+  - path: /contribute/community/
+    title: Community
