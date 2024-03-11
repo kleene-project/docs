@@ -89,9 +89,13 @@ To create the `docker` group and add your user:
    $ sudo chmod g+rwx "$HOME/.docker" -R
    ```
 
-### Configure Kleened to start on boot with `/etc/rc.conf`
+### Configure Kleened to start on boot
+ 
+FIXME with `/etc/rc.conf`
 
-FIXME
+### Start the daemon manually
+
+TBD
 
 ### Configure default logging driver
 
@@ -329,3 +333,6 @@ system down more.
   ```
 
   Make sure that the interface names and chain names are correct.
+
+
+

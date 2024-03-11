@@ -22,16 +22,10 @@ handbook:
   section:
     - title: Overview
       path: /install/
+    - title: Install Kleened
+      path: /install/kleened/
     - title: Install Klee
       path: /install/klee/
-    - sectiontitle: Kleened
-      section:
-      - path: /install/kleened/
-        title: Installation
-      - path: /config/daemon/
-        title: Configuring Kleened
-      - path: /config/daemon/start/
-        title: Running Kleened
 - sectiontitle: Get started
   section:
     - title: "Part 1: Overview"
@@ -110,6 +104,8 @@ reference:
   section:
   - path: /engine/reference/commandline/cli/
     title: Using Klee
+  - path: /engine/reference/commandline/configure-klee/
+    title: Configure Klee
   - path: /engine/reference/commandline/klee/
     title: klee (root command)
   - sectiontitle: klee shortcut commands
@@ -218,6 +214,8 @@ reference:
   section:
   - path: /engine/api/
     title: Overview
+  - path: /engine/configure-kleened/
+    title: Configure Kleened
   - path: /engine/api/kleened-v0.0.1/
     title: Kleened API v0.0.1
   - path: /engine/api/version-history/
