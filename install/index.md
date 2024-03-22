@@ -1,11 +1,10 @@
 ---
-title: Installation overview
+title: Download and install
 description: Installation overview
-keywords: kleene, klee, kleened, installation, install, overview
+keywords: kleene, klee, kleened, installation, install, overview, download
 ---
 
-To get a full Kleene installation install both the Kleened (server) and Klee
-(client).
+Download and install the Kleened daemon and Klee client.
 
 <div class="component-container">
     <!--start row-->
@@ -15,9 +14,8 @@ To get a full Kleene installation install both the Kleened (server) and Klee
              <div class="component-icon">
                  <a href="/engine/api/"><img src="/assets/images/kleened-server.svg" alt="kleened" width="70" height="70"></a>
              </div>
-             <h2 id="docker-for-linux"><a
-             href="/install/kleened/">Install Kleened</a></h2>
-             <p>Install Kleened on the FreeBSD host</p>
+             <h2><a href="/install/kleened/">&nbsp;&nbsp;Kleened</a></h2>
+             <p>Install Kleene backend on a FreeBSD host</p>
         </div>
      </div>
      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 block">
@@ -25,8 +23,8 @@ To get a full Kleene installation install both the Kleened (server) and Klee
             <div class="component-icon">
                  <a href="/engine/reference/commandline/cli/"><img src="/assets/images/klee-reference.svg" alt="klee" width="70" height="70"></a>
             </div>
-            <h2 id="dockerfile"><a href="/install/klee/">Install Klee</a></h2>
-            <p>Install Klee on any machine</p>
+            <h2><a href="/install/klee/">&nbsp;Klee</a></h2>
+            <p>Install Kleene client on any machine</p>
         </div>
      </div>
   </div>
