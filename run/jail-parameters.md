@@ -18,7 +18,7 @@ Jail parameters offers flexible and powerful configuration options when creating
 containers. For instance, the `exec.[pre|post]start` and `exec.[pre|post]stop`
 parameters enable custom commands to be run during container creation and
 removal, and is also used by Kleene in some cases. Furthermore, usering jail
-parameters it is possible to fine-tune which ressource can be accessed by the
+parameters it is possible to fine-tune which resource can be accessed by the
 container.
 
 However, the list of parameters and ways to configure a jail/container is out of
@@ -43,6 +43,7 @@ will (roughly) make Kleene run
 ```
 /usr/sbin/jail -c path=<kleene-root-mountpoint>/container/9b4fd69fb5f2
   name=9b4fd69fb5f2 \
+  host.hostname=9b4fd69fb5f2 \
   ip4=inherit ip6=inherit \
   exec.jail_user=root \
   exec.clean=true \
@@ -52,11 +53,13 @@ will (roughly) make Kleene run
 ```
 
 on the host. The `ip4` and `ip6` jail parameter values are derived
-from the default network driver `host`.
+from the default `host` network driver.
 
-The values of `mount.devfs`, `exec.jail_user`, `exec.clean`, `exec.stop` are Kleene defaults:
+The jail parameters where Kleene provide defaults are as follows:
 
 | Parameter        | Default                                | Overwrite manually                                                               |
+|------------------|----------------------------------------|----------------------------------------------------------------------------------|
+| `host.hostname`  | `host.hostname=<container ID>`         | `-J host.hostname=myhostname`                                                    |
 |------------------|----------------------------------------|----------------------------------------------------------------------------------|
 | `mount.devfs`    | `mount.devfs=true`                     | `-J mount.devfs=false` or `-J mount.nodevfs`                                     |
 |------------------|----------------------------------------|----------------------------------------------------------------------------------|
