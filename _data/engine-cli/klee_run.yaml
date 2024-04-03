@@ -121,11 +121,10 @@ options:
   shorthand: m
   value_type: list
 - deprecated: false
-  description: 'Specify one or more jail parameters to use. See the `jail(8)` man-page
-    for details.
+  description: 'Specify one or more jail parameters to use.
 
-    If you do not want `exec.clean` and `mount.devfs` enabled, you must actively disable
-    them.  [default: mount.devfs, exec.stop="/bin/sh /etc/rc.shutdown jail"]'
+    If you do not want `mount.devfs`, `exec.clean`, and `exec.stop="/bin/sh /etc/rc.shutdown"`
+    enabled, you must actively disable them.'
   experimental: false
   experimentalcli: false
   option: jailparam
