@@ -1,64 +1,36 @@
     <div class="container">
         <div class="top_footer">
             <div class="row">
-                <div class="col-xs-12 col-sm-3 col-md-3">
+                <div class="col-xs-12 col-sm-4 col-md-4">
                     <ul class="footer_links">
-                        <li><b><a href="#" target="_blank" rel="noopener">Highlight Link</a></b></li>
-                        <li><a href="#" target="_blank" rel="noopener">A link</a></li>
-                        <li><a href="#" target="_blank" rel="noopener">Another Link</a></li>
-                        <li><b><a href="#" target="_blank" rel="noopener">Another highlighted Link</a></b></li>
-                        <li><a href="#" target="_blank" rel="noopener">More links #1</a></li>
+                        <li><b>Try Kleene</b></li>
+                        <li><a href="/install/" target="_blank" rel="noopener">Installation</a></li>
+                        <li><a href="/get-started/" target="_blank" rel="noopener">Get Started</a></li>
+                        <li><a href="/get-started/overview/" target="_blank" rel="noopener">Handbook</a></li>
                     </ul>
                 </div>
-                <div class="col-xs-12 col-sm-3 col-md-3">
+                <div class="col-xs-12 col-sm-4 col-md-4">
                     <ul class="footer_links">
-                        <li><b><a href="/get-started/" target="_blank" rel="noopener">Get Started</a></b></li>
-                        <li><b><a href="#" target="_blank" rel="noopener">Blog</a></b></li>
+                        <li><b>Community</b></li>
+                        <li><a href="https://github.com/kleene" target="_blank" rel="noopener">GitHub</a></li>
+                        <li><a href="https://libera.chat/" target="_blank" rel="noopener">#kleene @ LiberaChat</a></li>
                     </ul>
                 </div>
-                <div class="col-xs-12 col-sm-3 col-md-3">
+                <div class="col-xs-12 col-sm-4 col-md-4">
                     <ul class="footer_links">
-                        <li><b>External links</b></li>
-                        <li><a href="#" target="_blank" rel="noopener">Docker</a></li>
-                        <li><a href="#" target="_blank" rel="noopener">Docker documentation</a></li>
-                        <li><a href="#" target="_blank" rel="noopener">Ansible documentation</a></li>
+                        <li><b>Learn FreeBSD</b></li>
+                        <li><a href="https://www.freebsd.org/where/" target="_blank" rel="noopener">Get FreeBSD</a></li>
+                        <li><a href="https://docs.freebsd.org/en/books/handbook/" target="_blank" rel="noopener">Handbook</a></li>
+                        <li><a href="https://man.freebsd.org/cgi/man.cgi" target="_blank" rel="noopener">Manual pages</a></li>
                     </ul>
                 </div>
-                <div class="col-xs-12 col-sm-3 col-md-3">
-                    <ul class="footer_links">
-                        <li><b><a href="#" target="_blank" rel="noopener">About Us</a></b></li>
-                        <li><a href="#" target="_blank" rel="noopener">What is a Container?</a></li>
-                        <li><a href="#" target="_blank" rel="noopener">Why Kleene?</a></li>
-                        <li><a href="#" target="_blank" rel="noopener">Swag Store</a></li>
-                        <li><a href="#" target="_blank" rel="noopener">Contact</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-nav">
-                <nav class="footer_sub_nav">
-                    <ul class="menu">
-                        <li><a href="#" target="_blank" rel="noopener">A small link here</a></li>
-                        <li><a href="#" target="_blank" rel="noopener">Another small link</a></li>
-                    </ul>
-                </nav>
             </div>
         </div>
         <div class="bottom_footer">
             <div class="footer-copyright col-xs-12 col-md-8">
                 <p class="copyright">
-                    Copyright &copy; 2013-{{ site.time | date: '%Y' }} Docker Inc. All rights reserved.
+                    Made with ❤️  by the Kleene community {{ site.time | date: '%Y' }}
                 </p>
-                {%- if jekyll.environment == 'production' and site.onetrust_id != '' -%}
-                <!-- OneTrust Cookies Settings button start -->
-                <button id="ot-sdk-btn" class="ot-sdk-show-settings">Cookie Settings</button>
-                <!-- OneTrust Cookies Settings button end -->
-                {%- endif -%}
-            </div>
-            <div class="footer_social_nav">
-                <ul class="nav-social">
-                    <li class="fa-brands fa-github"><a href="https://github.com/kleene">GitHub</a></li>
-                    <li class="fa-brands fa-linkedin-in"><a href="https://www.linkedin.com/company/kleene">Linkedin</a></li>
-                </ul>
             </div>
         </div>
     </div>

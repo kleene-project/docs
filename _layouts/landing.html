@@ -21,7 +21,7 @@
         {%- for entry in site.data.toc.horizontalnav -%}
           {%- if entry.hide_home -%}{% continue %}{%- endif -%}
           <li{% if entry.node == "home" %} class=active{% endif %}><a href="{{ entry.path }}" id="{{ entry.node }}">{{ entry.title }}</a></li>
-        {%- endfor -%} 
+        {%- endfor -%}
         <li><a href="/contribute/overview/">Contribute</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
@@ -34,7 +34,9 @@
   <section class="hero container">
     <div class="row justify-content-center">
       <div class="col-xs-12 text-center">
-        <h2>What can we help you find?</h2>
+        <h2>Container management in FreeBSD</h2>
+        <p><b>A new tool in need of testing. See <a href="/contribute/project-status/">project status</a> for
+            details.</b></p>
       </div>
     </div>
     <div class="row justify-content-center">
@@ -69,7 +71,7 @@
         </a>
       </div>
       <div class="col-xs-12 col-sm-6 col-lg-4 card-holder">
-        <a class="card download-kleene" href="/get-docker/">
+        <a class="card download-kleene" href="/install/">
           <h5 class="title">Download and install</h5>
           <p>
             Download and install Docker on your machine in a few easy steps.
@@ -77,10 +79,10 @@
         </a>
       </div>
       <div class="col-xs-12 col-sm-6 col-lg-4 card-holder">
-        <a class="card under-hood" href="/get-started/overview/">
+        <a class="card under-hood" href="/external-resources/">
           <h5 class="title">Under the hood</h5>
           <p>
-            The approach to runtime management in kleene and its implementation in FreeBSD.
+            Learn more about the FreeBSD platform that Kleene is built on.
           </p>
         </a>
       </div>
@@ -107,67 +109,6 @@
             Browse through the CLI and API reference documentation.
           </p>
         </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Remove this (and all the subpages that is not used elsewhere) -->
-  <section class="container tab-section">
-    <div class="row">
-      <div class="col-xs-12 col-lg-12 card-holder">
-        <div class="cardlet container-fluid" style="min-height:317px">
-          <div class="row">
-            <div class="col-xs-12 col-lg-8">
-              <h5 class="title"></h5>
-            </div>
-          </div>
-          <div class="row">
-            <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" data-target="#includes">Explore Kleene</a></li>
-              <li><a data-toggle="tab" data-target="#faqs">Best Practices</a></li>
-              <li><a data-toggle="tab" data-target="#features">Kleene vs. Docker</a></li>
-              </ul>
-              <div class="tab-content">
-              <div id="includes" class="tab-pane fade in active" markdown="1">
-              <div class="row">
-              <div class="col-xs-12 col-md-6 col-lg-6">
-               <p><a href="/engine/reference/builder/">Write a Dockerfile</a></p>
-               <p><a href="/network/">Manage container networking</a></p>
-               <p><a href="/compose/compose-file/">Write a Docker Compose file</a></p>
-               <p><a href="/storage/">Work with volumes and bind mounts</a></p>
-               <p><a href="/get-started/04_sharing_app/">Share my image on Docker Hub</a></p>
-               </div>
-               <div class="col-xs-12 col-md-6 col-lg-6">
-               <p><a href="/config/daemon/">Configure the Docker daemon</a></p>
-               <p><a href="/get-started/02_our_app/">Build and run an image</a></p>
-               <p><a href="/config/labels-custom-metadata/">Manage Docker objects</a></p>
-               <p><a href="/build/building/multi-stage/">Multi-stage builds</a></p>
-              </div></div></div>
-              <div id="features" class="tab-pane fade" markdown="1">
-              <p><a href="/support/"target="_blank" rel="noopener">Get support</a></p>
-              <p><a href="https://dockercommunity.slack.com/"target="_blank" rel="noopener">Docker community Slack</a></p>
-              <p><a href="https://www.docker.com/company/contact/"target="_blank" rel="noopener">Contact Docker</a></dp>
-              <p></a></p>
-              <p></a></div>
-              <div id="faqs" class="tab-pane fade" markdown="1">
-              <div class="row">
-              <div class="col-xs-12 col-md-6 col-lg-6">
-              <h6 style="margin-top: 0;">Common FAQs</h6>
-              <p><a href="https://github.com/docker/for-linux">What are the system requirements for Docker Desktop?</a></p>
-              <p><a href="/desktop/install/windows-install/#system-requirements">Where can I find example Compose files?</a></p>
-              <p><a href="/desktop/install/windows-install/#system-requirements">              <p><a href="/desktop/faqs/general/">How do I connect to a container service?</a></p></a></p>
-              <p><a href="/get-started/04_sharing_app/">How do I share images on Docker Hub?</a></p></a></p>
-            </div>
-            <div class="col-xs-12 col-md-6 col-lg-6">
-            <h6 style="margin-top: 0;">Products</h6>
-              <p><a href="/desktop/faqs/general/">Docker Desktop</a></p>
-              <p><a href="/desktop/faqs/macfaqs/">Docker Desktop for Mac</a></p>
-              <p><a href="/desktop/faqs/windowsfaqs/">Docker Desktop for Windows</a></p>
-              <p><a href="/desktop/faqs/linuxfaqs/">Docker Desktop for Linux</a></p>
-              <p><a href="/single-sign-on/faqs/">Docker Single Sign-on</a></p>
-              <p></a></p></div></div></div></div>
-          </div>
-        </div>
       </div>
     </div>
   </section>

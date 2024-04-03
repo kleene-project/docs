@@ -87,4 +87,17 @@
   <link rel="stylesheet" href="/assets/fontawesome/css/all.min.css">
   <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="/assets/css/style.css" id="pagestyle">
+
+  <!-- SEO stuff -->
+  <meta property="og:title" content="{{ page.title | default: page_title }}" />
+  <meta property="og:description" content="{{ page.description | default: page_description | escape_once }}" />
+  <meta property="og:type" content="website"/>
+  <meta property="og:updated_time" itemprop="dateUpdated" content="{% if page.date %}{{ page.date | date_to_xmlschema }}{% else %}{{ site.time | date_to_xmlschema }}{% endif %}"/>
+  <meta property="og:image" itemprop="image primaryImageOfPage" content="{{ site.docs_url }}/assets/images/docs@2x.png"/>
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:url" content="{{ site.docs_url }}{{ page.url }}" />
+  <meta property="og:site_name" content="Kleene Documentation" />
+  <meta property="article:published_time" itemprop="datePublished" content="{% if page.date %}{{ page.date | date_to_xmlschema }}{% else %}{{ site.time | date_to_xmlschema }}{% endif %}"/>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","headline":{{ page.title | default: page_title | jsonify }},"description":{{ page.description | default: page_description | jsonify }},"url":"{{ site.docs_url }}{{ page.url }}"}</script>
+  <!-- END SEO STUFF -->
 </head>
