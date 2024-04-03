@@ -106,19 +106,11 @@ defaults:
 
   # Exclude from sitemap
   - scope:
-      path: "desktop/enterprise"
-    values:
-      sitemap: false
-  - scope:
       path: "assets/**"
     values:
       sitemap: false
   - scope:
       path: "**/nav.html"
-    values:
-      sitemap: false
-  - scope:
-      path: "google*.html"
     values:
       sitemap: false
   - scope:
