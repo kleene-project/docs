@@ -1,6 +1,6 @@
 ---
 title: "Restrict container resource consumption"
-description: "Specify the runtime ressource consumption limits for a container"
+description: "Specify the runtime resource consumption limits for a container"
 keywords: "kleened, jail, rctl, zfs, resource limit, configuration, runtime"
 ---
 
@@ -20,17 +20,17 @@ of a container are discussed in the section on [ZFS configuration](/engine/zfs).
 ## RCTL
 
 FreeBSD comes with the [`rctl(4)` subsystem](https://man.freebsd.org/cgi/man.cgi?query=rctl&sektion=4)
-that provides a flexible mechanism for limiting ressources in many different
-ways. Specifically, it can be used to limit ressources for jails and thus
+that provides a flexible mechanism for limiting resources in many different
+ways. Specifically, it can be used to limit resources for jails and thus
 containers. However, this subsystem have not been integrated into Kleene yet so
 it has to be configured manually. This is straightforward to do, since the jail name
 that is used when specifying RCTL-rules equals the container id in Kleene.
 
-Consult the following external ressources to know more about RCTL:
+Consult the following external resources to know more about RCTL:
 
 - [Section](https://docs.freebsd.org/en/books/handbook/jails/#jail-resource-limits)
   in the FreeBSD handbook introducing RCTL resource limiting jails and provides
-  links to a general introduction on ressource limiting on FreeBSD.
+  links to a general introduction on resource limiting on FreeBSD.
 - [Man-page](https://man.freebsd.org/cgi/man.cgi?query=rctl&sektion=8)
   of the `rctl` CLI used to manage RCTL-rules. Includes the list of resources
   that can be controlled, as well as rule-syntax.

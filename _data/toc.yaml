@@ -94,6 +94,8 @@ handbook:
     title: Protect the Kleened socket
   - path: /engine/zfs/
     title: ZFS configuration
+- path: /external-resources/
+  title: External resources
 - path: /release-notes/
   title: Release notes
 
