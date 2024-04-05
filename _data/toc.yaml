@@ -56,43 +56,43 @@ handbook:
     title: Introduction
   - sectiontitle: Networking
     section:
-    - path: /network/
+    - path: /run/network/
       title: Overview
-    - path: /network/ipnet/
+    - path: /run/network/ipnet/
       title: IPNet networking
-    - path: /network/vnet/
+    - path: /run/network/vnet/
       title: VNet networking
-    - path: /network/host/
+    - path: /run/network/host/
       title: Host networking
-    - path: /network/none/
+    - path: /run/network/none/
       title: Disable networking for a container
-    - path: /network/publish-ports/
+    - path: /run/network/publish-ports/
       title: Publishing ports
-    - path: /network/firewall/
+    - path: /run/network/firewall/
       title: Firewall customization
-    - path: /network/troubleshoot/
+    - path: /run/network/troubleshoot/
       title: Troubleshoot
   - sectiontitle: Storage
     section:
-    - path: /storage/
+    - path: /run/storage/
       title: Overview
-    - path: /storage/volumes/
+    - path: /run/storage/volumes/
       title: Volume mounts
-    - path: /storage/nullfs-mounts/
+    - path: /run/storage/nullfs-mounts/
       title: Nullfs mounts
   - path: /run/jail-parameters/
     title: Jail parameters
-  - path: /config/containers/resource_constraints/
+  - path: /run/resource_constraints/
     title: Container resource constraints
-  - path: /config/containers/start-containers-automatically/
+  - path: /run/start-containers-automatically/
     title: Start containers automatically
 - sectiontitle: Kleene operation
   section:
-  - path: /engine/
+  - path: /operation/
     title: Overview
-  - path: /engine/security/protect-access/
+  - path: /operation/protect-access/
     title: Protect the Kleened socket
-  - path: /engine/zfs/
+  - path: /operation/zfs/
     title: ZFS configuration
 - path: /external-resources/
   title: External resources
@@ -104,126 +104,126 @@ reference:
   title: Reference documentation
 - sectiontitle: Klee (client)
   section:
-  - path: /engine/reference/commandline/cli/
+  - path: /reference/klee/cli/
     title: Using Klee
-  - path: /engine/reference/commandline/configure-klee/
+  - path: /reference/klee/configure-klee/
     title: Configure Klee
-  - path: /engine/reference/commandline/klee/
+  - path: /reference/klee/klee/
     title: klee (root command)
   - sectiontitle: klee shortcut commands
     section:
-    - path: /engine/reference/commandline/build/
+    - path: /reference/klee/build/
       title: klee build
-    - path: /engine/reference/commandline/create/
+    - path: /reference/klee/create/
       title: klee create
-    - path: /engine/reference/commandline/exec/
+    - path: /reference/klee/exec/
       title: klee exec
-    - path: /engine/reference/commandline/lsi/
+    - path: /reference/klee/lsi/
       title: klee lsi
-    - path: /engine/reference/commandline/lsc/
+    - path: /reference/klee/lsc/
       title: klee lsc
-    - path: /engine/reference/commandline/rename/
+    - path: /reference/klee/rename/
       title: klee rename
-    - path: /engine/reference/commandline/restart/
+    - path: /reference/klee/restart/
       title: klee restart
-    - path: /engine/reference/commandline/rmc/
+    - path: /reference/klee/rmc/
       title: klee rmc
-    - path: /engine/reference/commandline/rmi/
+    - path: /reference/klee/rmi/
       title: klee rmi
-    - path: /engine/reference/commandline/run/
+    - path: /reference/klee/run/
       title: klee run
-    - path: /engine/reference/commandline/start/
+    - path: /reference/klee/start/
       title: klee start
-    - path: /engine/reference/commandline/stop/
+    - path: /reference/klee/stop/
       title: klee stop
   - sectiontitle: klee container
     section:
-    - path: /engine/reference/commandline/container/
+    - path: /reference/klee/container/
       title: klee container
-    - path: /engine/reference/commandline/container_create/
+    - path: /reference/klee/container_create/
       title: klee container create
-    - path: /engine/reference/commandline/container_exec/
+    - path: /reference/klee/container_exec/
       title: klee container exec
-    - path: /engine/reference/commandline/container_inspect/
+    - path: /reference/klee/container_inspect/
       title: klee container inspect
-    - path: /engine/reference/commandline/container_ls/
+    - path: /reference/klee/container_ls/
       title: klee container ls
-    - path: /engine/reference/commandline/container_prune/
+    - path: /reference/klee/container_prune/
       title: klee container prune
-    - path: /engine/reference/commandline/container_rename/
+    - path: /reference/klee/container_rename/
       title: klee container rename
-    - path: /engine/reference/commandline/container_restart/
+    - path: /reference/klee/container_restart/
       title: klee container restart
-    - path: /engine/reference/commandline/container_rm/
+    - path: /reference/klee/container_rm/
       title: klee container rm
-    - path: /engine/reference/commandline/container_run/
+    - path: /reference/klee/container_run/
       title: klee container run
-    - path: /engine/reference/commandline/container_start/
+    - path: /reference/klee/container_start/
       title: klee container start
-    - path: /engine/reference/commandline/container_stop/
+    - path: /reference/klee/container_stop/
       title: klee container stop
-    - path: /engine/reference/commandline/container_update/
+    - path: /reference/klee/container_update/
       title: klee container update
   - sectiontitle: klee image
     section:
-    - path: /engine/reference/commandline/image/
+    - path: /reference/klee/image/
       title: klee image
-    - path: /engine/reference/commandline/image_build/
+    - path: /reference/klee/image_build/
       title: klee image build
-    - path: /engine/reference/commandline/image_create/
+    - path: /reference/klee/image_create/
       title: klee image create
-    - path: /engine/reference/commandline/image_ls/
+    - path: /reference/klee/image_ls/
       title: klee image ls
-    - path: /engine/reference/commandline/image_rm/
+    - path: /reference/klee/image_rm/
       title: klee image rm
-    - path: /engine/reference/commandline/image_prune/
+    - path: /reference/klee/image_prune/
       title: klee image prune
-    - path: /engine/reference/commandline/image_inspect/
+    - path: /reference/klee/image_inspect/
       title: klee image inspect
-    - path: /engine/reference/commandline/image_tag/
+    - path: /reference/klee/image_tag/
       title: klee image tag
   - sectiontitle: klee network
     section:
-    - path: /engine/reference/commandline/network/
+    - path: /reference/klee/network/
       title: klee network
-    - path: /engine/reference/commandline/network_connect/
+    - path: /reference/klee/network_connect/
       title: klee network connect
-    - path: /engine/reference/commandline/network_create/
+    - path: /reference/klee/network_create/
       title: klee network create
-    - path: /engine/reference/commandline/network_disconnect/
+    - path: /reference/klee/network_disconnect/
       title: klee network disconnect
-    - path: /engine/reference/commandline/network_inspect/
+    - path: /reference/klee/network_inspect/
       title: klee network inspect
-    - path: /engine/reference/commandline/network_ls/
+    - path: /reference/klee/network_ls/
       title: klee network ls
-    - path: /engine/reference/commandline/network_prune/
+    - path: /reference/klee/network_prune/
       title: klee network prune
-    - path: /engine/reference/commandline/network_rm/
+    - path: /reference/klee/network_rm/
       title: klee network rm
   - sectiontitle: klee volume
     section:
-    - path: /engine/reference/commandline/volume_create/
+    - path: /reference/klee/volume_create/
       title: klee volume create
-    - path: /engine/reference/commandline/volume_inspect/
+    - path: /reference/klee/volume_inspect/
       title: klee volume inspect
-    - path: /engine/reference/commandline/volume_ls/
+    - path: /reference/klee/volume_ls/
       title: klee volume ls
-    - path: /engine/reference/commandline/volume_prune/
+    - path: /reference/klee/volume_prune/
       title: klee volume prune
-    - path: /engine/reference/commandline/volume_rm/
+    - path: /reference/klee/volume_rm/
       title: klee volume rm
 - sectiontitle: Kleened (server)
   section:
-  - path: /engine/api/
+  - path: /reference/kleened/
     title: Overview
-  - path: /engine/configure-kleened/
+  - path: /reference/kleened/configure-kleened/
     title: Configure Kleened
-  - path: /engine/api/kleened-v0.0.1/
+  - path: /reference/kleened/kleened-v0.0.1/
     title: Kleened API v0.0.1
-  - path: /engine/api/version-history/
+  - path: /reference/kleened/version-history/
     title: Version history overview
 - title: Dockerfile reference
-  path: /engine/reference/builder/
+  path: /reference/dockerfile/
 - path: /glossary/
   title: Glossary
 
