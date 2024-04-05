@@ -42,13 +42,13 @@ handbook:
       path: /get-started/06_multi_container/
 - sectiontitle: Building images
   section:
-    - path: /build/building/introduction/
+    - path: /building/introduction/
       title: Introduction
-    - path: /build/building/dockerfile_best-practices/
+    - path: /building/dockerfile_best-practices/
       title: Dockerfile best practices
-    - path: /build/building/snapshots/
+    - path: /building/snapshots/
       title: Using build snapshots
-    - path: /build/building/base-images/
+    - path: /building/base-images/
       title: Create your own base image
 - sectiontitle: Running containers
   section:
