@@ -66,17 +66,16 @@ A few differences worth highlighting, however, are the following:
 - The network/volume drivers are different compared to Docker,
   as well as system-specific configuration options for containers,
   since they are based on different OS primitives than what exists on Linux.
-  Most notably the [jail](https://man.freebsd.org/cgi/man.cgi?query=jail&sektion=8)-mechanism
+  More specifically, the [jail](https://man.freebsd.org/cgi/man.cgi?query=jail&sektion=8)-mechanism
   of process isolation differs from the Linux-world.
-  See the [FIXME]() for further details.
 
 - Kleene tries to make its use of the host system as transparant as possible
   for the user and to make it easy to use FreeBSD's built-in tooling.
   FreeBSD already contain a few helpful tools that can be used in conjunction
   with Kleene, such as `jls(8)`, `jexec(8)`, `zfs(8)` etc.
   These and similar tools provide ways of further customizing your FreeBSD
-  host environment and its containers. See [FIXME]() for details on how Kleene
-  interacts with FreeBSD and how to use the existing tooling with Kleene.
+  host environment and its containers. See the [external resources](/external-resources)
+  for a list of CLI tools and their documentation.
 
 - Reproducibility starts with the Dockerfile, which should be used often
   to re-build imagaes every time FreeBSD is upgraded or when versions of software

@@ -90,7 +90,3 @@ api_listening_sockets:
     # TCP IPv6 socket (localhost) without TLS
     - address: "http://[::1]:8080/"
 ```
-
-## Additional logging configuration
-
-FIXME: TBD
