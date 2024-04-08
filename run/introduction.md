@@ -22,9 +22,9 @@ following sections.
 ## Creating and running containers
 
 The most common way of using containers with the client is to use the command
-[`klee run`](/engine/reference/commandline/run).
-This command combines [`klee container create`](/engine/reference/commandline/container_create) and
-[`klee container start`](/engine/reference/commandline/start/).
+[`klee run`](/reference/klee/run).
+This command combines [`klee container create`](/reference/klee/container_create) and
+[`klee container start`](/reference/klee/start/).
 I.e., running
 
 ```console
@@ -68,7 +68,7 @@ are equivalent. A few things to notice with these two examples:
 - Lastly, the containers do not have connectivity since no network was specified
   (using `--network`/`-n`) when the containers were created. An easy way to get
   started with networking is the [Get started](/get-started) guide
-  with more details given in the [networking section](/network/).
+  with more details given in the [networking section](/run/network/).
 
 ## Detached vs. foreground
 
@@ -184,9 +184,9 @@ IMAGE_ID|IMAGE_NAME[:tag][@snapshot]
 ```
 
 which is explained in detail in documentation of
-[`klee container create`](/engine/reference/commandline/container_create).
+[`klee container create`](/reference/klee/container_create).
 It is worth noting that it is also possible to create images from build snapshots
-as described [here](/build/building/snapshots). This can be useful during image
+as described [here](/building/snapshots). This can be useful during image
 development.
 
 ## Overriding image defaults

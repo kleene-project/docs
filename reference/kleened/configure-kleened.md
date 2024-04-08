@@ -1,135 +1,96 @@
 ---
-description: Configuring and troubleshooting the Docker daemon
-keywords: docker, daemon, configuration, troubleshooting
-redirect_from:
-  - /articles/chef/
-  - /articles/configuring/
-  - /articles/dsc/
-  - /articles/puppet/
-  - /config/thirdparty/
-  - /config/thirdparty/ansible/
-  - /config/thirdparty/chef/
-  - /config/thirdparty/dsc/
-  - /config/thirdparty/puppet/
-  - /engine/admin/
-  - /engine/admin/ansible/
-  - /engine/admin/chef/
-  - /engine/admin/configuring/
-  - /engine/admin/dsc/
-  - /engine/admin/puppet/
-  - /engine/articles/chef/
-  - /engine/articles/configuring/
-  - /engine/articles/dsc/
-  - /engine/articles/puppet/
-  - /engine/userguide/
-title: Docker daemon configuration overview
+title: Kleened configuration
+description: Configuring Kleene backend component
+keywords: kleene, daemon, kleened, configuration, troubleshooting
 ---
 
-This page shows you how to customize the Docker daemon, `dockerd`.
+Kleened must be configured using a config file at
+`/usr/local/etc/kleened/config.yaml`. A default configuration file is automatically
+installed if Kleened were installed using `pkg` or ports. The default `config.yaml`
+file contains these default values:
 
-> **Note**
->
-> This page is for users who've installed Docker Engine manually. If you're
-> using Docker Desktop, refer to the following pages instead:
->
-> - [Change preferences on Mac](../../desktop/settings/mac#docker-engine)
-> - [Change preferences on Windows](../../desktop/settings/windows#docker-engine)
-> - [Change preferences on Linux](../../desktop/settings/linux#docker-engine)
-
-## Configure the Docker daemon
-
-There are two ways to configure the Docker daemon:
-
-- Use a JSON configuration file. This is the preferred option, since it keeps
-  all configurations in a single place.
-- Use flags when starting `dockerd`.
-
-You can use both of these options together as long as you don't specify the same
-option both as a flag and in the JSON file. If that happens, the Docker daemon
-won't start and prints an error message.
-
-To configure the Docker daemon using a JSON file, create a file at
-`/etc/docker/daemon.json` on Linux systems, or
-`C:\ProgramData\docker\config\daemon.json` on Windows.
-
-Here's what the configuration file might look like:
-
-```json
-{
-  "builder": {
-    "gc": {
-      "defaultKeepStorage": "20GB",
-      "enabled": true
-    }
-  },
-  "experimental": false,
-  "features": {
-    "buildkit": true
-  }
-}
+```yaml
+kleene_root: "zroot/kleene"
+pf_config_template_path: "/usr/local/etc/kleened/pf.conf.kleene"
+pf_config_path: "/etc/pf.conf"
+api_listening_sockets:
+    - address: "http:///var/run/kleened.sock"
+enable_logging: true
+log_level: "info"
 ```
 
-With this configuration the Docker daemon runs in debug mode, uses TLS, and
-listens for traffic routed to `192.168.59.3` on port `2376`. You can learn what
-configuration options are available in the
-[dockerd reference docs](../../engine/reference/commandline/dockerd.md#daemon-configuration-file)
+where
 
-You can also start the Docker daemon manually and configure it using flags. This
-can be useful for troubleshooting problems.
+- `kleene_root`: The root dataset where Kleened stores all containers, volumes, images,
+  and the metadata database `metadata.sqlite` file.
 
-Here's an example of how to manually start the Docker daemon, using the same
-configurations as shown in the previous JSON configuration:
+- `pf_config_template_path`: Location of the template file used by Kleened to
+  generate the firewall configuration file `pf.conf(5)`.
 
-```console
-$ dockerd --debug \
-  --tls=true \
-  --tlscert=/var/docker/server.pem \
-  --tlskey=/var/docker/serverkey.pem \
-  --host tcp://192.168.59.3:2376
+- `pf_config_path`: Location of the generated `pf.conf(5)` file that is loaded into
+  the `pf(4)` firewall. See the [firewall configuration](/run/network/firewall) section
+  for details.
+
+- `api_listening_sockets`: List of listening sockets for exposing the HTTP API.
+  The general format for specifying socket types and TLS-parameters is described
+  below.
+
+- `enable_logging`: Whether or not enable logging to `/var/log/Kleened.log`.
+
+- `log_level`: Logging verbosity. Values ordered by vebosity are: `debug`, `info`,
+  `notice`, `warning`, `error`, and `critical`. Advanced configuration options
+  that comes with the Erlang/Elixir logging backend are given below.
+
+## Specifying listening sockets
+
+Each socket is specified by an `address` field using the format:
+
+- `http[s]://ip4|ip6[:port]` for TCP-sockets
+
+- `http[s]:///path/to/unix_socket` for UNIX-sockets. Existing sockets/files will
+  be overwritten.
+
+In case `https` is used, there are additional parameters for configuring TLS:
+
+- `tlscert` (mandatory): Path to the PEM encoded certificate file. May also contain the private key.
+- `tlskey` (mandatory): Path to the PEM encoded private key file, if not
+  contained in `tlscert` file.
+
+- `tlsverify`: Set to `true` to request a certificate from the client. Defaults to `false`.
+
+- `tlscacert`: Path to file containing PEM encoded trusted CA certificates used
+  to verify client certificates when `tlsverify` is set to `true`.
+
+- `tlsdh`: Path to the PEM encoded Diffie-Hellman (DH) parameters file.
+
+All TLS-parameters are ignored if TLS i not used.
+
+A few examples of different listening socket configurations:
+
+```yaml
+api_listening_sockets:
+    # IPv4 TCP-socket using TLS _with_ client authentication and DH-parameters
+    - address: "https://127.0.0.1:8085"
+      tlscert: "/usr/local/etc/kleened/certs/server-cert.pem"
+      tlskey: "/usr/local/etc/kleened/certs/server-key.pem"
+      tlsverify: true
+      tlscacert: "/usr/local/etc/kleened/certs/ca.pem"
+      tlsdh: "/usr/local/etc/kleened/certs/dhparams.pem"
+
+    # UNIX-socket using TLS _without_ client authentication and no DH-parameters
+    - address: "https:///var/run/kleened.tlssock"
+      tlscert: "/usr/local/etc/kleened/certs/server-cert.pem"
+      tlskey: "/usr/local/etc/kleened/certs/server-key.pem"
+      tlsverify: false
+      tlscacert: "/usr/local/etc/kleened/certs/ca.pem"
+
+    # UNIX-socket without TLS without
+    - address: "http:///var/run/kleened.sock"
+
+    # TCP IPv6 socket (localhost) without TLS
+    - address: "http://[::1]:8080/"
 ```
 
-You can learn what configuration options are available in the
-[dockerd reference docs](../../engine/reference/commandline/dockerd.md), or by
-running:
+## Additional logging configuration
 
-```console
-$ dockerd --help
-```
-
-Many specific configuration options are discussed throughout the Docker
-documentation. Some places to go next include:
-
-- [Automatically start containers](../containers/start-containers-automatically.md)
-- [Limit a container's resources](../containers/resource_constraints.md)
-- [Configure storage drivers](../../storage/storagedriver/select-storage-driver.md)
-- [Container security](../../engine/security/index.md)
-
-You can configure most daemon options using the `daemon.json` file. One thing
-you can't configure using daemon.json mechanism is an HTTP proxy. For
-instructions on using a proxy, see
-[Configure Docker to use a proxy server](../../network/proxy.md).
-
-## Daemon data directory
-
-The Docker daemon persists all data in a single directory. This tracks
-everything related to Docker, including containers, images, volumes, service
-definition, and secrets.
-
-By default this directory is:
-
-- `/var/lib/docker` on Linux.
-- `C:\ProgramData\docker` on Windows.
-
-You can configure the Docker daemon to use a different directory, using the
-`data-root` configuration option. For example:
-
-```json
-{
-  "data-root": "/mnt/docker-data"
-}
-```
-
-Since the state of a Docker daemon is kept on this directory, make sure you use
-a dedicated directory for each daemon. If two daemons share the same directory,
-for example, an NFS share, you are going to experience errors that are difficult
-to troubleshoot.
+FIXME: TBD

@@ -1,4 +1,4 @@
-command: klee lsi
+command: klee image ls
 deprecated: false
 examples: "### List all images\n\n```console\n$ klee image ls\n ID             NAME\
   \                  TAG         CREATED\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
@@ -15,7 +15,7 @@ experimentalcli: false
 long: '`klee image ls` (or, shorthand: `klee lsi`) will show all images.
 
 
-  Image snapshots, however, are not shown. Use [`klee image inspect`](klee_image_ls.md)
+  Image snapshots, however, are not shown. Use [`klee image inspect`](/reference/klee/image_inspect/)
   instead.
 
   '
@@ -25,8 +25,7 @@ options:
   experimental: false
   experimentalcli: false
   option: help
-plink: klee.yaml
-pname: klee
+plink: klee_image.yaml
+pname: klee image
 short: List images
-shortcut: image ls
-usage: klee lsi [OPTIONS]
+usage: klee image ls [OPTIONS]

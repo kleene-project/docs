@@ -91,7 +91,7 @@ long: 'The `klee container run` command first creates a container based on the
 
   For information on connecting a container to a network, see the
 
-  ["*Kleene network overview*"](/config/containers/container-networking/).
+  ["*Kleene network overview*"](/run/network/).
 
   '
 options:

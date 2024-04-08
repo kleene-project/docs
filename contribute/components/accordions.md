@@ -11,39 +11,57 @@ toc_max: 3
 
 <div class="panel panel-default">
     <div class="panel-heading collapsed" data-toggle="collapse" data-target="#collapseSample1" style="cursor: pointer">
-    Docker hello-world example
+    Simple Klee help example
     <i class="chevron fa fa-fw"></i></div>
     <div class="collapse block" id="collapseSample1">
 <pre>
 <code>
-$ docker run hello-world
-Unable to find image 'hello-world:latest' locally
-latest: Pulling from library/hello-world
-2db29710123e: Pull complete
-Digest: sha256:cc15c5b292d8525effc0f89cb299f1804f3a725c8d05e158653a563f15e4f685
-Status: Downloaded newer image for hello-world:latest
+$ klee --theme simple run
+Usage: klee run [OPTIONS] IMAGE [COMMAND]...
 
-Hello from Docker!
-This message shows that your installation appears to be working correctly.
+  Run a command in a new container.
 
-To generate this message, Docker took the following steps:
+  The IMAGE syntax is: (**IMAGE_ID**|**IMAGE_NAME**[:**TAG**])[:**@SNAPSHOT**]
 
-1. The Docker client contacted the Docker daemon.
-2. The Docker daemon pulled the "hello-world" image from the Docker Hub.
-    (amd64)
-3. The Docker daemon created a new container from that image which runs the
-4. The Docker daemon streamed that output to the Docker client, which sent it
-    to your terminal.
+Options:
+ -u, --user text       Default user used when running commands in the
+                       container. This parameter will be overwritten by the
+                       jail parameter `exec.jail_user` if it is set.
+ -e, --env TEXT        Set environment variables (e.g. --env FIRST=SomeValue
+                       --env SECOND=AnotherValue)
+ -m, --mount list      Mount a volume/directory/file on the host filesystem
+                       into the container. Mounts are specfied using a
+                       `--mount SOURCE:DESTINATION[:rw|ro]` syntax.
+ -J, --jailparam TEXT  Specify one or more jail parameters to use. If you do
+                       not want `mount.devfs`, `exec.clean`, and
+                       `exec.stop="/bin/sh /etc/rc.shutdown"` enabled, you
+                       must actively disable them.
+ -l, --driver TEXT     Network driver of the container. Possible values:
+                       `ipnet`, `host`, `vnet`, and `disabled`. If no network
+                       and no network driver is supplied, the network driver
+                       is set to `host`. If a network is specfied but no
+                       network driver, it is set to `ipnet`,
+ -n, --network TEXT    Connect container to this network.
+ --ip TEXT             IPv4 address used for the container. If omitted, an
+                       unused ip is allocated from the IPv4 subnet of
+                       `--network`.
+ --ip6 TEXT            IPv6 address used for the container. If omitted, an
+                       unused ip is allocated from the IPv6 subnet of
+                       `--network`.
+ -d, --detach          Do not output STDOUT/STDERR to the terminal. If this
+                       is set, Klee will exit and return the container ID
+                       when the container has been started.
+ -i, --interactive     Send terminal input to container's STDIN. If set,
+                       `--detach` will be ignored.
+ -t, --tty             Allocate a pseudo-TTY
+ --name TEXT           Assign a name to the container
+ -p, --publish TEXT    Publish one or more ports using the syntax `HOST-
+                       PORT[:CONTAINER-PORT][/PROTOCOL]` or
+                       `INTERFACE:HOST-PORT:CONTAINER-
+                       PORT[/PROTOCOL]`. `CONTAINER-PORT` defaults to
+                       `HOST-PORT` and `PROTOCOL` defaults to 'tcp'.
+ --help                Show this message and exit.
 
-To try something more ambitious, you can run an Ubuntu container with:
-
-$ docker run -it ubuntu bash
-
-Share images, automate workflows, and more with a free Docker ID:
- https://hub.docker.com/
-
-For more examples and ideas, visit:
- https://docs.docker.com/get-started/
 </code>
 </pre>
 </div>
@@ -70,34 +88,46 @@ culpa qui officia deserunt mollit anim id est laborum.</p>
     <div class="collapse block" id="collapseSample1">
 <pre>
 <code>
-$ docker run hello-world
-Unable to find image 'hello-world:latest' locally
-latest: Pulling from library/hello-world
-2db29710123e: Pull complete
-Digest: sha256:cc15c5b292d8525effc0f89cb299f1804f3a725c8d05e158653a563f15e4f685
-Status: Downloaded newer image for hello-world:latest
+$ klee --theme simple container create
+Usage: klee container create [OPTIONS] IMAGE [COMMAND]...
 
-Hello from Docker!
-This message shows that your installation appears to be working correctly.
+  Create a new container. The **IMAGE** parameter syntax is:
+  `IMAGE-ID|[IMAGE-NAME[:TAG]][@SNAPSHOT]`
 
-To generate this message, Docker took the following steps:
+  See the documentation for details.
 
-1. The Docker client contacted the Docker daemon.
-2. The Docker daemon pulled the "hello-world" image from the Docker Hub.
-    (amd64)
-3. The Docker daemon created a new container from that image which runs the
-4. The Docker daemon streamed that output to the Docker client, which sent it
-    to your terminal.
-
-To try something more ambitious, you can run an Ubuntu container with:
-
-$ docker run -it ubuntu bash
-
-Share images, automate workflows, and more with a free Docker ID:
- https://hub.docker.com/
-
-For more examples and ideas, visit:
- https://docs.docker.com/get-started/
+Options:
+  -u, --user text       Default user used when running commands in the
+                        container. This parameter will be overwritten by the
+                        jail parameter `exec.jail_user` if it is set.
+  -e, --env TEXT        Set environment variables (e.g. --env FIRST=SomeValue
+                        --env SECOND=AnotherValue)
+  -m, --mount list      Mount a volume/directory/file on the host filesystem
+                        into the container. Mounts are specfied using a
+                        `--mount SOURCE:DESTINATION[:rw|ro]` syntax.
+  -J, --jailparam TEXT  Specify one or more jail parameters to use. If you do
+                        not want `mount.devfs`, `exec.clean`, and
+                        `exec.stop="/bin/sh /etc/rc.shutdown"` enabled, you
+                        must actively disable them.
+  -l, --driver TEXT     Network driver of the container. Possible values:
+                        `ipnet`, `host`, `vnet`, and `disabled`. If no network
+                        and no network driver is supplied, the network driver
+                        is set to `host`. If a network is specfied but no
+                        network driver, it is set to `ipnet`,
+  -n, --network TEXT    Connect container to this network.
+  --ip TEXT             IPv4 address used for the container. If omitted, an
+                        unused ip is allocated from the IPv4 subnet of
+                        `--network`.
+  --ip6 TEXT            IPv6 address used for the container. If omitted, an
+                        unused ip is allocated from the IPv6 subnet of
+                        `--network`.
+  --name TEXT           Assign a name to the container
+  -p, --publish TEXT    Publish one or more ports using the syntax `HOST-
+                        PORT[:CONTAINER-PORT][/PROTOCOL]` or
+                        `INTERFACE:HOST-PORT:CONTAINER-
+                        PORT[/PROTOCOL]`. `CONTAINER-PORT` defaults to
+                        `HOST-PORT` and `PROTOCOL` defaults to 'tcp'.
+  --help                Show this message and exit.
 </code>
 </pre>
 </div>

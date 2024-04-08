@@ -62,6 +62,3 @@ Depending on your Klee system configuration, you may be required to prefix
 each `klee` command with `sudo`. To avoid having to use `sudo` with the
 `klee` command, you have several possibilities. The simple one is to make an
 alias `alias klee='sudo klee'`, however, that might come with some disadvantages.
-
-For more information about approaches to avoid using `sudo`, refer to
-the [Kleened post-installation](/install/kleened/#post-installation) instructions.

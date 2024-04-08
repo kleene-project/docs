@@ -1,5 +1,5 @@
 ---
-datafolder: engine-cli
+datafolder: klee-reference
 datafile: klee_network_prune
 title: klee network prune
 ---

@@ -15,7 +15,7 @@ in the following.
 Since a container reside on a seperate ZFS dataset it is possible restrict
 filesystem-related resources, such as limiting the amount of space that can be
 used by a container. This and other ways of configuring the underlying dataset
-of a container are discussed in the section on [ZFS configuration](/engine/zfs).
+of a container are discussed in the section on [ZFS configuration](/operation/zfs).
 
 ## RCTL
 

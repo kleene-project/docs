@@ -48,7 +48,7 @@ long: 'This command is used to provide access for containers to one og more netw
 
   For a discussion of the different types of network drivers, see
 
-  [the container networking section](/network/).
+  [the container networking section](/run/network/).
 
 
   > **Note**

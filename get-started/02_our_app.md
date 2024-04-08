@@ -12,7 +12,7 @@ knowledge of Node.js or JavaScript is required.
 ### Pre-requisites
 
 - A conceptual understanding of [containers and images](/get-started/overview/#the-kleene-components).
-- Kleened and Klee [installed and configured on the host](/FIXME) so they can communicate with each other.
+- Kleened and Klee [installed and configured on the host](/install/) so they can communicate with each other.
 - `git`
 
 ## Get the app
@@ -33,7 +33,7 @@ Before you can run the application, you need to get the application source code 
 When you have a fresh installation, a few preparations is needed before you can start
 building images and creating containers.
 
-You need to create a [base image](FIXME: link til glossary eller?) and a network to use for the images and containers that are created in this guide.
+You need to create a [base image](/building/base-images/) and a network to use for the images and containers that are created in this guide.
 
 1. Create a base image. The simplest way to do this is to let Kleened find and download an approriate relase of the FreeBSD userland:
 
@@ -55,7 +55,7 @@ You need to create a [base image](FIXME: link til glossary eller?) and a network
 
 ## Build the app's container image
 
-In order to build the [container image](../get-started/overview.md/#kleene-objects){:target="_blank" rel="noopener" class="_"}, you'll need to use a `Dockerfile`.
+In order to build the [container image](/get-started/overview/#kleene-objects){:target="_blank" rel="noopener" class="_"}, you'll need to use a `Dockerfile`.
 A Dockerfile contains the instructions that Kleened uses to create the image.
 
 1. In the `app` directory mentioned previously, create a file named `Dockerfile`.
@@ -114,7 +114,7 @@ A Dockerfile contains the instructions that Kleened uses to create the image.
 
 ## Start an app container
 
-Now that you have an image, you can run the application in a [container](/get-started/overview.md/#kleene-objects){:target="_blank" rel="noopener" class="_"}.
+Now that you have an image, you can run the application in a [container](/get-started/overview/#kleene-objects){:target="_blank" rel="noopener" class="_"}.
 To do so, you will use the `klee run` command. But first, we'll set up network for our containers.
 
 1. Start your container and specify the name of the image you just created:

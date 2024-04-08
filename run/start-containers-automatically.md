@@ -1,14 +1,10 @@
 ---
 description: How to start containers automatically
 keywords: containers, restart, policies, automation, administration
-redirect_from:
-- /engine/articles/host_integration/
-- /engine/admin/host_integration/
-- /engine/admin/start-containers-automatically/
 title: Start containers automatically
 ---
 
-Docker provides [restart policies](../../engine/reference/run.md#restart-policies---restart)
+Docker provides restart policies
 to control whether your containers start automatically when they exit, or when
 Docker restarts. Restart policies ensure that linked containers are started in
 the correct order. Docker recommends that you use restart policies, and avoid
@@ -63,16 +59,11 @@ Keep the following in mind when using restart policies:
   Docker daemon restarts or the container is manually restarted. This is another
   attempt to prevent a restart loop.
 
-- Restart policies only apply to _containers_. Restart policies for swarm
-  services are configured differently. See the
-  [flags related to service restart](../../engine/reference/commandline/service_create.md).
-
 
 ## Use a process manager
 
 If restart policies don't suit your needs, such as when processes outside
 Docker depend on Docker containers, you can use a process manager such as
-[upstart](http://upstart.ubuntu.com/),
 [systemd](https://freedesktop.org/wiki/Software/systemd/), or
 [supervisor](http://supervisord.org/) instead.
 

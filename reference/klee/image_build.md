@@ -1,6 +1,6 @@
 ---
-datafolder: engine-cli
+datafolder: klee-reference
 datafile: klee_image_build
-title: docker image build
+title: klee image build
 ---
 {% include cli.md datafolder=page.datafolder datafile=page.datafile %}

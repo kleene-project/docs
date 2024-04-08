@@ -4,7 +4,7 @@ description: A helpful writing checklist when creating documentation
 keywords: checklist, documentation, style guide, contribute
 ---
 
-Use this checklist to communicate in a way that is clear, helpful, and consistent with the rest of Docker Docs.
+Use this checklist to communicate in a way that is clear, helpful, and consistent with the rest of the documentation.
 
 ##### Used active voice
 
@@ -16,10 +16,10 @@ Sentences that use active voice are easier to read. Active voice makes it clear 
 
 Helping verbs such as is, was, or would may indicate that you're writing in passive voice. And, if you can add the phrase 'by zombies' after the verb, you're writing in the passive voice.
 
-|Correct| Incorrect|
-|:--|:--|
-|Increase productivity with Docker Desktop.| Productivity can be increased (by zombies) with Docker Desktop.|
-|If you remove items from a grid, charts automatically refresh to display the change. | If items are removed (by zombies) from a grid, charts automatically refresh to display the change.|
+| Correct                                                                              | Incorrect                                                                                          |
+|--------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|
+| Increase productivity with Kleene.                                                   | Productivity can be increased (by zombies) with Kleene.                                            |
+| If you remove items from a grid, charts automatically refresh to display the change. | If items are removed (by zombies) from a grid, charts automatically refresh to display the change. |
 
 ##### Written clear sentences that get to the point
 
@@ -29,19 +29,19 @@ Write short, concise sentences. Punchy sentences are faster to read and easier t
 
 This helps ‘scanners’ find the information they need quickly and easily.
 
-For more information, see the [formtatting](style/formatting.md#headings-and-subheadings) page, or see the [components](components/lists.md) for examples.
+See the [components](components/lists.md) for examples.
 
 ##### Started the title of your page with a verb
 
 For example, 'Install Docker Desktop'.
 
-##### Checked that the left-hand table of contents title in docs.docker.com, matches the title displayed on the page
+##### Checked that the left-hand table of contents title in kleene.dev, matches the title displayed on the page
 
 ##### Checked for broken links and images
 
 Use relative links to link to other pages or images within the GitHub repository.
 
-For more information, see the [formatting](style/formatting.md#links) page, or see the [components](components/links.md) for examples.
+For more information, see Docker's [formatting](https://docs.docker.com/contribute/style/formatting/#links) page, or see the [components](/contribute/components/links/) for examples.
 
 ##### Checked that any redirects you may have added, work
 
@@ -51,5 +51,6 @@ For information on how to add redirects, see [Source file conventions](file-conv
 
 ##### Completed a final spelling, punctuation, and grammar check
 
-For more in-depth information on our Style Guide, explore the [Grammar](style/grammar.md) or [Formatting](style/formatting.md) guides.
+For more in-depth information on formatting and grammar,
+explore Docker's [Grammar](https://docs.docker.com/contribute/style/grammar/) or [Formatting](https://docs.docker.com/contribute/style/formatting/) guides.
 

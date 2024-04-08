@@ -18,7 +18,7 @@ Kleene. Advantages of using volumes over nullfs mounts:
 Volumes are based on nullfs-mounts and can be seen as managed but less flexible
 version of bind mounts.
 
-See the [`container create` command](/engine/reference/commandline/container_create/#specifying-mounts)
+See the [`container create` command](/reference/klee/container_create/#specifying-mounts)
 for details on how to mount volumes with Klee.
 
 When you create a volume, it is stored within a directory on the Kleene
@@ -43,7 +43,7 @@ Some use cases for volumes include:
 - When you need to back up, restore, or migrate data from one Kleene
   host to another, volumes are a better choice. You can stop containers using
   the volume, then back up the volume's directory. See the
-  [Kleene and ZFS](FIXME) section for details.
+  [Kleene and ZFS](/operation/zfs) section for details.
 
 ## Create and manage volumes
 

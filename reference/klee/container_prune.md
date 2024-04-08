@@ -1,5 +1,5 @@
 ---
-datafolder: engine-cli
+datafolder: klee-reference
 datafile: klee_container_prune
 title: klee container prune
 ---

@@ -11,7 +11,7 @@ module Jekyll
 
       # TODO: use dynamic URL from util.get_docs_url instead of hardcoded one
       #   but needs to remove first all absolute URLs in our code base.
-      docs_url = "https://docs.docker.com"
+      docs_url = "https://kleene.dev"
 
       files = Dir.glob("#{site.dest}/**/*.html")
       Jekyll.logger.info "  Fixing up URLs in #{files.size} html file(s) to be relative"

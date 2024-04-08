@@ -12,7 +12,7 @@ Download and install the Kleened daemon and Klee client.
      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 block">
         <div class="component">
              <div class="component-icon">
-                 <a href="/engine/api/"><img src="/assets/images/kleened-server.svg" alt="kleened" width="70" height="70"></a>
+                 <a href="/install/kleened/"><img src="/assets/images/kleened-server.svg" alt="kleened" width="70" height="70"></a>
              </div>
              <h2><a href="/install/kleened/">&nbsp;&nbsp;Kleened</a></h2>
              <p>Install Kleene backend on a FreeBSD host</p>
@@ -21,7 +21,7 @@ Download and install the Kleened daemon and Klee client.
      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 block">
         <div class="component">
             <div class="component-icon">
-                 <a href="/engine/reference/commandline/cli/"><img src="/assets/images/klee-reference.svg" alt="klee" width="70" height="70"></a>
+                 <a href="/install/klee/"><img src="/assets/images/klee-reference.svg" alt="klee" width="70" height="70"></a>
             </div>
             <h2><a href="/install/klee/">&nbsp;Klee</a></h2>
             <p>Install Kleene client on any machine</p>

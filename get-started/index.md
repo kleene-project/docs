@@ -11,7 +11,7 @@ This guide contains step-by-step instructions on how to get started with Kleene.
 - Using volumes for persisting data across containers.
 - Using networks for inter-container communication.
 
-Note that this guide follows Docker's [Getting started guide](FIXME) closely,
+Note that this guide follows Docker's [Getting started guide](https://docs.docker.com/get-started/) closely,
 so if you have previous experience with Docker, comparing the two guides gives a
 hands-on example of the similarities and differences between Kleene and Docker.
 
@@ -19,7 +19,7 @@ hands-on example of the similarities and differences between Kleene and Docker.
 
 Simply put, a container is a sandboxed process on your machine that is isolated
 from all other processes on the host machine.
-Unlike Linux, the container concept is a first class citizen in FreeBSD with [jails](FIXME handbook link),
+Unlike Linux, the container concept is a first class citizen in FreeBSD with [jails](https://docs.freebsd.org/en/books/handbook/jails/),
 so a FreeBSD 'jail' is *almost* equivalent to a container.
 
 However, Kleene does alot of details that is otherwise left to the user, such as

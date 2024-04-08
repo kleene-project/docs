@@ -93,9 +93,7 @@ examples: '### Build with PATH
 
   This will build like the previous example, but it will then tag the resulting
 
-  image. The image name will be `apache` and the tag will be `2.0`.
-
-  [Read more about valid tags](tag.md).
+  image `nginx:1.24.0_13`.
 
 
   ### Specify a Dockerfile (-f, --file)
@@ -171,7 +169,7 @@ examples: '### Build with PATH
 
   For detailed information on using `ARG` and `ENV` instructions, see the
 
-  [Dockerfile reference](../builder.md).
+  [Dockerfile reference](/reference/dockerfile).
 
   '
 experimental: false
@@ -179,10 +177,10 @@ experimentalcli: false
 long: "The `klee image build` command builds images from a Dockerfile and a\n\"context\"\
   . A build's context is the set of files and directories located in\nthe specified\
   \ `PATH`. The build process can refer to any of the files in the\ncontext. For example,\
-  \ your build can use a [*COPY*](../builder.md#copy)\ninstruction to copy a file\
-  \ from the context path into the build container.\n\nNote that `PATH` refers to\
-  \ a location in the filesystem on the host where Kleened\nis running. If you do\
-  \ not run `klee` on the host, it might be desirable to access\nthe context `PATH`\
+  \ your build can use a [*COPY*](/reference/dockerfile/#copy)\ninstruction to copy\
+  \ a file from the context path into the build container.\n\nNote that `PATH` refers\
+  \ to a location in the filesystem on the host where Kleened\nis running. If you\
+  \ do not run `klee` on the host, it might be desirable to access\nthe context `PATH`\
   \ using NFS, SSHFS or something similar.\n\nBy default the `klee image build` command\
   \ will look for a `Dockerfile` at the root\nof the build context (i.e., at `PATH`).\
   \ The `-f`, `--file`, option lets you\nspecify the path to an alternative file to\

@@ -17,6 +17,9 @@ container: |
   - A ZFS dataset
   - Configuration of the process-isolation environment ([jail](#jail))
   - Zero or more network connections and volume mounts.
+context: |
+    Directory containing files used when building an image, including a Dockerfile. Files and directories from the context
+    can be copied using the `COPY` instruction during image build.
 Docker: The Docker project, which is a container platform for developers and sysadmins to develop, ship, and run applications.
 Dockerfile: |
   A Dockerfile is a text document that contains all the commands you would

@@ -17,7 +17,7 @@ we'd see the same files.
 
 There are two approches to persist container data in Kleene, 'volume' and 'nullfs' mounts.
 We will eventually use both, but we will start with volume mounts.
-[Volumes](../storage/volumes.md) provide the ability to mount designated filesystem paths
+[Volumes](/run/storage/volumes/) provide the ability to mount designated filesystem paths
 of the host machine into containers.
 
 ## Persist the todo data with volume mounts

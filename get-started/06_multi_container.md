@@ -40,7 +40,7 @@ For now, we will continue to do the former, but if you need a container
 to be connected to several networks og to change network configurations later,
 the latter approach will come in handy.
 
-Go [here](FIXME) if you want to know more about networking (and venture to the deep end of the pool).
+Go [here](/run/network) if you want to know more about networking.
 
 ## Build and start a MariaDB-container
 
@@ -94,9 +94,6 @@ Go [here](FIXME) if you want to know more about networking (and venture to the d
    > when running applications in production. Diogo Monica, a former lead of security at Docker,
    > [wrote a fantastic blog post](https://diogomonica.com/2017/03/27/why-you-shouldnt-use-env-variables-for-secret-data/){:target="_blank" rel="noopener" class="_"}
    > explaining why.
-   >
-   > For an in-depth discussion about how to properly handle secrets, go [here](FIXME).
-   {: .important}
 
 2. To confirm we have the database up and running, connect to the database and verify it connects.
 
@@ -203,6 +200,7 @@ With all of that explained, let's start our dev-ready container!
 At this point, you have an application that now stores its data in an external database running in a separate
 container.
 
-Next, you'll learn about a few best practices you can use to improve your Dockerfile.
+If you want to dig deeper into Kleene, consider looking in:
 
-[Containerization best practices](07_best_practices.md){: .button  .primary-btn}
+1. [Building images](/building/introduction/)
+2. [Running containers](http://localhost:4000/run/introduction/)

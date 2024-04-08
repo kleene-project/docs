@@ -37,7 +37,7 @@ long: 'Creates a new network using a specific subnet and networking driver.
 
   For an in-depth discussion of the different types of network drivers and other
 
-  topics related to container networking, see [the container networking section](/run/networkingcontainers/).
+  topics related to container networking, see [the container networking section](/run/network/).
 
   '
 options:

@@ -15,7 +15,7 @@ When create Dockerfiles it can in many cases be advantageous to consider
 splitting an otherwise self-contained image for a service, into two.
 
 Since Kleene does not have caching, dividing an image into a 'package installation'
-(using [pkg(8)](FIXME) or [ports(7)](FIXME)) part and 'configuration' part.
+(using [pkg(7)](https://man.freebsd.org/cgi/man.cgi?query=pkg) or [ports(7)](https://man.freebsd.org/cgi/man.cgi?query=ports)) part and 'configuration' part.
 This reduces build times of the latter, which is where most of the debugging/development
 usually takes place. This usually overlaps with other relevant considerations:
 
@@ -31,7 +31,7 @@ Let's make this concrete with a few examples.
 
 ### Example 1: MariaDB
 
-Consider the `Dockerfile.mariadb` file from [part 6](06_multi_container.md):
+Consider the `Dockerfile.mariadb` file from [part 6](/get-started/06_multi_container/):
 
 ```dockerfile
 FROM FreeBSD-13.2-RELEASE:latest
@@ -71,7 +71,7 @@ require a MariaDB database.
 
 ### Example 2: A web application
 
-Similarily we have the `Dockerfile` used for the 'production' `webapp` image from [part 2](./02_our_app.md):
+Similarily we have the `Dockerfile` used for the 'production' `webapp` image from [part 2](/get-started/02_our_app/):
 
 ```dockerfile
 FROM FreeBSD-13.2-RELEASE:latest
@@ -82,7 +82,7 @@ RUN yarn install --production
 CMD cd /app && node src/index.js
 ```
 
-and `Dockerfile.dev` for the 'development' `webapp-dev` image from [part 5](./05_nullfs_mounts.md):
+and `Dockerfile.dev` for the 'development' `webapp-dev` image from [part 5](/get-started/05_nullfs_mounts/):
 
 ```dockerfile
 FROM webapp:latest
@@ -230,7 +230,7 @@ containers, each with its own unique image, to manage the web application,
 database, and an in-memory cache in a decoupled manner.
 
 Use your best judgment to keep containers as clean and modular as possible. If
-containers depend on each other, you can use [Kleene container networks](FIXME)
+containers depend on each other, you can use [Kleene container networks](/run/network/)
 to ensure that these containers can communicate.
 
 ### Keep Dockerfile instructions simple
@@ -256,7 +256,7 @@ Each `RUN`-instruction causes Kleene to make a [zfs snapshot](https://man.freebs
 which a fast operation that takes up (practically) no
 space. It also makes debugging easier, since more snapshots
 increases flexibility when investigating a failed build.
-See [Using build snapshots](/build/building/snapshots/) for details.
+See [Using build snapshots](/building/snapshots/) for details.
 
 ### Using pipes in `RUN`-instructions
 

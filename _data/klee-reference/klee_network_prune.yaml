@@ -19,7 +19,7 @@ examples: '```console
   '
 experimental: false
 experimentalcli: false
-long: Remove all unused vnet/loopback networks, i.e., networks not used by any containers.
+long: Remove all unused networks, i.e., networks without connected containers.
 options:
 - deprecated: false
   description: Do not prompt for confirmation
@@ -34,5 +34,5 @@ options:
   option: help
 plink: klee_network.yaml
 pname: klee network
-short: Remove all unused vnet/loopback networks,...
+short: Remove all unused networks, i.e., networks...
 usage: klee network prune [OPTIONS]

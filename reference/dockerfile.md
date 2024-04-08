@@ -31,7 +31,7 @@ be uppercase to distinguish them from arguments more easily.
 Kleene runs instructions in a `Dockerfile` in order. A `Dockerfile` **must
 begin with a `FROM` instruction**, with the exception of [comments](#format),
 and [ARGs](#arg). The `FROM` instruction specifies the [*Parent
-Image*](https://docs.docker.com/glossary/#parent-image) from which you are
+Image*](/glossary/#parent-image) from which you are
 building.
 
 Kleene always treats a `\` as the last character of a line as an escaped
@@ -424,10 +424,10 @@ USER patrick
 >    RUN echo -n "$HASHED_PASSWORD" $ |\
 >        pw useradd -n patrick -s /bin/sh -m -d /usr/home/patrick -G patrick -H 0
 >    ```
-> See `pw(8)` and `openssl(1)` for details. This is *not* recommened behavior in
-> Docker where the contents of buildargs are stored in the image metadata. See the
-> (Docker documentation)[https://docs.docker.com] for details and means to provide secrets at
-> build-time.
+> See `pw(8)` and `openssl(1)` for details. In general, passing secrets using CLI-parameters
+> such as `--build-arg` can be [problematic](https://blog.diogomonica.com//2017/03/27/why-you-shouldnt-use-env-variables-for-secret-data/)
+> since it can end up in, e.g., shell-history logs or elsewhere.
+> Instead, consider providing secrets as files mounted into the container.
 {:.warning}
 
 ## WORKDIR
@@ -585,10 +585,3 @@ The variable expansion technique in this example allows you to pass arguments
 from the command line and persist them in the final image by leveraging the
 `ENV` instruction. Variable expansion is only supported for [a limited set of
 Dockerfile instructions.](#environment-replacement)
-
-## Dockerfile examples
-
-For examples of Dockerfiles, refer to:
-
-- The ["build images" section](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/)
-- The ["get started" tutorial](https://docs.docker.com/get-started/)

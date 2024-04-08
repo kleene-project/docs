@@ -202,6 +202,8 @@ reference:
       title: klee network rm
   - sectiontitle: klee volume
     section:
+    - path: /reference/klee/volume/
+      title: klee volume
     - path: /reference/klee/volume_create/
       title: klee volume create
     - path: /reference/klee/volume_inspect/

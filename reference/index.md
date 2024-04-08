@@ -35,7 +35,7 @@ and the Kleene-flavored Dockerfile format.
              <div class="component-icon">
                  <a href="/reference/dockerfile/"><img src="/assets/images/instructions-file.svg" alt="Dockerfile" width="70" height="70"></a>
                  </div>
-                 <h2 id="dockerfile"><a href="/reference/dockerfile/builder/">Dockerfile</a></h2>
+                 <h2 id="dockerfile"><a href="/reference/dockerfile/">Dockerfile</a></h2>
                 <p>File format used in instructing Kleened on how to build an image.</p>
         </div>
       </div>

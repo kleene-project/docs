@@ -183,7 +183,7 @@ So, let's do it!
    almost immediately. It might take a few seconds for the Node server to
    restart. If you get an error, try refreshing after a few seconds.
 
-   ![Screenshot of updated label for Add button](images/updated-add-button.png){:
+   ![Screenshot of updated label for Add button](/get-started/images/updated-add-button.webp){:
    style="width:75%;" .text-center}
 
 Using nullfs mounts is useful for local development setups. The advantage is that

@@ -14,7 +14,7 @@ directory's contents.
 Nullfs mounts rely on the host machine's filesystem having a specific directory structure
 available.
 
-See the [`container create` command](/engine/reference/commandline/container_create/#specifying-mounts)
+See the [`container create` command](/reference/klee/container_create/#specifying-mounts)
 for details on how to specify nullfs mounts with Klee.
 
 > Nullfs mounts allow access to sensitive files

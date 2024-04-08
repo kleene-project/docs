@@ -10,19 +10,19 @@ Dockerfile is, it is recommended to consult [Docker's documention](https://docs.
 Kleene's [getting started](/get-started) guide, which is an adapted version
 of Docker's [guide](https://docs.docker.com/get-started/) to highlight differences.
 
-Kleened builds images by reading the instructions from a Dockerfile, 
+Kleened builds images by reading the instructions from a Dockerfile,
 using a subset of the instructions known from Docker.
-You can find Kleene's specification reference in the [Dockerfile reference](/engine/reference/builder).
+You can find Kleene's specification reference in the [Dockerfile reference](/reference/dockerfile/).
 
 Here are the most common and basic instructions:
 
 | Instruction                                                | Description                                                                                                              |
 |------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|
-| [`FROM <image>`](/engine/reference/builder#from)           | Defines a base for your image. This is used to create a new designated filesystem for the image that is being built.     |
-| [`RUN <command>`](/engine/reference/builder#run)           | Executes any commands within the designated filesystem. `RUN` also has a shell form for running commands.                |
-| [`WORKDIR <directory>`](/engine/reference/builder#workdir) | Sets the working directory for any `RUN`, `CMD`, and `COPY` instructions that follow it in the Dockerfile.               |
-| [`COPY <src> <dest>`](/engine/reference/builder#copy)      | Copies new files or directories from `<src>` and adds them to the filesystem of the container at the path `<dest>`.      |
-| [`CMD <command>`](/engine/reference/builder#cmd)           | Defines the default command that runs when starting containers based on this image.                                      |
+| [`FROM <image>`](/reference/dockerfile#from)              | Defines a base for your image. This is used to create a new designated filesystem for the image that is being built.     |
+| [`RUN <command>`](/reference/dockerfile#run)           | Executes any commands within the designated filesystem. `RUN` also has a shell form for running commands.                |
+| [`WORKDIR <directory>`](/reference/dockerfile#workdir) | Sets the working directory for any `RUN`, `CMD`, and `COPY` instructions that follow it in the Dockerfile.               |
+| [`COPY <src> <dest>`](/reference/dockerfile#copy)      | Copies new files or directories from `<src>` and adds them to the filesystem of the container at the path `<dest>`.      |
+| [`CMD <command>`](/reference/dockerfile#cmd)           | Defines the default command that runs when starting containers based on this image.                                      |
 
 The default filename to use for a Dockerfile is `Dockerfile`, without a file
 extension. Using the default name allows you to run the `klee build` command
@@ -31,7 +31,7 @@ without having to specify additional command flags.
 Some projects may need distinct Dockerfiles for specific purposes. A common
 convention is to name these `Dockerfile.<something>`. Such Dockerfiles can then
 be used through the `--file` (or `-f` shorthand) option on the `klee build` command.
-Refer to the [`klee build` section](/engine/reference/commandline/build#file)
+Refer to the [`klee build` section](/reference/klee/build)
 in the `klee` reference documentation to learn about the `--file` option.
 
 ## Context
@@ -44,7 +44,7 @@ $ klee build [OPTIONS] PATH
 ```
 
 The build process can refer to any of the files or directories in the context
-using the [`COPY` instruction](/engine/reference/builder#copy) instruction.
+using the [`COPY` instruction](/reference/dockerfile#copy) instruction.
 
 > **Note**
 >
@@ -126,8 +126,8 @@ First, we define the `FROM`-instruction:
 FROM FreeBSD:latest
 ```
 
-Here the [`FROM` instruction](../../engine/reference/builder.md#from) sets the
-parent image of our "Hello World"-app to the [base image](FIXME) that we created just before.
+Here the [`FROM` instruction](/reference/dockerfile#from) sets the
+parent image of our "Hello World"-app to the [base image](/building/base-images/) that we created just before.
 
 All following instructions are executed on (a clone of) this base image. The notation
 `FreeBSD:latest`, follows the `name:tag` standard for naming docker images.
@@ -137,7 +137,7 @@ All following instructions are executed on (a clone of) this base image. The not
 RUN pkg install -y py39-flask
 ```
 
-This [`RUN` instruction](/engine/reference/builder#run) executes a (jailed/containerized) shell
+This [`RUN` instruction](/reference/dockerfile#run) executes a (jailed/containerized) shell
 command that installs Flask and all it's dependencies, including Python.
 
 In this example, our context is a full FreeBSD base system matching that of the host.
@@ -151,8 +151,8 @@ and editors of the file.
 COPY hello.py /
 ```
 
-Now we use the [`COPY` instruction](/engine/reference/builder#copy) to
-copy our `hello.py` file from the local [build context](context.md) into the
+Now we use the [`COPY` instruction](/reference/dockerfile#copy) to
+copy our `hello.py` file from the local [build context](/glossary/#context) into the
 root directory of our image. After being executed, we'll end up with a file
 called `/hello.py` inside the image.
 
@@ -160,7 +160,7 @@ called `/hello.py` inside the image.
 ENV FLASK_APP=hello
 ```
 
-This [`ENV` instruction](/engine/reference/builder#env) sets an
+This [`ENV` instruction](/reference/dockerfile#env) sets an
 environment variable we'll need later. This is a flask-specific variable,
 that configures the command later used to run our `hello.py` application.
 Without this, flask wouldn't know where to find our application to be able to
@@ -170,26 +170,26 @@ run it.
 CMD flask run --host 0.0.0.0 --port 8000
 ```
 
-Finally, [`CMD` instruction](/engine/reference/builder#cmd) sets the
+Finally, [`CMD` instruction](/reference/dockerfile#cmd) sets the
 command that is run when the user starts a container based on this image. In
 this case we'll start the flask development server listening on all addresses
 on port `8000`.
 
 ### Building the image and running the app
 
-To test our Dockerfile, we'll first build it using the [`klee build` command](/engine/reference/commandline/build):
+To test our Dockerfile, we'll first build it using the [`klee build` command](/reference/klee/build):
 
 ```console
 $ klee build -t test:latest .
 ```
 
 Here `-t test:latest` option specifies the name (required) and tag (optional)
-of the image we're building. `.` specifies the [build context](context.md) as
+of the image we're building. `.` specifies the [build context](/glossary/#context) as
 the current directory. In this example, this is where Kleene expects to find the
 Dockerfile and the local files the Dockerfile needs to access, in this case
 your Python application (`hello.py`).
 
-So, in accordance with the build command issued and how [build context](context.md)
+So, in accordance with the build command issued and how [build context](/glossary/#context)
 works, your Dockerfile and python app need to be in the same directory.
 
 Now run your newly built image:
@@ -214,12 +214,12 @@ before navigating to `http://localhost:8000`.
 Since the image creation uses a build container for running build commands, it
 can be configured like any other container. This can be necessary when some
 some build steps require non-standard privileges, as illustrated in the image
-[snapshots example](/build/building/snapshots). Conversely, there might be a
+[snapshots example](/building/snapshots). Conversely, there might be a
 need to restrict the build environment for security reasons.
 
 The configuration parameters used to configure the build container with
 `klee build` is almost identical to the container configuration of `klee run`.
-See the [the reference documentation](/engine/reference/commandline/build)
+See the [the reference documentation](/reference/klee/build)
 for details.
 
 ## Image design
@@ -236,7 +236,7 @@ memory when starting containers or services. There are a few rules of thumb to
 keep image size small:
 
 - If you have multiple images with a lot in common, consider creating your own
-  [base image](../build/building/base-images.md) with the shared
+  [base image](/building/base-images/) with the shared
   components, and basing your unique images on that. Docker only needs to load
   the common layers once, and they are cached. This means that your
   derivative images use memory on the Docker host more efficiently and load more
@@ -253,14 +253,11 @@ keep image size small:
 
 ### Where and how to persist application data
 
-- Store data using [volumes](../storage/volumes.md).
+- Store data using [volumes](/run/storage/volumes/).
 - One case where it is appropriate to use
-  [bind mounts](../storage/bind-mounts.md) is during development,
+  [nullfs mounts](/run/storage/nullfs-mounts/) is during development,
   when you may want to mount your source directory or a binary you just built
   into your container. For production, use a volume instead, mounting it into
   the same location as you mounted a bind mount during development.
-- For production, use [secrets](../engine/swarm/secrets.md) to store sensitive
-  application data used by services, and use [configs](../engine/swarm/configs.md)
-  for non-sensitive data such as configuration files. If you currently use
-  standalone containers, consider migrating to use single-replica services, so
-  that you can take advantage of these service-only features.
+- For production, use files mounted into the container for sensitive
+  application data used by services.
