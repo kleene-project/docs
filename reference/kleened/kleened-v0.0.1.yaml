@@ -3,11 +3,11 @@
     "responses": {},
     "schemas": {
       "Container": {
-        "description": "Summary description of a container",
+        "description": "Kleene container",
         "properties": {
           "cmd": {
             "default": [],
-            "description": "Command being used when starting the container",
+            "description": "Command used when starting the container",
             "items": {
               "type": "string"
             },
@@ -23,7 +23,7 @@
           },
           "env": {
             "default": [],
-            "description": "List of environment variables used when the container is used. This list will be merged with environment variables defined by the image. The values in this list takes precedence if the variable is defined in both places.",
+            "description": "List of environment variables. The list will be merged with environment variables defined by the image. The values in this list takes precedence if the variable is defined in both.",
             "example": [
               "DEBUG=0",
               "LANG=da_DK.UTF-8"
@@ -38,12 +38,12 @@
             "type": "string"
           },
           "image_id": {
-            "description": "The id of the image that this container was created from",
+            "description": "ID of the image that this container was created from",
             "type": "string"
           },
           "jail_param": {
             "default": [],
-            "description": "List of jail parameters (see jail(8) for details)",
+            "description": "List of jail parameters to use for the container.\nSee the [jails manual page](https://man.freebsd.org/cgi/man.cgi?query=jail) for an explanation of what jail parameters is,\nand the [Kleene documentation](/run/jail-parameters/) for an explanation of how they are used by Kleene.\n",
             "example": [
               "allow.raw_sockets=true",
               "osrelease=kleenejail"
@@ -57,12 +57,59 @@
             "description": "Name of the container.",
             "type": "string"
           },
+          "network_driver": {
+            "description": "What kind of network driver the container uses.\nPossible values are `ipnet`, `host`, `vnet`, `disabled`.\n",
+            "enum": [
+              "ipnet",
+              "host",
+              "vnet",
+              "disabled"
+            ],
+            "example": "ipnet",
+            "type": "string"
+          },
+          "persist": {
+            "default": false,
+            "description": "Whether or not this container will be removed by pruning.",
+            "example": true,
+            "nullable": true,
+            "type": "boolean"
+          },
+          "public_ports": {
+            "default": [],
+            "description": "Listening ports on network interfaces that redirect incoming traffic to the container.",
+            "example": [
+              {
+                "container_port": "8000",
+                "host_port": "8080",
+                "interfaces": [
+                  "em0"
+                ],
+                "properties": "tcp"
+              }
+            ],
+            "items": {
+              "$ref": "#/components/schemas/PublishedPort"
+            },
+            "type": "array"
+          },
+          "restart_policy": {
+            "default": "no",
+            "description": "Restarting behavior of the container:\n\n- `\"no\"`: There is no automatic restart of the container\n- `\"on-startup\"`: The container is started each time Kleened is.\n",
+            "enum": [
+              "no",
+              "on-startup"
+            ],
+            "example": "on-startup",
+            "nullable": true,
+            "type": "string"
+          },
           "running": {
             "description": "whether or not the container is running",
             "type": "boolean"
           },
           "user": {
-            "description": "The default user used when creating execution instances in the container.",
+            "description": "Default user used when creating execution instances in the container.",
             "type": "string"
           }
         },
@@ -74,7 +121,7 @@
         "properties": {
           "cmd": {
             "default": [],
-            "description": "Command to execute when the container is started. If no command is specified the command from the image is used.",
+            "description": "Command to execute when the container is started. If `[]` is specified the command from the image is used.",
             "example": [
               "/bin/sh",
               "-c",
@@ -107,11 +154,12 @@
               "48fa55889b0f",
               "48fa55889b0f@2028818d6f06"
             ],
+            "nullable": true,
             "type": "string"
           },
           "jail_param": {
             "default": [],
-            "description": "List of jail parameters to use for the container.\nSee the [`jails manual page`](https://man.freebsd.org/cgi/man.cgi?query=jail) for details.\n\nA few parameters have some special behavior in Kleene:\n\n- `exec.jail_user`: If not explicitly set, the value of the `user` parameter will be used.\n- `mount.devfs`/`exec.clean`: If not explicitly set, `mount.devfs=true`/`exec.clean=true` will be used.\n\nSo, if you do not want `exec.clean` and `mount.devfs` enabled, you must actively disable them.\n",
+            "description": "List of jail parameters to use for the container.\nSee the [jails manual page](https://man.freebsd.org/cgi/man.cgi?query=jail) for an explanation of what jail parameters is,\nand the [Kleene documentation](/run/jail-parameters/) for an explanation of how they are used by Kleene.\n",
             "example": [
               "allow.raw_sockets=true",
               "osrelease=kleenejail"
@@ -125,6 +173,18 @@
           "mounts": {
             "default": [],
             "description": "List of files/directories/volumes on the host filesystem that should be mounted into the container.",
+            "example": [
+              {
+                "destination": "/mnt/db",
+                "source": "database",
+                "type": "volume"
+              },
+              {
+                "destination": "/webapp",
+                "source": "/home/me/develop/webapp",
+                "type": "nullfs"
+              }
+            ],
             "items": {
               "$ref": "#/components/schemas/MountPointConfig"
             },
@@ -136,9 +196,58 @@
             "nullable": true,
             "type": "string"
           },
+          "network_driver": {
+            "default": "ipnet",
+            "description": "What kind of network driver should the container use.\nPossible values are `ipnet`, `host`, `vnet`, `disabled`.\n",
+            "enum": [
+              "ipnet",
+              "host",
+              "vnet",
+              "disabled"
+            ],
+            "example": "host",
+            "type": "string"
+          },
+          "persist": {
+            "default": false,
+            "description": "Whether or not this container will be removed by pruning.",
+            "example": true,
+            "nullable": true,
+            "type": "boolean"
+          },
+          "public_ports": {
+            "default": [],
+            "description": "Listening ports on network interfaces that redirect incoming traffic to the container.",
+            "example": [
+              {
+                "container_port": "8000",
+                "host_port": "8080",
+                "interfaces": [
+                  "em0"
+                ],
+                "properties": "tcp"
+              }
+            ],
+            "items": {
+              "$ref": "#/components/schemas/PublishedPortConfig"
+            },
+            "nullable": true,
+            "type": "array"
+          },
+          "restart_policy": {
+            "default": "no",
+            "description": "Restarting policy of the container:\n\n- `\"no\"`: There is no automatic restart of the container\n- `\"on-startup\"`: The container is started each time Kleened is.\n",
+            "enum": [
+              "no",
+              "on-startup"
+            ],
+            "example": "on-startup",
+            "nullable": true,
+            "type": "string"
+          },
           "user": {
             "default": "",
-            "description": "User that executes the command (cmd).\nIf no user is set, the user from the image will be used, which in turn is 'root' if no user is specified there.\n\nThis parameter will be overwritten by the jail parameter `exec.jail_user` if it is set.\n",
+            "description": "User that executes the command (cmd).\nIf user is set to `\"\"`, the user from the image will be used, which in turn is 'root' if no user is specified there.\n\nThis parameter will be overwritten by the jail parameter `exec.jail_user` if it is set.\n",
             "nullable": true,
             "type": "string"
           }
@@ -173,41 +282,30 @@
         "x-struct": "Elixir.Kleened.API.Schemas.ContainerInspect"
       },
       "ContainerSummary": {
-        "description": "summary description of a container",
-        "properties": {
-          "cmd": {
-            "description": "Command being used when starting the container",
-            "type": "string"
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Container"
           },
-          "created": {
-            "description": "When the container was created",
-            "type": "string"
-          },
-          "id": {
-            "description": "The id of this container",
-            "type": "string"
-          },
-          "image_id": {
-            "description": "The id of the image that this container was created from",
-            "type": "string"
-          },
-          "image_name": {
-            "description": "Name of the image that this container was created from",
-            "type": "string"
-          },
-          "image_tag": {
-            "description": "Tag of the image that this container was created from",
-            "type": "string"
-          },
-          "name": {
-            "description": "Name of the container",
-            "type": "string"
-          },
-          "running": {
-            "description": "whether or not the container is running",
-            "type": "boolean"
+          {
+            "properties": {
+              "image_name": {
+                "description": "Name of the image that this container was created from",
+                "type": "string"
+              },
+              "image_tag": {
+                "description": "Tag of the image that this container was created from",
+                "type": "string"
+              },
+              "jid": {
+                "description": "Jail ID if it is a running container",
+                "nullable": true,
+                "type": "integer"
+              }
+            },
+            "type": "object"
           }
-        },
+        ],
+        "description": "Summary description of a container",
         "title": "ContainerSummary",
         "type": "object",
         "x-struct": "Elixir.Kleened.API.Schemas.ContainerSummary"
@@ -224,25 +322,30 @@
       "EndPoint": {
         "description": "Endpoint connecting a container to a network.",
         "properties": {
-          "container": {
+          "container_id": {
             "description": "ID of the container that this endpoint belongs to.",
             "type": "string"
           },
           "epair": {
-            "description": "epair used for endpoint in case of a VNET network",
+            "description": "**`vnet` containers only**\n\n`epair(4)` interfaces connecting the container to the network.\n",
             "nullable": true,
             "type": "string"
           },
           "id": {
-            "description": "EndPoint ID",
+            "description": "Endpoint ID",
             "type": "string"
           },
           "ip_address": {
-            "description": "IP address of the container connected to the network",
-            "nullable": true,
+            "description": "The IPv4 address of the container.",
+            "example": "10.13.37.33",
             "type": "string"
           },
-          "network": {
+          "ip_address6": {
+            "description": "The IPv6 address of the container.",
+            "example": "2610:1c1:1:606c::50:15",
+            "type": "string"
+          },
+          "network_id": {
             "description": "Name of the network that this endpoint belongs to.",
             "type": "string"
           }
@@ -255,17 +358,29 @@
         "description": "Configuration of a connection between a network to a container.",
         "properties": {
           "container": {
-            "description": "Name or (possibly truncated) id of the container",
+            "description": "Container identifier, i.e., the name, ID, or an initial unique segment of the ID.",
             "type": "string"
           },
           "ip_address": {
-            "description": "The ip(v4) address that should be assigned to the container. If this field is not set (or null) an unused ip contained in the subnet is auto-generated.",
+            "default": "",
+            "description": "IPv4 address for the container. If set to `\"<auto>\"` an unused ip from the subnet will be used. If set to `\"\"` no address will be set.",
             "example": "10.13.37.33",
+            "type": "string"
+          },
+          "ip_address6": {
+            "default": "",
+            "description": "IPv6 address for the container. If set to `\"<auto>\"` an unused ip from the subnet will be used. If set to `\"\"` no address will be set.",
+            "example": "2001:db8:8a2e:370:7334::2",
+            "type": "string"
+          },
+          "network": {
+            "description": "Network identifier, i.e., the name, ID, or an initial unique segment of the ID.",
             "type": "string"
           }
         },
         "required": [
-          "container"
+          "container",
+          "network"
         ],
         "title": "EndPointConfig",
         "type": "object",
@@ -295,7 +410,7 @@
         "properties": {
           "cmd": {
             "default": [],
-            "description": "Command to execute whithin the container. If no command is specified the command from the container is used.",
+            "description": "Command to execute whithin the container. If `cmd` is set to `[]` the command will be inherited from the container.",
             "example": [
               "/bin/sh",
               "-c",
@@ -307,12 +422,12 @@
             "type": "array"
           },
           "container_id": {
-            "description": "Id of the container used for creating the exec instance.",
+            "description": "Identifier of the container used as environemnt for the exec instance.",
             "type": "string"
           },
           "env": {
             "default": [],
-            "description": "A list of environment variables in the form `[\"VAR=value\", ...]` that is set when the command is executed.\nThis list will be merged with environment variables defined by the container.\nThe values in this list takes precedence if the variable is defined in both places.\",\n",
+            "description": "A list of environment variables in the form `[\"VAR=value\", ...]` that is set when the command is executed.\nThis list will be merged with environment variables defined in the container.\nThe values in this list takes precedence if the variable is defined in both.\n",
             "example": [
               "DEBUG=0",
               "LANG=da_DK.UTF-8"
@@ -324,12 +439,12 @@
           },
           "tty": {
             "default": false,
-            "description": "Allocate a pseudo-TTY",
+            "description": "Allocate a pseudo-TTY for the process.",
             "type": "boolean"
           },
           "user": {
             "default": "",
-            "description": "User that executes the command in the container. If no user is set the user from the container will be used.",
+            "description": "User that executes the command in the container. If the user is set to `\"\"`, the user will be inherited from the container.",
             "type": "string"
           }
         },
@@ -345,11 +460,11 @@
             "type": "boolean"
           },
           "exec_id": {
-            "description": "id of the execution instance to start",
+            "description": "ID of the execution instance to start",
             "type": "string"
           },
           "start_container": {
-            "description": "Whether to start the container if it is not running.",
+            "description": "Whether to start the container if it is not already running.",
             "type": "boolean"
           }
         },
@@ -375,7 +490,7 @@
         "description": "Response to an API call that returns just an Id",
         "properties": {
           "id": {
-            "description": "The id of the created/modified/destroyed object.",
+            "description": "ID of the created/modified/removed object.",
             "nullable": false,
             "type": "string"
           }
@@ -390,15 +505,6 @@
       "Image": {
         "description": "the image metadata",
         "properties": {
-          "buildargs": {
-            "default": {},
-            "description": "Object of string pairs for build-time variables. Users pass these values at build-time. Kleened uses the buildargs as the environment context for commands run via the Dockerfile RUN instruction, or for variable expansion in other Dockerfile instructions. This is not meant for passing secret values.",
-            "example": {
-              "JAIL_MGMT_ENGINE": "kleene",
-              "USERNAME": "Stephen"
-            },
-            "type": "object"
-          },
           "cmd": {
             "default": [],
             "description": "Default command used when creating a container from this image",
@@ -438,7 +544,7 @@
           },
           "instructions": {
             "default": [],
-            "description": "Instructions and their corresponding snapshots, if any, used for creating the image.\nEach item in the array is comprised of a 2-element array of the form `[\"<instruction>\",\"<snapshot>\"]`\ncontaining a instruction and its snapshot.\nThe latter will only be present if it is a `RUN` or `COPY` instruction that executed succesfully.\nOtherwise `<snapshot>` will be an empty string.\n",
+            "description": "Instructions and their corresponding snapshots (if they exist) that were used to build the image.\nEach item in the array consists of a 2-element array `[\"<instruction>\",\"<snapshot>\"]`\ncontaining one instruction and possibly its snapshot.\nThe latter is only be present with `RUN` or `COPY` instructions that ran succesfully.\nOtherwise `<snapshot>` is empty.\n",
             "example": [],
             "items": {
               "items": {
@@ -457,7 +563,7 @@
             "type": "string"
           },
           "user": {
-            "description": "user used when executing the command",
+            "description": "User used for running `cmd`",
             "type": "string"
           }
         },
@@ -466,11 +572,11 @@
         "x-struct": "Elixir.Kleened.API.Schemas.Image"
       },
       "ImageBuildConfig": {
-        "description": "Configuration for an image build.",
+        "description": "Configuration for an image build, including container configuration for the build container.",
         "properties": {
           "buildargs": {
             "default": {},
-            "description": "Object of string pairs for build-time ARG-variables. Kleened uses the buildargs as the environment variables for, e.g., the RUN instruction, or for variable expansion in other Dockerfile instructions. This is not meant for passing secret values.",
+            "description": "Additional `ARG`-variables given as an object of string pairs.\nSee the [`ARG` instruction documentation](/reference/dockerfile/#arg) for details.\n",
             "example": {
               "JAIL_MGMT_ENGINE": "kleene",
               "USERNAME": "Stephen"
@@ -482,8 +588,11 @@
             "description": "Whether or not to remove the image in case of a build failure.",
             "type": "boolean"
           },
+          "container_config": {
+            "$ref": "#/components/schemas/ContainerConfig"
+          },
           "context": {
-            "description": "Path on the Kleened host of the context that is used for the build.",
+            "description": "Location path on the Kleened host of the context used for the image build.",
             "type": "string"
           },
           "dockerfile": {
@@ -491,19 +600,28 @@
             "description": "Path of the Dockerfile used for the build. The path is relative to the context path.",
             "type": "string"
           },
+          "networks": {
+            "default": [],
+            "description": "List of endpoint-configs for the networks that the build container will be connected to.",
+            "items": {
+              "$ref": "#/components/schemas/EndPointConfig"
+            },
+            "type": "array"
+          },
           "quiet": {
             "default": false,
-            "description": "Whether or not to emit status messages of the build process.",
+            "description": "Whether or not to send status messages of the build process to the client.",
             "type": "boolean"
           },
           "tag": {
             "default": "",
-            "description": "A name and optional tag to apply to the image in the name:tag format. If you omit the tag the default latest value is assumed.",
+            "description": "A name and optional tag to apply to the image in the `name:tag` format. If `tag` is omitted, the default value `latest` is used.",
             "type": "string"
           }
         },
         "required": [
-          "context"
+          "context",
+          "container_config"
         ],
         "title": "ImageBuildConfig",
         "type": "object",
@@ -513,8 +631,8 @@
         "description": "Configuration for the creation of base images.",
         "properties": {
           "autotag": {
-            "default": true,
-            "description": "Whether or not to auto-genereate a nametag `FreeBSD-<version>:latest` based on `uname(1)`.\n*Method `\"fetch-auto\"` only*.\n",
+            "default": false,
+            "description": "**`fetch-auto` method only**\n\nWhether or not to auto-genereate a nametag `FreeBSD-<version>:latest` based on `uname(1)`.\nOverrides `tag` if set to `true`.\n",
             "type": "boolean"
           },
           "dns": {
@@ -524,11 +642,16 @@
           },
           "force": {
             "default": false,
-            "description": "Ignore any discrepancies detected when using `uname(1)` to fetch the base system.\n*Method `\"fetch-auto\"` only*.\n",
+            "description": "**`fetch-auto` method only**\n\nIgnore any discrepancies in the output of `uname(1)` when determining the FreeBSD version.\n",
+            "type": "boolean"
+          },
+          "localtime": {
+            "default": true,
+            "description": "Whether or not to copy `/etc/localtime` from the host to the new image.",
             "type": "boolean"
           },
           "method": {
-            "description": "There are four methods for creating a new base image:\n\n- `\"fetch\"`: Fetch a release/snapshot of the base system and use it for image creation.\n- `\"fetch-auto\"`: Automatically fetch a release/snapshot from the offical FreeBSD mirrors, based on information from `uname(1)`.\n- `\"zfs-copy\"`: Create the base image based on a copy of `zfs_dataset`.\n- `\"zfs-clone\"`: Create the base image based on a clone of `zfs_dataset`.\n",
+            "description": "There are four methods for creating a new base image:\n\n- `fetch`: Fetch a release/snapshot of the base system from `url` and use it for image creation.\n- `fetch-auto`: Automatically fetch a release/snapshot from the offical FreeBSD mirrors, based on information from `uname(1)`.\n- `zfs-copy`: Create the base image based on a copy of `zfs_dataset`.\n- `zfs-clone`: Create the base image based on a clone of `zfs_dataset`.\n",
             "enum": [
               "fetch",
               "fetch-auto",
@@ -539,17 +662,22 @@
           },
           "tag": {
             "default": "",
-            "description": "Name and optionally a tag in the `name:tag` format.\n",
+            "description": "Name and optionally a tag in the `name:tag` format. If `tag` is omitted, the default value `latest` is used.\n",
             "type": "string"
+          },
+          "update": {
+            "default": true,
+            "description": "Update the base image using `freebsd-update(8)`.\nSee the [man-pages](https://man.freebsd.org/cgi/man.cgi?query=freebsd-update) for details about which FreeBSD versions can be updated.\",\n",
+            "type": "boolean"
           },
           "url": {
             "default": "",
-            "description": "URL to a remote location where the base system (as a base.txz file) is stored.\n*Method `\"fetch\"` only*.\n",
+            "description": "**`fetch` method only**\n\nURL to the base system (a `base.txz` file) that Kleened should use to create the base image.\n",
             "type": "string"
           },
           "zfs_dataset": {
             "default": "",
-            "description": "ZFS dataset that the image should be based on.\n*Method `\"zfs-*\"` only*.\n",
+            "description": "**`zfs-*` methods only**\n\nZFS dataset that the image should be based on.\n",
             "type": "string"
           }
         },
@@ -570,14 +698,14 @@
         "x-struct": "Elixir.Kleened.API.Schemas.ImageList"
       },
       "MountPoint": {
-        "description": "Mount point between some part of the host file system and a container.\nThere are two types of mountpoints:\n\n- `nullfs`: Mount from a user-specified file or directory from the host machine into the container.\n- `volume`: Mount from a Kleene volume into the container.\n",
+        "description": "Mount point between the host file system and a container.\n\nThere are two types of mount points:\n\n- `nullfs`: Mount a user-specified file or directory from the host machine into the container.\n- `volume`: Mount a Kleene volume into the container.\n",
         "properties": {
           "container_id": {
             "description": "ID of the container that the mountpoint belongs to.",
             "type": "string"
           },
           "destination": {
-            "description": "Destination path of the mount within the container.",
+            "description": "Destination path of the mountpoint within the container.",
             "type": "string"
           },
           "read_only": {
@@ -585,11 +713,11 @@
             "type": "boolean"
           },
           "source": {
-            "description": "Source used for the mount. Depends on `method`:\n\n- If `method=\"volume\"` then `source` should be a volume name\n- If `method=\"nullfs\"`  then `source` should be a (absolute) path on the host\n",
+            "description": "Source used for the mount. Depends on `method`:\n\n- If `method` is `\"volume\"` then `source` should be a volume name\n- If `method`is `\"nullfs\"` then `source` should be an absolute path on the host\n",
             "type": "string"
           },
           "type": {
-            "description": "Kind of mount: `nullfs` or `volume`.",
+            "description": "Mounpoint type.",
             "enum": [
               "volume",
               "nullfs"
@@ -602,7 +730,7 @@
         "x-struct": "Elixir.Kleened.API.Schemas.MountPoint"
       },
       "MountPointConfig": {
-        "description": "Create a mount point between sthe host file system and a container.\n\nThere are two `type`'s of mount points:\n\n- `nullfs`: Mount a user-specified file or directory from the host machine into the container.\n- `volume`: Mount a Kleene volume into the container.\n",
+        "description": "Configuration for a mount point between the host file system and a container.\n\nThere are two types of mount points:\n\n- `nullfs`: Mount a user-specified file or directory from the host machine into the container.\n- `volume`: Mount a Kleene volume into the container.\n",
         "properties": {
           "destination": {
             "description": "Destination path of the mount within the container.",
@@ -614,11 +742,11 @@
             "type": "boolean"
           },
           "source": {
-            "description": "Source used for the mount. Depends on `method`:\n\n- If `method=\"volume\"` then `source` should be a volume name\n- If `method=\"nullfs\"`  then `source` should be a (absolute) path on the host\n",
+            "description": "Source used for the mount. Depends on `method`:\n\n- If `method` is `\"volume\"` then `source` should be a volume name\n- If `method`is `\"nullfs\"` then `source` should be an absolute path on the host\n",
             "type": "string"
           },
           "type": {
-            "description": "Kind of mount to create: `nullfs` or `volume`.",
+            "description": "Type of mountpoint to create.",
             "enum": [
               "volume",
               "nullfs"
@@ -631,32 +759,70 @@
         "x-struct": "Elixir.Kleened.API.Schemas.MountPointConfig"
       },
       "Network": {
-        "description": "summary description of a network",
+        "description": "Kleene network",
         "properties": {
-          "bridge_if": {
+          "gateway": {
             "default": "",
-            "description": "Name of the bridge interface (used for a 'vnet' network).",
+            "description": "The default IPv4 router that is added to `vnet` containers connecting to the network.\nIf `\"\"` no gateway is used.\n",
+            "example": "192.168.1.1",
             "type": "string"
           },
-          "driver": {
-            "description": "Type of network.",
+          "gateway6": {
+            "default": "",
+            "description": "The default IPv6 router that is added to 'vnet' containers connecting to the network.\nIf `\"\"` no gateway is used.\n",
+            "example": "2001:db8:8a2e:370:7334::1",
             "type": "string"
+          },
+          "icc": {
+            "default": true,
+            "description": "Inter-container connectvity: Whether or not to enable connectivity between containers within the network.",
+            "type": "boolean"
           },
           "id": {
-            "description": "The id of the network",
+            "description": "ID of the network",
             "type": "string"
           },
-          "loopback_if": {
+          "interface": {
             "default": "",
-            "description": "Name of the loopback interface (used for a 'loopback' network).",
+            "description": "Name for the interface that is being used for the network.\n",
+            "example": "kleene0",
+            "maxLength": 15,
             "type": "string"
+          },
+          "internal": {
+            "default": true,
+            "description": "Whether or not outgoing traffic is allowed on the network.",
+            "type": "boolean"
           },
           "name": {
-            "description": "Name of the network",
+            "description": "Name of the network.",
+            "example": "westnet",
+            "type": "string"
+          },
+          "nat": {
+            "default": "",
+            "description": "Which interface should be used for NAT'ing outgoing traffic from the network.\nIf set to `\"\"` no NAT'ing is configured.\n",
+            "example": "igb0",
             "type": "string"
           },
           "subnet": {
-            "description": "Subnet used for the network",
+            "description": "The IPv4 subnet (in CIDR-format) that is used for the network.",
+            "example": "10.13.37.0/24",
+            "type": "string"
+          },
+          "subnet6": {
+            "description": "The IPv6 subnet (in CIDR-format) that is used for the network.",
+            "example": "2001:db8:8a2e:370:7334::/64",
+            "type": "string"
+          },
+          "type": {
+            "description": "Network type.",
+            "enum": [
+              "bridge",
+              "loopback",
+              "custom"
+            ],
+            "example": "bridge",
             "type": "string"
           }
         },
@@ -667,38 +833,79 @@
       "NetworkConfig": {
         "description": "Network configuration",
         "properties": {
-          "driver": {
-            "description": "Which driver to use for the network. Possible values are 'vnet', 'loopback', and 'host'.\nSee jails(8) and the networking documentation for details.\n",
-            "example": "vnet",
+          "gateway": {
+            "default": "",
+            "description": "**`bridge` networks only**\n\nThe default (IPv4) router that is added to `vnet` containers connecting to bridged networks.\nIf set to `\"\"` no gateway is used. If set to `\"<auto>\"` the first IP of the subnet is added to `interface` and used as gateway.\n",
+            "example": "192.168.1.1",
             "type": "string"
           },
-          "ifname": {
-            "description": "Name of the loopback interface that is being used for the network. Only used with the 'loopback' driver.",
-            "example": "kleene0",
+          "gateway6": {
+            "default": "",
+            "description": "**`bridge` networks only**\n\nThe default IPv6 router that is added to `vnet` containers connecting to bridged networks.\nSee `gateway` for details.\n",
+            "example": "2001:db8:8a2e:370:7334::1",
             "type": "string"
+          },
+          "icc": {
+            "default": true,
+            "description": "Inter-container connectvity: Whether or not to enable connectivity between containers within the same network.",
+            "type": "boolean"
+          },
+          "interface": {
+            "default": "",
+            "description": "Name of the host interface used for the network.\nIf set to `\"\"` the name is set to `kleened` postfixed with an integer.\nIf `type` is set to `custom` the value of `interface` must refer to an existing interface,\notherwise it is created by Kleened.\n",
+            "example": "kleene0",
+            "maxLength": 15,
+            "type": "string"
+          },
+          "internal": {
+            "default": false,
+            "description": "Whether or not outgoing traffic is allowed on the network.",
+            "type": "boolean"
           },
           "name": {
             "description": "Name of the network.",
             "example": "westnet",
             "type": "string"
           },
+          "nat": {
+            "default": "<host-gateway>",
+            "description": "Interface used for NAT'ing outgoing traffic from the network.\nIf set to `\"<host-gateway>\"` the hosts gateway interface is used, if it exists.\nIf set to `\"\"` no NAT'ing is configured.\n",
+            "example": "igb0",
+            "type": "string"
+          },
           "subnet": {
-            "description": "The subnet (in CIDR-format) that is used for the network.",
+            "default": "",
+            "description": "The IPv4 subnet (in CIDR-format) that is used for the network. If set to `\"\"` no IPv4 subnet is used.",
             "example": "10.13.37.0/24",
+            "type": "string"
+          },
+          "subnet6": {
+            "default": "",
+            "description": "The IPv6 subnet (in CIDR-format) that is used for the network. If set to `\"\"` no IPv6 subnet is used.",
+            "example": "2001:db8:8a2e:370:7334::/64",
+            "type": "string"
+          },
+          "type": {
+            "description": "What kind of network should be created.",
+            "enum": [
+              "bridge",
+              "loopback",
+              "custom"
+            ],
+            "example": "bridge",
             "type": "string"
           }
         },
         "required": [
           "name",
-          "subnet",
-          "driver"
+          "type"
         ],
         "title": "NetworkConfig",
         "type": "object",
         "x-struct": "Elixir.Kleened.API.Schemas.NetworkConfig"
       },
       "NetworkInspect": {
-        "description": "Detailed information on a volume.",
+        "description": "Detailed information on a network.",
         "properties": {
           "network": {
             "$ref": "#/components/schemas/Network"
@@ -724,15 +931,101 @@
         "type": "array",
         "x-struct": "Elixir.Kleened.API.Schemas.NetworkList"
       },
+      "PublishedPort": {
+        "description": "A published port of a container, i.e., opening up the port for incoming traffic from external sources.",
+        "properties": {
+          "container_port": {
+            "description": "Destination port (or portrange) of the container that accepts traffic from `host_port`.\n\n`container_port` can take two forms, depending on `host_port`:\n- A single portnumber `\"PORTNUMBER\"` if `host_port` is a single port number\n- A portrange `\"PORTNUMBER_START:*\"` if `host_port` is a port range\n",
+            "type": "string"
+          },
+          "host_port": {
+            "description": "Source port (or portrange) on the host where incoming traffic is redirected.\n\n`host_port` can take one of two forms:\n- A single portnumber `\"PORTNUMBER\"`\n- A portrange `\"PORTNUMBER_START:PORTNUMBER_END\"`\n",
+            "type": "string"
+          },
+          "interfaces": {
+            "default": [],
+            "description": "List of host interfaces where incoming traffic to `host_port` is redirected to the container at `ip_address` and/or `ip_address6` on `container_port`.\n",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "ip_address": {
+            "description": "ipv4 address within the container that receives traffic to `container_port`",
+            "type": "string"
+          },
+          "ip_address6": {
+            "description": "ipv6 address within the container that receives traffic to `container_port`",
+            "type": "string"
+          },
+          "protocol": {
+            "description": "tcp or udp",
+            "enum": [
+              "tcp",
+              "udp"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "interfaces",
+          "host_port",
+          "container_port",
+          "protocol",
+          "ip_address",
+          "ip_address6"
+        ],
+        "title": "PublishedPort",
+        "type": "object",
+        "x-struct": "Elixir.Kleened.API.Schemas.PublishedPort"
+      },
+      "PublishedPortConfig": {
+        "description": "Configuration for publishing a port of a container.",
+        "properties": {
+          "container_port": {
+            "description": "Destination port (or portrange) of the container that accepts traffic from `host_port`.\n\n`container_port` can take two forms, depending on `host_port`:\n- A single portnumber `\"PORTNUMBER\"` if `host_port` is a single port number\n- A portrange `\"PORTNUMBER_START:*\"` if `host_port` is a port range\n",
+            "type": "string"
+          },
+          "host_port": {
+            "description": "Source port (or portrange) on the host where incoming traffic is redirected.\n\n`host_port` can take one of two forms:\n- A single portnumber `\"PORTNUMBER\"`\n- A portrange `\"PORTNUMBER_START:PORTNUMBER_END\"`\n",
+            "type": "string"
+          },
+          "interfaces": {
+            "default": [],
+            "description": "List of host interfaces where the port is published, i.e.,\nwhere traffic to `host_port` is redirected to `container_port` (on a random IP-address).\nIf set to `[]` the host's gateway interface is used.\n",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "protocol": {
+            "default": "tcp",
+            "description": "Whether to use TCP or UDP as transport protocol",
+            "enum": [
+              "tcp",
+              "udp"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "interfaces",
+          "host_port",
+          "container_port"
+        ],
+        "title": "PublishedPortConfig",
+        "type": "object",
+        "x-struct": "Elixir.Kleened.API.Schemas.PublishedPortConfig"
+      },
       "Volume": {
         "description": "Volume object used for persistent storage in containers.",
         "properties": {
           "created": {
-            "description": "when the volume was created",
+            "description": "When the volume was created",
             "type": "string"
           },
           "dataset": {
-            "description": "ZFS dataset used for the volume",
+            "description": "ZFS dataset of the volume",
             "type": "string"
           },
           "mountpoint": {
@@ -791,7 +1084,7 @@
         "x-struct": "Elixir.Kleened.API.Schemas.VolumeList"
       },
       "WebSocketMessage": {
-        "description": "The request have been validated and the request is being processed.",
+        "description": "Protocol messages sent from Kleened's websocket endpoints",
         "example": {
           "data": "",
           "message": "succesfully started execution instance in detached mode",
@@ -800,7 +1093,7 @@
         "properties": {
           "data": {
             "default": "",
-            "description": "Any data that might have been created by the process such as an image id.",
+            "description": "Any data that might have been created by the process such as an image ID.",
             "type": "string"
           },
           "message": {
@@ -840,6 +1133,7 @@
       "post": {
         "callbacks": {},
         "deprecated": false,
+        "description": "Create a container.\n\nNote that it is not possible to set any of the properties in the request body to `null`.\nThis is only possible when updating containers using the [Container.Update](#operation/Container.Update) endpoint.\n",
         "operationId": "Container.Create",
         "parameters": [],
         "requestBody": {
@@ -893,7 +1187,7 @@
       "get": {
         "callbacks": {},
         "deprecated": false,
-        "description": "Returns a list of containers. For details on the format, see\n[inspect endpoint](#operation/ContainerInspect) for detailed information\nabout a container.\n\nNote that it uses a different, smaller representation of a container\nthan inspecting a single container.\n",
+        "description": "Returns a list of container summaries. For detailed information about a container,\nuse [Container.Inspect](#operation/Container.Inspect).\n",
         "operationId": "Container.List",
         "parameters": [
           {
@@ -959,11 +1253,11 @@
       "delete": {
         "callbacks": {},
         "deprecated": false,
-        "description": "Delete a container.",
+        "description": "Remove a container.",
         "operationId": "Container.Remove",
         "parameters": [
           {
-            "description": "ID or name of the container. An initial segment of the id can be supplied if it uniquely determines the container.",
+            "description": "Container identifier, i.e., the name, ID, or an initial unique segment of the ID.",
             "in": "path",
             "name": "container_id",
             "required": true,
@@ -1082,7 +1376,7 @@
         "operationId": "Container.Stop",
         "parameters": [
           {
-            "description": "ID or name of the container. An initial segment of the id can be supplied if it uniquely determines the container.",
+            "description": "Container identifier, i.e., the name, ID, or an initial unique segment of the ID.",
             "in": "path",
             "name": "container_id",
             "required": true,
@@ -1101,16 +1395,6 @@
               }
             },
             "description": "no error"
-          },
-          "304": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "container not running"
           },
           "404": {
             "content": {
@@ -1144,10 +1428,11 @@
       "post": {
         "callbacks": {},
         "deprecated": false,
+        "description": "Re-configure a container.\n\nThe JSON request body is identical to [Container.Create](#operation/Container.Create),\nand is being interpreted as follows:\n\n- The `image` property is ignored.\n- All other properties will replace the existing ones, if they are not `null`.\n\nSome of the changes might require a running container to be restarted.\n",
         "operationId": "Container.Update",
         "parameters": [
           {
-            "description": "ID or name of the container. An initial segment of the id can be supplied if it uniquely determines the container.",
+            "description": "Container identifier, i.e., the name, ID, or an initial unique segment of the ID.",
             "in": "path",
             "name": "container_id",
             "required": true,
@@ -1271,7 +1556,7 @@
       "get": {
         "callbacks": {},
         "deprecated": false,
-        "description": "> **Important**: This is a 'dummy' specification since the actual endpoint is websocket-based.\n> Below is a description of the websocket protocol and how it relates to the dummy spec.\n\n## General websocket protocol\nAll of Kleened's websocket endpoints follows a similar pattern, having only differences\nin the contents of the fields in the websocket protocol messages.\nThe specifics of the particular endpoint is described below the general description.\n\nOnce the websocket is established, Kleened expects a configuration-frame, which is given by\nthe request body below. Thus, the contents of request body should be sent as the initial\nframe instead of being contained in the request body.\n\nWhen the config is received, a starting-message is returned, indicating that the process has\nstarted. The starting message, like all protocol messages, follows the schema shown for\nthe 200-response (the WebSocketMessage schema).\nAfter the starting-message, subsequent frames will be 'raw' output from the particular\nprocess being started.\nWhen the process is finished, Kleened closes the websocket with a Close Code 1000 and a\nWebSocketMessage contained in the Close frame's Close Reason.\nThe `msg_type` is always set to `closing` but the contents of the `data` and `message` fields\ndepend on the particular endpoint.\n\nIf the initial configuration message schema is invalid, kleened closes the websocket with\nClose Code 1002 and a WebSocketMessage as the Close frame's Close Reason.\nThe `msg_type` is set to `error` and the contents of the `data` and `message` fields will\ndepend on the specific error.\nThis only happens before the starting-message have been sent to the client.\n\nIf Kleened encounters an error during process execution, Kleened closes the websocket with\nClose Code 1011 and a WebSocketMessage as the Close frame's reason. The `msg_type` is set to\n`error` and the contents of the `data` and `message` fields will depend on the specific error.\n\nIf any unexpected errors/crashes occur during the lifetime of the websocket, Kleend closes\nthe websocket with Close Code 1011 and an empty reason field.\n\n## Endpoint-specific details\nThe following specifics pertain to this endpoint:\n\n\n* The starting-message does not have any content.\n* If the exec-instance is started with `attach: false` the starting-message is followed by a\n  Close frame with Close Code 1001.\n* When the executed process exits the closing-message in the Close frame tells wether the\n  entire container has been stopped or just the exec-instance.\n",
+        "description": "> **Important**: This is a 'dummy' specification since the actual endpoint is websocket-based.\n> Below is a description of the websocket protocol and how it relates to the dummy spec.\n\n## General websocket protocol used by Kleened\nAll of Kleened's websocket endpoints follows a similar pattern, having only differences\nin the contents of the fields in the protocol frames.\nThe specifics of the particular endpoint is described below the generic description of the\nprotocol.\n\nOnce the websocket is established, Kleened expects a configuration-frame, which is given by\nthe specified request body schema. Thus, the contents of request body should be sent as the\ninitial websocket frame instead of being contained in initiating request.\n\nWhen the config is received, Kleened sends a 'starting-message' back to the client, indicating\nthat Kleened has begun processing the request.\nThe starting message, like all protocol messages, follows the schema shown for\nthe 200-response below (the WebSocketMessage schema) and has `msg_type` set to `starting`.\nAfter the starting-message, subsequent frames will be 'raw' output from the running process.\nWhen the process is finished, Kleened closes the websocket with a Close Code 1000 and a\nWebSocketMessage contained in the Close frame's Close Reason.\nThe `msg_type` is set to `closing` but the contents of the `data` and `message` fields\ndepend on the particular endpoint.\n\nIf the initial configuration message schema is invalid, kleened closes the websocket with\nClose Code 1002 and a WebSocketMessage as the Close frame's Close Reason.\nThe `msg_type` is set to `error` and the contents of the `data` and `message` fields will\ndepend on the specific error.\nThis only happens before a starting-message have been sent to the client.\n\nIf Kleened encounters an error during process execution, Kleened closes the websocket with\nClose Code 1011 and a WebSocketMessage as the Close frame's reason. The `msg_type` is set to\n`error` and the contents of the `data` and `message` fields will depend on the specific error.\n\nIf any unexpected errors/crashes occur during the lifetime of the websocket, Kleend closes\nthe websocket with Close Code 1011 and an empty reason field.\n\n## Endpoint-specific details\nThe following specifics pertain to this endpoint:\n\n\n* The starting-message does not have any content.\n* If the exec-instance is started with `attach: false` the starting-message is followed by a\n  Close frame with Close Code 1001.\n* When the executed process exits the closing-message in the Close frame tells wether the\n  entire container has been stopped or just the exec-instance.\n",
         "operationId": "ExecStartWebSocket",
         "parameters": [],
         "requestBody": {
@@ -1305,7 +1590,7 @@
       "post": {
         "callbacks": {},
         "deprecated": false,
-        "description": "Stop and/or destroy an execution instance.",
+        "description": "Stop and destroy an execution instance.",
         "operationId": "Exec.Stop",
         "parameters": [
           {
@@ -1379,7 +1664,7 @@
       "get": {
         "callbacks": {},
         "deprecated": false,
-        "description": "> **Important**: This is a 'dummy' specification since the actual endpoint is websocket-based.\n> Below is a description of the websocket protocol and how it relates to the dummy spec.\n\n## General websocket protocol\nAll of Kleened's websocket endpoints follows a similar pattern, having only differences\nin the contents of the fields in the websocket protocol messages.\nThe specifics of the particular endpoint is described below the general description.\n\nOnce the websocket is established, Kleened expects a configuration-frame, which is given by\nthe request body below. Thus, the contents of request body should be sent as the initial\nframe instead of being contained in the request body.\n\nWhen the config is received, a starting-message is returned, indicating that the process has\nstarted. The starting message, like all protocol messages, follows the schema shown for\nthe 200-response (the WebSocketMessage schema).\nAfter the starting-message, subsequent frames will be 'raw' output from the particular\nprocess being started.\nWhen the process is finished, Kleened closes the websocket with a Close Code 1000 and a\nWebSocketMessage contained in the Close frame's Close Reason.\nThe `msg_type` is always set to `closing` but the contents of the `data` and `message` fields\ndepend on the particular endpoint.\n\nIf the initial configuration message schema is invalid, kleened closes the websocket with\nClose Code 1002 and a WebSocketMessage as the Close frame's Close Reason.\nThe `msg_type` is set to `error` and the contents of the `data` and `message` fields will\ndepend on the specific error.\nThis only happens before the starting-message have been sent to the client.\n\nIf Kleened encounters an error during process execution, Kleened closes the websocket with\nClose Code 1011 and a WebSocketMessage as the Close frame's reason. The `msg_type` is set to\n`error` and the contents of the `data` and `message` fields will depend on the specific error.\n\nIf any unexpected errors/crashes occur during the lifetime of the websocket, Kleend closes\nthe websocket with Close Code 1011 and an empty reason field.\n\n## Endpoint-specific details\nThe following specifics pertain to this endpoint:\n\n\n* The `data` field in the starting-message contains the `image_id`.\n* If the build process is successful, the `data` field in the closing-message contains the `image_id` otherwise it contains the latest snapshot or empty string `\"\"` if the build failed before any snapshots have been created.\n",
+        "description": "> **Important**: This is a 'dummy' specification since the actual endpoint is websocket-based.\n> Below is a description of the websocket protocol and how it relates to the dummy spec.\n\n## General websocket protocol used by Kleened\nAll of Kleened's websocket endpoints follows a similar pattern, having only differences\nin the contents of the fields in the protocol frames.\nThe specifics of the particular endpoint is described below the generic description of the\nprotocol.\n\nOnce the websocket is established, Kleened expects a configuration-frame, which is given by\nthe specified request body schema. Thus, the contents of request body should be sent as the\ninitial websocket frame instead of being contained in initiating request.\n\nWhen the config is received, Kleened sends a 'starting-message' back to the client, indicating\nthat Kleened has begun processing the request.\nThe starting message, like all protocol messages, follows the schema shown for\nthe 200-response below (the WebSocketMessage schema) and has `msg_type` set to `starting`.\nAfter the starting-message, subsequent frames will be 'raw' output from the running process.\nWhen the process is finished, Kleened closes the websocket with a Close Code 1000 and a\nWebSocketMessage contained in the Close frame's Close Reason.\nThe `msg_type` is set to `closing` but the contents of the `data` and `message` fields\ndepend on the particular endpoint.\n\nIf the initial configuration message schema is invalid, kleened closes the websocket with\nClose Code 1002 and a WebSocketMessage as the Close frame's Close Reason.\nThe `msg_type` is set to `error` and the contents of the `data` and `message` fields will\ndepend on the specific error.\nThis only happens before a starting-message have been sent to the client.\n\nIf Kleened encounters an error during process execution, Kleened closes the websocket with\nClose Code 1011 and a WebSocketMessage as the Close frame's reason. The `msg_type` is set to\n`error` and the contents of the `data` and `message` fields will depend on the specific error.\n\nIf any unexpected errors/crashes occur during the lifetime of the websocket, Kleend closes\nthe websocket with Close Code 1011 and an empty reason field.\n\n## Endpoint-specific details\nThe following specifics pertain to this endpoint:\n\n\n* The `data` field in the starting-message contains the image ID of the image being built.\n* If the build process is successful, the `data` field in the closing-message contains the `image_id`.\n* If the build process fails the closing message's `data` field contains the latest snapshot or is set to `\"\"` if the build failed before any snapshots have been created.\n",
         "operationId": "ImageBuild",
         "parameters": [],
         "requestBody": {
@@ -1413,7 +1698,7 @@
       "get": {
         "callbacks": {},
         "deprecated": false,
-        "description": "> **Important**: This is a 'dummy' specification since the actual endpoint is websocket-based.\n> Below is a description of the websocket protocol and how it relates to the dummy spec.\n\n## General websocket protocol\nAll of Kleened's websocket endpoints follows a similar pattern, having only differences\nin the contents of the fields in the websocket protocol messages.\nThe specifics of the particular endpoint is described below the general description.\n\nOnce the websocket is established, Kleened expects a configuration-frame, which is given by\nthe request body below. Thus, the contents of request body should be sent as the initial\nframe instead of being contained in the request body.\n\nWhen the config is received, a starting-message is returned, indicating that the process has\nstarted. The starting message, like all protocol messages, follows the schema shown for\nthe 200-response (the WebSocketMessage schema).\nAfter the starting-message, subsequent frames will be 'raw' output from the particular\nprocess being started.\nWhen the process is finished, Kleened closes the websocket with a Close Code 1000 and a\nWebSocketMessage contained in the Close frame's Close Reason.\nThe `msg_type` is always set to `closing` but the contents of the `data` and `message` fields\ndepend on the particular endpoint.\n\nIf the initial configuration message schema is invalid, kleened closes the websocket with\nClose Code 1002 and a WebSocketMessage as the Close frame's Close Reason.\nThe `msg_type` is set to `error` and the contents of the `data` and `message` fields will\ndepend on the specific error.\nThis only happens before the starting-message have been sent to the client.\n\nIf Kleened encounters an error during process execution, Kleened closes the websocket with\nClose Code 1011 and a WebSocketMessage as the Close frame's reason. The `msg_type` is set to\n`error` and the contents of the `data` and `message` fields will depend on the specific error.\n\nIf any unexpected errors/crashes occur during the lifetime of the websocket, Kleend closes\nthe websocket with Close Code 1011 and an empty reason field.\n\n## Endpoint-specific details\nThe following specifics pertain to this endpoint:\n\n\n* The starting-message does not have any content.\n* If the image creation process finishes succesfully, the ID of the newly built image is stored in the\n  `data` field of the closing-message.\n",
+        "description": "> **Important**: This is a 'dummy' specification since the actual endpoint is websocket-based.\n> Below is a description of the websocket protocol and how it relates to the dummy spec.\n\n## General websocket protocol used by Kleened\nAll of Kleened's websocket endpoints follows a similar pattern, having only differences\nin the contents of the fields in the protocol frames.\nThe specifics of the particular endpoint is described below the generic description of the\nprotocol.\n\nOnce the websocket is established, Kleened expects a configuration-frame, which is given by\nthe specified request body schema. Thus, the contents of request body should be sent as the\ninitial websocket frame instead of being contained in initiating request.\n\nWhen the config is received, Kleened sends a 'starting-message' back to the client, indicating\nthat Kleened has begun processing the request.\nThe starting message, like all protocol messages, follows the schema shown for\nthe 200-response below (the WebSocketMessage schema) and has `msg_type` set to `starting`.\nAfter the starting-message, subsequent frames will be 'raw' output from the running process.\nWhen the process is finished, Kleened closes the websocket with a Close Code 1000 and a\nWebSocketMessage contained in the Close frame's Close Reason.\nThe `msg_type` is set to `closing` but the contents of the `data` and `message` fields\ndepend on the particular endpoint.\n\nIf the initial configuration message schema is invalid, kleened closes the websocket with\nClose Code 1002 and a WebSocketMessage as the Close frame's Close Reason.\nThe `msg_type` is set to `error` and the contents of the `data` and `message` fields will\ndepend on the specific error.\nThis only happens before a starting-message have been sent to the client.\n\nIf Kleened encounters an error during process execution, Kleened closes the websocket with\nClose Code 1011 and a WebSocketMessage as the Close frame's reason. The `msg_type` is set to\n`error` and the contents of the `data` and `message` fields will depend on the specific error.\n\nIf any unexpected errors/crashes occur during the lifetime of the websocket, Kleend closes\nthe websocket with Close Code 1011 and an empty reason field.\n\n## Endpoint-specific details\nThe following specifics pertain to this endpoint:\n\n\n* The starting-message does not have any content.\n* If the image creation process finishes succesfully, the ID of the newly built image is stored in the\n  `data` field of the closing-message.\n",
         "operationId": "ImageCreate",
         "parameters": [],
         "requestBody": {
@@ -1457,7 +1742,7 @@
       "get": {
         "callbacks": {},
         "deprecated": false,
-        "description": "Returns a list of images on the server. Note that it uses a different, smaller representation of an image than inspecting a single image.",
+        "description": "List the images. Use the [image inspect](#operation/Image.Inspect) endpoint\n        to get detailed information about an image.",
         "operationId": "Image.List",
         "parameters": [],
         "responses": {
@@ -1517,7 +1802,7 @@
         "operationId": "Image.Remove",
         "parameters": [
           {
-            "description": "ID or name of the image. An initial segment of the id can be supplied if it uniquely determines the image.",
+            "description": "Image identifier, i.e., the name, ID, or an initial unique segment of the ID.",
             "in": "path",
             "name": "image_id",
             "required": true,
@@ -1546,6 +1831,16 @@
               }
             },
             "description": "no such image"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "server error"
           }
         },
         "summary": "image remove",
@@ -1556,7 +1851,7 @@
       "get": {
         "callbacks": {},
         "deprecated": false,
-        "description": "Inspect a image and its endpoints.",
+        "description": "Inspect an image.",
         "operationId": "Image.Inspect",
         "parameters": [
           {
@@ -1667,6 +1962,63 @@
         "tags": []
       }
     },
+    "/networks/connect": {
+      "post": {
+        "callbacks": {},
+        "deprecated": false,
+        "description": "Connect a container to a network",
+        "operationId": "Network.Connect",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EndPointConfig"
+              }
+            }
+          },
+          "description": "Connection configuration.",
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "operation was succesful"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "no such network"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "operation not possible with the present configuration"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "server error"
+          }
+        },
+        "summary": "network connect",
+        "tags": []
+      }
+    },
     "/networks/create": {
       "post": {
         "callbacks": {},
@@ -1725,7 +2077,7 @@
       "get": {
         "callbacks": {},
         "deprecated": false,
-        "description": "Returns a list of networks. Use [network inspect endpoint](#operation/Network.Inspect)\nfor detailed information about a specific network.\n\nNote that it uses a different, smaller representation of a network than\ninspecting a single network.\n",
+        "description": "Returns a list of networks.\nUse the [network inspect](#operation/Network.Inspect) endpoint\nto get detailed information about a network.\n",
         "operationId": "Network.List",
         "parameters": [],
         "responses": {
@@ -1758,7 +2110,7 @@
       "post": {
         "callbacks": {},
         "deprecated": false,
-        "description": "Remove all networks that are not being used by any containers.\n",
+        "description": "Remove all networks that are not used by any containers.\n",
         "operationId": "Network.Prune",
         "parameters": [],
         "responses": {
@@ -1795,7 +2147,7 @@
         "operationId": "Network.Remove",
         "parameters": [
           {
-            "description": "ID or name of the network. An initial segment of the id can be supplied if it uniquely determines the network.",
+            "description": "Network identifier, i.e., the name, ID, or an initial unique segment of the ID.",
             "in": "path",
             "name": "network_id",
             "required": true,
@@ -1840,73 +2192,6 @@
         "tags": []
       }
     },
-    "/networks/{network_id}/connect": {
-      "post": {
-        "callbacks": {},
-        "deprecated": false,
-        "description": "Connect a container to a network",
-        "operationId": "Network.Connect",
-        "parameters": [
-          {
-            "description": "ID or name of the network. An initial segment of the id can be supplied if it uniquely determines the network.",
-            "in": "path",
-            "name": "network_id",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/EndPointConfig"
-              }
-            }
-          },
-          "description": "Connection configuration.",
-          "required": true
-        },
-        "responses": {
-          "204": {
-            "description": "operation was succesful"
-          },
-          "404": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "no such network"
-          },
-          "409": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "operation not possible with the present configuration"
-          },
-          "500": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "server error"
-          }
-        },
-        "summary": "network connect",
-        "tags": []
-      }
-    },
     "/networks/{network_id}/disconnect/{container_id}": {
       "post": {
         "callbacks": {},
@@ -1915,7 +2200,7 @@
         "operationId": "Network.Disconnect",
         "parameters": [
           {
-            "description": "ID or name of the network. An initial segment of the id can be supplied if it uniquely determines the network.",
+            "description": "Network identifier, i.e., the name, ID, or an initial unique segment of the ID.",
             "in": "path",
             "name": "network_id",
             "required": true,
@@ -1924,7 +2209,7 @@
             }
           },
           {
-            "description": "ID or name of the container. An initial segment of the id can be supplied if it uniquely determines the network.",
+            "description": "Container identifier, i.e., the name, ID, or an initial unique segment of the ID.",
             "in": "path",
             "name": "container_id",
             "required": true,
@@ -1970,7 +2255,7 @@
         "operationId": "Network.Inspect",
         "parameters": [
           {
-            "description": "Identifier of the network",
+            "description": "Network identifier, i.e., the name, ID, or an initial unique segment of the ID.",
             "in": "path",
             "name": "network_id",
             "required": true,
@@ -2019,7 +2304,7 @@
       "post": {
         "callbacks": {},
         "deprecated": false,
-        "description": "Create a volume. The underlying volume zfs dataset will be located at `{kleened root path}/volumes`.",
+        "description": "Create a new volume.",
         "operationId": "Volume.Create",
         "parameters": [],
         "requestBody": {
@@ -2030,7 +2315,7 @@
               }
             }
           },
-          "description": "Volume configuration to use when creating the volume",
+          "description": "Volume configuration",
           "required": true
         },
         "responses": {
@@ -2063,7 +2348,7 @@
       "get": {
         "callbacks": {},
         "deprecated": false,
-        "description": "Returns a compact listing of existing volumes.",
+        "description": "List volumes.",
         "operationId": "Volume.List",
         "parameters": [],
         "responses": {
@@ -2119,11 +2404,11 @@
       "delete": {
         "callbacks": {},
         "deprecated": false,
-        "description": "Remove one or more volumes. You cannot remove a volume that is in use by a container.\n",
+        "description": "Remove one or more volumes. A volume that is in use by a container cannot be removed.\n",
         "operationId": "Volume.Remove",
         "parameters": [
           {
-            "description": "Name of the volume",
+            "description": "Volume name",
             "in": "path",
             "name": "volume_name",
             "required": true,
@@ -2176,7 +2461,7 @@
         "operationId": "Volume.Inspect",
         "parameters": [
           {
-            "description": "Name of the volume",
+            "description": "Volume name",
             "in": "path",
             "name": "volume_name",
             "required": true,

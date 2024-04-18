@@ -4,10 +4,11 @@ description: Configuring Kleene backend component
 keywords: kleene, daemon, kleened, configuration, troubleshooting
 ---
 
-Kleened must be configured using a config file at
-`/usr/local/etc/kleened/config.yaml`. A default configuration file is automatically
-installed if Kleened were installed using `pkg` or ports. The default `config.yaml`
-file contains these default values:
+Kleened must be configured using the config file
+`/usr/local/etc/kleened/config.yaml`.
+
+A default configuration file is automatically installed, having the following
+defaults:
 
 ```yaml
 kleene_root: "zroot/kleene"
@@ -21,8 +22,8 @@ log_level: "info"
 
 where
 
-- `kleene_root`: The root dataset where Kleened stores all containers, volumes, images,
-  and the metadata database `metadata.sqlite` file.
+- `kleene_root`: The root dataset of Kleened where all containers, volumes, images,
+  and the metadata database `metadata.sqlite` file are stored.
 
 - `pf_config_template_path`: Location of the template file used by Kleened to
   generate the firewall configuration file `pf.conf(5)`.
@@ -38,8 +39,7 @@ where
 - `enable_logging`: Whether or not enable logging to `/var/log/Kleened.log`.
 
 - `log_level`: Logging verbosity. Values ordered by vebosity are: `debug`, `info`,
-  `notice`, `warning`, `error`, and `critical`. Advanced configuration options
-  that comes with the Erlang/Elixir logging backend are given below.
+  `notice`, `warning`, `error`, and `critical`.
 
 ## Specifying listening sockets
 

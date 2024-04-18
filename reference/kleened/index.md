@@ -4,17 +4,17 @@ description: Using Kleened's API to automate Kleene tasks in your preferred lang
 keywords: developing, api
 ---
 
-The way to interact with Kleened, is through the HTTP API.
-Using your language and web-framework of choice, you can interact with
-and build helpful scripts or entire applications on top of Kleene.
+The way to interact with Kleened is through the HTTP API.
+Using a language and web-framework of your choice, you can build helpful scripts
+or entire applications on top of Kleene.
 
-Kleened's API is HTTP-based, comprised of a RESTful API and a bunch of WebSockets.
-You can easily try the RESTful API using standard CLI tools such as
+Kleened's API is HTTP-based and consists of a RESTful API and a bunch of WebSockets.
+You can try the RESTful API using standard CLI tools such as
 `wget`, `fetch`, and `curl`. To some extent you can try out the WebSockets with
 [`websocat`](https://github.com/vi/websocat).
 
-The REST-API is specified using OpenAPI, so it is also possible to
-generate API clients in multiple languages.
+Since the REST-API is defined using the OpenAPI specification, it is possible to
+generate [API clients in multiple languages](https://openapi.tools/).
 
 ## View the API reference
 
@@ -127,7 +127,7 @@ for image in response.parsed:
 
 ### Create and start a container
 
-`klee run -a FreeBSD:testing ls`
+Equivalent to `klee run -a FreeBSD:testing ls`
 
 <ul class="nav nav-tabs">
   <li><a data-toggle="tab" data-target="#tab-run-python" data-group="python">Python</a></li>
@@ -217,6 +217,8 @@ exec_start(response.parsed.id)
 
 
 ### Stop a running container
+
+Equivalent to `klee stop 511b20226c28`
 
 <ul class="nav nav-tabs">
   <li><a data-toggle="tab" data-target="#tab-stop-python" data-group="python">Python</a></li>
