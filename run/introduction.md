@@ -111,7 +111,6 @@ a33acc099268
 created execution instance 94455a51098c
 ELF ldconfig path: /lib /usr/lib /usr/lib/compat
 32-bit compatibility ldconfig path: /usr/lib32
-/etc/rc: WARNING: $hostname is not set -- see rc.conf(5).
 Updating motd:.
 Creating and/or trimming log files.
 Clearing /tmp (X related).
@@ -134,6 +133,17 @@ It only says that the execution instance has exited. There is no mention of the
 container because it is stille running. Check with `klee lsc`.
 If the process that startede the container exists but it has spawned other
 processes that are still running the container is still runnning.
+
+> **Note**
+>
+> When running a containerized process in the foreground and exiting Klee with
+> `ctrl+c`, Kleened responds by terminating the [jail(8)](https://man.freebsd.org/cgi/man.cgi?query=jail) process
+> and *not* any subprocesses.
+> Therefore, the jail might still be running even though the attached session is
+> closed. For instance, `klee exec my-container /bin/sh -c "nc -l 4000"`
+> keeps running after Klee exits. Shut it down by killing the proces with `kill`
+> from either host/container or, alternatively, stop the container entirely with
+> `klee stop my-container`.
 
 ## Accessing a running container
 
