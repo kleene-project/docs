@@ -102,7 +102,7 @@ A Dockerfile contains the instructions that Kleened uses to create the image.
    Finally, the `-t` flag tags your image. Think of this simply as a human-readable name for the final image. Since you named the image `webapp`,
    you can refer to that image when you run a container. Since we have not specified a `tag`, Kleened tags the image with `latest`.
 
-   The `.` at the end of the `klee build` command tells Docker that it should look for the `Dockerfile` in the current directory.
+   The `.` at the end of the `klee build` command tells Kleene that it should look for the `Dockerfile` in the current directory.
 
    >**Note**
    >

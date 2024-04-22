@@ -37,20 +37,13 @@ the metadata elements in the front-matter isn't important.
 
 ```liquid
 ---
-description: Instructions for installing Docker Engine on Ubuntu
-keywords: requirements, apt, installation, ubuntu, install, uninstall, upgrade, update
-title: Install Docker Engine on Ubuntu
+title: Kleened installation
+description: Describes the Kleened installation steps
+keywords: kleene, kleened, installation, install
 redirect_from:
-- /ee/docker-ee/ubuntu/
-- /engine/installation/linux/docker-ce/ubuntu/
-- /engine/installation/linux/docker-ee/ubuntu/
-- /engine/installation/linux/ubuntu/
-- /engine/installation/linux/ubuntulinux/
-- /engine/installation/ubuntulinux/
-- /install/linux/docker-ce/ubuntu/
-- /install/linux/docker-ee/ubuntu/
+- /install/freebsd/
+- /install/freebsd/
 - /install/linux/ubuntu/
-- /installation/ubuntulinux/
 toc_max: 4
 ---
 ```

@@ -89,10 +89,6 @@ defaults:
     values:
       sitemap: false
   - scope:
-      path: "**/nav.html"
-    values:
-      sitemap: false
-  - scope:
       path: "**/*.pdf"
     values:
       sitemap: false

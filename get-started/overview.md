@@ -114,7 +114,7 @@ API requests to Kleened and renders the result to the user.
 
 ## Kleene conceptual architecture
 
-![Docker Architecture diagram](/assets/images/kleene_conceptual_architecture.png)
+![Kleene Architecture diagram](/assets/images/kleene_conceptual_architecture.png)
 
 ### Kleene objects
 
@@ -196,8 +196,7 @@ compared to Docker, as described previously on this page.
 Major features not part of Kleene (for now) includes:
 
 - Multi-container orchestration similar to docker-compose.
-- Built-in functionality for distributing images across host systems like
-  Docker Hub.
+- Built-in functionality for distributing images (container registry).
 - Clustering of several FreBSD Kleene hosts.
 
 If resources permit, some of these features, especially multi-container orchestration,

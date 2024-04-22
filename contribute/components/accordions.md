@@ -83,7 +83,7 @@ culpa qui officia deserunt mollit anim id est laborum.</p>
 ```
 <div class="panel panel-default">
     <div class="panel-heading collapsed" data-toggle="collapse" data-target="#collapseSample1" style="cursor: pointer">
-    Docker hello-world example
+    Kleene hello-world example
     <i class="chevron fa fa-fw"></i></div>
     <div class="collapse block" id="collapseSample1">
 <pre>
