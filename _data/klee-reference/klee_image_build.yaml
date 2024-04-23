@@ -91,9 +91,9 @@ examples: '### Build with PATH
   ```
 
 
-  This will build like the previous example, but it will then tag the resulting
+  This will build like the previous example and then tag the resulting
 
-  image `nginx:1.24.0_13`.
+  image with `nginx:1.24.0_13`.
 
 
   ### Specify a Dockerfile (-f, --file)
@@ -120,11 +120,13 @@ examples: '### Build with PATH
   ```
 
 
-  The previous commands will build the current build context (as specified by the
+  The previous commands will build the current build two images:
 
-  `.`) twice, once using a debug version of a `Dockerfile` and once using a
+  One using a debug-friendly version of the Dockerfile (called `Dockerfile.debug`)
 
-  production version.
+  and one using a production version (called `Dockerile.prod`). Both Dockerfiles
+
+  are located in the `dockerfiles` directory in the context root.
 
 
   ### Set build-time variables (--build-arg)
@@ -155,16 +157,11 @@ examples: '### Build with PATH
 
   This flag allows you to pass the build-time variables that are
 
-  accessed like regular environment variables in the `RUN` instruction of the
+  accessed like regular environment variables in the `RUN` instructions of the
 
-  Dockerfile. Also, these values don''t persist in the intermediate or final images
+  Dockerfile. Also, these values don''t persist in the final image
 
   like `ENV` values do. You must add `--build-arg` for each build argument.
-
-
-  Using this flag will not alter the output you see when the `ARG` lines from the
-
-  Dockerfile are echoed during the build process.
 
 
   For detailed information on using `ARG` and `ENV` instructions, see the
@@ -174,33 +171,34 @@ examples: '### Build with PATH
   '
 experimental: false
 experimentalcli: false
-long: "The `klee image build` command builds images from a Dockerfile and a\n\"context\"\
-  . A build's context is the set of files and directories located in\nthe specified\
-  \ `PATH`. The build process can refer to any of the files in the\ncontext. For example,\
-  \ your build can use a [*COPY*](/reference/dockerfile/#copy)\ninstruction to copy\
-  \ a file from the context path into the build container.\n\nNote that `PATH` refers\
-  \ to a location in the filesystem on the host where Kleened\nis running. If you\
-  \ do not run `klee` on the host, it might be desirable to access\nthe context `PATH`\
-  \ using NFS, SSHFS or something similar.\n\nBy default the `klee image build` command\
-  \ will look for a `Dockerfile` at the root\nof the build context (i.e., at `PATH`).\
-  \ The `-f`, `--file`, option lets you\nspecify the path to an alternative file to\
-  \ use instead.\nThis is useful in cases where the same set of files are used for\
-  \ multiple builds.\nthe context. The path is interpreted relative to the context\
-  \ `PATH`.\n\nIn most cases, it's best to put each Dockerfile in an empty directory.\
-  \ Then,\nadd to that directory only the files needed for building the Dockerfile.\n\
-  \n### Build container configuration\n\nJust like you can configure the container\
-  \ environment with networking,\njail-parameters and mounts you can configure the\
-  \ build container used when\ncreating images. The parameters used to configure the\
-  \ build container is\nmostly identical to parameters used for `klee run`. A few\
-  \ differences to keep in\nmind, however:\n\n- `--from`: Override the image in the\
-  \ `FROM`-instruction.\n- `--user`: If it is not set, the user of the build container\
-  \ will be inherited\n  from the parent image. `USER`-instructions overrides this\
-  \ parameter.\n- `--env`: `ENV`-instructions override the values of this parameter.\n\
-  - `--jailparam`: `USER`-instructions can be affected if the\n  `exec.system_user`/`exec.jail_user`/`exec.system_jail_user`\
-  \ jail parameters\n  are manually set.\n"
+long: "Build images from a Dockerfile and a context.\nA build's context is the set\
+  \ of files and directories located in `PATH`.\nThe build process can refer to any\
+  \ of the files in the\ncontext. For example, a build can use the [*COPY*](/reference/dockerfile/#copy)\n\
+  instruction to copy files and directories from the build context to the build container.\n\
+  \nNote that `PATH` refers to a location in the filesystem on the host where the\
+  \ Kleened\nbackend is running. If you do not run `klee` on the host, remember to\
+  \ use host paths\nfor `PATH`. It might be desirable to access the context from the\
+  \ client machine running\nKlee using NFS, SSHFS or something similar.\n\nBy default\
+  \ the `klee image build` command will look for a `Dockerfile` in the root\nof the\
+  \ build context (i.e., at `PATH/Dockerfile`).\nThe `-f`, `--file`, option lets you\
+  \ specify the path to an alternative file to use\ninstead.\nThis is useful in cases\
+  \ where the same set of files are used for multiple builds.\nThe path specified\
+  \ with `--file` should be relative to the context `PATH`.\n\nIn most cases, it's\
+  \ best to put each Dockerfile in an empty directory. Then,\nadd to that directory\
+  \ only the files needed for building the Dockerfile.\n\n### Build container configuration\n\
+  \nJust like you can configure a normal container environment with networking,\n\
+  jail-parameters and mounts you can configure the build container used for\ncreating\
+  \ images. The parameters used to configure the build container is\nmostly identical\
+  \ to parameters used for `klee run`. A few differences to keep in\nmind, however:\n\
+  \n- `--from`: Overwrite the image in the `FROM`-instruction.\n- `--user`: If it\
+  \ is not set, the user of the build container will be inherited\n  from the parent\
+  \ image. `USER`-instructions overwrites this parameter.\n- `--env`: `ENV`-instructions\
+  \ overwrite the values of this parameter.\n- `--jailparam`: `USER`-instructions\
+  \ can be affected if the\n  `exec.system_user`/`exec.jail_user`/`exec.system_jail_user`\
+  \ jail parameters\n  have been set manually.\n"
 options:
 - deprecated: false
-  description: 'Default user used when running commands in the container.
+  description: 'Default user that run commands in the container.
 
     This parameter will be overwritten by the jail parameter `exec.jail_user` if it
     is set.'
@@ -208,75 +206,76 @@ options:
   experimentalcli: false
   option: user
   shorthand: u
-  value_type: text
 - deprecated: false
-  description: Set environment variables (e.g. --env FIRST=SomeValue --env SECOND=AnotherValue)
+  description: Set environment variables (e.g. `--env FIRST=SomeValue --env SECOND=AnotherValue`)
   experimental: false
   experimentalcli: false
   option: env
   shorthand: e
+  value_type: list
 - deprecated: false
   description: 'Mount a volume/directory/file on the host filesystem into the container.
 
-    Mounts are specfied using a `--mount SOURCE:DESTINATION[:rw|ro]` syntax.'
+    Mounts are specfied by `--mount SOURCE:DESTINATION[:rw|ro]`.'
   experimental: false
   experimentalcli: false
   option: mount
   shorthand: m
   value_type: list
 - deprecated: false
-  description: 'Specify one or more jail parameters to use.
+  description: 'Set jail parameters.
 
-    If you do not want `mount.devfs`, `exec.clean`, and `exec.stop="/bin/sh /etc/rc.shutdown"`
-    enabled, you must actively disable them.'
+    Replace defaults (such as ''mount.devfs'', ''exec.clean'', etc.) by specifying
+    alternative values. See docs for details.'
   experimental: false
   experimentalcli: false
   option: jailparam
   shorthand: J
+  value_type: list
 - deprecated: false
   description: 'Network driver of the container.
 
-    Possible values: `ipnet`, `host`, `vnet`, and `disabled`. If no network and no
-    network driver is supplied,
+    Possible values: ''ipnet'', ''host'', ''vnet'', and ''disabled''. If no `network`
+    and no `driver` is supplied,
 
-    the network driver is set to `host`. If a network is specfied but no network driver,
-    it is set to `ipnet`,'
+    the network driver is set to ''host''. If a `network` is set but no `driver`,
+    it is set to ''ipnet''.'
   experimental: false
   experimentalcli: false
   option: driver
   shorthand: l
 - deprecated: false
-  description: Connect container to this network.
+  description: Connect container to a network.
   experimental: false
   experimentalcli: false
   option: network
   shorthand: n
 - deprecated: false
   description: IPv4 address used for the container. If omitted, an unused ip is allocated
-    from the IPv4 subnet of `--network`.
+    from the IPv4 subnet of `network`.
   experimental: false
   experimentalcli: false
   option: ip
 - deprecated: false
   description: IPv6 address used for the container. If omitted, an unused ip is allocated
-    from the IPv6 subnet of `--network`.
+    from the IPv6 subnet of `network`.
   experimental: false
   experimentalcli: false
   option: ip6
 - deprecated: false
-  description: Specify an image that will override the image in the Dockerfile's `FROM`
-    instruction.
+  description: Specify an image that will overwrite the image in the Dockerfile's
+    'FROM' instruction.
   experimental: false
   experimentalcli: false
   option: from
 - deprecated: false
-  description: 'Location of the `Dockerfile` relative to **PATH**.  [default: Dockerfile]'
+  description: 'Location of the Dockerfile relative to **PATH**.  [default: Dockerfile]'
   experimental: false
   experimentalcli: false
   option: file
   shorthand: f
 - deprecated: false
-  description: Name and optionally a tag in the `name:tag` format
+  description: Name and optionally a tag in the 'name:tag' format
   experimental: false
   experimentalcli: false
   option: tag
@@ -287,17 +286,20 @@ options:
   experimentalcli: false
   option: quiet
   shorthand: q
+  value_type: flag
 - deprecated: false
   description: Whether or not to remove the image if the build fails
   experimental: false
   experimentalcli: false
   option: rm
+  value_type: flag
 - deprecated: false
-  description: Set build-time variables (e.g. --build-arg FIRST=hello --build-arg
-    SECOND=world)
+  description: Set build-time variables (e.g. `--build-arg FIRST=hello --build-arg
+    SECOND=world`)
   experimental: false
   experimentalcli: false
   option: build-arg
+  value_type: list
 - deprecated: false
   description: Show this message and exit.
   experimental: false

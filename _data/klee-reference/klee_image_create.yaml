@@ -2,14 +2,15 @@ command: klee image create
 deprecated: false
 experimental: false
 experimentalcli: false
-long: "Create a base image from a remote tar-archive or a ZFS dataset.\n\n**METHOD**\
-  \ can be one of the following:\n\n- **fetch**: Fetch a custom version of the base\
-  \ system and use it for image creation.\n  **SOURCE** is a valid url for `fetch(1)`\
-  \ pointing to a `base.txz` file.\n- **fetch-auto**: Automatically fetch a release/snapshot\
-  \ from the offical FreeBSD\n  mirrors, based on information from `uname(1)`. **SOURCE**\
-  \ is not used.\n- **zfs-copy**: Create the base image based on a copy of an existing\
-  \ ZFS dataset. **SOURCE** is the dataset.\n- **zfs-clone**: Create the base image\
-  \ based on a clone of an existing ZFS dataset. **SOURCE** is the dataset."
+long: "Create a base image from a tar-archive or a ZFS dataset.\n\n**METHOD** can\
+  \ be one of the following:\n\n- **fetch-auto**: Automatically fetch a release/snapshot\
+  \ from the offical FreeBSD\n  mirrors, based on host information from uname(1).\
+  \ **SOURCE** is not used.\n- **fetch**: Fetch a custom version of the base system\
+  \ and use it for image creation.\n  **SOURCE** is a valid url for fetch(1), pointing\
+  \ to a base.txz file locally or remote.\n- **zfs-copy**: Create a base image from\
+  \ a copy of an existing ZFS dataset. **SOURCE** is the dataset.\n- **zfs-clone**:\
+  \ Create a base image from a clone of an existing ZFS dataset. **SOURCE** is the\
+  \ dataset."
 options:
 - deprecated: false
   description: Name and optionally a tag in the 'name:tag' format
@@ -18,23 +19,37 @@ options:
   option: tag
   shorthand: t
 - deprecated: false
-  description: 'Whether or not to copy `/etc/resolv.conf` from the host to the new
-    image.  [default: dns]'
+  description: 'Whether or not to copy /etc/resolv.conf from the host to the new image.  [default:
+    dns]'
   experimental: false
   experimentalcli: false
   option: dns
   value_type: bool
 - deprecated: false
+  description: 'Whether or not to copy /etc/localtime from the host to the new image,
+    if it exists.  [default: localtime]'
+  experimental: false
+  experimentalcli: false
+  option: localtime
+  value_type: bool
+- deprecated: false
+  description: 'Update the userland using freebsd-update(8). See the freebsd-update
+    man-page for details on which FreeBSD versions can be updated.  [default: no-update]'
+  experimental: false
+  experimentalcli: false
+  option: update
+  value_type: bool
+- deprecated: false
   description: Proceed using a userland from a FreeBSD mirror even if a customized
-    build is detected on the kleened host. Method **fetch-auto** only.
+    build is detected on the host. Method **fetch-auto** only.
   experimental: false
   experimentalcli: false
   option: force
   shorthand: f
-  value_type: bool
+  value_type: flag
 - deprecated: false
-  description: Whether or not to auto-genereate a nametag `FreeBSD-<version>:latest`
-    based on `uname(1)`. If `tag` is set this is ignored. Method **fetch-auto** only.
+  description: 'Autogenerate a nametag ''FreeBSD-\<version\>:latest''. If `tag` is
+    set this is ignored. Method **fetch-auto** only.  [default: autotag]'
   experimental: false
   experimentalcli: false
   option: autotag

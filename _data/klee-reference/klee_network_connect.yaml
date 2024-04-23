@@ -5,7 +5,7 @@ examples: '### Connect a running container to a network
 
   ```console
 
-  $ klee network connect multi-container-net container1
+  $ klee network connect testnet container1
 
   ```
 
@@ -20,7 +20,7 @@ examples: '### Connect a running container to a network
 
   ```console
 
-  $ klee run --network=multi-container-net FreeBSD-13.2-RELEASE
+  $ klee run --network=testnet FreeBSD-13.2-RELEASE
 
   ```
 
@@ -34,7 +34,7 @@ examples: '### Connect a running container to a network
 
   ```console
 
-  $ klee network connect --ip 10.10.36.122 multi-host-network container2
+  $ klee network connect --ip 10.10.36.122 testnet container2
 
   ```
 
@@ -51,13 +51,11 @@ long: 'This command is used to provide access for containers to one og more netw
   [the container networking section](/run/network/).
 
 
-  > **Note**
+  The network drivers are incompatible, since they represent fundamentally different
+  approaches to
 
-  > Since the network drivers represent fundamentally different approaches to
-
-  > connectivity in FreeBSD, they are incompatible.
-
-  > Thus, a container can only use of kind kind of network driver.
+  connectivity in FreeBSD. Thus, a container can only use of kind kind of network
+  driver.
 
 
   When a container connects to a network, an IP-address from the network''s subnet
@@ -97,16 +95,14 @@ long: 'This command is used to provide access for containers to one og more netw
   '
 options:
 - deprecated: false
-  description: Specify an IPv4 address used for the container. If `--ip` is omitted
-    and a (ipv4) subnet exists for **NETWORK**, an unused ip is allocated from it.
-    Otherwise it is ignored.
+  description: IPv4 address used for the container. If omitted and a ipv4 subnet exists
+    for **NETWORK**, an unused ip is allocated. Otherwise it is ignored.
   experimental: false
   experimentalcli: false
   option: ip
 - deprecated: false
-  description: Specify an IPv6 address used for the container. If `--ip6` is omitted
-    and a (ipv6) subnet exists for **NETWORK**, an unused ip is allocated from it.
-    Otherwise it is ignored.
+  description: IPv6 address used for the container. If omitted and a ipv6 subnet exists
+    for **NETWORK**, an unused ip is allocated. Otherwise it is ignored.
   experimental: false
   experimentalcli: false
   option: ip6

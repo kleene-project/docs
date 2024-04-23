@@ -5,7 +5,7 @@ experimentalcli: false
 long: 'Disconnect a container from a network.
 
 
-  The container must be stopped before it can be disconnected.'
+  Running containers can also be disconnected from a network.'
 options:
 - deprecated: false
   description: Show this message and exit.

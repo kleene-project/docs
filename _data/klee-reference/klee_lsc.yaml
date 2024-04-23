@@ -3,8 +3,8 @@ deprecated: false
 examples: "### <a name=\"all\"></a> Show both running and stopped containers (-a,\
   \ --all)\n\nThe `klee container ls` (or shorthand `klee lsc`) command only shows\
   \ running containers by default.\nTo see all containers, use the `--all` (or `-a`)\
-  \ flag:\n\n```console\n$ klee container ls -a\n CONTAINER ID    NAME          IMAGE\
-  \          TAG      COMMAND                         CREATED          STATUS\n\u2500\
+  \ flag:\n\n```console\n$ klee container ls -a\n CONTAINER ID    NAME           \
+  \   IMAGE             COMMAND            CREATED         AUTORUN   STATUS    JID\n\
   \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
   \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
   \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
@@ -12,16 +12,16 @@ examples: "### <a name=\"all\"></a> Show both running and stopped containers (-a
   \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
   \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
   \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-  \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\
-  \ 5f8e437e5c95    storage       cecc28cf8ad4   latest   /bin/sh /etc/rc        \
-  \         10 minutes ago   stopped\n 6e33dbacde70    mycontainer   707f754571dd\
-  \   latest   /bin/sh -c echo \"Hello World\"   14 minutes ago   stopped\n```\n"
+  \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+  \n e56a04bc2ecc    trusting_darwin   FreeBSD:testing   echo hello world   6 seconds\
+  \ ago     no      stopped\n 2ec4bd8ad705    funny_bhaskara    FreeBSD:testing  \
+  \ /bin/sh /etc/rc    27 hours ago      no      running   1\n```\n"
 experimental: false
 experimentalcli: false
 long: List containers
 options:
 - deprecated: false
-  description: Show all containers (default shows only running containers)
+  description: Show all containers (default only shows running containers)
   experimental: false
   experimentalcli: false
   option: all

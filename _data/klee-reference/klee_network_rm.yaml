@@ -20,7 +20,7 @@ examples: '### Remove a network
 
   To delete multiple networks in a single `klee network rm` command, provide
 
-  multiple network names, IDs, or initial segments of IDs:
+  multiple network identifiers, i.e., names, IDs, or initial segments of IDs:
 
 
   ```console

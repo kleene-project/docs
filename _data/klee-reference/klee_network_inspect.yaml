@@ -1,9 +1,14 @@
 command: klee network inspect
 deprecated: false
-examples: "```console\n$ klee network inspect my-net\n{\n  \"network\": {\n    \"\
-  bridge_if\": \"bridge0\",\n    \"driver\": \"vnet\",\n    \"id\": \"0974802b8ba1\"\
-  ,\n    \"loopback_if\": \"\",\n    \"name\": \"my-net\",\n    \"subnet\": \"10.20.30.0/24\"\
-  \n  },\n  \"network_endpoints\": []\n}\n```\n"
+examples: "```console\n$ klee create -n mynet -l ipnet FreeBSD\nda8f4c116490\n$ klee\
+  \ network inspect my-net\n{\n  \"network\": {\n    \"gateway\": \"<auto>\",\n  \
+  \  \"gateway6\": \"<auto>\",\n    \"icc\": true,\n    \"id\": \"cb9e8681e036\",\n\
+  \    \"interface\": \"mynet\",\n    \"internal\": false,\n    \"name\": \"mynet\"\
+  ,\n    \"nat\": \"em0\",\n    \"subnet\": \"10.2.3.0/24\",\n    \"subnet6\": \"\"\
+  ,\n    \"type\": \"bridge\"\n  },\n  \"network_endpoints\": [\n    {\n      \"container_id\"\
+  : \"da8f4c116490\",\n      \"epair\": null,\n      \"id\": \"0b534000eeb7\",\n \
+  \     \"ip_address\": \"10.2.3.2\",\n      \"ip_address6\": \"\",\n      \"network_id\"\
+  : \"cb9e8681e036\"\n    }\n  ]\n}\n```\n"
 experimental: false
 experimentalcli: false
 long: Display detailed information on a network.

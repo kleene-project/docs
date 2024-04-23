@@ -31,14 +31,14 @@ options:
   experimentalcli: false
   option: theme
 - deprecated: false
-  description: Host address and protocol to use. See the docs for details. If no host
-    is defined anywhere, Klee uses `http:///var/run/kleened.sock`.
+  description: Host address and protocol to use. See the docs for details. Default
+    is `http:///var/run/kleened.sock`.
   experimental: false
   experimentalcli: false
   option: host
 - deprecated: false
-  description: Verify the server cert. Uses the CA bundle provided by Certifi unless
-    the '--cacert' is set.
+  description: Verify the server cert. Uses the CA bundle provided by Certifi, unless
+    `tlscacert` is set.
   experimental: false
   experimentalcli: false
   option: tlsverify
@@ -49,12 +49,12 @@ options:
   experimentalcli: false
   option: tlscert
 - deprecated: false
-  description: Path to TLS key file used for the '--tlscert' certificate (PEM encoded)
+  description: Path to TLS key file used for the `tlscert` certificate (PEM encoded)
   experimental: false
   experimentalcli: false
   option: tlskey
 - deprecated: false
-  description: Trust certs signed only by this CA (PEM encoded). Implies '--tlsverify'.
+  description: Trust certs signed only by this CA (PEM encoded). Implies `tlsverify`.
   experimental: false
   experimentalcli: false
   option: tlscacert

@@ -10,24 +10,27 @@ options:
   description: 'Do not output STDOUT/STDERR to the terminal.
 
     If this is set, Klee will exit and return the container ID when the container
-    has been started.'
+    has started.'
   experimental: false
   experimentalcli: false
   option: detach
   shorthand: d
+  value_type: flag
 - deprecated: false
-  description: Send terminal input to container's STDIN. If set, `--detach` will be
+  description: Send terminal input to container's STDIN. If set, `detach` will be
     ignored.
   experimental: false
   experimentalcli: false
   option: interactive
   shorthand: i
+  value_type: flag
 - deprecated: false
   description: Allocate a pseudo-TTY
   experimental: true
   experimentalcli: true
   option: tty
   shorthand: t
+  value_type: flag
 - deprecated: false
   description: Show this message and exit.
   experimental: false

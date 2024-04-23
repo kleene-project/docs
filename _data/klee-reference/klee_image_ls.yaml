@@ -12,10 +12,10 @@ examples: "### List all images\n\n```console\n$ klee image ls\n ID             N
   \     4 hours ago\n```\n"
 experimental: false
 experimentalcli: false
-long: '`klee image ls` (or, shorthand: `klee lsi`) will show all images.
+long: '`klee image ls` (shorthand: `klee lsi`) shows all images.
 
 
-  Image snapshots, however, are not shown. Use [`klee image inspect`](/reference/klee/image_inspect/)
+  Image snapshots, however, are not shown. Use the [`klee image inspect` command](/reference/klee/image_inspect/)
   instead.
 
   '

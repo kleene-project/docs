@@ -1,41 +1,32 @@
 command: klee network create
 deprecated: false
-examples: "\n### Creating a VNET network\n\nCreating a vnet network is as simples\
-  \ as:\n\n```console\n$ klee network create --driver=vnet --subnet=192.168.0.0/16\
-  \ my-vnet\nb5a603dcd304\n```\n\nThis will create a new bridge interface for the\
-  \ network that can be viewed\nwith `ifconfig`.\n\n### Creating a loopback network\n\
+examples: "\n### Creating a loopback network\n\nCreating a network is as simples as:\n\
+  \n```console\n$ klee network create --subnet=192.168.0.0/16 testnet\nb5a603dcd304\n\
+  ```\n\nThis will create a new loopback network, with a corresponding loopback interface\n\
+  that can be viewed with `ifconfig`.\nIf no other networks have been created with\
+  \ Kleene, the interface name will be `kleene0`.\n\n### Creating a bridge network\n\
   \nA new loopback network can be created like this:\n\n```console\n$ klee network\
-  \ create --driver=loopback --ifname lo-net --subnet=10.2.3.0/24 my-lo-net\n657e12442ff0\n\
-  ```\n\nThis will create a new loopback interface named `lo-net` for the network:\n\
-  \n```console\n$ ifconfig lo-net\nlo-net: flags=8008<LOOPBACK,MULTICAST> metric 0\
-  \ mtu 16384\n        options=680003<RXCSUM,TXCSUM,LINKSTATE,RXCSUM_IPV6,TXCSUM_IPV6>\n\
-  \        groups: lo\n        nd6 options=21<PERFORMNUD,AUTO_LINKLOCAL>\n```\n"
+  \ create --type=bridge --interface mynet --subnet=10.2.3.0/24 mynet\n657e12442ff0\n\
+  ```\n\nThis will create a new bridge interface on the host named `mynet` for the\
+  \ network:\n\n```console\n$ ifconfig mynet\nmynet: flags=8843<UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST>\
+  \ metric 0 mtu 1500\n        ether 58:9c:fc:10:30:3d\n        inet 10.2.3.1 netmask\
+  \ 0xffffff00 broadcast 10.2.3.255\n        id 00:00:00:00:00:00 priority 32768 hellotime\
+  \ 2 fwddelay 15\n        maxage 20 holdcnt 6 proto rstp maxaddr 2000 timeout 1200\n\
+  \        root id 00:00:00:00:00:00 priority 32768 ifcost 0 port 0\n        groups:\
+  \ bridge\n        nd6 options=9<PERFORMNUD,IFDISABLED>\n```\n"
 experimental: false
 experimentalcli: false
-long: 'Creates a new network using a specific subnet and networking driver.
+long: 'Creates a new network using a specific subnet and network type.
 
-  The `--driver` accepts `host`, `vnet` and `loopback`  drivers.
-
-  If you don''t specify the `--driver` option, the command automatically creates a
-
-  `loopback` network for you.
+  The `--type` can be either `loopback`, `bridge` or `custom` and defaults to `loopback`.
 
 
-  The `--subnet` option needs to be specified when creating a new network, following
+  The `--subnet` or `--subnet6` option needs to be specified when creating a new network,
 
-  the CIDR-notation, e.g., `192.168.1.1/24`. The subnet is used for auto-generating
-
-  IP-addresses when connecting containters to the network (assuming an IP is not
-
-  explicitly set).
+  following the CIDR-notation, e.g., `192.168.1.1/24`.
 
 
-  When creating a `loopback` network it is also possible to give a custom name,
-
-  using the `--ifname` option, to the loopback interface created for the network.
-
-
-  For an in-depth discussion of the different types of network drivers and other
+  To know more about the different network types and other
 
   topics related to container networking, see [the container networking section](/run/network/).
 
@@ -49,12 +40,12 @@ options:
   option: type
   shorthand: t
 - deprecated: false
-  description: 'Name of the interface used for the host interface of the network.
+  description: 'Name of the interface used on the host for the network.
 
-    If not set the interface name is set to `kleened` postfixed with an integer.
+    If not set the interface name is set to ''kleened'' postfixed with an integer.
 
-    If the `type` is set to `custom` the value of `interface` must be the name of
-    an existing interface.'
+    If `type` is set to ''custom'' the value of `interface` must be the name of an
+    existing interface.'
   experimental: false
   experimentalcli: false
   option: interface
@@ -70,49 +61,53 @@ options:
   experimentalcli: false
   option: subnet6
 - deprecated: false
-  description: 'The default IPv4 router that is added to ''vnet'' containers, if `--subnet`
-    is set.
+  description: 'VNET+bridge only. The default IPv4 router that is added to ''vnet''
+    containers on startup, if `subnet` is set.
 
-    Only affects bridge networks. Set `--gw=auto` to use the same gateway as the host
-    (default).
+    If set to ''auto'' the first IP of `subnet` is added to the bridge and used as
+    a gateway (default).
 
-    Setting `--gw=""` implies that no gateway is used.'
+    Setting `--gw=""` disables adding a gateway.'
   experimental: false
   experimentalcli: false
   option: gw
 - deprecated: false
-  description: 'The default IPv6 router that is added to ''vnet'' containers, if `--subnet6`
-    is set.
+  description: 'VNET+bridge only. The default IPv6 router that is added to ''vnet''
+    containers, if `subnet6` is set.
 
-    See `--gw` for details.'
+    See `gw` for details.'
   experimental: false
   experimentalcli: false
   option: gw6
 - deprecated: false
-  description: Whether or not to use NAT for networks outgoing traffic. Default is
-    to use NAT, use `--no-nat` to disable it.
+  description: Whether or not to use NAT for the network's outgoing traffic. Default
+    is to use NAT, use `--no-nat` to disable it.
   experimental: false
   experimentalcli: false
   option: nat
+  value_type: bool
 - deprecated: false
   description: 'Specify which interface to NAT the IPv4 network traffic to.
 
-    Defaults to the host''s gateway interface. Ignored if `--no-nat` is set.'
+    Defaults to the host''s gateway interface. Ignored if `no-nat` is set.'
   experimental: false
   experimentalcli: false
   option: nat-if
+  value_type: string
 - deprecated: false
-  description: Whether or not to enable connectivity between containers within the
-    same network.
+  description: 'Whether or not to enable connectivity between containers within the
+    same network.  [default: True]'
   experimental: false
   experimentalcli: false
   option: icc
+  value_type: bool
 - deprecated: false
   description: Whether or not the network is internal, i.e., not allowing outgoing
     upstream traffic
   experimental: false
   experimentalcli: false
   option: internal
+  value_type: flag
 - deprecated: false
   description: Show this message and exit.
   experimental: false
@@ -120,5 +115,5 @@ options:
   option: help
 plink: klee_network.yaml
 pname: klee network
-short: Create a new network named **NAME**.
+short: Create a new network.
 usage: klee network create [OPTIONS] NAME

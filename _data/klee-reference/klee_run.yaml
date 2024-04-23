@@ -7,86 +7,80 @@ examples: "\n### <a name=\"name\"></a> Assign name and allocate pseudo-TTY (--na
   \nThis example runs a container named `test` using the `FreeBSD-13.2-STABLE:latest`\n\
   image. The `-it` options instructs Kleene to allocate a pseudo-TTY connected to\n\
   the container's stdin; creating an interactive Bourne shell in the container.\n\
-  In the example, the Bourne shell is quit by entering `exit`.\n\n### <a name=\"mount\"\
+  In this example, the user quits the shell by typing `exit`.\n\n### <a name=\"mount\"\
   ></a> Mounting filesystems into containers (-m, --mount)\n\n```console\n$ klee run\
   \ -m some_storage:/foo/bar -it FreeBSD-13.2-STABLE /bin/sh\n...\n# ls /foo\nbar\n\
   # exit\n$ klee volume ls\n VOLUME NAME    CREATED\n\u2500\u2500\u2500\u2500\u2500\
   \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
   \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n some_storage\
   \   5 seconds ago\n```\n\nWhen the target directory of a mount doesn't exist, Kleened\n\
-  will automatically create this directory in the container. This example\ncaused\
-  \ Kleened to create `/foo/bar` folder before starting the container.\nSimilarily,\
-  \ if the specified volume does not exist, Kleened will create\nit for you. In this\
-  \ example the volume `some_storage` was just created.\n\n\n```console\n$ klee run\
-  \ -m archive:/writeprotected:ro FreeBSD13.2-STABLE touch /writeprotected/here\n\
-  50d478460a91\ncreated execution instance badd96b047a5\ntouch: /writeprotected/here:\
-  \ Read-only file system\njail: /usr/bin/env -i touch /writeprotected/here: failed\n\
-  \nexecutable badd96b047a5 and its container exited with exit-code 1\n```\n\nVolumes\
-  \ can be mounted read-only to control where a container writes files.\nThe `:ro`\
-  \ option must be postfixed the mountpoint to mark the mount as read only.\n\n```console\n\
-  $ klee run -m /home/someuser/kleened:/kleened FreeBSD13.2-STABLE ls /kleened/lib\n\
-  d8b860024e7d\ncreated execution instance caccc94ab15f\napi\ncore\nkleened.ex\n\n\
-  executable caccc94ab15f and its container exited with exit-code 0\n```\n\nMounting\
-  \ arbitrary files or directories into a container is also possible by\nspecifying\
-  \ an absolute path on the host system instead of a volume name.\n\n### <a name=\"\
-  env\"></a> Set environment variables (-e, --env, --env-file)\n\nYou can define the\
-  \ variable and its value when running the container:\n\n```console\n$ klee run --env\
-  \ VAR1=value1 --env VAR2=value2 FreeBSD-13.2-STABLE env | grep VAR\nVAR1=value1\n\
-  VAR2=value2\n```\n\nIf you need to use variables that you've exported to your local\
-  \ environment:\n\n```console\nexport VAR1=value1\nexport VAR2=value2\n\n$ klee run\
-  \ --env VAR1=$VAR1 --env VAR2=$VAR2 FreeBSD-13.2-STABLE env | grep VAR\nVAR1=value1\n\
-  VAR2=value2\n```\n\n### <a name=\"network\"></a> Connect a container to a network\
-  \ (--network)\n\nWhen you start a container use the `--network` flag to connect\
-  \ it to a network.\n\nThe following commands create a network named `my-net`, and\
-  \ adds a container\nto the `my-net` network.\n\n```console\n$ klee network create\
-  \ --subnet 10.20.30.0/24 --driver vnet my-net\n0974802b8ba1\n$ klee container run\
-  \ --network=my-net FreeBSD-13.2-STABLE\nf25a12f7c2e0\ncreated execution instance\
-  \ a6172d3be00f\n```\n\nYou can also choose the IP addresses for the container with\
-  \ the `--ip`\nflag when you start the container on a user-defined network.\n\n```console\n\
-  $ klee run --network=my-net --ip=10.20.30.75 FreeBSD-13.2-STABLE\n```\n\nYou can\
-  \ also start a container using the `host` network, meaning the container\nwill have\
-  \ full access to the networks of the host system.\n\n```console\n$ klee run --network=host\
-  \ FreeBSD-13.2-STABLE\n```\n\nWhen you run a command using, e.g., `klee run` you\
-  \ can only connect the container\nto a single network. However, you can add a (possibly)\
-  \ running container to another\nnetwork using the `klee network connect` subcommand.\n\
-  \nYou can connect multiple containers to the same network. Once connected, the\n\
-  containers can communicate easily using only another container's IP address.\n\n\
-  You can disconnect a container from a network using the `docker network\ndisconnect`\
-  \ command.\n\n### <a name=\"detach\"></a> Start a container detached from process\
-  \ IO (-d, --detach)\n\nThe `--detach` (or `-d`) flag tells `docker run` ignore the\
-  \ container's\n`STDIN`, `STDOUT` and `STDERR`. This makes it possible to avoid output\
-  \ making the\ncontainer run in the background.\n\n```console\n$ klee run -d FreeBSD-13.2-STABLE\
-  \ echo test\n8d8d235e3489\ncreated execution instance 3891db558a90\n```\n\n### <a\
-  \ name=\"jailparam\"></a> Specifying Jail parameters (-J, --jailparam)\n\nIt is\
-  \ also possible to set jail-parameters when creating a container.\nUsing jail-parameters\
-  \ it is possible to imposing or remove restrictions on the container/jail\nand generally\
-  \ modify the runtime environment in various ways.\nSee the [`jails(8) manual pages`](https://man.freebsd.org/cgi/man.cgi?query=jail)\
-  \ for details.\n\nFor instance, opening raw sockets is not permitted by default\
-  \ in jails, which is required\nby, e.g., `ping(8)`:\n\n```console\nklee run FreeBSD-13.2-STABLE\
-  \ --network host /sbin/ping 1.1.1.1\n56dd7945704e\ncreated execution instance a7e01343d836\n\
+  will automatically creates it in the container. This example\ncaused Kleened to\
+  \ create `/foo/bar` folder before starting the container.\nSimilarily, if the specified\
+  \ volume does not exist, Kleened will create\nit for you. In this example the volume\
+  \ `some_storage` was just created.\n\n\n```console\n$ klee run -m archive:/writeprotected:ro\
+  \ FreeBSD13.2-STABLE touch /writeprotected/here\n50d478460a91\ncreated execution\
+  \ instance badd96b047a5\ntouch: /writeprotected/here: Read-only file system\njail:\
+  \ /usr/bin/env -i touch /writeprotected/here: failed\n\nexecutable badd96b047a5\
+  \ and its container exited with exit-code 1\n```\n\nVolumes can be mounted read-only\
+  \ to control where a container writes files.\nThe `:ro` option must be postfixed\
+  \ the mountpoint to mark the mount as read only.\n\n```console\n$ klee run -m /home/someuser/kleened:/kleened\
+  \ FreeBSD13.2-STABLE ls /kleened/lib\nd8b860024e7d\ncreated execution instance caccc94ab15f\n\
+  api\ncore\nkleened.ex\n\nexecutable caccc94ab15f and its container exited with exit-code\
+  \ 0\n```\n\nMounting arbitrary files or directories into a container is also possible\
+  \ by\nspecifying an absolute path on the host system instead of a volume name.\n\
+  \n### <a name=\"env\"></a> Set environment variables (-e, --env, --env-file)\n\n\
+  You can define the variable and its value when running the container:\n\n```console\n\
+  $ klee run --env VAR1=value1 --env VAR2=value2 FreeBSD-13.2-STABLE env | grep VAR\n\
+  VAR1=value1\nVAR2=value2\n```\n\nIf you need to use variables that you've exported\
+  \ to your local environment:\n\n```console\nexport VAR1=value1\nexport VAR2=value2\n\
+  \n$ klee run --env VAR1=$VAR1 --env VAR2=$VAR2 FreeBSD-13.2-STABLE env | grep VAR\n\
+  VAR1=value1\nVAR2=value2\n```\n\n### <a name=\"network\"></a> Connect a container\
+  \ to a network (--network)\n\nWhen you start a container use the `--network` flag\
+  \ to connect it to a network.\n\nThe following commands create a network named `testnet`,\
+  \ and adds a container\nto it.\n\n```console\n$ klee network create --subnet 10.20.30.0/24\
+  \ --type loopback testnet\ndcd762b8f34c\n$ klee container run --network testnet\
+  \ FreeBSD\n59e291c07673\ncreated execution instance 4b4998af008a\n... container\
+  \ initialization output ...\n4b4998af008a has exited with exit-code 0\n```\n\nYou\
+  \ can also choose the IP addresses for the container with the `--ip`\noptions, when\
+  \ you start the container on a user-defined network.\n\n```console\n$ klee run --network=testnet\
+  \ --ip=10.20.30.75 FreeBSD:testing\n```\n\nYou can also create a container with\
+  \ full access to the host networking using the `host` network-driver.\n\n```console\n\
+  $ klee run --driver=host FreeBSD:latest\n```\n\nWhen you create a container using,\
+  \ e.g., `klee run` you can only connect the container\nto a single network. However,\
+  \ you can add containers to additional\nnetworks using `klee network connect`.\n\
+  \nContainers can be disconnected from networks using `klee network disconnect`.\n\
+  \n### <a name=\"detach\"></a> Start a container detached from process IO (-d, --detach)\n\
+  \nThe `--detach` (or `-d`) flag tells `klee run` to ignore output from the container's\n\
+  `STDIN`, `STDOUT` and `STDERR`.\n\n```console\n$ klee run -d FreeBSD-13.2-STABLE\
+  \ echo test\n8d8d235e3489\ncreated execution instance 3891db558a90\n```\n\nOnce\
+  \ the container has started, Klee exists and the container runs in the background.\n\
+  \n### <a name=\"jailparam\"></a> Specifying Jail parameters (-J, --jailparam)\n\n\
+  It is possible to set jail-parameters when creating a container.\nUsing jail-parameters\
+  \ it is possible to configure the container/jail environment\nin various ways. See\
+  \ the [`jails(8)` manual pages](https://man.freebsd.org/cgi/man.cgi?query=jail)\n\
+  for details on the available jail-parameters and the Kleene handbook section on\n\
+  [jail parameters](/run/jail-parameters/) for a discussion on how jail parameters\n\
+  is used by Kleene.\n\nFor example, opening raw sockets is not permitted in containers\
+  \ by default,\nwhich is required by, e.g., `ping(8)`:\n\n```console\n$ klee run\
+  \ FreeBSD /sbin/ping 1.1.1.1\n56dd7945704e\ncreated execution instance a7e01343d836\n\
   ping: ssend socket: Operation not permitted\njail: /usr/bin/env -i /sbin/ping 1.1.1.1:\
   \ failed\n\nexecutable a7e01343d836 and its container exited with exit-code 1\n\
-  ```\n\nThis can be allowed using jail-parameters:\n\n```console\nklee run FreeBSD-13.2-STABLE\
-  \ -J mount.devfs -J allow.raw_sockets --network host /sbin/ping 1.1.1.1\n0efca150e755\n\
-  created execution instance 1c0b446fac16\nPING 1.1.1.1 (1.1.1.1): 56 data bytes\n\
-  64 bytes from 1.1.1.1: icmp_seq=0 ttl=63 time=14.737 ms\n64 bytes from 1.1.1.1:\
-  \ icmp_seq=1 ttl=63 time=16.880 ms\n64 bytes from 1.1.1.1: icmp_seq=2 ttl=63 time=17.589\
-  \ ms\n```\n\n> **Note**\n>\n> Manually setting jail parameters overrides the default\
-  \ configuration, which is to\n> enable `devfs(5)` (kernel's device namespace) mounts.\
-  \ Thus, it was explicitly enabled in the\n> previous example using `-J mount.devfs`.\n"
+  ```\n\nThis can be allowed using jail-parameters:\n\n```console\nklee run -J allow.raw_sockets\
+  \ FreeBSD /sbin/ping 1.1.1.1\n0efca150e755\ncreated execution instance 1c0b446fac16\n\
+  PING 1.1.1.1 (1.1.1.1): 56 data bytes\n64 bytes from 1.1.1.1: icmp_seq=0 ttl=63\
+  \ time=14.737 ms\n64 bytes from 1.1.1.1: icmp_seq=1 ttl=63 time=16.880 ms\n64 bytes\
+  \ from 1.1.1.1: icmp_seq=2 ttl=63 time=17.589 ms\n```\n\n> **Note**\n>\n> Manually\
+  \ setting jail parameters can potentially overwrite Kleene's own configurations\n\
+  > which, for instance, is used to configure container networking. Tailoring container\n\
+  > environments with jail parameters is a powerful feature of Kleene, but use it\
+  \ with caution.\n"
 experimental: false
 experimentalcli: false
-long: 'The `klee container run` command first creates a container based on the
+long: 'Create a container based on the specified image, and then start it using
 
-  specified image, and then `starts` it using the specified command. That is,
+  the specified command. `klee container run` is equivalent to `klee container create`
 
-  `klee container run` is equivalent to `klee container create` followed by
-
-  `klee container start`. A stopped container can be restarted with all its
-
-  previous changes intact using `klee container start`.
-
-  Use `klee container ls -a` to view a list of all containers.
+  followed by `klee container start`.
 
 
   For information on connecting a container to a network, see the
@@ -96,7 +90,7 @@ long: 'The `klee container run` command first creates a container based on the
   '
 options:
 - deprecated: false
-  description: 'Default user used when running commands in the container.
+  description: 'Default user that run commands in the container.
 
     This parameter will be overwritten by the jail parameter `exec.jail_user` if it
     is set.'
@@ -104,58 +98,74 @@ options:
   experimentalcli: false
   option: user
   shorthand: u
-  value_type: text
 - deprecated: false
-  description: Set environment variables (e.g. --env FIRST=SomeValue --env SECOND=AnotherValue)
+  description: Set environment variables (e.g. `--env FIRST=SomeValue --env SECOND=AnotherValue`)
   experimental: false
   experimentalcli: false
   option: env
   shorthand: e
+  value_type: list
 - deprecated: false
   description: 'Mount a volume/directory/file on the host filesystem into the container.
 
-    Mounts are specfied using a `--mount SOURCE:DESTINATION[:rw|ro]` syntax.'
+    Mounts are specfied by `--mount SOURCE:DESTINATION[:rw|ro]`.'
   experimental: false
   experimentalcli: false
   option: mount
   shorthand: m
   value_type: list
 - deprecated: false
-  description: 'Specify one or more jail parameters to use.
+  description: 'Set jail parameters.
 
-    If you do not want `mount.devfs`, `exec.clean`, and `exec.stop="/bin/sh /etc/rc.shutdown"`
-    enabled, you must actively disable them.'
+    Replace defaults (such as ''mount.devfs'', ''exec.clean'', etc.) by specifying
+    alternative values. See docs for details.'
   experimental: false
   experimentalcli: false
   option: jailparam
   shorthand: J
+  value_type: list
+- deprecated: false
+  description: Do not remove this container when pruning
+  experimental: false
+  experimentalcli: false
+  option: persist
+  shorthand: P
+- deprecated: false
+  description: 'Restarting policy of the container. Set to ''no'' for no automatic
+    restart of the container.
+
+    Set to ''on-startup'' to start the container each time Kleened is.  [default:
+    no]'
+  experimental: false
+  experimentalcli: false
+  option: restart
 - deprecated: false
   description: 'Network driver of the container.
 
-    Possible values: `ipnet`, `host`, `vnet`, and `disabled`. If no network and no
-    network driver is supplied,
+    Possible values: ''ipnet'', ''host'', ''vnet'', and ''disabled''. If no `network`
+    and no `driver` is supplied,
 
-    the network driver is set to `host`. If a network is specfied but no network driver,
-    it is set to `ipnet`,'
+    the network driver is set to ''host''. If a `network` is set but no `driver`,
+    it is set to ''ipnet''.'
   experimental: false
   experimentalcli: false
   option: driver
   shorthand: l
 - deprecated: false
-  description: Connect container to this network.
+  description: Connect container to a network.
   experimental: false
   experimentalcli: false
   option: network
   shorthand: n
 - deprecated: false
   description: IPv4 address used for the container. If omitted, an unused ip is allocated
-    from the IPv4 subnet of `--network`.
+    from the IPv4 subnet of `network`.
   experimental: false
   experimentalcli: false
   option: ip
 - deprecated: false
   description: IPv6 address used for the container. If omitted, an unused ip is allocated
-    from the IPv6 subnet of `--network`.
+    from the IPv6 subnet of `network`.
   experimental: false
   experimentalcli: false
   option: ip6
@@ -163,36 +173,39 @@ options:
   description: 'Do not output STDOUT/STDERR to the terminal.
 
     If this is set, Klee will exit and return the container ID when the container
-    has been started.'
+    has started.'
   experimental: false
   experimentalcli: false
   option: detach
   shorthand: d
+  value_type: flag
 - deprecated: false
-  description: Send terminal input to container's STDIN. If set, `--detach` will be
+  description: Send terminal input to container's STDIN. If set, `detach` will be
     ignored.
   experimental: false
   experimentalcli: false
   option: interactive
   shorthand: i
+  value_type: flag
 - deprecated: false
   description: Allocate a pseudo-TTY
   experimental: true
   experimentalcli: true
   option: tty
   shorthand: t
+  value_type: flag
 - deprecated: false
   description: Assign a name to the container
   experimental: false
   experimentalcli: false
   option: name
 - deprecated: false
-  description: 'Publish one or more ports using the syntax `<HOST-PORT>[:CONTAINER-PORT][/<PROTOCOL>]`
+  description: 'Publish ports using the syntax **HOST_PORT[:CONTAINER_PORT][/PROTOCOL]**
     or
 
-    `<INTERFACE>:<HOST-PORT>:<CONTAINER-PORT>[/<PROTOCOL>]`.
+    **INTERFACE:HOST_PORT:CONTAINER_PORT[/PROTOCOL]**.
 
-    `CONTAINER-PORT` defaults to `HOST-PORT` and `PROTOCOL` defaults to ''tcp''.'
+    **CONTAINER_PORT** defaults to **HOST_PORT** and **PROTOCOL** defaults to ''tcp''.'
   experimental: false
   experimentalcli: false
   option: publish

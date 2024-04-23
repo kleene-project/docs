@@ -52,13 +52,15 @@ examples: '
   '
 experimental: false
 experimentalcli: false
-long: 'The `klee container update` command dynamically updates a container configuration.
+long: '
 
-  You can use this command to modify jail behaviour by changing jail parameters,
+  The `klee container update` command updates a container''s configuration.
 
-  or changing the container configuration such as default environment variables,
+  You can use this command to modify container environment behaviour by changing
 
-  execution user, command or the name of the container.
+  jail parameters, or changing the container configuration such as default
+
+  environment variables, user running the process, or the name of the container.
 
 
   Changing the container configurations, such as the default user, requires a
@@ -76,11 +78,9 @@ long: 'The `klee container update` command dynamically updates a container confi
 
   >
 
-  > Updating system jail parameters on a running container can cause unpredictable
+  > Modifying jail parameters on a running container can cause unpredictable
 
-  > behaviour of the applications running in the container. Use this feature with
-
-  > care.
+  > behaviour for the applications running in the container. Use with care.
 
   {: .warning }
 
@@ -88,28 +88,6 @@ long: 'The `klee container update` command dynamically updates a container confi
   Connecting/disconnecting a container to networks can be done using the
 
   [`klee network` subcommands](/reference/klee/network/).
-
-  Mounting/unmount a volume inside a container can be done using the
-
-  [`klee volume` subcommands](/reference/klee/volume/).
-
-
-
-  > **Hint**
-
-  > It is not possible to manage ressource contrains in Kleene atm.
-
-  > However, FreeBSD does support ressource limiting jails/containers
-
-  > using `rctl(8)` which can be done manually until it is integrated
-
-  > into Kleene.
-
-  >
-
-  > See the [`rctl(8) manual pages`](https://man.freebsd.org/cgi/man.cgi?query=rctl)
-
-  > for details.
 
   '
 options:
@@ -119,24 +97,42 @@ options:
   experimentalcli: false
   option: name
 - deprecated: false
-  description: Default user used when running commands in the container.
+  description: Default user used when running commands in the container
   experimental: false
   experimentalcli: false
   option: user
   shorthand: u
-  value_type: text
 - deprecated: false
-  description: Set environment variables (e.g. --env FIRST=env --env SECOND=env)
+  description: Set environment variables (e.g. `--env FIRST=env --env SECOND=env`)
   experimental: false
   experimentalcli: false
   option: env
   shorthand: e
+  value_type: list
 - deprecated: false
-  description: Specify one or more jail parameters, see jail(8) for details
+  description: Set jail parameters. Replace defaults (such as 'mount.devfs', 'exec.clean',
+    etc.) by specifying alternative values. See docs for details.
   experimental: false
   experimentalcli: false
   option: jailparam
   shorthand: J
+  value_type: list
+- deprecated: false
+  description: Do not remove this container when pruning
+  experimental: false
+  experimentalcli: false
+  option: persist
+  shorthand: P
+  value_type: flag
+- deprecated: false
+  description: 'Restarting policy of the container. Set to ''no'' for no automatic
+    restart of the container.
+
+    Set to ''on-startup'' to start the container each time Kleened is.  [default:
+    no]'
+  experimental: false
+  experimentalcli: false
+  option: restart
 - deprecated: false
   description: Show this message and exit.
   experimental: false
@@ -144,5 +140,5 @@ options:
   option: help
 plink: klee_container.yaml
 pname: klee container
-short: See the documentation for details.
+short: Modify container properties.
 usage: klee container update [OPTIONS] CONTAINER [COMMAND]...

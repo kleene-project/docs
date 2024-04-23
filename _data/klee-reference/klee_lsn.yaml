@@ -1,13 +1,12 @@
 command: klee lsn
 deprecated: false
 examples: "### List all networks\n\n```console\n$ klee network ls\n ID           \
-  \  NAME            DRIVER     SUBNET\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+  \  NAME      TYPE       SUBNET\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
   \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
   \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
   \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
-  \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n host           host         \
-  \   host       n/a\n 0974802b8ba1   my-net          vnet       10.20.30.0/24\n f464657cf881\
-  \   my-second-net   loopback   10.30.40.0/24\n```\n"
+  \u2500\n cb9e8681e036   mynet     bridge     10.2.3.0/24\n 52f5bd4e7067   testnet\
+  \   loopback   10.20.30.0/24\n```\n"
 experimental: false
 experimentalcli: false
 long: List networks

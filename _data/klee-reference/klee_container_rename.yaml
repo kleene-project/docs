@@ -12,4 +12,4 @@ options:
 plink: klee_container.yaml
 pname: klee container
 short: Rename a container.
-usage: klee container rename [OPTIONS] CONTAINER NAME
+usage: klee container rename [OPTIONS] CONTAINER NEW_NAME
