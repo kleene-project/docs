@@ -8,7 +8,7 @@
   <xsl:template match="/">
     <html xmlns="http://www.w3.org/1999/xhtml">
       <head>
-        <title>Docker Docs XML Sitemap</title>
+        <title>Kleene Docs XML Sitemap</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <style type="text/css">
           html, body {
@@ -43,7 +43,7 @@
         </style>
       </head>
       <body>
-        <h1>Docker Docs XML Sitemap</h1>
+        <h1>Kleene Docs XML Sitemap</h1>
         <div class="intro">
           <p>This is an XML Sitemap which is supposed to be processed by search engines like <a href="https://www.google.com">Google</a>, <a href="https://www.bing.com">Bing</a>, ...</p>
           <p>You can find more information about XML sitemaps on <a href="https://sitemaps.org/">sitemaps.org</a> and Google's <a href="https://code.google.com/archive/p/sitemap-generators/wikis/SitemapGenerators.wiki">list of sitemap programs</a>.</p>

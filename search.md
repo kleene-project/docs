@@ -1,6 +1,6 @@
 ---
-description: Docker documentation search results
-keywords: Search, Docker, documentation, manual, guide, reference, api
+description: Kleene documentation search results
+keywords: Search, Kleene, documentation, manual, guide, reference, api
 skip_feedback: true
 notoc: true
 notags: true

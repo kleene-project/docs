@@ -220,7 +220,7 @@ reference:
     title: Overview
   - path: /reference/kleened/configure-kleened/
     title: Configure Kleened
-  - path: /reference/kleened/kleened-v0.0.1/
+  - path: /reference/kleened/api/kleened-v0.0.1/
     title: Kleened API v0.0.1
   - path: /reference/kleened/version-history/
     title: Version history overview
@@ -266,8 +266,6 @@ contribute:
         title: Tooltips
       - path: /contribute/components/videos/
         title: Videos
-    - path: /contribute/checklist/
-      title: Writing checklist
   - path: /contribute/klee-kleened/
     title: Contribute to Klee and Kleened
   - path: /contribute/project-status/

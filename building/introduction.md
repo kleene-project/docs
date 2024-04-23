@@ -66,7 +66,7 @@ Since the basis for an image build is a ZFS-clone, it is practically
 duplicated with zero storage costs. Only the data that is written during
 the build process takes up actual space on the hosts filesystem.
 
-Note that unlike Docker images there is concept of layers in Kleene.
+Note that unlike Docker images there is no concept of layers in Kleene.
 Kleene uses zfs [snapshots](https://man.freebsd.org/cgi/man.cgi?query=zfs-snapshot)
 and [clones](https://man.freebsd.org/cgi/man.cgi?query=zfs-clone)
 when creating images and containers.

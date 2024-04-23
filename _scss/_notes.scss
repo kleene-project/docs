@@ -4,10 +4,10 @@
 
 These rules control the display of notes/notifications/alerts. They can be used like so:
 
-> This is a paid feature
+> This is a warning
 >
-> Docker Hub Vulnerability Scanning is available for developers subscribed to a Pro or a Team plan. For more information about the pricing plans, see [Docker Pricing](https://www.docker.com/pricing?utm_source=docker&utm_medium=webreferral&utm_campaign=docs_driven_upgrade)
-{: .restricted }
+> It is important to consider this when doing that, otherwise it will crash.
+{: .warning }
 
 (The first line is always treated as a header, unless it's the only line)
 

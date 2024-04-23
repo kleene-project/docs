@@ -1,6 +1,6 @@
 ---
 title: Use host networking
-description: All about exposing containers on the Docker host's network
+description: All about exposing containers on the Kleened host's network
 keywords: network, host, standalone
 ---
 
