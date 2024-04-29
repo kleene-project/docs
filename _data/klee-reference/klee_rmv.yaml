@@ -1,0 +1,25 @@
+command: klee rmv
+deprecated: false
+examples: '```console
+
+  $ klee volume rm testvol
+
+  testvol
+
+  ```
+
+  '
+experimental: false
+experimentalcli: false
+long: Remove one or more volumes. You cannot remove a volume that is in use by a container.
+options:
+- deprecated: false
+  description: Show this message and exit.
+  experimental: false
+  experimentalcli: false
+  option: help
+plink: klee.yaml
+pname: klee
+short: Remove one or more volumes.
+shortcut: volume rm
+usage: klee rmv [OPTIONS] VOLUMES...

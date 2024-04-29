@@ -74,7 +74,7 @@ long: '
   to take effect.
 
 
-  > **Warning**
+  > **Please note**
 
   >
 
@@ -82,7 +82,7 @@ long: '
 
   > behaviour for the applications running in the container. Use with care.
 
-  {: .warning }
+  {: .important }
 
 
   Connecting/disconnecting a container to networks can be done using the

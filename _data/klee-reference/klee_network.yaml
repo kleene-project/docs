@@ -1,19 +1,19 @@
 clink:
 - klee_network_create.yaml
-- klee_network_rm.yaml
-- klee_network_prune.yaml
 - klee_network_ls.yaml
 - klee_network_inspect.yaml
-- klee_network_connect.yaml
+- klee_network_rm.yaml
+- klee_network_prune.yaml
 - klee_network_disconnect.yaml
+- klee_network_connect.yaml
 cname:
 - klee network create
-- klee network rm
-- klee network prune
 - klee network ls
 - klee network inspect
-- klee network connect
+- klee network rm
+- klee network prune
 - klee network disconnect
+- klee network connect
 command: klee network
 deprecated: false
 experimental: false

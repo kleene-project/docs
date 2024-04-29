@@ -11,49 +11,49 @@ To show the main help page and list available commands, run `klee` with no param
 ```console
 $ klee
 Usage: klee [OPTIONS] COMMAND [ARGS]...
+                                                                                                             
+  CLI to interact with Kleened.                                                                              
+                                                                                                             
+╭─ Options ─────────────────────────────────────────────────────────────────────────────────────────────────╮
+│    --version         Show the version and exit.                                                           │
+│    --config          Location of Klee config file.                                                        │
+│    --theme           Theme used for Klee's output. Possible values: 'fancy' or 'simple'. Default is       │
+│                      'fancy'.                                                                             │
+│    --host            Host address and protocol to use. See the docs for details. Default is               │
+│                      http:///var/run/kleened.sock.                                                        │
+│    --tlsverify bool  Verify the server cert. Uses the CA bundle provided by Certifi, unless tlscacert is  │
+│                      set.                                                                                 │
+│    --tlscert         Path to TLS certificate file used for client authentication (PEM encoded)            │
+│    --tlskey          Path to TLS key file used for the tlscert certificate (PEM encoded)                  │
+│    --tlscacert       Trust certs signed only by this CA (PEM encoded). Implies tlsverify.                 │
+│    --help            Show this message and exit.                                                          │
+╰───────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Commands ────────────────────────────────────────────────────────────────────────────────────────────────╮
+│  container  Manage containers                                                                             │
+│  image      Manage images                                                                                 │
+│  network    Manage networks                                                                               │
+│  volume     Manage volumes                                                                                │
+╰───────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Shortcuts ───────────────────────────────────────────────────────────────────────────────────────────────╮
+│  build    Build a new image                                                                               │
+│  create   Create a new container.                                                                         │
+│  exec     Run a command in a container                                                                    │
+│  start    Start one or more stopped containers.                                                           │
+│  stop     Stop one or more running containers                                                             │
+│  restart  Restart one or more containers                                                                  │
+│  run      Run a command in a new container.                                                               │
+│  isX      Inspect object, where X is [c]ontainer, [i]mage, [n]etwork, or [v]olume.                        │
+│  rmX      Remove one or more objects, where X is [c]ontainer, [i]mage, [n]etwork, or [v]olume.            │
+│  lsX      List object, where X is [c]ontainer, [i]mage, [n]etwork, or [v]olume.                           │
+╰───────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 
-  CLI to interact with Kleened.
-
-╭─ Options ────────────────────────────────────────────────────────────────────────────────────────────────╮
-│    --version         Show the version and exit.                                                          │
-│    --config          Location of Klee config file.                                                       │
-│    --theme           Theme used for Klee's output. Possible values: 'fancy' or 'simple'. Default is      │
-│                      'fancy'.                                                                            │
-│    --host            Host address and protocol to use. See the docs for details. If no host is defined   │
-│                      anywhere, Klee uses http:///var/run/kleened.sock.                                   │
-│    --tlsverify bool  Verify the server cert. Uses the CA bundle provided by Certifi unless the '--cacert'│
-│                      is set.                                                                             │
-│    --tlscert         Path to TLS certificate file used for client authentication (PEM encoded)           │
-│    --tlskey          Path to TLS key file used for the '--tlscert' certificate (PEM encoded)             │
-│    --tlscacert       Trust certs signed only by this CA (PEM encoded). Implies '--tlsverify'.            │
-│    --help            Show this message and exit.                                                         │
-╰──────────────────────────────────────────────────────────────────────────────────────────────────────────╯
-╭─ Commands ───────────────────────────────────────────────────────────────────────────────────────────────╮
-│  container  Manage containers                                                                            │
-│  image      Manage images                                                                                │
-│  network    Manage networks                                                                              │
-│  volume     Manage volumes                                                                               │
-╰──────────────────────────────────────────────────────────────────────────────────────────────────────────╯
-╭─ Shortcuts ──────────────────────────────────────────────────────────────────────────────────────────────╮
-│  build    Build a new image                                                                              │
-│  create   Create a new container.                                                                        │
-│  exec     Run a command in a container                                                                   │
-│  start    Start one or more stopped containers.                                                          │
-│  stop     Stop one or more running containers                                                            │
-│  restart  Restart one or more containers                                                                 │
-│  lsc      List containers                                                                                │
-│  lsi      List images                                                                                    │
-│  lsn      List networks                                                                                  │
-│  lsv      List volumes                                                                                   │
-│  rmc      Remove one or more containers                                                                  │
-│  rmi      Remove one or more images                                                                      │
-│  run      Run a command in a new container.                                                              │
-╰──────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ```
 
 The `Commands` panel list the available commands, each having their own set of subcommands.
 The `Shortcuts` panel list convenient shortcuts to subcommands, e.g.,
-`klee build` is a shortcut for `klee image build` and so on.
+`klee build` is a shortcut for `klee image build` and so on. The last entries in the
+shortcut panel refer to several shortcuts covering all objects in Kleene.
+For instance, `lsX` is an abbreviation for the shortcuts: `lsc`, `lsi`, `lsn` and `lsv`.
 
 > **Note**
 >

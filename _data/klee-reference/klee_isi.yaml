@@ -1,0 +1,16 @@
+command: klee isi
+deprecated: false
+experimental: false
+experimentalcli: false
+long: Display detailed information on an image
+options:
+- deprecated: false
+  description: Show this message and exit.
+  experimental: false
+  experimentalcli: false
+  option: help
+plink: klee.yaml
+pname: klee
+short: Display detailed information on an image
+shortcut: image inspect
+usage: klee isi [OPTIONS] IMAGE
