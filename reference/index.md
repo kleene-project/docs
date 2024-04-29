@@ -17,7 +17,7 @@ and the Kleene-flavored Dockerfile format.
             <div class="component-icon">
                  <a href="/reference/klee/cli/"><img src="/assets/images/klee-reference.svg" alt="klee" width="70" height="70"></a>
             </div>
-                <h2 id="docker-for-linux"><a href="/reference/klee/cli/">Klee (client)</a></h2>
+                <h2 id="klee"><a href="/reference/klee/cli/">Klee (client)</a></h2>
                 <p>The Kleene CLI for building and managing images/containers.</p>
         </div>
      </div>
@@ -26,7 +26,7 @@ and the Kleene-flavored Dockerfile format.
              <div class="component-icon">
                  <a href="/reference/kleened/"><img src="/assets/images/kleened-api.svg" alt="kleened" width="70" height="70"></a>
              </div>
-                 <h2 id="dockerfile"><a href="/reference/kleened/">Kleened (server)</a></h2>
+                 <h2 id="kleened"><a href="/reference/kleened/">Kleened (server)</a></h2>
                 <p>API for interacting with Kleened, the backend daemon of Kleene.</p>
         </div>
       </div>

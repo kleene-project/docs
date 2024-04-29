@@ -15,11 +15,6 @@ for the database:
 - While you may use a container for the database locally, you may want to use a managed service
   for the database in production. You don't want to ship your database engine with your app then.
 
-So, we will update our application to work like this:
-
-![Todo App connected to MySQL container](images/multi-app-architecture.png)
-{: .text-center }
-
 ## Container networking
 
 In [part 2](./02_our_app.md) we created a network to provide upstream/internet connectivity to our
