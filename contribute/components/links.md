@@ -34,6 +34,6 @@ It is best practice if [a link opens in a new window](https://docker.com/){: tar
 You can also have [a markdown link to a custom target ID](#formatting-examples)
 
 An example of a link to an auto-generated reference page that we pull in during docs builds:
-[/engine/reference/builder/#env](/engine/reference/builder/#env).
+[/reference/dockerfile/#env](/reference/dockerfile/#env).
 
 ```

@@ -1,5 +1,5 @@
 ---
-title: Packaging your runtime environments
+title: Building your runtime environments
 keywords: build, image, container, getting started, dockerfile
 ---
 
@@ -8,7 +8,7 @@ keywords: build, image, container, getting started, dockerfile
 It all starts with a Dockerfile. For a thorough walk-through of what a
 Dockerfile is, it is recommended to consult [Docker's documention](https://docs.docker.com/build/building/packaging/) or
 Kleene's [getting started](/get-started) guide, which is an adapted version
-of Docker's [guide](https://docs.docker.com/get-started/) to highlight differences.
+of Docker's [guide](https://docs.docker.com/get-started/), to highlight differences.
 
 Kleened builds images by reading the instructions from a Dockerfile,
 using a subset of the instructions known from Docker.
@@ -32,19 +32,19 @@ Some projects may need distinct Dockerfiles for specific purposes. A common
 convention is to name these `Dockerfile.<something>`. Such Dockerfiles can then
 be used through the `--file` (or `-f` shorthand) option on the `klee build` command.
 Refer to the [`klee build` section](/reference/klee/build)
-in the `klee` reference documentation to learn about the `--file` option.
+in the `klee` reference documentation to learn about build configuration.
 
 ## Context
 
 A build's context is the set of files located at a path specified
-py the positional `PATH` argument to the build command, i.e.,
+by the positional `PATH` argument to the build command, i.e.,
 
 ```console
-$ klee build [OPTIONS] PATH 
+$ klee build [OPTIONS] PATH
 ```
 
 The build process can refer to any of the files or directories in the context
-using the [`COPY` instruction](/reference/dockerfile#copy) instruction.
+using the [`COPY` instruction](/reference/dockerfile#copy).
 
 > **Note**
 >
@@ -62,14 +62,14 @@ When there is no more instructions, Kleene saves all relevant metadata and
 converts the container's filesystem into an image-filesystem and the build
 is complete.
 
-Since the basis for an image build is a ZFS-clone, it is practically
-duplicated with zero storage costs. Only the data that is written during
+Since the basis for an image build is a ZFS-clone, it is
+duplicated with practically zero storage costs. Only the data that is written during
 the build process takes up actual space on the hosts filesystem.
 
-Note that unlike Docker images there is no concept of layers in Kleene.
+Note that unlike images of, e.g., Docker and Podman, Kleene has no concept of layers.
 Kleene uses zfs [snapshots](https://man.freebsd.org/cgi/man.cgi?query=zfs-snapshot)
 and [clones](https://man.freebsd.org/cgi/man.cgi?query=zfs-clone)
-when creating images and containers.
+for creating images and containers.
 
 ## Example: Creating an image
 
@@ -129,20 +129,19 @@ FROM FreeBSD:latest
 Here the [`FROM` instruction](/reference/dockerfile#from) sets the
 parent image of our "Hello World"-app to the [base image](/building/base-images/) that we created just before.
 
-All following instructions are executed on (a clone of) this base image. The notation
-`FreeBSD:latest`, follows the `name:tag` standard for naming docker images.
+All following instructions are executed on (a clone of) this base image.
 
 ```dockerfile
 # install app dependencies
 RUN pkg install -y py39-flask
 ```
 
-This [`RUN` instruction](/reference/dockerfile#run) executes a (jailed/containerized) shell
+The [`RUN` instruction](/reference/dockerfile#run) executes a shell
 command that installs Flask and all it's dependencies, including Python.
 
 In this example, our context is a full FreeBSD base system matching that of the host.
 
-Also note `# install app dependencies` line. This is a comment. Comments in
+Also note the `# install app dependencies` comment line. Comments in
 Dockerfiles begin with the `#` symbol. As your Dockerfile evolves, comments can
 be instrumental to document how your dockerfile works for any future readers
 and editors of the file.
@@ -160,7 +159,7 @@ called `/hello.py` inside the image.
 ENV FLASK_APP=hello
 ```
 
-This [`ENV` instruction](/reference/dockerfile#env) sets an
+The [`ENV` instruction](/reference/dockerfile#env) sets an
 environment variable we'll need later. This is a flask-specific variable,
 that configures the command later used to run our `hello.py` application.
 Without this, flask wouldn't know where to find our application to be able to
@@ -224,27 +223,22 @@ for details.
 
 ## Image design
 
-The following development patterns have proven to be helpful for people
-building applications with Docker. If you have discovered something we should
-add,
-[let us know]({{ site.repo }}/issues/new){: target="_blank" rel="noopener" class="_"}.
+Since Kleene is a new tool, there is not any well-established patterns for
+image design, except for what is being used by other similar tools.
+However, here follows a few tentative suggestion on image design.
 
 ### How to keep your images small
 
-Small images are faster to pull over the network and faster to load into
-memory when starting containers or services. There are a few rules of thumb to
-keep image size small:
+In order to keep build times low and minimize storage footprint, it is a good
+idea to try and keep image sizes small. Here are a few rules of thumb to try an
+achieve that:
 
-- If you have multiple images with a lot in common, consider creating your own
-  [base image](/building/base-images/) with the shared
-  components, and basing your unique images on that. Docker only needs to load
-  the common layers once, and they are cached. This means that your
-  derivative images use memory on the Docker host more efficiently and load more
-  quickly.
+- If there are multiple images with a lot in common, consider creating a
+  'core' image with the shared components, and basing the images on that instead
+  of installing/configuring the shared components across all images.
 
-- To keep your production image lean but allow for debugging, consider using the
-  production image as the base image for the debug image. Additional testing or
-  debugging tooling can be added on top of the production image.
+- Consider using the production image as the base image for a debug image, if needed.
+  Additional testing or debugging tooling can be added on top of the production image.
 
 - When building images, always tag them with useful tags which codify version
   information, intended destination (`prod` or `test`, for instance), stability,
@@ -254,10 +248,12 @@ keep image size small:
 ### Where and how to persist application data
 
 - Store data using [volumes](/run/storage/volumes/).
+
 - One case where it is appropriate to use
   [nullfs mounts](/run/storage/nullfs-mounts/) is during development,
-  when you may want to mount your source directory or a binary you just built
-  into your container. For production, use a volume instead, mounting it into
-  the same location as you mounted a bind mount during development.
+  where it is desirable to mount a source directory or newly built binaries
+  into the container. For production, use a volume instead, mounting it into
+  the same location as the bind mount that was used during development.
+
 - For production, use files mounted into the container for sensitive
   application data used by services.

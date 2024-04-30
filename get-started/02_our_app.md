@@ -25,10 +25,10 @@ Before you can run the application, you need to get the application source code 
    $ git clone https://github.com/docker/getting-started.git
    ```
 
-2. View the contents of the cloned repository. Inside the `/app` directory of the repository you should see `package.json`, two subdirectories (`src` and `spec`),
-   and perhaps a few other files.
+2. View the contents of the cloned repository. Inside the `app` root-directory of the repository you should see
+   a `package.json`, two subdirectories (`src` and `spec`), and perhaps a few other files.
 
-## prepare the Kleened host
+## Prepare the Kleened host
 
 When you have a fresh installation, a few preparations is needed before you can start
 building images and creating containers.
@@ -41,16 +41,17 @@ You need to create a [base image](/building/base-images/) and a network to use f
    $ klee image create fetch-auto
    ```
 
-2. In order for you to isolate your containers from the host networking create a dedicated network to use for our containers:
+2. *Optional*: In order for you to isolate your containers from the host networking create a dedicated network to use for our containers:
 
    ```console
    $ klee network create --subnet 10.13.37.0/24 testnet
    ```
 
-   In general it is good practice to connect your containers to a network
-   instead of using the fallback `host` network driver, that does not use
-   networks but comes with much less networking isolation compared to containers
-   using the `ipnet` or `vnet` network driver.
+   It is recommended to connect containers to a network, instead of using the
+   default `host` network driver for connectivty. Using networks provides
+   a higher degree of isolation from the host's networking configuration.
+   If you decide to use the `host` network driver instead, remember to omit the
+   `-n testnet` option when creating containers in this guide.
 
 
 ## Build the app's container image
@@ -80,11 +81,9 @@ A Dockerfile contains the instructions that Kleened uses to create the image.
    ```
    > **Note**
    >
-   > Select an instruction in the Dockerfile example to learn more about the instruction.
+   > Click on an instruction in the Dockerfile example to learn more about the instruction.
 
-4. Build the container image using the following commands:
-
-   Assuming you are still in the `app` directory, run
+3. Build the container image, and assuming you are still in the `app` directory, run
 
    ```console
    $ klee build -t webapp .
@@ -92,30 +91,30 @@ A Dockerfile contains the instructions that Kleened uses to create the image.
 
    to build the container image.
 
-   The `klee build` command uses the Dockerfile to build a new container image.
-   The `Dockerfile` starts with `FROM FreeBSD-13.2-RELEASE:latest` that refers to the base-image we created previously,
-   so it will be used as the foundation for our new `webapp` image.
+Kleene uses the Dockerfile to build a new container image.
+The `Dockerfile` starts with `FROM FreeBSD-13.2-RELEASE:latest` that refers to the base-image we created previously,
+so it will be used as the foundation for our new `webapp` image.
 
-   The remaining instructions from the Dockerfile installs the application dependencies, copies application data into the image, and uses `yarn` to install the application's JavaScript dependencies.
-   The `CMD` directive specifies the default command to run when starting a container from this image, which in this case is set to run the application.
+The remaining instructions from the Dockerfile installs the application dependencies, copies application data into the image, and uses `yarn` to install the application's JavaScript dependencies.
+The `CMD` directive specifies the default command to run when starting a container from this image, which in this case is set to run the application.
 
-   Finally, the `-t` flag tags your image. Think of this simply as a human-readable name for the final image. Since you named the image `webapp`,
-   you can refer to that image when you run a container. Since we have not specified a `tag`, Kleened tags the image with `latest`.
+Finally, the `-t` flag tags your image. Think of this simply as a human-readable name for the final image. Since you named the image `webapp`,
+you can refer to that image when you run a container. Since we have not specified a `tag`, Kleene tags the image with `latest`.
 
-   The `.` at the end of the `klee build` command tells Kleene that it should look for the `Dockerfile` in the current directory.
+The `.` at the end of the `klee build` command tells Kleene that it should look for the `Dockerfile` in the current directory.
 
-   >**Note**
-   >
-   > The directory `.` is converted to its absolute path by Klee and then sent to Kleened.
-   > *Kleened will then interpret this as a path on the machine where it is running*.
-   > If Klee and Kleened are runnning on the same host this is fine, but if Klee is running
-   > on a remote machine this will probably not work. In the latter case, remember to use absolute
-   > paths on the host machine where Kleened is running.
+>**Note**
+>
+> The directory `.` is converted to its absolute path by Klee and then sent to Kleened.
+> *Kleened will then interpret this as a path on the host machine where it is running*.
+> If Klee and Kleened are runnning on the same host this is fine, but if Klee is running
+> on a remote machine this will probably not work. In the latter case, remember to use absolute
+> paths on the host machine where Kleened is running.
 
 ## Start an app container
 
 Now that you have an image, you can run the application in a [container](/get-started/overview/#kleene-objects){:target="_blank" rel="noopener" class="_"}.
-To do so, you will use the `klee run` command. But first, we'll set up network for our containers.
+To do so, you will use the `klee run` command.
 
 1. Start your container and specify the name of the image you just created:
 
@@ -123,10 +122,10 @@ To do so, you will use the `klee run` command. But first, we'll set up network f
    $ klee run -n testnet -d webapp
    ```
 
-   Using `-n testnet` connects the new container to our recently created `testnet` network, which provides connectivity for your `webapp` container.
+   Using `-n testnet` connects the new container to our recently created `testnet` network, providing connectivity for the `webapp` container.
    The new container runs in "detached" mode (in the background) when the `-d` flag is used.
 
-2. Verify that the container is running as expected using `klee lsc`. This command also shows the id and auto-generated name of your new container.
+2. Verify that the container is running as expected using `klee lsc`. This command shows the id and auto-generated name of your new container.
    It is also possible to verify that the container is running using the FreeBSD native tool `jls`:
    ```
    $ jls
@@ -134,6 +133,7 @@ To do so, you will use the `klee run` command. But first, we'll set up network f
         6  10.13.37.1                                    /zroot/kleene/container/d23e37375ffd
    ```
    This also shows the ip address of the container that is needed for accessing the web application.
+   Note that the IP is shown because the container uses the `ipnet` network driver.
 
 3. After a few seconds, open your web browser to [http://10.13.37.1:3000](http://10.13.37.1:3000){:target="_blank" rel="noopener" class="_"}.
    If you are not running the container locally you might need to access the app at another location or use a port forward etc.

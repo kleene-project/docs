@@ -47,7 +47,7 @@ Now, it's time to replace the old todo app with the updated one.
 
 ## Remove the old container
 
-To remove a container, you first need to stop it. Once it has stopped, you can remove it.
+To remove a container, you first need to stop it.
 
 4. Get the ID of the container by using the `klee lsc` command.
 
@@ -63,7 +63,7 @@ To remove a container, you first need to stop it. Once it has stopped, you can r
     $ klee rmc <the-container-id>
     ```
 
-Repeat the last three steps to remove the updated container and start again from a clean slate.
+Repeat the last three steps to remove the updated container as well, and spin up a new container (step 3).
 
 >**Note**
 >

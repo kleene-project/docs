@@ -1,20 +1,18 @@
 ---
 title: Managing your runtime environments
 description: "Overview"
-keywords: "docker, run, configure, runtime"
+keywords: "kleene, run, container, runtime"
 ---
 
-Kleened runs processes in isolated containers. A container is one or more processes
-running in an isolated runtime environment on a host machine.
-The host may be local or remote. When an operator executes `klee run`, a container
-is created and a process is started within that container. This means that the
-process runs in an isolated environment with its own file system, its own networking,
-and its own isolated process tree separate from the host.
+When `klee run` is executed, a container is created and a process is started
+within that container. The process runs in an isolated
+environment with its own file system, its own networking, and its own isolated
+process tree separate from the host.
 
-In FreeBSD terms the process is 'jailed' using the jail kernel functionalty and it
-can be managed using native FreeBSD tooling. Some of these is being used by Kleene
-under the hood, but some of the tools can be relevant to use alongside Kleene as
-well.
+In FreeBSD terminolgy, the process is 'jailed' (using the jail kernel functionalty)
+and it can be managed using native FreeBSD tooling. Some of these is being used by
+Kleene under the hood, but some of the tools can be relevant to use alongside Kleene
+as well.
 
 The degree of isolation can be adjusted in many ways, and will be discussed in the
 following sections.
@@ -25,10 +23,10 @@ The most common way of using containers with the client is to use the command
 [`klee run`](/reference/klee/run).
 This command combines [`klee container create`](/reference/klee/container_create) and
 [`klee container start`](/reference/klee/start/).
-I.e., running
+Therefore, running
 
 ```console
-$ klee container create FreeBSD:testing echo Hello!
+$ klee container create FreeBSD echo Hello!
 433b69dfc748
 $ klee container start 433b
 created execution instance 1671b5124e42
@@ -65,16 +63,16 @@ are equivalent. A few things to notice with these two examples:
   You can also refer to a container by it's name, however, then the entire name must
   be used.
 
-- Lastly, the containers do not have connectivity since no network was specified
-  (using `--network`/`-n`) when the containers were created. An easy way to get
-  started with networking is the [Get started](/get-started) guide
-  with more details given in the [networking section](/run/network/).
+- Lastly, the containers have connectivity using the `host` network driver,
+  since no network driver was specified (with `--network-driver`/`-l`)
+  when the containers were created. It is recommended to use networks instead,
+  and an easy way to get started with networks is by going through the [Get started](/get-started)
+  guide. Many more details are given in the [networking section](/run/network/).
 
 ## Detached vs. foreground
 
-When starting a Kleene container, you can decide if the container should run
-immediately in the background using the `--detach` flag or in the default
-foreground mode.
+By default, a container runs in the foreground and relays STDOUT and STDERR
+from the process to the terminal:
 
 ```console
 $ klee run FreeBSD:test echo Hello!
@@ -85,8 +83,8 @@ Hello!
 executable 7726cb9f5299 and its container exited with exit-code 0
 ```
 
-The default behaviour is to print output from the container. However,
-this can be disabled using `--detach`:
+However, it can also run in the background using
+the `--detach` flag:
 
 ```console
 $ klee run --detach FreeBSD:test echo Hello!
@@ -94,16 +92,15 @@ $ klee run --detach FreeBSD:test echo Hello!
 created execution instance acba96f0411c
 ```
 
-and then Kleene will start the container, run the command and then exit immediately.
-In this particular case, as we can see in the previous attached example, the command
-exists immediately. However, if it was a long-running command it would show up when
-listing containers with `klee lsc`.
+Here, Kleene started the container, and exits back to the terminal.
+In this case, the container stops immediatly after `echo` has printed
+'Hello!' but if it was a long-running process it would continue to
+run in the background. This is exemplified in the following.
 
 ## Running containers in the foreground
 
-When running containers in the foreground (the default), `klee run` starts the
-process in the container and relays the STDOUT and STDERR of the running process
-to the terminal:
+When running containers in the foreground, `klee run` starts the
+process and exits when the process does.
 
 ```
 $ klee run FreeBSD:testing
@@ -128,17 +125,18 @@ Tue Feb 13 13:04:21 UTC 2024
 94455a51098c has exited with exit-code 0
 ```
 
-Notice the last line compared to the previously created containers exit-message.
-It only says that the execution instance has exited. There is no mention of the
+Notice the last line compared to the previous examples:
+It only says that the execution instance has exited, and there is no mention of the
 container because it is stille running. Check with `klee lsc`.
 If the process that startede the container exists but it has spawned other
-processes that are still running the container is still runnning.
+processes that are still running, the container will continue to run in the
+background.
 
 > **Note**
 >
 > When running a containerized process in the foreground and exiting Klee with
-> `ctrl+c`, Kleened responds by terminating the [jail(8)](https://man.freebsd.org/cgi/man.cgi?query=jail) process
-> and *not* any subprocesses.
+> `ctrl+c`, Kleened responds by terminating the [jail(8)](https://man.freebsd.org/cgi/man.cgi?query=jail)
+> process and *not* any subprocesses.
 > Therefore, the jail might still be running even though the attached session is
 > closed. For instance, `klee exec my-container /bin/sh -c "nc -l 4000"`
 > keeps running after Klee exits. Shut it down by killing the proces with `kill`
@@ -165,20 +163,21 @@ Klee's commands for starting containers/execution instances, such as `klee run` 
   which is needed in order for certain interactive applications such as `sh`,
   `bash` etc. to work properly.
 
-For interactive processes (like a shell), you must use `-i -t` together in
+For interactive processes (like a shell), use `-i -t` together in
 order to allocate a tty for the container process. `-i -t` is usually written `-it`.
 
 The advantage of using the Kleene client is that it wraps the interactive session
 with relevant information such container/execution instance ID's an whether the
 container terminated or just the execution instance. It can also run on a remote
-machine instead of the Kleene host. The drawback is that it communicates through
-a websocket which incurs some overhead.
+machine instead of the Kleene host. It is still experiemental, however, and
+it communicates through a websocket, which incurs some overhead.
 
 ### Using `jexec`
 
 FreeBSD comes with its own tool for executing commands inside a container/jail.
 It is straightforward to use and it works seamlessly with Kleene containers.
-You can use the JID or the (entire) container ID to identify the container.
+You can use the JID or the (entire) container ID to specify the container
+that the command should run in.
 See [`jexec(8)`](https://man.freebsd.org/cgi/man.cgi?query=jexec) for details.
 
 The advantage of using jexec instead of Klee is that it is simple and fast
@@ -193,33 +192,24 @@ using this compressed form:
 IMAGE_ID|IMAGE_NAME[:tag][@snapshot]
 ```
 
-which is explained in detail in documentation of
-[`klee container create`](/reference/klee/container_create).
-It is worth noting that it is also possible to create images from build snapshots
-as described [here](/building/snapshots). This can be useful during image
-development.
+which is explained in detail in the [documentation of `klee container create`](/reference/klee/container_create).
+It is also possible to create images from build snapshots as described [here](/building/snapshots),
+which can be useful during image development.
 
 ## Overriding image defaults
 
 An image can be equipped with parameters that also affects the runtime environment,
-i.e., the container. These can be overwritte when creating/running containers.
+i.e., the container. These can be overwritten when creating/running containers.
 
-Recalling the general form of `klee run`
+For instance, with `klee run  [OPTIONS] IMAGE [COMMAND]...` the Dockerfile instructions
+can be overwritten by Klee in the following way:
 
-```
-klee run [OPTIONS] IMAGE [COMMAND]...
-```
+| Dockerfile | Klee                 | Description                                                                         |
+|------------|----------------------|-------------------------------------------------------------------------------------|
+| `CMD`      | `COMMAND`            | If you omit `COMMAND` the `CMD` of the image is used.                               |
+|------------|----------------------|-------------------------------------------------------------------------------------|
+| `ENV`      | `-e`/`--env` option  | Specifying environment variables with Klee overwrites existing ones, if they exist. |
+|------------|----------------------|-------------------------------------------------------------------------------------|
+| `USER`     | `-u`/`--user` option | If no explicit user is set in the image, it is root by default.                     |
 
-The following Dockerfile instructions has a corresponding override
-in `klee run`/`klee create`/etc.
-
-| Dockerfile | Klee          | Description                                                                      |
-|------------|---------------|----------------------------------------------------------------------------------|
-| `CMD`      | `COMMAND`     | If you omit `COMMAND` the `CMD` of the image is used.                            |
-|------------|---------------|----------------------------------------------------------------------------------|
-| `ENV`      | `-e`/`--env`  | Specifying environment variables with Klee overrides existing ones if the exist. |
-|------------|---------------|----------------------------------------------------------------------------------|
-| `USER`     | `-u`/`--user` | If no explicit user is set by the image it is root by default.                   |
-
-In order to see what default values that comes with the image use
-`klee image inspect`.
+In order to see what default values comes with the image, use `klee image inspect`.

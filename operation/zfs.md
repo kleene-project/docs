@@ -6,16 +6,12 @@ keywords: debugging, troubleshoot
 
 One of the fundamental building blocks of Kleene is the Zettabyte File System
 (ZFS), which has been a stable part of FreeBSD for many years.
-
 Besides being used internally in Kleene for image-building and container creation,
-Kleene's core ZFS datasets can be configured to adapt the Kleene installation to
-particular needs.
-
+Kleene's core ZFS datasets can be configured to suit specific needs.
 In the following, the Kleene zroot dataset is assumed to be `zroot/kleene`.
 
 Since ZFS properties in general are hereditery in nature, configuring a dataset
 can affect future dataset children when they are created.
-
 For instance,
 
 ```console
@@ -35,7 +31,7 @@ zroot/kleene/volumes                   24K  3.34G       24K  /zroot/kleene/volum
 illustrates a Kleene installation with with a root dataset `zroot/kleene`, which
 in turn has three dataset children for containers, images, and volumes. Thus, it
 is possible to set/adjust properties of the entire Kleene installation, for all
-future containers/images/volumes or a particular existing container/image/volume.
+future containers/images/volumes or a particular container/image/volume.
 
 A few examples of this is provided below. See the complete list of
 [ZFS properties](https://man.freebsd.org/cgi/man.cgi?query=zfsprops) to get an overview of possible configurations.
@@ -59,7 +55,7 @@ zroot/kleene/image/f750ae32e804      lz4
 zroot/kleene/volumes                 lz4
 ```
 
-If a container required more extensive compression, set it by
+If a container requires more extensive compression, set it by
 
 ```console
 $ sudo zfs set compression=gzip-9 zroot/kleene/container/ab7857f95f13
@@ -92,16 +88,14 @@ dd: too_large: Disc quota exceeded
 786432 bytes transferred in 0.054138 secs (14526313 bytes/sec)
 ```
 
-Note that containers JID is 19.
+Note that container's jail ID (JID) is 19 in this example.
 
 ## Enabling backup
 
 There are many ways to backup a system, including Kleene, so this serves merely
 as tentative suggestion. However, since all of Kleene i stored on ZFS it opens
 up several possibilities of taking snapshots and backups of Kleene and its
-objects.
+objects. A few options are:
 
-For taking snapshots there is the [`zfs-periodic` package](https://www.freshports.org/sysutils/zfs-periodic/)
-available in FreeBSD
-and for taking snapshots and backups with ZFS there is the [`sanoid` package](https://www.freshports.org/sysutils/sanoid/)
-containing the `syncoid` tool.
+- [The `zfs-periodic` package](https://www.freshports.org/sysutils/zfs-periodic/) for periodically taking snpashots.
+- [The `sanoid` package](https://www.freshports.org/sysutils/sanoid/) contains the `syncoid` CLI for backups with ZFS datasets to a remote host.

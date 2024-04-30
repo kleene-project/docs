@@ -4,12 +4,15 @@ description: How to troubleshoot networking problems in Kleene
 keywords: debugging, troubleshoot
 ---
 
-Often it is a matter of time before issues occur when tweaking the
-networking configuration. In that case, using `tcpdump` to monitor for blocked
-packets can be a good place to start troubleshooting. Kleene automatically
-enables the PF logging interface `pflog0` which can be used by `tcpdump`:
+Often it is a matter of time before problems occur when tweaking the
+networking configuration.
 
 ## Using `pflog0`
+
+In that case, using `tcpdump` to monitor for blocked
+packets can be a good place to start troubleshooting. Kleene automatically
+enables the PF logging interface `pflog0` which can be used by `tcpdump` to
+monitor for blocked traffic:
 
 ```
 $ sudo tcpdump -tt -n -vv -e -i pflog0
@@ -20,25 +23,24 @@ tcpdump: listening on pflog0, link-type PFLOG (OpenBSD pflog file), capture size
     z.z.z.z.5181 > y.y.y.y.53: [udp sum ok] 28826+ [1au] A? freebsd.org. ar: . OPT UDPsize=512 DO (45)
 ```
 
-This can be very effective in case there is connectivity issues, i.e.,
-when experiencing unexpected timeouts. From the `tcpdump`-output it is possible
-to see import information such as IP-addresses (`x.x.x.x`, `y.y.y.y` etc.),
-ports, traffic direction, protocols, interface receiving the traffic,
-and which rule triggered the block. In the previous example it was the first
+This can be very effective when there is connectivity issues such as
+unexpected timeouts. Using `tcpdump` it is possible
+to see important information about the blocked packets,
+such as IP-addresses (`x.x.x.x`, `y.y.y.y` etc.), ports, traffic direction,
+protocols, interface receiving the traffic, and which rule triggered the block.
+In the [previous example](/run/network/firewall/) it was the first
 rule, which in this case could correspond to a `block all` rule in `pf.conf`.
-Using `tcpdump` and comparing the results with current firewall configuration
-`/etc/pf.conf` can provide useful information during troubleshooting.
 
-Note that if some cases, such as ipnet-containers operating in restricted
+Note that in some cases, such as ipnet-containers operating in restricted
 networking environments, if a service tries to create an outgoing connection
 that is blocked by the firewall, the connection operation will fail with a
 permission error instead of timing out.
 
 If vnet-containers is used, the container has its own network stack, including
-a seperate firewall and `pflog0`.
+a seperate firewall and `pflog0` for independent firewall configuration.
 
 Lastly, there can be problems with NAT'ing, in which case it can be relevant to
-inspect traffic on other interfaces with `tcpdump`. In that case it might be
+inspect traffic on other interfaces with `tcpdump`. It might be
 relevant to filter what packets should be printed by tcpdump, otherwise the
 terminal might be flooded with traffic.
 

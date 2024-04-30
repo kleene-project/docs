@@ -4,39 +4,40 @@ description: How to create base images
 keywords: images, base image, examples
 ---
 
-Images form a hierachy since all Dockerfiles start by cloning the parent image that
-is specified in the `FROM`-instruction, which in turn can be used in other
-Dockerfiles etc. However, at some point a Dockerfile refers to an image without
-a parent, and that image is a base image.
+Images form a hierachy since all image builds start by cloning a parent image,
+specified in the `FROM`-instruction, which in turn can be used in other
+images etc. However, this hiearchy has to start with an image without
+a parent, i.e., a *base image*.
 
 ## Overview
 
-Base images are on the top of the image hierachy and they are created without
-Dockerfiles using `klee image create ..` instead of `klee image build ...`.
+Base images are created with `klee image create ...`
+instead of `klee image build ...`, and normally creates the base image from
+a copy of the FreeBSD userland.
 
-Usually, it is recommended to use a userland of the same version as the userland
-of the host. However, there can be many reasons to divert from this, and Kleene
+It is recommended to use a userland of the same version as the host.
+However, there can be many reasons to divert from this, and Kleene
 have different methods of creating base images to support many different use-cases.
 
 `klee image create` supports four different methods of creating base images:
 
-- `fetch-auto`: Kleene tries to detect the userland of the host using `uname(1)`
-  and then creates a base image from a pre-compiled binary of the detected version,
-  fetched from the official FreeBSD repositories. If you are new to FreeBSD this is
+- `fetch-auto`: Kleene tries to detect the userland version of the host using `uname(1)`
+  and then creates a base image from a pre-compiled binary, fetched from the
+  official FreeBSD repositories. If you are new to FreeBSD this is
   probably a good place to start.
 
-- `fetch`: Create a base image from a custom tar-archive stored locally or fetched
-  remotely using `fetch(1)`. For instance, a tar-archive of a pre-compiled userland
+- `fetch`: Create a base image from a custom tar-archive, stored locally or fetched
+  remotely, using `fetch(1)`. That could be a pre-compiled userland
   (`base.txz`) of a different version than what is running on the host.
 
 - `zfs-clone`: Create a base image by [zfs-cloning](https://man.freebsd.org/cgi/man.cgi?query=zfs-clone)
   an existing dataset on the Kleene host. This is ideal, for example, if you have
-  builded a custom version of the userland from source or have patched an official
-  release using `freebsd-update`. It can also be relevant for completely customized
-  base images. Note that this method does not require additional space but
+  compiled a custom version of the userland from source.
+  It can also be relevant for completely customized
+  base images. This method does not require additional space, but
   implicitly creates a dependency on the dataset being cloned.
 
-- `zfs-copy`: Similar to previous method but instead of cloning the dataset it is
+- `zfs-copy`: Similar to `zfs-clone`, but instead of cloning the dataset it is
   copied using [`zfs-send`](https://man.freebsd.org/cgi/man.cgi?query=zfs-send) and
   [`zfs-recv`](https://man.freebsd.org/cgi/man.cgi?query=zfs-recv).
   This means that additional space is required for the base image and it is slower
@@ -56,23 +57,22 @@ The easiest way to get a base image is to use the `fetch-auto` method
 $ klee image create -t FreeBSD fetch-auto
 ```
 
-where Kleened tries to detect the version of the host system and then downloads
+where Kleene tries to detect the version of the host system and fetches
 the corresponding userland (`base.txz`) from the official FreeBSD repositories.
-Note that if we omit the nametag `-t FreeBSD`, Kleened will derive a name based
-on the detected version and tag it with `latest`. Using `-t FreeBSD` keeps
-the nametag simple.
+If the nametag options is omitted, Kleened will derive a name based
+on the detected version together with the tag `latest`. Using `-t FreeBSD` in
+the previous example keeps the nametag simpler.
 
 ### Creating base images of custom versions of pre-built userlands
 
-Similarily, if you want to pick a specific version you can use the `fetch` method:
+If a specific version is needed, use the `fetch` method:
 
 ```console
 $ export VERSION=13.3-BETA1
 $ klee image create -t FreeBSD:$VERSION fetch https://download.freebsd.org/releases/amd64/$VERSION/base.txz
 ```
 
-You do not need to use the official FreeBSD-mirror if you have a third-party
-site instead. Additionally, it is also possible to use a locally stored userland
+It is also possible to use a third-party site a locally stored tar-archive instead.
 
 ```console
 $ klee image create -t FreeBSD:testing fetch file:///my/own/releases/testting/base.txz
@@ -80,37 +80,36 @@ $ klee image create -t FreeBSD:testing fetch file:///my/own/releases/testting/ba
 
 which can be handy in case of a locally built
 [releases](https://man.freebsd.org/cgi/man.cgi?query=release). Remember to use
-absolute paths when specifying the location of your TAR-archive.
+absolute *host* paths when specifying the location of your TAR-archive.
 
 ### Creating base images of locally compiled userlands
 
-For instance, if your host system is running a custom version of FreeBSD by, .e.g,
-following a STABLE-branch you can build a base image using the `zfs-clone` or
-`zfs-copy` methods:
+If the host system runs a locally built version of FreeBSD
+(for example, a build of the STABLE-branch), a base image can be created
+from the local build using the `zfs-clone`/`zfs-copy` methods:
 
 ```console
 $ D=/zroot/here/is/the/base_image
 $ cd /usr/src # This contains the source of your STABLE-branch
 $ mkdir -p $D
-$ make world DESTDIR=$D
+$ make world DESTDIR=$D # This step is not need if the system has already been built
 $ make distribution DESTDIR=$D
 $ klee image create -t FreeBSD:13-STABLE zfs-clone zroot/here/is/the/base_image
 ```
 
-This assumes that you have already compiled and installed your preferred FreeBSD
-version. See the [handbook for details](https://docs.freebsd.org/en/books/handbook/cutting-edge/#makeworld).
-If you want a complete copy instead of a clone, use `zfs-copy` instead.
+If a complete copy of the userland is preferred over a clone, use `zfs-copy` instead.
+See the [handbook for details](https://docs.freebsd.org/en/books/handbook/cutting-edge/#makeworld)
+on how to locally build a custom version of FreeBSD.
 
-### Creating a customized minimal base image (experimental)
+### Creating a customized minimal base image
 
-If you want to run a very minimal base image you can either trim-down a full base
-system like the ones used en the previous examples, or you can try to use a small
-tool, like `https://github.com/Freaky/mkjail` to help (requires `ruby`).
-In the following there is a small example. Note that it is assumed that `mkjail`
-is in your `PATH`.
+It is also possible to run a minimal base image, either by trimming-down a full base
+system or by using a [tool like `mkjail`](https://github.com/Freaky/mkjail) (requires `ruby`).
+The following small example uses `mkjail` and it is assumed that `mkjail`
+is in `PATH`.
 
 ```console
-$ mkjail -a minimal_testjail.txz /usr/bin/env /usr/local/bin/python3.9 -c "print('lol')"
+$ mkjail -a minimal_testjail.txz /usr/bin/env /usr/local/bin/python3.9 -c "print('Hello World')"
 ... output ...
 a var
 a var/run
@@ -130,10 +129,10 @@ a9835b86808a
 $ klee run -J mount.devfs=false \
   -J exec.system_jail_user \
   -J exec.clean=false \
-  FreeBSD:testing /usr/local/bin/python3.9 -c "print('minimal jail')"
+  FreeBSD:testing /usr/local/bin/python3.9 -c "print('Hellooo World')"
 157538749b34
 created execution instance 81bd541b6473
-minimal jail
+Hellooo World
 
 executable 81bd541b6473 and its container exited with exit-code 0
 ```

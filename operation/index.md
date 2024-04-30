@@ -4,13 +4,13 @@ description: Kleene operation overview
 keywords: Kleene, operation, maintenance
 ---
 
-This section and its subsections discusses a few topics related to the operation and maintenance of a
+This section discusses a few topics related to the operation and maintenance of a
 Kleene host.
 
 ## Pruning unused objects
 
-When developing images and experimenting with containers unused images,
-containers, networks and volumes can accumulate. To easily remove these,
+Images, containers, networks and volumes can quickly accumulater,
+when developing images and experimenting with containers. To easily remove them,
 use the `klee <object> prune` family of commands. The conditions on what is
 removed differs, depending on which object is being pruned.
 
@@ -21,10 +21,10 @@ does prompt the user before removing any objects.
 
 ## Containers are independent from Kleene
 
-It is worth mentioning the decoupling of Kleene and the containers that it
-starts. Since a container is essentially a FreeBSD jail, the underlying mechanism
-essentially is starting a FreeBSD jail, that jail is independently managed by
-FreeBSD and will continue running if Kleened is shutdown.
+It is worth mentioning the decoupling of Kleene and its containers.
+When Kleene starts a container it is done by starting a FreeBSD jail under the hood,
+and that jail is independently managed by FreeBSD and will continue to run if
+Kleened is shutdown. For instance:
 
 ```console
 $ klee run FreeBSD
@@ -45,8 +45,8 @@ Thu Mar  7 12:12:31 UTC 2024
 
 a88528cd8383 has exited with exit-code 0
 
-$ sudo kill 6117
-### Kleened has been shutdown ###
+$ sudo kill 6117 # Killing Kleened
+
 $ klee lsc
 unable to connect to kleened: [Errno 61] Connection refused
 $ jls
@@ -57,7 +57,7 @@ $ sudo jexec 19 /bin/ls
 .profile        boot            dev             lib             media           net             rescue          sbin            tmp             var
 ```
 
-The jail is still running without Kleened. If we start Kleened up again, it will
+The jail is still running without Kleened, and if Kleened is started again, it will
 immediately recognize the running container:
 
 ```console
@@ -69,6 +69,7 @@ $ klee lsc
 ```
 
 However, from the perspective of the FreeBSD host, it is a fire-and-forget
-action when Kleene starts a jail. This means that the jail/container
-will not survive a system reboot, if Kleened is not started at system boot,
-even though FreeBSD does have the functionality to do so with jails.
+action when Kleene starts a jail: Jails/containers will not automatically start with
+FreeBSD during system boot, unless Kleened is started as well (and they are
+configured to start with Kleened), even though FreeBSD has the functionality
+to do so with jails.

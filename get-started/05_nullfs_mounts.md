@@ -25,16 +25,16 @@ frameworks.
 The following table outlines the main differences between volume mounts and nullfs
 mounts.
 
-|                                    | Named volumes                                          | Nullfs mounts                                        |
-| ---------------------------------- | ------------------------------------------------------ | ---------------------------------------------------- |
-| Host location                      | Kleened stores it under the `<zroot>/volumes` dataset  | You decide                                           |
-| Mount example (using `--mount`)    | `my-volume:/usr/local/data`                            | `/path/to/data:/usr/local/data`                      |
+|                 | Volumes                                                     | Nullfs mounts                              |
+| --------------- | ----------------------------------------------------------- | ------------------------------------------ |
+| Host location   | Kleened stores it under the `<kleene-root>/volumes` dataset | You decide                                 |
+| Example         | `--mount my-volume:/usr/local/data`                         | `--mount /path/to/data:/usr/local/data`    |
 
-Under the hood, volume mounts are also nullfs mounts where Kleene manages the
+Under the hood, volume mounts are nullfs mounts where Kleene manages the
 underlying ZFS filesystem.
 
-Nullfs mounts are, as the name suggests, mountpoints created using the `nullfs(5)`
-file system layer of FreeBSD.
+Nullfs mounts are, as the name suggests, mountpoints created using the
+[`nullfs(5)` file system layer](https://man.freebsd.org/cgi/man.cgi?query=nullfs) of FreeBSD.
 
 ## Trying out Kleene's nullfs mounts
 
@@ -47,13 +47,12 @@ let's run a quick experiment to get a practical understanding of how they work.
    nullfs mount.
 
    ```console
-   $ klee run -it --mount /vagrant/getting-started:/mnt FreeBSD-13.2-RELEASE /bin/sh
+   $ klee run -it --mount /path/to/getting-started:/mnt FreeBSD-13.2-RELEASE /bin/sh
    ```
 
-   The `--mount` option tells Kleene to create a nullfs mount, where `/vagrant/getting-started`
-   is the app-repos on our app on our laptop with `/vagrant` being the NFS-mount from our laptop
-   into our Vagrant virtual development machine.
-   `/mnt` is where that directory should be mounted inside the container.
+   The `--mount` option tells Kleene to create a nullfs mount, where `/path/to/getting-started`
+   is the app-repos on the host, and `/mnt` is where that directory should be
+   mounted inside the container.
 
 3. After running the command, Klee starts an interactive `sh` session in the
    root directory of the container's filesystem.
@@ -99,7 +98,7 @@ nullfs mounts during application development.
 
 ## Run your app in a development container
 
-The following steps describe how to run a development container does the following:
+The following steps describe how to run a development container that does the following:
 
 - Nullfs-mount our source code stored on the host in `/home/jane/getting-started/app`, into the container.
 - Install all dependencies
@@ -195,8 +194,8 @@ tools are ready to go.
 
 In order to prepare for production, you need to migrate your database from
 working in SQLite to something that can scale a little better. For simplicity,
-you'll keep with a relational database and switch your application to use MySQL.
-But, how should you run MySQL? How do you allow the containers to talk to each
+you'll keep with a relational database and switch your application to use MariaDB.
+But, how should you run MariaDB? How do you allow the containers to talk to each
 other? You'll learn about that next!
 
 [Multi container apps](06_multi_container.md){: .button .primary-btn}

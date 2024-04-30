@@ -54,7 +54,7 @@ so you only need to remember the volume's name.
     ![Items added to todo list](images/items-added.png){: style="width: 55%; " }
     {: .text-center }
 
-5. Stop and remove the container for the todo app using `klee rmc -f <container id>` to remove it.
+5. Stop and remove the container for the todo app using `klee rmc -f <container id>`.
 
 6. Start a new container using the same command from above.
 
@@ -71,4 +71,4 @@ At this point, you have a functioning application that can survive restarts!
 However, you saw earlier that rebuilding images for every change takes quite a bit of time.
 With nullfs-mounts (which was hinted at earlier), there is a better way!
 
-[Use bind mounts](05_nullfs_mounts.md){: .button  .primary-btn}
+[Using nullfs mounts](05_nullfs_mounts.md){: .button  .primary-btn}

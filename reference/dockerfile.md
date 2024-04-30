@@ -9,16 +9,27 @@ fetch_remote:
   line_start: 2
   line_end: -1
 ---
-Kleene can build images automatically by reading the instructions from a
-`Dockerfile`. A `Dockerfile` is a text document that contains all the commands a
-user could call on the command line to assemble an image, including a few
-shortcuts to make it easier/more readable. Thus, a `Dockerfile` should be
+Kleene can build images by reading instructions from a
+`Dockerfile`. A `Dockerfile` contains all the commands a
+user would run on the command line to build an image, including a few
+shortcuts to make it easier/more readable. Thus, a `Dockerfile` can be
 seen as a recipe for setting up and configuring a runtime environment.
-This page describes the commands you can use in a `Dockerfile`.
+This page describes the commands you can use in a `Dockerfile` for Kleene.
 
 ## Format
 
-Here is the format of the `Dockerfile`:
+In general, Kleene follows a subset of the Dockerfile syntax specified by Docker,
+and used by Docker, Podman etc. for building images. Thus, with the exception
+of missing features, it should be a familiar experience writing Dockerfiles for
+Kleene compared to writing Dockerfiles for these tools.
+
+However, given Kleene's approach to building images, there are
+deviations in best-practices. For instance, aggregating commands
+into a single large `RUN`-instruction is discouraged in Kleene.
+See [Dockerfile best practices](/building/dockerfile_best-practices/)
+for details.
+
+Here is the format of the `Dockerfile` as it used in Kleene:
 
 ```dockerfile
 # Comment
@@ -49,7 +60,8 @@ RUN /bin/bash -c 'source $HOME/.bashrc; echo $HOME'
 ```
 
 Kleene treats lines that *begin* with `#` as a comment. A `#` marker anywhere
-else in a line is treated as an argument. This allows statements like:
+else in a line is treated as part of an argument.
+This allows statements like:
 
 ```dockerfile
 # Comment
@@ -79,11 +91,11 @@ whitespaces before comments (`#`) and instructions (such as `RUN`) are
 
 Environment variables (declared with [the `ENV` instruction](#env)) can also be
 used in certain instructions other than [the `RUN` instruction](#run) as
-variables to be interpreted by the `Dockerfile`.
-Environment replacement is done using the Bourne shell (`sh(1)`) supplied
-with environment variables as given by the preceding `ENV`-instructions.
-Thus, the rules of notation and syntax are identical to `sh`, as discussed
-below.
+variables to be interpreted by Kleene.
+Environment replacement is done using the [Bourne shell](https://man.freebsd.org/cgi/man.cgi?query=sh)
+supplied with environment variables defined by preceding
+`ENV`-instructions. Thus, the rules of notation and syntax are identical
+to `sh`, as discussed below.
 
 Environment variables are notated in the `Dockerfile` either with
 `$variable_name` or `${variable_name}`.
@@ -102,14 +114,18 @@ variables.
 Escaping is possible by adding a `\` before the variable: `\$foo` or `\${foo}`,
 for example, will translate to `$foo` and `${foo}` literals respectively.
 
-Example (results displayed after the `#`):
+Example:
 
 ```dockerfile
-FROM busybox
-ENV FOO=/bar
-USER $FOO        # Uses the user 'bar' for subsequent RUN/CMD-instructions
-RUN mkdir ${FOO} # Creates /bar
-COPY \$FOO /quux # COPY $FOO /quux
+FROM FreeBSD:latest
+ENV FOO=bar
+# Use the user 'bar' for subsequent RUN/CMD-instructions:
+USER $FOO
+# Creates /bar:
+RUN mkdir /${FOO}
+# Variable identifier escaping makes
+COPY \$FOO /quux
+# into 'COPY $FOO /quux'
 ```
 
 Environment variables are supported by the following list of instructions in
@@ -122,28 +138,30 @@ the `Dockerfile`:
 - `ENV`
 - `USER`
 
-Note that in case of the `RUN` and `CMD` instructions only works when using
+Note that environment variables in `RUN` and `CMD` instructions only works when using
 the *shell* form. When the *exec* form is used, the environment variables
 are supplied but it is up to the executable to make use of them.
 
 ## FROM
 
 ```dockerfile
-FROM <image>[:<tag>]
+FROM <image>[:<tag>][@<snapshot>]
 ```
 
 where `<image>` can be the name or ID of an existing image and the `<tag>`
-value is optional. If you omit `<tag>`, the builder assumes a `latest`
+value is optional. If the `<tag>` is omitted, the builder assumes a `latest`
 tag by default.
 The builder returns an error if it cannot find the `tag` value.
+Optionally, it is possible to specify which image snapshot should be used
+by providing a snapshot ID for `<snapshot>`.
 
 The `FROM` instruction initializes a [*build container*](/glossary/#build-container)
-within which subsequent instructions is executed.
+within which subsequent instructions are executed.
 The build container follows the naming scheme `build_<image ID>`.
-Thus, a valid `Dockerfile` needs to begin with a `FROM` instruction,
+A valid `Dockerfile` needs to begin with a `FROM` instruction,
 except for the `ARG` instruction, which is the only instruction
 that may precede `FROM` in the `Dockerfile`.
-This also means that `FROM` instructions support variables that are
+This means that `FROM` instructions support variables that are
 declared by `ARG` instructions preceding it, e.g.,
 
 ```dockerfile
@@ -164,24 +182,23 @@ After a `RUN` instruction have been succesfully executed in the build-container,
 a ZFS snapshot is created. Snapshotting instructions in this way makes it possible
 to create containers from any point in an image's history.
 
-The *exec* form makes it possible to avoid shell string munging, and to `RUN`
-commands using a base image that does not contain the specified shell executable.
+The *exec* form makes it possible to avoid shell string munging, and to use `RUN`
+commands with a base image that does not contain the shell executable.
 
-To use a different shell, other than '/bin/sh', use the *exec* form passing in
-the desired shell. For example:
+Using a different shell, other than '/bin/sh', is also possible with the *exec*
+form. For example:
 
 ```dockerfile
 RUN ["/bin/bash", "-c", "echo hello"]
 ```
 
-Unlike the *shell* form, the *exec* form does not invoke a command shell.
-This means that normal shell processing does not happen. For example,
+Since the *exec* form does not invoke a command shell, normal shell processing
+does not happen. For example,
 `RUN [ "echo", "$HOME" ]` will not do variable substitution on `$HOME`.
 If you want shell processing then either use the *shell* form or execute
 a shell directly, for example: `RUN [ "sh", "-c", "echo $HOME" ]`.
-When using the exec form and executing a shell directly, as in the case for
-the shell form, it is the shell that is doing the environment variable
-expansion, not Kleened.
+When using the exec form to execute a shell directly, it is the shell
+that is doing the environment variable expansion, not Kleened.
 
 > **Note**
 >
@@ -203,14 +220,13 @@ one `CMD` then only the last `CMD` will take effect.
 container, i.e., `CMD` does nothing during the image build and is only used by
 containers.**
 
-Unlike the *shell* form, the *exec* form does not invoke a command shell.
-This means that normal shell processing does not happen. For example,
+Since the *exec* form does not invoke a command shell, normal shell processing
+does not happen. For example,
 `CMD [ "echo", "$HOME" ]` will not do variable substitution on `$HOME`.
 If you want shell processing then either use the *shell* form or execute
 a shell directly, for example: `CMD [ "sh", "-c", "echo $HOME" ]`.
-When using the exec form and executing a shell directly, as in the case for
-the shell form, it is the shell that is doing the environment variable
-expansion, not Kleened.
+When using the exec form to execute a shell directly, it is the shell
+that is doing the environment variable expansion, not Kleened.
 
 > **Note**
 >
@@ -218,10 +234,10 @@ expansion, not Kleened.
 > you must use double-quotes (") around words not single-quotes (').
 > Also, in the *JSON* form, it is necessary to escape backslashes.
 
-When used in the shell or exec formats, the `CMD` instruction sets the command
-to be executed when running the image.
+When used in the shell or exec formats, the `CMD` instruction sets the
+default command to be executed when running containers based on the image.
 
-If you use the *shell* form of the `CMD`, then the `<command>` will execute in
+When using the *shell* form of `CMD`, the `<command>` will execute in
 `/bin/sh -c`:
 
 ```dockerfile
@@ -229,17 +245,16 @@ FROM FreeBSD
 CMD echo "This is a test." | wc -
 ```
 
-If you want to **run your** `<command>` **without a shell** then you must
-express the command as a JSON array and give the full path to the executable.
-**This array form is the preferred format of `CMD`.** Any additional parameters
-must be individually expressed as strings in the array:
+If `<command>` needs to be run without a shell, use the *exec* form and express
+the command as a JSON array, giving the full path to the executable.
+Any additional parameters must be individually expressed as strings in the array:
 
 ```dockerfile
 FROM FreeBSD
 CMD ["/usr/bin/wc","--help"]
 ```
 
-If the user specifies arguments to `docker run` then they will override the
+If the user specifies a command to `klee run` it will override the
 default specified by `CMD`.
 
 ## ENV
@@ -250,10 +265,10 @@ ENV <key>=<value> ...
 
 The `ENV` instruction sets the environment variable `<key>` to the value
 `<value>`. This value will be in the environment for all subsequent instructions
-and can be [replaced inline](#environment-replacement) in many as well.
-The value will be interpreted for other environment variables, so
-quote characters will be removed if they are not escaped. Like command line parsing,
-quotes and backslashes can be used to include spaces within values.
+and can be [substitued inline](#environment-replacement) in many instructions as well.
+Outer quote characters will be removed if they are not escaped.
+Like command line parsing, quotes and backslashes can be used to include spaces
+within values.
 
 Example:
 
@@ -267,8 +282,8 @@ The `ENV` instruction does *not* allow for multiple `<key>=<value> ...` variable
 at one time.
 
 The environment variables set using `ENV` will persist when a container is run
-from the resulting image. You can view the values using `docker inspect`, and
-change them using `docker run --env <key>=<value>`.
+from the resulting image. You can view the values using `klee inspect`, and
+change them at container creation using, e.g., `klee run --env <key>=<value>`.
 
 Environment variable persistence can cause unexpected side effects. For example,
 setting `ENV DISTDIR=newdistfiles/` changes the behavior of `make` when building ports,
@@ -308,24 +323,21 @@ context.
 
 Each `<src>` will be expanded using Erlangs's
 [filelib.wildcard/1](https://www.erldocs.com/current/stdlib/filelib.html?#wildcard/1)
-rules and then copied with the `cp -R`
-[command](https://man.freebsd.org/cgi/man.cgi?query=cp&apropos=0&sektion=0&manpath=FreeBSD+14.0-STABLE&arch=default&format=html)
-Looking into the documentation linked to above, describes the mechanics of the
-`COPY` instrcution. A few illustrative examples and rules is given below.
-
-To add all files starting with "hom":
+rules and then copied with the [`cp -R` command](https://man.freebsd.org/cgi/man.cgi?query=cp).
+These external external resources, describes the mechanics of the
+`COPY` instrcution. For instance, adding all files starting with "hom":
 
 ```dockerfile
 COPY hom* /mydir/
 ```
 
-In the example below, `?` is replaced with any single character, e.g., "home.txt".
+In the next example, `?` is replaced with any single character, e.g., "home.txt".
 
 ```dockerfile
 COPY hom?.txt /mydir/
 ```
 
-The `<dest>` is an absolute path, or a path relative to `WORKDIR`, into which
+`<dest>` is an absolute path, or a path relative to `WORKDIR`, into which
 the source will be copied inside the destination container.
 
 The example below uses a relative path, and adds "test.txt" to `<WORKDIR>/relativeDir/`:
@@ -334,16 +346,17 @@ The example below uses a relative path, and adds "test.txt" to `<WORKDIR>/relati
 COPY test.txt relativeDir/
 ```
 
-Whereas this example uses an absolute path, and adds "test.txt" to `/absoluteDir/`
+Another example adds "test.txt" to an absolute path `/absoluteDir/`:
 
 ```dockerfile
 COPY test.txt /absoluteDir/
 ```
 
 When copying files or directories that contain special characters (such as `[`
-and `]`), you need to escape those paths following the `filelib.wildcard/1` rules to prevent
-them from being treated as a matching pattern. For example, to copy a file
-named `arr[0].txt`, use the following;
+and `]`), you need to escape those paths following the
+[`filelib.wildcard/1` rules](https://www.erldocs.com/current/stdlib/filelib.html?#wildcard/1)
+to prevent them from being treated as a matching pattern.
+For example, to copy a file named `arr[0].txt`, use the following;
 
 ```dockerfile
 COPY arr\\[0\\].txt /mydir/
@@ -358,10 +371,8 @@ directories needs to be changed.
 
 `COPY` obeys the following rules:
 
-- The `<src>` path must be inside the *context* of the build;
-  you cannot `COPY ../something /something`, because the first step of a
-  `docker build` is to send the context directory (and subdirectories) to the
-  docker daemon.
+- The `<src>` path must be inside the *context* of the build, i.e.,
+  `COPY ../something /something` is not possible.
 
 - If `<src>` is a directory, the entire contents of the directory are copied,
   including filesystem metadata.
@@ -395,8 +406,8 @@ USER <UID>[:<GID>]
 
 The `USER` instruction sets the user name (or UID) and optionally the user
 group (or GID) to use as the default user and group for the remainder of the
-build. The specified user is used for `RUN` instructions and at
-runtime, runs the `CMD` command.
+build. The specified user is used for `RUN` instructions, and runs the `CMD` command
+in containers.
 
 ```dockerfile
 FROM FreeBSD
@@ -424,10 +435,11 @@ USER patrick
 >    RUN echo -n "$HASHED_PASSWORD" $ |\
 >        pw useradd -n patrick -s /bin/sh -m -d /usr/home/patrick -G patrick -H 0
 >    ```
-> See `pw(8)` and `openssl(1)` for details. In general, passing secrets using CLI-parameters
-> such as `--build-arg` can be [problematic](https://blog.diogomonica.com//2017/03/27/why-you-shouldnt-use-env-variables-for-secret-data/)
-> since it can end up in, e.g., shell-history logs or elsewhere.
-> Instead, consider providing secrets as files mounted into the container.
+> See `pw(8)` and `openssl(1)` for details.
+> 3. In general, passing secrets using CLI-parameters such as `--build-arg` can be
+>    [problematic](https://blog.diogomonica.com//2017/03/27/why-you-shouldnt-use-env-variables-for-secret-data/)
+>    since it can end up in, e.g., shell-history logs or elsewhere.
+>    Instead, consider providing secrets as (encrypted) files mounted into the container.
 {:.warning}
 
 ## WORKDIR
@@ -439,17 +451,17 @@ WORKDIR /path/to/workdir
 The `WORKDIR` instruction sets the working directory of any subsequent `RUN`, `CMD`,
 and `COPY` instructions in the `Dockerfile`.
 If the path specified in `WORKDIR` doesn't exist, it will be created even if it's
-not used in any subsequent `Dockerfile` instruction.
+not used in any subsequent instructions.
 
 > **Note**
 >
-> `WORKDIR` only works for `RUN` and `CMD` instructions in the *shell form*.
-> If `CMD` is replaced, the new command won't automatically be
+> `WORKDIR` only works for `RUN` and `CMD` instructions in the *shell form*,
+> and if `CMD` is replaced, the new command won't automatically be
 > executed in `WORKDIR`.
 
 The `WORKDIR` instruction can be used multiple times in a `Dockerfile`. If a
 relative path is provided, it will be relative to the path of the previous
-`WORKDIR` instruction. For example:
+`WORKDIR` instruction. For example, in
 
 ```dockerfile
 WORKDIR /a
@@ -458,11 +470,11 @@ WORKDIR c
 RUN pwd
 ```
 
-The output of the final `pwd` command in this `Dockerfile` would be `/a/b/c`.
+the output of the `pwd` command is `/a/b/c`.
 
 The `WORKDIR` instruction can resolve environment variables previously set using
 `ENV`. You can only use environment variables explicitly set in the `Dockerfile`.
-For example:
+For example, in
 
 ```dockerfile
 ENV DIRPATH=/path
@@ -470,11 +482,10 @@ WORKDIR $DIRPATH/$DIRNAME
 RUN pwd
 ```
 
-The output of the final `pwd` command in this `Dockerfile` would be
-`/path/$DIRNAME`
+the output of the `pwd` command is `/path/$DIRNAME`.
 
-If not specified, the default working directory is `/` and previously set working directories
-from the parent image will not be inherited.
+The default working directory is `/` and working directories
+previously set in parent images will not be inherited.
 
 ## ARG
 
@@ -483,14 +494,14 @@ ARG <name>[=<default value>]
 ```
 
 The `ARG` instruction defines a variable that users can pass at build-time to
-the builder with the `docker build` command using the `--build-arg <varname>=<value>`
+the builder with the `klee build` command using the `--build-arg <varname>=<value>`
 flag.
 
 A Dockerfile may include one or more `ARG` instructions. For example,
 the following is a valid Dockerfile:
 
 ```dockerfile
-FROM busybox
+FROM FreeBSD
 ARG user1
 ARG buildno
 # ...
@@ -501,7 +512,7 @@ ARG buildno
 An `ARG` instruction can optionally include a default value:
 
 ```dockerfile
-FROM busybox
+FROM FreeBSD
 ARG user1=someuser
 ARG buildno=1
 # ...
@@ -514,11 +525,11 @@ the empty string is used instead.
 ### Scope
 
 An `ARG` variable definition comes into effect from the line on which it is
-defined in the `Dockerfile` not from the argument's use on the command-line or
-elsewhere.  For example, consider this Dockerfile:
+defined in the `Dockerfile`, and not from the argument's use on the command-line or
+elsewhere. For example, consider this Dockerfile:
 
 ```dockerfile
-FROM busybox
+FROM FreeBSD
 USER ${username:-some_user}
 ARG username
 USER $username
@@ -528,11 +539,11 @@ USER $username
 A user builds this file by calling:
 
 ```console
-$ docker build --build-arg username=what_user .
+$ klee build --build-arg username=what_user .
 ```
 
-The `USER` at line 2 evaluates to `some_user` as the `username` variable is defined on the
-subsequent line 3. The `USER` at line 4 evaluates to `what_user`, as the `username` argument is
+The `USER` at line 2 evaluates to `some_user` since the `username` variable is defined on
+line 3. The `USER` at line 4 evaluates to `what_user`, as the `username` argument is
 defined and the `what_user` value was passed on the command line. Prior to its definition by an
 `ARG` instruction, any use of a variable results in an empty string.
 
@@ -544,7 +555,7 @@ available to the `RUN` instruction. Environment variables defined using the
 this Dockerfile with an `ENV` and `ARG` instruction.
 
 ```dockerfile
-FROM ubuntu
+FROM FreeBSD
 ARG CONT_IMG_VER
 ENV CONT_IMG_VER=v1.0.0
 RUN echo $CONT_IMG_VER
@@ -553,33 +564,33 @@ RUN echo $CONT_IMG_VER
 Then, assume this image is built with this command:
 
 ```console
-$ docker build --build-arg CONT_IMG_VER=v2.0.1 .
+$ klee build --build-arg CONT_IMG_VER=v2.0.1 .
 ```
 
-In this case, the `RUN` instruction uses `v1.0.0` instead of the `ARG` setting
-passed by the user:`v2.0.1` This behavior is similar to a shell
+In this case, the `RUN` instruction uses `v1.0.0` instead of the `ARG` value
+`v2.0.1` passed by the user. This behavior is similar to a shell
 script where a locally scoped variable overrides the variables passed as
-arguments or inherited from environment, from its point of definition.
+arguments or are inherited from environment, from its point of definition.
 
 Using the example above but a different `ENV` specification you can create more
 useful interactions between `ARG` and `ENV` instructions:
 
 ```dockerfile
-FROM ubuntu
+FROM FreeBSD
 ARG CONT_IMG_VER
 ENV CONT_IMG_VER=${CONT_IMG_VER:-v1.0.0}
 RUN echo $CONT_IMG_VER
 ```
 
 Unlike an `ARG` instruction, `ENV` values are always persisted in the built
-image. Consider a docker build without the `--build-arg` flag:
+image. Consider a build without the `--build-arg` option:
 
 ```console
-$ docker build .
+$ klee build .
 ```
 
-Using this Dockerfile example, `CONT_IMG_VER` is still persisted in the image but
-its value would be `v1.0.0` as it is the default set in line 3 by the `ENV` instruction.
+In the previous example, `CONT_IMG_VER` is still persisted in the image but
+its value would be `v1.0.0` as it is the default value set by the `ENV` instruction.
 
 The variable expansion technique in this example allows you to pass arguments
 from the command line and persist them in the final image by leveraging the

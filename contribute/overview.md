@@ -16,22 +16,25 @@ useful UI components, easy ways to make PR's etc.
 ## Style Guide
 
 The style of writing documentation is taken directly from Docker's
-[Style guide](https://docs.docker.com/contribute/style/grammar/) so please
-consult these pages to learn how to contribute to Kleene's docs.
+[Style guide](https://docs.docker.com/contribute/style/grammar/) and [checklist](https://docs.docker.com/contribute/checklist/),
+so please consult these pages to learn how to contribute to Kleene's docs.
 
 Note that there are a few modifications to Docker's style guide that is
 applied to Kleene's docs:
 
 - Kleene uses the *passive* form of writing to be more consistent with the style
   of other important sources of documentation, such as the FreeBSD handbook and
-  man-pages. The only deviations from this rule is when referring directly to
+  man-pages. The *passive* form keeps the documentation in a objective language.
+  The documentation do not assert anything about who types the commands or maintains
+  the system mentioned. However, in the end *passive* vs. *active* is a matter of taste.
+  The only deviations from this rule is when referring directly to
   the reader (e.g., as in the first paragraph of this section), and in the
-  'Getting Started' guide where the user should do what is described.
+  'Getting Started' guide which is directly addressed to the reader.
 
 - Klee is used to refer directly to the Kleene client and Kleened is used when
   referring directly to the Kleene backend component. Use `klee` when referring
   to one of Klee's commands. For instance: 'Klee is designed to be an easy,
-  effective and intuitive tools for humans to interact with Kleened.
+  effective and intuitive tool for humans to interact with Kleened.
   Use `klee <subcommand>` without any arguments to print the help page of the
   subcommand'
 

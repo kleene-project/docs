@@ -11,9 +11,9 @@ To show the main help page and list available commands, run `klee` with no param
 ```console
 $ klee
 Usage: klee [OPTIONS] COMMAND [ARGS]...
-                                                                                                             
-  CLI to interact with Kleened.                                                                              
-                                                                                                             
+
+  CLI to interact with Kleened.
+
 ╭─ Options ─────────────────────────────────────────────────────────────────────────────────────────────────╮
 │    --version         Show the version and exit.                                                           │
 │    --config          Location of Klee config file.                                                        │

@@ -2,10 +2,8 @@
 {% assign controller_data = site.data[include.datafolder][include.datafile] %}
 {% assign parentPath = page.path | prepend: "/" | remove: page.name %}
 
-<br />
-
 {% if controller_data.shortcut %}
-> **Note** This command is a shortcut to [`klee {{ controller_data.shortcut}}`](/reference/klee/{{ controller_data.shortcut | replace: " ", "_"}}).
+> This command is a shortcut to [`klee {{ controller_data.shortcut}}`](/reference/klee/{{ controller_data.shortcut | replace: " ", "_"}}).
 {: .note }
 {% endif %}
 

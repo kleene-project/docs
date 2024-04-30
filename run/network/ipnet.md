@@ -9,7 +9,7 @@ using the `ipnet` network driver.
 
 ## Creating network and containers
 
-Let's start by creating a loopback network for our containers:
+Let's start by creating a loopback network for the test-containers:
 
 ```console
 $ klee network create --subnet 10.2.3.0/24 testnet
@@ -17,8 +17,9 @@ $ klee network create --subnet 10.2.3.0/24 testnet
 ```
 
 That's it! Now we can connect containers to it. Using the `klee run` command we
-can connect a container on-the-fly. For instance, creating a container using the
-ipnet network-driver, connecting it to our new network, and running `ifconfig`:
+can connect a container on-the-fly. For instance, to create a container with the
+ipnet network-driver, connecting it to the new network, and runing `ifconfig` within the
+container do as follows:
 
 ```console
 $ klee run -l ipnet -n testnet FreeBSD ifconfig
@@ -44,7 +45,7 @@ executable ec74e2e87920 and its container exited with exit-code 0
 
 In the output of `ifconfig`, the only visible IP is `10.2.3.1`, within
 the `testnet` subnet. It is on the loopback interface `kleene0` that Kleene created
-for our network.
+for the network.
 
 To verify connectivity, spin up a second container and try to reach our
 DNS-server:
@@ -67,7 +68,7 @@ Inspecting the last container
 $ klee container inspect f455de07ac84
 ```
 
-we get the following output:
+gets the following output:
 
 ```json
 {
@@ -105,11 +106,11 @@ we get the following output:
 }
 ```
 
-Under the `container_endpoints` section we see an endpoint for the `testnet`
-network using ip `10.2.3.2`. As expected there is no `epair` allocated since
-this is used for VNET-contaienrs.
+In the `container_endpoints` section there is an endpoint for the `testnet`
+network having ip `10.2.3.2`. As expected there is no `epair` allocated since
+this is used for VNET-containers.
 
-If we inspect the network with `klee network inspect testnet`, we get:
+Inspecting the network with `klee network inspect testnet` produces:
 
 ```json
 {
@@ -151,13 +152,13 @@ Here both endpoints are shown, one from each container connected to
 the network. We can also see the properties that has been assigned to the
 network (the default values), such as NAT'in, subnets etc.
 The `gateway`/`gateway6` properties is not relevant here,
-as they are only used for VNET-containers which can't connect to loopback
+as they are only used for VNET-containers and they can't connect to loopback
 networks.
 
 ## Inter-container communication on the same network
 
 By default, containers connected to the same network can communicate with
-each other. Now, let's try and see if the two containers:
+each other. Now, let's try and see if the two containers
 
 ```console
 $ klee lsc -a
@@ -167,8 +168,8 @@ CONTAINER ID    NAME            IMAGE            COMMAND            CREATED     
  d763328950a2    strange_moser   FreeBSD:latest   ifconfig           2 hours ago   stopped
 ```
 
-can communicate with each other. Since we are just experimenting, we
-initiate the existing as thin VM's, instead of creating two new containers:
+can communicate with each other. Since this is just for illlustration purposes, the two
+containers are reused and initiated as thin VM's:
 
 ```console
 $ klee exec hungry_knuth /bin/sh /etc/rc
@@ -181,7 +182,7 @@ created execution instance 28e2471f17ed
 28e2471f17ed has exited with exit-code 0
 ```
 
-and verify that they are running as expected:
+and, to verify that they are running as expected:
 
 ```console
 $ klee lsc -a
@@ -191,7 +192,7 @@ CONTAINER ID    NAME            IMAGE            COMMAND            CREATED     
  d763328950a2    strange_moser   FreeBSD:latest   ifconfig           2 hours ago   running   4
 ```
 
-Perfect! Let's try to reach one another:
+Perfect! Let's try to see if they can reach one another:
 
 ```console
 $ klee exec hungry_knuth ping 10.2.3.1
@@ -201,22 +202,22 @@ ping: ssend socket: Operation not permitted
 2845c545dfc0 has exited with exit-code 71
 ```
 
-By default raw sockets, which is used by `ping`, are not allowed in ipnet
-containers. We can enable it by adding the `allow.raw_sockets` jail parameter
-to our containers or we can verify inter-container communication using TCP.
-We'll go for latter this time and start af simple TCP-server in one container:
+By default, raw sockets, which is used by `ping`, are not allowed in ipnet
+containers. It can be allowed by adding the `allow.raw_sockets` jail parameter
+to the containers or instead use TCP-connections to verify inter-container connectivity.
+TCP will be used here, and a simple TCP-server is started in one container:
 
 ```console
-# Terminal 1:
+## Terminal 1:
 $ klee exec strange_moser nc -l 4000
 klee exec strange_moser nc -l 4000
 created execution instance e32b997f34f3
 ```
 
-and then try to connect to it from the second container in another terminal:
+Then try to connect the second container to it in another terminal:
 
 ```console
-# Terminal 2:
+## Terminal 2:
 $ klee exec hungry_knuth /bin/sh -c "echo testing | nc -vv 10.2.3.1 4000"
 created execution instance 6bf64c969523
 Connection to 10.2.3.1 4000 port [tcp/*] succeeded!
@@ -225,7 +226,7 @@ Connection to 10.2.3.1 4000 port [tcp/*] succeeded!
 which should be immediately visible in the first container:
 
 ```console
-# Terminal 1:
+## Terminal 1:
 $ klee exec strange_moser nc -l 4000
 klee exec strange_moser nc -l 4000
 created execution instance e32b997f34f3

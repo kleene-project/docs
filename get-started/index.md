@@ -13,16 +13,19 @@ This guide contains step-by-step instructions on how to get started with Kleene.
 
 Note that this guide follows Docker's [Getting started guide](https://docs.docker.com/get-started/) closely,
 so if you have previous experience with Docker, comparing the two guides gives a
-hands-on example of the similarities and differences between Kleene and Docker.
+hands-on example on the some of ways Kleene differs from 'classical' container management.
 
 ## What is a container?
 
 Simply put, a container is a sandboxed process on your machine that is isolated
 from all other processes on the host machine.
-Unlike Linux, the container concept is a first class citizen in FreeBSD with [jails](https://docs.freebsd.org/en/books/handbook/jails/),
-so a FreeBSD 'jail' is *almost* equivalent to a container.
+Unlike Linux, the idea of a isolated execution environment is a first class citizen in
+FreeBSD with [jails](https://docs.freebsd.org/en/books/handbook/jails/),
+since it was introduced in 1999.
+A FreeBSD 'jail' is *almost* equivalent to a container, although it is more primitive
+compared to modern container concepts from the Linux world, such as Docker.
 
-However, Kleene does alot of details that is otherwise left to the user, such as
+Kleene is based on jails, but does a lot of details that is otherwise left to the user, such as
 configure networking, creating container filesystems and seperating the running
 container from its container-template (i.e., its image).
 
@@ -33,13 +36,14 @@ To summarize, a container:
 
 ## What is a container image?
 
-When running a container, it uses an isolated filesystem. This custom filesystem is provided by a container image.
-Since the image contains the container's filesystem, it must contain everything needed to run an application - all dependencies, configurations, scripts, binaries, etc.
-The image also contains other configurations for the container, such as environment variables, a default command to run, and other metadata.
+When running a container, it uses an isolated filesystem.
+This custom filesystem is created from an image.
+Since the container is a copy of an image, the image must contain everything needed
+to run an application - all dependencies, configurations, scripts, binaries, etc.
+The image also contains other configurations for the container, such as
+environment variables, a default command to run, and other metadata.
 
 ## Next steps
-
-In this section, you learned about containers and images.
 
 In the next section, you'll containerize your first application.
 

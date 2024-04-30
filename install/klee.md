@@ -9,10 +9,10 @@ The following provides a couple of examples.
 
 ## Install using pipx
 
-Pipx works on many differen platforms and can be used to install python packages
+`pipx` works on many differen platforms and can be used to install python packages
 in isolated environments to avoid dependency conflicts from other python applications.
 
-Pipx can be installed on most operating systems. For instance, on FreeBSD:
+`pipx` can be installed on most operating systems. For instance, on FreeBSD:
 
 ```console
 $ sudo pkg install py39-pipx
@@ -26,7 +26,7 @@ $ sudo apt install pipx
 
 Or a third way, depending on the platform.
 
-Then, install Klee using pipx
+Then installing Klee is simply
 
 ```console
 $ pipx install klee
@@ -44,7 +44,8 @@ $ pipx install ./klee
 ```
 
 If `pipx install -e ./klee` is used instead, it will be installed in 'editable'
-mode, meaning that any changes made to Klee will take immediate effect.
+mode, meaning that any changes made to Klee will take effect the next time `klee`
+is invoked.
 
 
 ## Install in development environement using Poetry

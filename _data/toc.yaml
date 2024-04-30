@@ -116,26 +116,42 @@ reference:
       title: klee build
     - path: /reference/klee/create/
       title: klee create
-    - path: /reference/klee/exec/
-      title: klee exec
-    - path: /reference/klee/lsi/
-      title: klee lsi
-    - path: /reference/klee/lsc/
-      title: klee lsc
     - path: /reference/klee/rename/
       title: klee rename
-    - path: /reference/klee/restart/
-      title: klee restart
-    - path: /reference/klee/rmc/
-      title: klee rmc
-    - path: /reference/klee/rmi/
-      title: klee rmi
+    - path: /reference/klee/exec/
+      title: klee exec
     - path: /reference/klee/run/
       title: klee run
     - path: /reference/klee/start/
       title: klee start
+    - path: /reference/klee/restart/
+      title: klee restart
     - path: /reference/klee/stop/
       title: klee stop
+    - path: /reference/klee/isc/
+      title: klee isc
+    - path: /reference/klee/isi/
+      title: klee isi
+    - path: /reference/klee/isn/
+      title: klee isn
+    - path: /reference/klee/isv/
+      title: klee isv
+    - path: /reference/klee/lsc/
+      title: klee lsc
+    - path: /reference/klee/lsi/
+      title: klee lsi
+    - path: /reference/klee/lsn/
+      title: klee lsn
+    - path: /reference/klee/lsv/
+      title: klee lsv
+    - path: /reference/klee/rmc/
+      title: klee rmc
+    - path: /reference/klee/rmi/
+      title: klee rmi
+    - path: /reference/klee/rmn/
+      title: klee rmn
+    - path: /reference/klee/rmv/
+      title: klee rmv
   - sectiontitle: klee container
     section:
     - path: /reference/klee/container/

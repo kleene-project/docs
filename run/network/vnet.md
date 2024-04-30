@@ -9,7 +9,7 @@ using the `vnet` network driver.
 
 ## Creating network and containers
 
-Let's start by creating a bridge network for our containers.
+Start by creating a bridge network for the containers.
 Bridge networks are the only type that works for vnet-containers.
 
 ```console
@@ -17,8 +17,7 @@ $ klee network create -t bridge --subnet 10.4.6.0/24 testvnet
 2f1dc29b8f36
 ```
 
-Now we can connect containers to it. Using the `klee run` command we
-can connect a container on-the-fly, similar to ipnet-containers:
+Use `klee run` to connect a container on-the-fly:
 
 ```console
 $ klee run -l vnet -n testvnet FreeBSD ifconfig
@@ -43,21 +42,21 @@ epair0b: flags=8863<UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST> metric 0 mtu 1500
 executable 2fc5447ef1e8 and its container exited with exit-code 0
 ```
 
-You can compare the output of `ifconfig` with the similar output from
-the [IPNet intro](ipnet.md):
+Compare the output of `ifconfig` above with the output from
+the [IPNet guide](ipnet.md), and observe that:
 
-- A gateway is added before the command `ifconfig` is run. Since VNet-containers
-  have their own network stack, the default gateway needs to be set manually.
-  Thankfully, Kleene does this for us.
+- A gateway is added before `ifconfig` is run. Since VNet-containers
+  have their own network stack, the default gateway needs to be set on startup.
+  Thankfully, Kleene does this automatically.
 
-- There is no physical interface since it belongs to the hosts' network
+- The host's physical interface is absent, since it belongs to the host's network
   stack. However, the container has its own loopback interface `lo0` and
   firewall logging interface `pflog0`.
 
-- One end of the virtual ethernet-cable ends `epair0b` is attached to the
+- One end of the virtual ethernet-cable `epair0b` is attached to the
   container with its IP as assigned to it.
 
-Looking at the interfaces on the host:
+Looking at the interfaces on the host
 
 ```console
 $ ifconfig
@@ -92,19 +91,19 @@ kleene1: flags=8843<UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST> metric 0 mtu 1500
         nd6 options=9<PERFORMNUD,IFDISABLED>
 ```
 
-We note that a new bridge interface `kleene0` have been created. `kleene0`
-belongs to our loopback network from the [IPNet introduction](ipnet.md).
-There is no `epair0a` since the epair interfaces have been destroyed, when the
-container stopped (after running `ifconfig`).
+shows that a new bridge interface `kleene0` have been created. `kleene0`
+belongs to the loopback network from the [IPNet introduction](ipnet.md).
+There is no `epair0a` since the epair interfaces have been destroyed when the
+container stopped (after `ifconfig` process exited).
 
 ## Inter-container communication on the same network
 
-In the [IPNet introduction](ipnet.md) we saw how two containers on
+In the [IPNet introduction](ipnet.md) demonstrated how two containers on
 the same network are able to communicate.
 That also holds for bridge networks + vnet-containers in exactly
-the same manner as the ipnet-containers on our loopback network.
+the same manner as the ipnet-containers on the loopback network.
 
-Similarily, we can connect a ipnet and a vnet container using a bridge network:
+Furthermore, an ipnet and a vnet container can communicate over a bridge network:
 
 ```console
 $ klee network create -t bridge --subnet 10.4.6.0/24 testnet
@@ -112,13 +111,13 @@ $ klee run -n testnet --ip 10.4.6.2 -l ipnet -J allow.raw_sockets --name webserv
 $ klee run -n testnet --ip 10.4.6.3 -l vnet --name vpnservice FreeBSD
 ```
 
-Note that we manually assign IP's this time so services running in the
-containers can always be reached from the same address. Also note that
-we enabled raw sockets for the ipnet-container, otherwise we could not use
+Note that the IP's is manually assigned this time, so services running in the
+containers can always be reached from the same address. Also, raw sockets
+has been enabled for the ipnet-container to be able to use
 `ping`. That is not necessary for the vnet container since it has its own
-virtual network stack.
+(unrestricted) virtual network stack.
 
-We verify connectivity:
+Verifying connectivity:
 
 ```console
 $ klee exec webservice ping 10.4.6.3

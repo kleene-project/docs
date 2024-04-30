@@ -1,10 +1,10 @@
 ---
-title: Use host networking
-description: All about exposing containers on the Kleened host's network
+title: Host networking
+description: Using the host network driver
 keywords: network, host, standalone
 ---
 
-If you use the `host` network driver for a container, that container inherits
+When the `host` network driver is used, the container inherits
 its interface configuration from the host. This means that all interfaces and
 assigned IP-addresses of the host are available to the container.
 
@@ -62,7 +62,7 @@ jail: /usr/bin/env ifconfig lo0 alias 127.0.0.3: failed
 executable d3acb03e0e5f and its container exited with exit-code 1
 ```
 
-Also note that publishing ports is not possible:
+And publishing ports is not possible:
 
 ```console
 $ klee run -p 8080 FreeBSD

@@ -4,16 +4,16 @@ description: How to expose services to the outside world
 keywords: networking, container, expose ports, publish ports
 ---
 
-In th previous sections and guides it has been shown that a container can, unless
-specifically configured otherwise, expose its listening sockets to the host and
-containers connected to its networks. However, sometimes it is necessary to expose
-sockets to the outside world, i.e., expose sockets on the external interfaces of
-the host.
+The previous sections covering the network drivers has shown how a
+container, unless specifically configured otherwise, is reachable by the
+containers that are connected to its networks.
+However, sometimes it is necessary to expose services to the outside world, i.e.,
+expose sockets on the external interfaces of the host.
 
 > **Note**
 >
 > While there is large overlap in syntax, publishing ports in Kleene is
-> completely different than in Docker. Kleene exposes its ports by
+> completely different compared to Docker. Kleene exposes its ports by
 > redirecting traffic from interfaces to the container, whereas Docker proxys traffic
 > from a listening socket on the host to the container.
 
@@ -21,7 +21,7 @@ When a port is published, Kleene configures the host firewall to redirect and
 allow traffic coming from one or more interfaces to an ip/port of the container.
 When a port is published, it becomes reachable by containers on all networks.
 Remember to be cautious when publishing ports as it can expose them to the
-public internet.
+public internet (which often is the purpose, of course).
 
 When redirecting traffic, it must be directed to a specific IP, so Kleene chooses
 one from the networks that the container is connected to. Publishing
@@ -30,12 +30,12 @@ moment.
 
 ## Syntax
 
-When specifying ports to expose there are two formats to use:
+When specifying ports to expose, there are two formats to use:
 
 1. The simple syntax: `<HOST-PORT>[:CONTAINER-PORT][/<PROTOCOL>]` where
    `CONTAINER-PORT` defaults to `HOST-PORT`.
 2. Full syntax: `<INTERFACE>:<HOST-PORT>:<CONTAINER-PORT>[/<PROTOCOL>]` and `INTERFACE`
-   refer to an network interface on the host.
+   refer to a network interface on the host.
 
 `PROTOCOL` defaults to `tcp` in both formats.
 The full version requires all fields, except protocol, to be specified.

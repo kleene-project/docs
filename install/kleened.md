@@ -51,7 +51,7 @@ $ sudo service kleened init
 ```
 
 It is also possible to do a dry-run instead using
-`service kleened dryinit`, and see which requirements are met and what
+`service kleened dryinit` to see which requirements are met and what
 Kleened intends to configure.
 
 Finally, start Kleened
@@ -62,8 +62,8 @@ $ sudo service kleened start
 
 ## Create development environement with `mix`
 
-For developers or users that want to tinker with Klee a development environemnt
-can be established with Mix:
+For developers or users that want to tinker with Kleened, a development environemnt
+can be established using Mix:
 
 ```console
 $ git clone https://github.com/kleene/kleened.git
@@ -72,7 +72,7 @@ $ sudo iex -S mix
 ```
 
 The last command starts Kleened and enters a interactive shell. It also possible
-to create releases, which is also for `pkg`-packages, running tests etc. See the
+to create releases, which is also used when building the Kleened port. See the
 [mix documentation](https://hexdocs.pm/mix/1.15.7/Mix.html) for details.
 Note however, that installation of `rc.d`-scripts are not installed and
 configuration files needs to copied manually.

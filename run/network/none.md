@@ -4,9 +4,8 @@ description: How to disable networking by using the none driver
 keywords: network, none, standalone
 ---
 
-If the container should not have any networking capabilities the network driver
-`disabled` can be used. It basically has the same effect as using the `ipnet`
-driver, except that not IP's are assigned:
+If a container must be completely isloated, the `disabled` network driver
+can be used. This resembles the `ipnet` driver, except that no IP's are assigned
 
 ```console
 $ klee run -l disabled FreeBSD ifconfig

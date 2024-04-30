@@ -5,7 +5,7 @@ description: Using more than one container in our application
 ---
 
 Up to this point, we have been working with single container apps. Now it is time to add a more
-advanced RDBMS to the application stack. Since the the application supports both SQLite and
+advanced RDBMS to the application stack. Since the application supports both SQLite,
 MySQL, and MariaDB, we will use the latter for our new production-like setup.
 We will run MariaDB in a seperate container. A few reasons for using a seperate container
 for the database:
@@ -21,7 +21,7 @@ In [part 2](./02_our_app.md) we created a network to provide upstream/internet c
 container. To enable private inter-container connectivity between containers they
 should be connected to the same network.
 
-While you don't have to be a network engineer (hooray!). The following simple rule
+While you don't have to be a network engineer the following simple rule
 (not immune to plenty of deviations) serves well for a start:
 
 > **Note**
@@ -66,7 +66,7 @@ Go [here](/run/network) if you want to know more about networking.
    Build the container:
 
    ```
-   $ klee build -t MariaDB -f Dockerfile.rdbms .
+   $ klee build -t MariaDB -f Dockerfile.mariadb .
    ```
 
    The large `CMD`-instruction ensures that the database is started and configured at container runtime,
@@ -124,11 +124,11 @@ Go [here](/run/network) if you want to know more about networking.
 
    Hooray! We have our `todos` database and it's ready for us to use!
 
-## Run your app with MySQL
+## Run your app with MariaDB
 
-The todo app supports the setting of a few environment variables to specify MySQL connection settings. They are:
+The todo app supports the setting of a few environment variables to specify MariaDB connection settings. They are:
 
-- `MYSQL_HOST` - the hostname or IP for the running MySQL server. `10.13.37.1` in this example.
+- `MYSQL_HOST` - the hostname or IP for the running MariaDB server. `10.13.37.1` in this example.
 - `MYSQL_USER` - the username to use for the connection. `webapp` is used here (see where this is set in `Dockerfile.mariadb`?)
 - `MYSQL_PASSWORD` - the password to use for the connection. `secret` as defined previously.
 - `MYSQL_DB` - the database to use once connected. `todos`  as defined previously.
@@ -191,6 +191,8 @@ With all of that explained, let's start our dev-ready container!
     Obviously, your table will look different because it has your items. But, you should see them stored there!
 
 ## Next steps
+
+This ends the 'getting started' tutorial!
 
 At this point, you have an application that now stores its data in an external database running in a separate
 container.

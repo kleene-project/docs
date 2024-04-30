@@ -5,27 +5,31 @@ title: Best practices for writing Dockerfiles
 ---
 
 This sections discusses a few best-practices for building images.
-However, since Kleene is new this should be seen as tentative suggestions
-that might change as Kleene develops and more user-experience is gained
+However, since Kleene is a new tool, this should be seen as tentative suggestions
+that might change as Kleene develops, and more user-experience is gained
 with the software.
 
 ## Partitioning of images
 
-When create Dockerfiles it can in many cases be advantageous to consider
-splitting an otherwise self-contained image for a service, into two.
+When creating Dockerfiles it can be advantageous to consider
+to divide an otherwise self-contained image, into a 'package installation'
+and a 'configuration' image, respectively.
+The former builds and installs the necessary application packages using, e.g., [pkg(7)](https://man.freebsd.org/cgi/man.cgi?query=pkg) or [ports(7)](https://man.freebsd.org/cgi/man.cgi?query=ports),
+while the 'configuration' image copies configuration files and sets up the runtime environment.
 
-Since Kleene does not have caching, dividing an image into a 'package installation'
-(using [pkg(7)](https://man.freebsd.org/cgi/man.cgi?query=pkg) or [ports(7)](https://man.freebsd.org/cgi/man.cgi?query=ports)) part and 'configuration' part.
-This reduces build times of the latter, which is where most of the debugging/development
-usually takes place. This usually overlaps with other relevant considerations:
+Dividing images this way has several advantages:
 
-1. Being able to easily setup the same software with different configurations.
-   For instance, if you need a new database for at new product with different configuration
-   requirements than your present setup, or you need different environments such as 'development'
+1. It reduces build times of the 'configuration' image, which is where most of the
+   debugging/development usually takes place, and avoids repeatedly fetching binaries
+   and compiling software.
+
+2. It is easy to setup the same application with different configurations.
+   For instance, if a new database is needed for at new product with different configuration
+   requirements than the present setup, or if there is a need for different environments such as 'development'
    and 'production'.
 
-2. Your build a piece of software from scratch and would like to be able to share it to other
-   users while having your own custom-configuration for your own deployment.
+3. If an new application is builded from scratch, the 'package installation' image can be shared to other
+   users, while having a custom 'configuration' image for specific internal deployments.
 
 Let's make this concrete with a few examples.
 
@@ -44,7 +48,7 @@ CMD service mysql-server onestart && \
     mysql -u root -e "FLUSH PRIVILEGES;"
 ```
 
-this can be split up into,
+This can be split up into
 
 ```dockerfile
 # Dockerfile.mariadb-pkg build with tag 'MariaDB'
@@ -64,14 +68,14 @@ CMD service mysql-server onestart && \
        mysql -u root -e "FLUSH PRIVILEGES;"
 ```
 
-We can then experiment with the database configuration and initialization
-using `Dockerfile.mariadb` that builds much faster. And we can use the image
-from `Dockerfile.mariadb-pkg` as the basis for different projects that also
-require a MariaDB database.
+The latter builds much faster, and can be used to experiment with the database
+configuration and initialization. The former image
+from `Dockerfile.mariadb-pkg` is resuable for different projects that also
+require a MariaDB database but require a different database schema.
 
 ### Example 2: A web application
 
-Similarily we have the `Dockerfile` used for the 'production' `webapp` image from [part 2](/get-started/02_our_app/):
+Similarily, the `Dockerfile` used for the 'production' `webapp` image from [part 2](/get-started/02_our_app/)
 
 ```dockerfile
 FROM FreeBSD-13.2-RELEASE:latest
@@ -82,7 +86,7 @@ RUN yarn install --production
 CMD cd /app && node src/index.js
 ```
 
-and `Dockerfile.dev` for the 'development' `webapp-dev` image from [part 5](/get-started/05_nullfs_mounts/):
+and `Dockerfile.dev` for the 'development' `webapp-dev` image from [part 5](/get-started/05_nullfs_mounts/)
 
 ```dockerfile
 FROM webapp:latest
@@ -90,7 +94,7 @@ RUN rm -rf /app
 CMD cd /app && yarn install && yarn run dev
 ```
 
-If we factor out the time-consuming `pkg install ...` we get
+can be refactored into a time-consuming `pkg install ...` 'installation' image,
 
 ```dockerfile
 # Dockerfile.pkg build with tag 'webapp-pkg'
@@ -98,7 +102,7 @@ FROM FreeBSD-13.2-RELEASE:latest
 RUN pkg install -y node20 npm-node20 yarn-node20
 ```
 
-that can be used as the basis for our two environment-specific images:
+that can be used for the two environment-specific images:
 
 ```dockerfile
 # Production image
@@ -119,34 +123,33 @@ CMD cd /app && yarn install && yarn run dev
 
 ## 'ephemeral' vs. 'thin VM' containers
 
-The images of the [Getting started](/get-started/) guide are designed by the
-["ephemeral containers"](https://docs.docker.com/develop/develop-images/guidelines/#create-ephemeral-containers)-approach of Docker,
-that focues on lightweight images/containers with respect to complexity and size.
-The container should also start and stop with the `CMD`-instruction.
+The images in the [Getting started](/get-started/) guide are designed as
+["ephemeral containers"](https://docs.docker.com/develop/develop-images/guidelines/#create-ephemeral-containers),
+where the containerized application is started
+with the container using the `CMD`-instruction.
+This is a standard way of building images in the Linux-world.
 
-However, traditionally FreeBSD jails have been used more with a "containers-as-thin-vm's"
--approach. This is also exemplified by the native FreeBSD jail-configuration where you
-specify your jails in [`jail.conf(5)`](https://man.freebsd.org/cgi/man.cgi?query=jail.conf) and then manage jails like they were services.
-In this setup, containers are often started/stopped together with host itself,
-and containers have the full FreeBSD userland available.
-The particular service is then managed with [rc.conf(5)](https://man.freebsd.org/cgi/man.cgi?query=rc.conf)
-within the container or a third-party service manager such as `py-supervisord`.
-Just as if it was running directly on the host.
+However, traditionally with FreeBSD jails there have been a "containers-as-thin-vm's"
+-approach. This is exemplified by the native FreeBSD jail-configuration, where jails
+are specified in [`jail.conf(5)`](https://man.freebsd.org/cgi/man.cgi?query=jail.conf) and manage jails like they were services.
+In this setup, containers are often started with the system startup script
+`/etc/rc`, as exemplified in the `jails` man-page, and containers have the full
+FreeBSD userland available.
+Applications and services in the container are then managed with [rc.conf(5)](https://man.freebsd.org/cgi/man.cgi?query=rc.conf)
+(or a third-party service manager such as `py-supervisord`).
 Sometimes auxillary services such as `sshd` may be running together with the
-main application. This approach is also suitable for sandbox VM environments,
-where a user can get (ssh)-access to a development-container and use it as a
-playground/sandbox for trying out different software packages or play
-around with data etc.
+main application.
 
-Both approaches, however, aim for seperation of concerns and isolation of services:
-Run your database in one container and your web-applikation in another.
-Luckliy, it is not a 'one or the other' situation since both approaches can be used,
-and mixed, as see fit. FreeBSD jails and thus Kleene supports both ways.
+Both the 'ephemeral' and 'thin VM' approaches to container design aim for seperation
+of concerns and isolation of services:
+Run the database in one container and the web-application in another.
+Also, it is not a 'one or the other' situation, since both approaches can be used,
+and mixed, with FreeBSD jails and thus Kleene.
 
 ### Example image for 'thin-VM' containers
 
-As a simple example, let's try to make a lightweight template image that
-creates a user, grants him password-free sudo in the `sudoers` file, and lastly enables
+As a simple example, let's try to make a simple 'playground VM' image that
+creates a user, grants it password-free sudo in the `sudoers` file, and lastly enables
 the ssh-server at container startup:
 
 ```dockerfile
@@ -185,7 +188,6 @@ dfd0bdf5c2c1
 created execution instance 168285340bb0
 ELF ldconfig path: /lib /usr/lib /usr/lib/compat /usr/local/lib /usr/local/lib/compat/pkg /usr/local/lib/compat/pkg
 32-bit compatibility ldconfig path: /usr/lib32
-/etc/rc: WARNING: $hostname is not set -- see rc.conf(5).
 Updating motd:.
 Creating and/or trimming log files.
 Clearing /tmp (X related).
@@ -206,8 +208,8 @@ Starting cron.
 Tue Feb  6 17:14:16 UTC 2024
 ```
 
-And you new playground is up and running! You can check with `jls`.
-Now, hurry up and ssh into your newly created 'vm-container' so you can change
+And the new playground is up and running!
+Now, hurry up and ssh into the newly created 'vm-container' and change
 the password and start playing around!
 
 ## General guidelines and recommendations
@@ -218,20 +220,20 @@ The following sections contain a few tips and conrete advices for image developm
 
 To reduce complexity, dependencies, file sizes, and build times, avoid
 installing extra or unnecessary packages just because they might be "nice to
-have." For example, you don’t need to include a text editor in a database image.
+have." For example, there is no need to include a text editor in a database image.
 
 ### Decouple applications
 
 Each container should have only one concern. Decoupling applications into
 multiple containers makes it easier to scale, reuse containers and upgrade
-your tech stack.
+the tech stack.
 For instance, a web application stack might consist of three separate
 containers, each with its own unique image, to manage the web application,
 database, and an in-memory cache in a decoupled manner.
 
-Use your best judgment to keep containers as clean and modular as possible. If
-containers depend on each other, you can use [Kleene container networks](/run/network/)
-to ensure that these containers can communicate.
+Try and keep containers as clean and modular as possible. If
+containers depend on each other, use container [networks](/run/network/)
+to ensure that the containers can communicate.
 
 ### Keep Dockerfile instructions simple
 
@@ -244,12 +246,12 @@ RUN /some_script.sh && \
     some_other_command && \
 ```
 
-and use instead
+use instead
 
 ```dockerfile
-RUN some_script.sh && \
-RUN some_command && \
-RUN some_other_command && \
+RUN some_script.sh
+RUN some_command
+RUN some_other_command
 ```
 
 Each `RUN`-instruction causes Kleene to make a [zfs snapshot](https://man.freebsd.org/cgi/man.cgi?query=zfs-snapshot)
@@ -271,7 +273,7 @@ evaluates the exit code of the last operation in the pipe to determine success.
 In the example above this build step succeeds and produces a new image so long
 as the `wc -l` command succeeds, even if the `fetch` command fails.
 
-If you want the command to fail due to an error at any stage in the pipe,
+To make the command fail due to an error at any stage in the pipe,
 prepend `set -o pipefail &&` to ensure that an unexpected error prevents the
 build from inadvertently succeeding. For example:
 
@@ -280,17 +282,20 @@ RUN set -o pipefail && wget -O - https://some.site | wc -l > /number
 ```
 
 ### `ENV`-instructions can't be unset
-Each `ENV` lines are stored as metadata during image build, and applied at each step.
-This means that even if you unset the environment variable in one step, it is
-still persisted and will appear in the next instructions. You can test this by
-creating a Dockerfile like the following, and then building it.
+`ENV` lines are stored as metadata during image build, and applied at each step.
+Therefore, if environment variables are unset in one step, it is
+still persisted and will appear in the following instructions. Test this by
+creating a Dockerfile like the following, and build it.
 
 ```dockerfile
-FROM FreeBSD:testing
+FROM FreeBSD
 ENV ADMIN_USER="mark"
 RUN echo $ADMIN_USER > ./mark
 RUN unset ADMIN_USER
 ```
+
+Then run the following (and be careful to avoid the `ADMIN_USER` environment
+variable from being evaluated by the local shell before it is sent to Kleened)
 
 ```console
 $ klee run test sh -c 'echo $ADMIN_USER'
@@ -301,19 +306,16 @@ mark
 executable 98d33442355c and its container exited with exit-code 0
 ```
 
-Be careful to avoid the `ADMIN_USER` environment variable from being evaluated
-by your own shell before it is sent to Kleened.
-
 To prevent this, and really unset the environment variable, use a `RUN` command
 with shell commands, to set, use, and unset the variable all in a single instruction.
-You can separate your commands with `;` or `&&`. If you use the second method,
-and one of the commands fails, the `docker build` also fails. This is usually a
-good idea. Using `\` as a line continuation character for Linux Dockerfiles
-improves readability. You could also put all of the commands into a shell script
+Seperate commands with `;` or `&&`. If the second method is used,
+and one of the commands fails, `klee build` also fails. This is usually a
+good idea. Using `\` as a line continuation character for Dockerfiles
+improves readability. Alternatively, put all of the commands into a shell script
 and have the `RUN` command just run that shell script.
 
 ```dockerfile
-FROM FreeBSD:testing
+FROM FreeBSD
 RUN export ADMIN_USER="mark" \
     && echo $ADMIN_USER > ./mark \
     && unset ADMIN_USER
@@ -328,5 +330,3 @@ created execution instance 340d38bfc458
 
 executable 340d38bfc458 and its container exited with exit-code 0
 ```
-
-
