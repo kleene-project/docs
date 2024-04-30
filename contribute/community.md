@@ -9,7 +9,7 @@ limited to:
 
 - #kleene IRC-channel on LiberaChat
 - @kleene tag on Mastodon
-- [The Kleene Github organisation](https://github.com/kleene) (for roadmap and development)
+- [The Kleene Github organisation](https://github.com/kleene-project) (for development)
 
 To learn more about the FreeBSD community and activities, see the
 [FreeBSD community ovierview](https://www.freebsd.org/community/).

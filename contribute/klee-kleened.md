@@ -33,7 +33,7 @@ Vagrantfile for a development environemnt and a couple of useful `Makefile`'s.
 To set it up the environment, do the following:
 
 ```console
-$ git clone https://github.com/kleene/kleene-dev
+$ git clone https://github.com/kleene-project/kleene-dev
 $ cd kleene-dev
 $ make init
 ```

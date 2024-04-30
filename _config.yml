@@ -5,7 +5,7 @@
 ##
 
 name: Kleene Documentation
-repo: https://github.com/kleene/kleene-docs
+repo: https://github.com/kleene-project/docs
 
 markdown: kramdown
 highlighter: rouge

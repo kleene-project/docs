@@ -49,8 +49,8 @@ Then clone the docs repo, build the documentation and serve it using Jekyll's
 own dev webserver
 
 ```console
-$ git clone FIXME URL
-$ cd kleene-docs
+$ git clone https://github.com/kleene-project/docs.git
+$ cd docs
 $ bundle exec jekyll serve
                     done in 18.942 seconds.
  Auto-regeneration: enabled for '/path/to/kleene-docs'

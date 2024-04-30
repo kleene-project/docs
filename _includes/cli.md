@@ -13,7 +13,7 @@
 
 > This command is [deprecated](/engine/deprecated/){: target="_blank" rel="noopener" class="_"}.
 >
-> It may be removed in a future version. For more information, see the [Kleene project](https://github.com/kleene/){: target="_blank" rel="noopener" class="_"}.
+> It may be removed in a future version.{: target="_blank" rel="noopener" class="_"}.
 {: .warning }
 
 {% endif %}
