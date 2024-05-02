@@ -5,9 +5,6 @@ keywords: build, dockerfile, reference
 toc_max: 3
 redirect_from:
 - /reference/builder/
-fetch_remote:
-  line_start: 2
-  line_end: -1
 ---
 Kleene can build images by reading instructions from a
 `Dockerfile`. A `Dockerfile` contains all the commands a

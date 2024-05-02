@@ -18,14 +18,8 @@ home: {}
 handbook:
 - title: Kleene overview
   path: /get-started/overview/
-- sectiontitle: Get Kleene
-  section:
-    - title: Overview
-      path: /install/
-    - title: Install Kleened
-      path: /install/kleened/
-    - title: Install Klee
-      path: /install/klee/
+- title: Installation
+  path: /install/
 - sectiontitle: Get started
   section:
     - title: "Part 1: Overview"
