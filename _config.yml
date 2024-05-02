@@ -7,12 +7,15 @@
 name: Kleene Documentation
 repo: https://github.com/kleene-project/docs
 
+source: /
 markdown: kramdown
 highlighter: rouge
-incremental: true
+incremental: false
 permalink: pretty
-safe: false
+safe: true
 lsi: false
+gist:
+    noscript: false
 
 # https://kramdown.gettalong.org/options.html
 # https://github.com/kramdown/parser-gfm/blob/master/lib/kramdown/parser/gfm/options.rb
