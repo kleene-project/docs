@@ -1,10 +1,6 @@
-# Kleene's web documentation
+# Kleene's website source code
 
-This is the repository for [Kleene's documentation](https://kleene.dev).
+This is the source for [Kleene's website](https://kleene.dev).
 
-See the ['Contribute' section](https://kleene.dev/contribute/overview/) in the docs if you want
-to know how to contribute.
-
-## Copyright and license
-
-Copyright 2013-2023 Docker, inc, released under the Apache 2.0 license.
+See the ['Contribute' section](https://kleene.dev/contribute/overview/) to know
+more about how to contribute.
