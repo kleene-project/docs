@@ -40,14 +40,6 @@ options:
   option: update
   value_type: bool
 - deprecated: false
-  description: Proceed using a userland from a FreeBSD mirror even if a customized
-    build is detected on the host. Method **fetch-auto** only.
-  experimental: false
-  experimentalcli: false
-  option: force
-  shorthand: f
-  value_type: flag
-- deprecated: false
   description: 'Autogenerate a nametag ''FreeBSD-\<version\>:latest''. If `tag` is
     set this is ignored. Method **fetch-auto** only.  [default: autotag]'
   experimental: false
