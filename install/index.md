@@ -48,15 +48,15 @@ The easiest way to get the latest version of Kleened and install it using
 On FreeBSD14.x:
 
 ```console
-$ fetch https://github.com/kleene-project/kleened/releases/download/v0.1.0-rc.1/kleened-0.1.0-rc1_FreeBSD14-amd64.pkg
-$ sudo pkg install kleened-0.1.0-rc1_FreeBSD14-amd64.pkg
+$ fetch https://github.com/kleene-project/kleened/releases/download/v0.1.0-rc.1/kleened-0.1.0rc1_FreeBSD14-amd64.pkg
+$ sudo pkg install kleened-0.1.0rc1_FreeBSD14-amd64.pkg
 ```
 
 On FreeBSD13.x:
 
 ```console
-$ fetch https://github.com/kleene-project/kleened/releases/download/v0.1.0-rc.1/kleened-0.1.0-rc1_FreeBSD13-amd64.pkg
-$ sudo pkg install kleened-0.1.0-rc1_FreeBSD13-amd64.pkg
+$ fetch https://github.com/kleene-project/kleened/releases/download/v0.1.0-rc.1/kleened-0.1.0rc1_FreeBSD13-amd64.pkg
+$ sudo pkg install kleened-0.1.0rc1_FreeBSD13-amd64.pkg
 ```
 
 ## Install using ports

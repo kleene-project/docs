@@ -1,5 +1,5 @@
 ---
-description: Home page for Kleene's documentation
+description: Kleene website
 keywords: Kleene, documentation, manual, guide, reference, api, samples
 layout: landing
 title: Kleene Documentation
