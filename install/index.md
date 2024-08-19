@@ -117,7 +117,7 @@ in isolated environments to avoid dependency conflicts from other python applica
 For instance, on FreeBSD:
 
 ```console
-$ sudo pkg install py39-pipx
+$ sudo pkg install py311-pipx
 ```
 
 On a Debian-based Linux distribution
