@@ -61,12 +61,12 @@ $ sudo pkg install kleened-0.1.0rc1_FreeBSD13-amd64.pkg
 
 ## Install using ports
 
-Alternatively, build it from source using the FreeBSD port that is shipped with
-the source code:
+Alternatively, build it from source using the FreeBSD port (which is not part
+of the official FreeBSD ports tree yet):
 
 ```console
-$ git clone https://github.com/kleene-project/kleene-ports.git
-$ cd kleene-ports/sysutils/kleened
+$ git clone https://github.com/kleene-project/ports.git kleene-ports
+$ cd kleene-ports/sysutils/kleene-daemon
 $ sudo make install
 ```
 
@@ -117,7 +117,7 @@ in isolated environments to avoid dependency conflicts from other python applica
 For instance, on FreeBSD:
 
 ```console
-$ sudo pkg install py39-pipx
+$ sudo pkg install py311-pipx
 ```
 
 On a Debian-based Linux distribution
