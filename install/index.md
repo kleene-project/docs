@@ -4,73 +4,28 @@ keywords: kleene, klee, kleened, installation, install, overview, download
 toc_min: 1
 ---
 
-<div class="component-container">
-  <!--start row-->
-  <div class="row">
-     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 block">
-        <div class="component">
-             <div class="component-icon">
-                 <a href="/install/#kleened-installation"><img src="/assets/images/kleened-server.svg" alt="kleened" width="70" height="70"></a>
-             </div>
-             <p class="h2"><a href="/install/#kleened-installation">&nbsp;&nbsp;Kleened</a></p>
-             <p>Install Kleene backend on a FreeBSD host</p>
-        </div>
-     </div>
-     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 block">
-        <div class="component">
-            <div class="component-icon">
-                 <a href="/install/#klee-installation"><img src="/assets/images/klee-reference.svg" alt="klee" width="70" height="70"></a>
-            </div>
-            <p class="h2"><a href="/install/#klee-installation">&nbsp;Klee</a></p>
-            <p>Install Kleene client on any machine</p>
-        </div>
-     </div>
-  </div>
-</div>
+# Basic installation
 
-# Kleened installation
+>**Kleene requires the ZFS filesystem and PF firewall to run**
+>
+> Both should be included in the official releases but remember
+> to install FreeBSD using ZFS or manually create a zpool.
 
-## Requirements
+The most straightforward way to install Kleene is using `pkg(7)`.
 
-- Recent versions of FreeBSD on amd64: 13.x or 14.x.
-  - In principle it should work on other archtectures, provided they have the necessary kernel modules.
-- The ZFS kernel module. Included in the official releases.
-- The PF firewall kernel module. Included in the official releases.
-
-## Install using pkg
-
-Since Kleened is not part of the official ports repository yet, it has to be
-downloaded manually.
-
-The easiest way to get the latest version of Kleened and install it using
-`pkg`.
-
-On FreeBSD14.x:
+First, install `kleened` the backend daemon
 
 ```console
-$ fetch https://github.com/kleene-project/kleened/releases/download/v0.1.0-rc.1/kleened-0.1.0-rc1_FreeBSD14-amd64.pkg
-$ sudo pkg install kleened-0.1.0-rc1_FreeBSD14-amd64.pkg
+# pkg install kleene-daemon
 ```
 
-On FreeBSD13.x:
+and `klee` the CLI tool
 
 ```console
-$ fetch https://github.com/kleene-project/kleened/releases/download/v0.1.0-rc.1/kleened-0.1.0-rc1_FreeBSD13-amd64.pkg
-$ sudo pkg install kleened-0.1.0-rc1_FreeBSD13-amd64.pkg
+# pkg install kleene-cli
 ```
 
-## Install using ports
-
-Alternatively, build it from source using the FreeBSD port (which is not part
-of the official FreeBSD ports tree yet):
-
-```console
-$ git clone https://github.com/kleene-project/ports.git kleene-ports
-$ cd kleene-ports/sysutils/kleene-daemon
-$ sudo make install
-```
-
-## Configuration
+### Configuration
 
 It is recommended to take a peek at the configuration file before running
 Kleened. It is located at `/usr/local/etc/kleened/config.yaml` and contains
@@ -79,39 +34,55 @@ defaults intended to work in most basic cases.
 Once Kleened is installed, enable it:
 
 ```console
-$ sudo sysrc kleened_enable=yes
+# sysrc kleened_enable=yes
 ```
 
 This ensures that it will start when the system is restarted.
 
-### Initialize the host
-
-To make sure that all host requirements are met and the host system is properly
-configured, run
+To initialize the host and make sure all host requirements are met, run
 
 ```console
-$ sudo service kleened init
+# service kleened init
 ```
 
-It is also possible to do a dry-run instead using
-`service kleened dryinit` to see which requirements are met and what
-Kleened intends to configure.
+It is also possible to do a dry-run initialization using
+`service kleened dryinit` to see if requirements are met and what
+should be configured.
 
 Finally, start Kleened
 
 ```console
-$ sudo service kleened start
+# service kleened start
 ```
 
-# Klee installation
+Now Kleene should be up and running!
+Start [creating images and containers with `klee`](/reference/klee/cli/).
+
+
+# Alternative installation methods
+### Build from source using FreeBSD ports
+
+Alternatively, build `kleened` and `klee` from source
+using the FreeBSD ports collection:
+
+```console
+# git clone --depth 1 https://git.FreeBSD.org/ports.git /usr/ports
+# cd /ports/sysutils/kleene-daemon
+# make install
+# cd /ports/sysutils/kleene-cli
+# make install
+```
+
+See the FreeBSD handbook for [further details](https://docs.freebsd.org/en/books/handbook/ports/#ports-using).
+
+### Install `klee` using `pip` or `pipx`
 
 There are several ways of installing Klee depending on tooling and platform.
-The following provides a couple of examples.
-
-## Install using pipx
+The following provides a couple of examples using `pipx`.
+Alternatively, `pip` can be used in a similar way.
 
 `pipx` works on many differen platforms and can be used to install python packages
-in isolated environments to avoid dependency conflicts from other python applications.
+in isolated environments to avoid dependency conflicts with other python applications.
 `pipx` can be installed on most operating systems.
 
 For instance, on FreeBSD:
@@ -126,18 +97,17 @@ On a Debian-based Linux distribution
 $ sudo apt install pipx
 ```
 
-Then install Klee by
+Once `pipx` is install, `klee` can be installed by
 
 ```console
 $ pipx install kleene-cli
 ```
 
-This is the most common way that uses the latest version from
-[PyPI](https://pypi.org/).
+using the latest version from [PyPI](https://pypi.org/).
 
-### Install latest development version
+### Install development version of `klee`
 
-Alternatively, Klee can be installed directly from source using
+The latest version of `klee` can be installed directly from source using `pipx`
 
 ```console
 $ git clone https://github.com/kleene-project/klee
@@ -145,5 +115,5 @@ $ pipx install ./klee
 ```
 
 If `pipx install -e ./klee` is used instead, it will be installed in 'editable'
-mode, meaning that any changes made to Klee will take effect the next time `klee`
+mode, meaning that any changes made to the source will take effect the next time `klee`
 is invoked.
