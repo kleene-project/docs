@@ -1,0 +1,15 @@
+Kleene Documentation
+Copyright 2023 The Kleene Project
+
+This product includes software and documentation developed at Docker, Inc.
+(https://www.docker.com/).
+
+This site began as a fork of Docker's documentation site (github.com/docker/docs),
+and retains substantial portions of it: the Jekyll theme (_layouts, _includes,
+_scss, _plugins), the build configuration, and parts of the reference and
+authoring documentation. Those portions remain Copyright 2016 Docker, Inc. and
+are used under the Apache License, Version 2.0, a copy of which is included in
+the LICENSE file at the root of this repository.
+
+The upstream Git history was not retained in this repository. It remains
+available at github.com/docker/docs.
