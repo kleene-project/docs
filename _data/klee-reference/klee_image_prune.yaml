@@ -1,0 +1,63 @@
+command: klee image prune
+deprecated: false
+examples: 'Example output:
+
+
+  ```console
+
+  $ docker image prune -a
+
+  WARNING! This will remove all unused images.
+
+  Are you sure you want to continue? [y/N]: y
+
+  6e33dbacde70
+
+  5f8e437e5c95
+
+  2d6d265811f4
+
+  04a5d28beebb
+
+  c3621bd3dd4d
+
+  50d478460a91
+
+  5d2f60f04d9f
+
+  d22550af77b2
+
+  e3e448cea096
+
+  4a103f27dad8
+
+  422100eb65cc
+
+  ```
+
+  '
+experimental: false
+experimentalcli: false
+long: Remove images that are not being used by containers
+options:
+- deprecated: false
+  description: Remove tagged containers as well.
+  experimental: false
+  experimentalcli: false
+  option: all
+  shorthand: a
+- deprecated: false
+  description: Do not prompt for confirmation
+  experimental: false
+  experimentalcli: false
+  option: force
+  shorthand: f
+- deprecated: false
+  description: Show this message and exit.
+  experimental: false
+  experimentalcli: false
+  option: help
+plink: klee_image.yaml
+pname: klee image
+short: Remove images that are not being used by...
+usage: klee image prune [OPTIONS]

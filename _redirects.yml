@@ -1,0 +1,9 @@
+#
+# pageless redirects
+# used by _plugins/pageless_redirects.rb
+# See https://github.com/nquinlan/jekyll-pageless-redirects for syntax
+
+# Use the `/go/` URL prefix to provide "vanity" URLs linking to the
+# documentation. These URLs can be used in (for example) Klee's help-pages
+"/engine/reference/commandline/cli/":
+  - /go/klee/

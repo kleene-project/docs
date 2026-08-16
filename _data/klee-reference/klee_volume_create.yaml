@@ -1,0 +1,50 @@
+command: klee volume create
+deprecated: false
+examples: 'Create a volume and then configure a container to use it:
+
+
+  ```console
+
+  $ klee volume create hello
+
+  hello
+
+  $ sudo touch /zroot/kleene/volumes/hello/world
+
+  $ klee run -m hello:/there FreeBSD ls /there
+
+  968414ee0599
+
+  created execution instance 7dbade0564df
+
+  world
+
+
+  executable 7dbade0564df and its container exited with exit-code 0
+
+  ```
+
+
+  The mount is created inside the container''s `/there` directory.
+
+
+  Multiple containers can use the same volume in the same time period. This is
+
+  useful if two containers need access to shared data. For example, if one
+
+  container writes and the other reads the data.
+
+  '
+experimental: false
+experimentalcli: false
+long: Create a new volume. If the volume name already exists nothing happens.
+options:
+- deprecated: false
+  description: Show this message and exit.
+  experimental: false
+  experimentalcli: false
+  option: help
+plink: klee_volume.yaml
+pname: klee volume
+short: Create a new volume.
+usage: klee volume create [OPTIONS] VOLUME_NAME

@@ -1,0 +1,144 @@
+command: klee container update
+deprecated: false
+examples: '
+
+  ### <a name="user-env"></a> Update user and environment variables (--user/--env)
+
+
+  Updating the user and environment variables of `my-container`:
+
+
+  ```console
+
+  $ klee container update --user myuser --env VAR1=1 --env VAR2=2 my-container
+
+  ad813478a0ec
+
+  ```
+
+
+  ### <a name="jail-param"></a> Update a container''s jail parameters (--jailparam)
+
+
+  Updating the jail parameters of the running container `my-container`:
+
+
+  ```console
+
+  $ klee container update -J mount.devfs -J allow.raw_sockets my-container
+
+  ad813478a0ec
+
+  ```
+
+
+  Note that not all parameters can be updated while the container is running:
+
+
+  ```console
+
+  $ klee container update -J mount.devfs -J vnet my-container
+
+  an error ocurred while updating the container: ''/usr/sbin/jail'' returned non-zero
+  exitcode 139 when attempting to modify the container ''''
+
+  ```
+
+
+  When an error occurs the container needs to be restarted for the changes
+
+  to take effect.
+
+  '
+experimental: false
+experimentalcli: false
+long: '
+
+  The `klee container update` command updates a container''s configuration.
+
+  You can use this command to modify container environment behaviour by changing
+
+  jail parameters, or changing the container configuration such as default
+
+  environment variables, user running the process, or the name of the container.
+
+
+  Changing the container configurations, such as the default user, requires a
+
+  restart of the container for changes to take effect. However, many jail parameters
+
+  can be modified on a running container as well. If one or more jail parameters
+
+  cannot be modified and error will occur and a restart is required for the changes
+
+  to take effect.
+
+
+  > **Please note**
+
+  >
+
+  > Modifying jail parameters on a running container can cause unpredictable
+
+  > behaviour for the applications running in the container. Use with care.
+
+  {: .important }
+
+
+  Connecting/disconnecting a container to networks can be done using the
+
+  [`klee network` subcommands](/reference/klee/network/).
+
+  '
+options:
+- deprecated: false
+  description: Assign a new name to the container
+  experimental: false
+  experimentalcli: false
+  option: name
+- deprecated: false
+  description: Default user used when running commands in the container
+  experimental: false
+  experimentalcli: false
+  option: user
+  shorthand: u
+- deprecated: false
+  description: Set environment variables (e.g. `--env FIRST=env --env SECOND=env`)
+  experimental: false
+  experimentalcli: false
+  option: env
+  shorthand: e
+  value_type: list
+- deprecated: false
+  description: Set jail parameters. Replace defaults (such as 'mount.devfs', 'exec.clean',
+    etc.) by specifying alternative values. See docs for details.
+  experimental: false
+  experimentalcli: false
+  option: jailparam
+  shorthand: J
+  value_type: list
+- deprecated: false
+  description: Do not remove this container when pruning
+  experimental: false
+  experimentalcli: false
+  option: persist
+  shorthand: P
+  value_type: flag
+- deprecated: false
+  description: 'Restarting policy of the container. Set to ''no'' for no automatic
+    restart of the container.
+
+    Set to ''on-startup'' to start the container each time Kleened is.  [default:
+    no]'
+  experimental: false
+  experimentalcli: false
+  option: restart
+- deprecated: false
+  description: Show this message and exit.
+  experimental: false
+  experimentalcli: false
+  option: help
+plink: klee_container.yaml
+pname: klee container
+short: Modify container properties.
+usage: klee container update [OPTIONS] CONTAINER [COMMAND]...

@@ -1,0 +1,75 @@
+command: klee image tag
+deprecated: false
+examples: '
+
+  ### Tag an image referenced by ID
+
+
+  To tag an image with ID "2e91f95bf959":
+
+
+  ```console
+
+  $ klee tag 0e5574283393 13.2-STABLE/base
+
+  ```
+
+
+  Note that since a `tag` is not specified Kleened sets it to `latest`,
+
+  i.e., `13.2-STABLE/base:latest`.
+
+
+  ### Tag an image referenced by name
+
+
+  To tag a local image with FreeBSD additional releng `REVISION` information:
+
+
+  ```console
+
+  $ klee tag FreeBSD-13.1-RELEASE FreeBSD-13.1-RELEASE:fc952ac2212
+
+  ```
+
+
+  Note that since a `tag` is not specified Kleened sets it to `latest`.
+
+
+  ### Tag an image referenced by nametag
+
+
+  Re-tag an image and replace tag "test" with "version1.0.test":
+
+
+  ```console
+
+  $ docker tag nginx:test nginx:version1.0.test
+
+  ```
+
+  '
+experimental: false
+experimentalcli: false
+long: 'Redefine the nametag of an image where `NAMETAG` follows the `name:tag` format.
+
+  If `:tag` is omitted, `:latest` is assumed.
+
+
+  A nametag may contain lowercase and uppercase letters, digits, underscores,
+
+  periods and dashes. A nametag may not start with a period or a dash and may
+
+  contain a maximum of 128 characters.
+
+  '
+options:
+- deprecated: false
+  description: Show this message and exit.
+  experimental: false
+  experimentalcli: false
+  option: help
+plink: klee_image.yaml
+pname: klee image
+short: Rename an image
+usage: klee image tag [OPTIONS] SOURCE_IMAGE NAMETAG

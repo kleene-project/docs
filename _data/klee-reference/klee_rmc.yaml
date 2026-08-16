@@ -1,0 +1,41 @@
+command: klee rmc
+deprecated: false
+examples: "```console\n$ klee container ls -a\n CONTAINER ID    NAME             \
+  \     IMAGE          TAG      COMMAND                         CREATED          \
+  \    STATUS\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+  \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+  \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+  \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+  \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+  \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+  \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+  \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+  \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+  \n f25a12f7c2e0    elegant_lumiere       cecc28cf8ad4   latest   /bin/sh /etc/rc\
+  \                 About an hour ago    stopped\n 0144f73be1ee    inspiring_blackwell\
+  \   cecc28cf8ad4   latest   /bin/sh                         About an hour ago  \
+  \  stopped\n effdf5d44a5e    frosty_dubinsky       cecc28cf8ad4   latest   /bin/sh\
+  \                         About an hour ago    stopped\n 839aee293db2    test  \
+  \                cecc28cf8ad4   latest   /bin/sh                         About an\
+  \ hour ago    stopped\n\n$ klee container rm f25a effdf5d44a5e inspiring_blackwell\
+  \ testting\nf25a12f7c2e0\neffdf5d44a5e\n0144f73be1ee\n839aee293db2\n```\n"
+experimental: false
+experimentalcli: false
+long: Remove one or more containers
+options:
+- deprecated: false
+  description: Stop containers before removing them.
+  experimental: false
+  experimentalcli: false
+  option: force
+  shorthand: f
+- deprecated: false
+  description: Show this message and exit.
+  experimental: false
+  experimentalcli: false
+  option: help
+plink: klee.yaml
+pname: klee
+short: Remove one or more containers
+shortcut: container rm
+usage: klee rmc [OPTIONS] CONTAINERS...

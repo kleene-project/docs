@@ -1,0 +1,107 @@
+##
+# Default configuration file
+#
+# This file overrides options set in _config.yml for production / deploy
+##
+
+name: Kleene Documentation
+repo: https://github.com/kleene-project/docs
+
+source: /
+markdown: kramdown
+highlighter: rouge
+incremental: false
+permalink: pretty
+safe: true
+lsi: false
+gist:
+    noscript: false
+
+# https://kramdown.gettalong.org/options.html
+# https://github.com/kramdown/parser-gfm/blob/master/lib/kramdown/parser/gfm/options.rb
+kramdown:
+  input: GFM
+  gfm_quirks: [paragraph_end, no_auto_typographic]
+  hard_wrap: false
+  html_to_native: true
+  syntax_highlighter: rouge
+  toc_levels: 2..3
+
+# https://jekyllrb.com/docs/configuration/liquid/
+liquid:
+  error_mode: strict
+
+# Exclude directories and/or files from the conversion. These exclusions are
+# relative to the site's source directory and cannot be outside the source
+# directory.
+exclude:
+  - _deploy
+  - _releaser
+  - LICENSE
+  - Makefile
+  - README.md
+
+# You can't have - characters in these for non-YAML reasons.
+# When updating 'kleened_api_version', also update 'min_api_threshold' below.
+kleened_api_version: "0.1.0"
+
+# Options for displaying minimum API version requirements in the reference pages.
+#
+# The reference pages show badges for commands and options (flags) that require
+# a minimum API version. 
+#
+# The "min_api_threshold" option specifies the minimum required API version for
+# which we show a badge (currently: API v0.1.0).
+min_api_threshold: 0.1
+
+# Enable search autocompletion (requires metadata.json to be generated)
+local_search: true
+
+# List of plugins to enable for local development builds. Mostly the same as
+# for production.
+plugins:
+  - jekyll-redirect-from
+  - jekyll-relative-links
+  - jekyll-sitemap
+
+# Assets
+#
+# We specify the directory for Jekyll so we can use @imports.
+#
+# For local development, we build css with the "expanded" format to produce
+# human-readable output for easier debugging.
+sass:
+  sass_dir: _scss
+  style: expanded
+
+# Setting options here prevents having to repeat the same option in front-matter
+# on every page.
+# https://jekyllrb.com/docs/configuration/front-matter-defaults/
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: docs
+      toc_min: 2
+      toc_max: 4
+
+  # Exclude from sitemap
+  - scope:
+      path: "assets/**"
+    values:
+      sitemap: false
+  - scope:
+      path: "**/*.pdf"
+    values:
+      sitemap: false
+
+# Fetch upstream resources (reference documentation) used by _plugins/fetch_remote.rb
+# - repo is the GitHub repository to fetch from
+# - default_branch used to generate edit_url link
+# - ref the Git reference
+# - paths is a list to the resources within the remote repository
+#   - dest is the destination path within the working tree
+#   - src is a list of glob source paths within the remote repository
+# We are not using this ATM for Kleene
+fetch-remote: []

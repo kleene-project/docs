@@ -1,0 +1,166 @@
+command: klee create
+deprecated: false
+examples: "\nMore examples available at the [`klee container run` command](/reference/klee/container_run/)\
+  \ documentation.\n\n### Create and start a container\n\nThe following example creates\
+  \ an interactive container with a pseudo-TTY attached,\nthen starts the container\
+  \ and attaches to it:\n\n```console\n$ klee container create --name mycontainer\
+  \ hello-world:latest\n4d9d4e72a07f\n\n$ klee container start -it mycontainer\ncreated\
+  \ execution instance 71c359af03f7\nHello World\n\nexecutable 71c359af03f7 and its\
+  \ container exited with exit-code 0\n```\n\nThe above is the equivalent of a `klee\
+  \ run`:\n\n```console\n$ klee container run -it --name mycontainer hello-world:latest\n\
+  6e33dbacde70\ncreated execution instance 4eb13ad4c3a4\nHello World\n\nexecutable\
+  \ 4eb13ad4c3a4 and its container exited with exit-code 0\n```\n\n### Initialize\
+  \ volumes\n\nContainer volumes can be automatically created during the `klee container\
+  \ create`\nphase:\n\n```console\n$ klee container create -v /data --name storage\
+  \ FreeBSD13.2-STABLE\n5f8e437e5c95\n\n$ klee volume ls\n VOLUME NAME    CREATED\n\
+  \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+  \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\
+  \u2500\u2500\n 6dedc1df7b42   10 secondsago\n```\n"
+experimental: false
+experimentalcli: false
+long: "`klee container create` (or shorthand: `klee create`) command creates a\nnew\
+  \ container from the specified image, without starting it.\n\nWhen creating a container,\
+  \ Kleened creates a ZFS dataset based\non the image and prepares it for running\
+  \ the specified command.\nIf no command is specified, Kleened uses the `CMD` specified\
+  \ in the image.\nThe container ID is then printed to `STDOUT`.\n\n### Specifying\
+  \ IMAGE\nThe `IMAGE` argument takes the following two forms:\n\n- `IMAGE_ID[@SNAPSHOT_ID]`\n\
+  - `IMAGE_NAME>[:TAG][@<SNAPSHOT_ID>]`\n\nIf `TAG` is omitted `latest` is assumed.\
+  \ For example,\n\n- `FreeBSD` means the image `FreeBSD` with tag `latest`\n- `FreeBSD:13.2-STABLE`\
+  \ means the image `FreeBSD` with tag `13.2-STABLE`\n- `FreeBSD:base@6b3c821605d4`\
+  \ means the `FreeBSD:base` image but create the container from the snapshot `6b3c821605d4`\n\
+  - `48fa55889b0f` use the image having ID `48fa55889b0f`\n- `48fa55889b0f@2028818d6f06`\
+  \ use the image as above but create the container from the snapshot `2028818d6f06`\n\
+  \nFor more information about snapshots see the [Build snapshots](/building/snapshots/)\
+  \ section.\n\n### Specifying mounts\nWhen creating containers volumes/directories/files\
+  \ can be mounted\ninto the container using one or more `--mount/-m  MOUNT` options.\n\
+  `MOUNT` must use the following syntax:\n\n```console\nSOURCE:DESTINATION[:rw|ro]\n\
+  ```\n\nwhere\n\n- `SOURCE` can be either a volume name or an absolute path on the\
+  \ host system.\n  If `SOURCE` starts with '`/`' it is interpreted as a host path.\n\
+  \  If a volume name is specified, and the volume does not exist, it will be created.\n\
+  - `DESTINATION` is the path of the mount within the container. If it does not exist\
+  \ it\n  will be created.\n- Optionally, if the mount is postfixed with `:ro` or\
+  \ `:rw` the mount will be read-only\n  or read-write, respectively. If omitted,\
+  \ `:rw` is assumed.\n\nFor example:\n\n- `klee container create -m logs:/var/log\
+  \ ...` mount a volume named `logs` into the container at `/var/log`.\n- `klee container\
+  \ create -m my_archive:/archive:ro ...` create a read-only `archive` mountpoint\
+  \ in the\n  container root for the `my_archive` volume.\n- `klee container create\
+  \ -m /home/some_user:/home/some_user ...` mount the host directory `/home/some_user`\n\
+  \  into the same path within the container.\n\n### Specifying jail parameters\n\n\
+  See the [jail parameter section](/run/jail-parameters/) in the handbook.\n\n###\
+  \ Starting the container\n\nUse `klee container start`\n(or shorthand: `klee start`)\
+  \ command to start the container.\nCombinining `klee container create` and `klee\
+  \ container start` is equivalent to\n`klee container run`.\n\nThe `klee create`\
+  \ command shares most of its options with `klee run`.\nRefer to the [`klee container\
+  \ run` command](/reference/klee/container_run/) section\nfor details on the available\
+  \ flags and options.\n\n### Limiting ressources of containers\n\nIt is not possible\
+  \ to handle ressource contraints in Kleene atm.\nHowever, FreeBSD does support ressource\
+  \ limiting of jails/containers\nusing `rctl(8)` which can be done manually until\
+  \ it is integrated\ninto Kleene. See the [`rctl(8) manual pages`](https://man.freebsd.org/cgi/man.cgi?query=rctl)\n\
+  for details.\n"
+options:
+- deprecated: false
+  description: 'Default user that run commands in the container.
+
+    This parameter will be overwritten by the jail parameter `exec.jail_user` if it
+    is set.'
+  experimental: false
+  experimentalcli: false
+  option: user
+  shorthand: u
+- deprecated: false
+  description: Set environment variables (e.g. `--env FIRST=SomeValue --env SECOND=AnotherValue`)
+  experimental: false
+  experimentalcli: false
+  option: env
+  shorthand: e
+  value_type: list
+- deprecated: false
+  description: 'Mount a volume/directory/file on the host filesystem into the container.
+
+    Mounts are specfied by `--mount SOURCE:DESTINATION[:rw|ro]`.'
+  experimental: false
+  experimentalcli: false
+  option: mount
+  shorthand: m
+  value_type: list
+- deprecated: false
+  description: 'Set jail parameters.
+
+    Replace defaults (such as ''mount.devfs'', ''exec.clean'', etc.) by specifying
+    alternative values. See docs for details.'
+  experimental: false
+  experimentalcli: false
+  option: jailparam
+  shorthand: J
+  value_type: list
+- deprecated: false
+  description: Do not remove this container when pruning
+  experimental: false
+  experimentalcli: false
+  option: persist
+  shorthand: P
+- deprecated: false
+  description: 'Restarting policy of the container. Set to ''no'' for no automatic
+    restart of the container.
+
+    Set to ''on-startup'' to start the container each time Kleened is.  [default:
+    no]'
+  experimental: false
+  experimentalcli: false
+  option: restart
+- deprecated: false
+  description: 'Network driver of the container.
+
+    Possible values: ''ipnet'', ''host'', ''vnet'', and ''disabled''. If no `network`
+    and no `driver` is supplied,
+
+    the network driver is set to ''host''. If a `network` is set but no `driver`,
+    it is set to ''ipnet''.'
+  experimental: false
+  experimentalcli: false
+  option: driver
+  shorthand: l
+- deprecated: false
+  description: Connect container to a network.
+  experimental: false
+  experimentalcli: false
+  option: network
+  shorthand: n
+- deprecated: false
+  description: IPv4 address used for the container. If omitted, an unused ip is allocated
+    from the IPv4 subnet of `network`.
+  experimental: false
+  experimentalcli: false
+  option: ip
+- deprecated: false
+  description: IPv6 address used for the container. If omitted, an unused ip is allocated
+    from the IPv6 subnet of `network`.
+  experimental: false
+  experimentalcli: false
+  option: ip6
+- deprecated: false
+  description: 'Publish ports using the syntax **HOST_PORT[:CONTAINER_PORT][/PROTOCOL]**
+    or
+
+    **INTERFACE:HOST_PORT:CONTAINER_PORT[/PROTOCOL]**.
+
+    **CONTAINER_PORT** defaults to **HOST_PORT** and **PROTOCOL** defaults to ''tcp''.'
+  experimental: false
+  experimentalcli: false
+  option: publish
+  shorthand: p
+- deprecated: false
+  description: Assign a name to the container
+  experimental: false
+  experimentalcli: false
+  option: name
+- deprecated: false
+  description: Show this message and exit.
+  experimental: false
+  experimentalcli: false
+  option: help
+plink: klee.yaml
+pname: klee
+short: Create a new container.
+shortcut: container create
+usage: klee create [OPTIONS] IMAGE [COMMAND]...

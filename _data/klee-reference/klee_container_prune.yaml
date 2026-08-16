@@ -1,0 +1,21 @@
+command: klee container prune
+deprecated: false
+experimental: false
+experimentalcli: false
+long: Remove all stopped containers.
+options:
+- deprecated: false
+  description: Do not prompt for confirmation
+  experimental: false
+  experimentalcli: false
+  option: force
+  shorthand: f
+- deprecated: false
+  description: Show this message and exit.
+  experimental: false
+  experimentalcli: false
+  option: help
+plink: klee_container.yaml
+pname: klee container
+short: Remove all stopped containers.
+usage: klee container prune [OPTIONS]

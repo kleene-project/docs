@@ -1,0 +1,284 @@
+horizontalnav:
+- title: Home
+  path: /
+  node: home
+- title: Handbook
+  path: /get-started/overview/
+  node: handbook
+- title: Reference
+  path: /reference/
+  node: reference
+- title: Contribute
+  path: /contribute/overview/
+  node: contribute
+  hide_home: true
+
+home: {}
+
+handbook:
+- title: Kleene overview
+  path: /get-started/overview/
+- title: Installation
+  path: /install/
+- sectiontitle: Get started
+  section:
+    - title: "Part 1: Overview"
+      path: /get-started/
+    - title: "Part 2: Containerize an application"
+      path: /get-started/02_our_app/
+    - title: "Part 3: Update the application"
+      path: /get-started/03_updating_app/
+    - title: "Part 4: Persist the DB"
+      path: /get-started/04_persisting_data/
+    - title: "Part 5: Using nullfs mounts"
+      path: /get-started/05_nullfs_mounts/
+    - title: "Part 6: Multi-container apps"
+      path: /get-started/06_multi_container/
+- sectiontitle: Building images
+  section:
+    - path: /building/introduction/
+      title: Introduction
+    - path: /building/dockerfile_best-practices/
+      title: Dockerfile best practices
+    - path: /building/snapshots/
+      title: Using build snapshots
+    - path: /building/base-images/
+      title: Create your own base image
+- sectiontitle: Running containers
+  section:
+  - path: /run/introduction/
+    title: Introduction
+  - sectiontitle: Networking
+    section:
+    - path: /run/network/
+      title: Overview
+    - path: /run/network/ipnet/
+      title: IPNet networking
+    - path: /run/network/vnet/
+      title: VNet networking
+    - path: /run/network/host/
+      title: Host networking
+    - path: /run/network/none/
+      title: Disable networking for a container
+    - path: /run/network/publish-ports/
+      title: Publishing ports
+    - path: /run/network/firewall/
+      title: Firewall customization
+    - path: /run/network/troubleshoot/
+      title: Troubleshoot
+  - sectiontitle: Storage
+    section:
+    - path: /run/storage/
+      title: Overview
+    - path: /run/storage/volumes/
+      title: Volume mounts
+    - path: /run/storage/nullfs-mounts/
+      title: Nullfs mounts
+  - path: /run/jail-parameters/
+    title: Jail parameters
+  - path: /run/resource_constraints/
+    title: Container resource constraints
+  - path: /run/start-containers-automatically/
+    title: Start containers automatically
+- sectiontitle: Kleene operation
+  section:
+  - path: /operation/
+    title: Overview
+  - path: /operation/protect-access/
+    title: Protect the Kleened socket
+  - path: /operation/zfs/
+    title: ZFS configuration
+- path: /external-resources/
+  title: External resources
+- path: /release-notes/
+  title: Release notes
+
+reference:
+- path: /reference/
+  title: Reference documentation
+- sectiontitle: Klee (client)
+  section:
+  - path: /reference/klee/cli/
+    title: Using Klee
+  - path: /reference/klee/configure-klee/
+    title: Configure Klee
+  - path: /reference/klee/klee/
+    title: klee (root command)
+  - sectiontitle: klee shortcut commands
+    section:
+    - path: /reference/klee/build/
+      title: klee build
+    - path: /reference/klee/create/
+      title: klee create
+    - path: /reference/klee/rename/
+      title: klee rename
+    - path: /reference/klee/exec/
+      title: klee exec
+    - path: /reference/klee/run/
+      title: klee run
+    - path: /reference/klee/start/
+      title: klee start
+    - path: /reference/klee/restart/
+      title: klee restart
+    - path: /reference/klee/stop/
+      title: klee stop
+    - path: /reference/klee/isc/
+      title: klee isc
+    - path: /reference/klee/isi/
+      title: klee isi
+    - path: /reference/klee/isn/
+      title: klee isn
+    - path: /reference/klee/isv/
+      title: klee isv
+    - path: /reference/klee/lsc/
+      title: klee lsc
+    - path: /reference/klee/lsi/
+      title: klee lsi
+    - path: /reference/klee/lsn/
+      title: klee lsn
+    - path: /reference/klee/lsv/
+      title: klee lsv
+    - path: /reference/klee/rmc/
+      title: klee rmc
+    - path: /reference/klee/rmi/
+      title: klee rmi
+    - path: /reference/klee/rmn/
+      title: klee rmn
+    - path: /reference/klee/rmv/
+      title: klee rmv
+  - sectiontitle: klee container
+    section:
+    - path: /reference/klee/container/
+      title: klee container
+    - path: /reference/klee/container_create/
+      title: klee container create
+    - path: /reference/klee/container_exec/
+      title: klee container exec
+    - path: /reference/klee/container_inspect/
+      title: klee container inspect
+    - path: /reference/klee/container_ls/
+      title: klee container ls
+    - path: /reference/klee/container_prune/
+      title: klee container prune
+    - path: /reference/klee/container_rename/
+      title: klee container rename
+    - path: /reference/klee/container_restart/
+      title: klee container restart
+    - path: /reference/klee/container_rm/
+      title: klee container rm
+    - path: /reference/klee/container_run/
+      title: klee container run
+    - path: /reference/klee/container_start/
+      title: klee container start
+    - path: /reference/klee/container_stop/
+      title: klee container stop
+    - path: /reference/klee/container_update/
+      title: klee container update
+  - sectiontitle: klee image
+    section:
+    - path: /reference/klee/image/
+      title: klee image
+    - path: /reference/klee/image_build/
+      title: klee image build
+    - path: /reference/klee/image_create/
+      title: klee image create
+    - path: /reference/klee/image_ls/
+      title: klee image ls
+    - path: /reference/klee/image_rm/
+      title: klee image rm
+    - path: /reference/klee/image_prune/
+      title: klee image prune
+    - path: /reference/klee/image_inspect/
+      title: klee image inspect
+    - path: /reference/klee/image_tag/
+      title: klee image tag
+  - sectiontitle: klee network
+    section:
+    - path: /reference/klee/network/
+      title: klee network
+    - path: /reference/klee/network_connect/
+      title: klee network connect
+    - path: /reference/klee/network_create/
+      title: klee network create
+    - path: /reference/klee/network_disconnect/
+      title: klee network disconnect
+    - path: /reference/klee/network_inspect/
+      title: klee network inspect
+    - path: /reference/klee/network_ls/
+      title: klee network ls
+    - path: /reference/klee/network_prune/
+      title: klee network prune
+    - path: /reference/klee/network_rm/
+      title: klee network rm
+  - sectiontitle: klee volume
+    section:
+    - path: /reference/klee/volume/
+      title: klee volume
+    - path: /reference/klee/volume_create/
+      title: klee volume create
+    - path: /reference/klee/volume_inspect/
+      title: klee volume inspect
+    - path: /reference/klee/volume_ls/
+      title: klee volume ls
+    - path: /reference/klee/volume_prune/
+      title: klee volume prune
+    - path: /reference/klee/volume_rm/
+      title: klee volume rm
+- sectiontitle: Kleened (server)
+  section:
+  - path: /reference/kleened/
+    title: Overview
+  - path: /reference/kleened/configure-kleened/
+    title: Configure Kleened
+  - path: /reference/kleened/api/kleened-v0.0.1/
+    title: Kleened API v0.0.1
+  - path: /reference/kleened/version-history/
+    title: Version history overview
+- title: Dockerfile reference
+  path: /reference/dockerfile/
+- path: /glossary/
+  title: Glossary
+
+contribute:
+  - sectiontitle: Contribute to Kleene's docs
+    section:
+    - path: /contribute/overview/
+      title: Overview
+    - path: /contribute/contribute-guide/
+      title: Contribution guidelines
+    - path: /contribute/file-conventions/
+      title: Source file conventions
+    - path: /contribute/ui/
+      title: UI elements in content
+    - sectiontitle: Useful components
+      section:
+      - path: /contribute/components/accordions/
+        title: Accordions
+      - path: /contribute/components/badges/
+        title: Badges
+      - path: /contribute/components/call-outs/
+        title: Callouts
+      - path: /contribute/components/cards/
+        title: Cards
+      - path: /contribute/components/code-blocks/
+        title: Code blocks
+      - path: /contribute/components/images/
+        title: Images
+      - path: /contribute/components/links/
+        title: Links
+      - path: /contribute/components/lists/
+        title: Lists
+      - path: /contribute/components/tables/
+        title: Tables
+      - path: /contribute/components/tabs/
+        title: Tabs
+      - path: /contribute/components/tooltips/
+        title: Tooltips
+      - path: /contribute/components/videos/
+        title: Videos
+  - path: /contribute/klee-kleened/
+    title: Contribute to Klee and Kleened
+  - path: /contribute/project-status/
+    title: Project status
+  - path: /contribute/community/
+    title: Community

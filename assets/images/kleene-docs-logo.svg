@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="b" data-name="Lag 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2317.53 447.3">
+  <defs>
+    <style>
+      .c {
+        letter-spacing: -.03em;
+      }
+
+      .c, .d, .e, .f, .g, .h, .i, .j, .k, .l {
+        font-size: 302px;
+      }
+
+      .d {
+        letter-spacing: -.02em;
+      }
+
+      .d, .e, .f, .i, .k, .l {
+        stroke: #fcfcfc;
+        stroke-miterlimit: 10;
+        stroke-width: 10px;
+      }
+
+      .e {
+        letter-spacing: -.02em;
+      }
+
+      .f {
+        letter-spacing: -.02em;
+      }
+
+      .h {
+        letter-spacing: -.04em;
+      }
+
+      .i {
+        letter-spacing: -.06em;
+      }
+
+      .m {
+        font-size: 200px;
+      }
+
+      .j {
+        letter-spacing: -.05em;
+      }
+
+      .n {
+        fill: #fafcfa;
+        font-family: DejaVuSansMono, 'DejaVu Sans Mono';
+      }
+
+      .o {
+        fill: #b8e1a9;
+      }
+
+      .o, .p, .q, .r {
+        stroke-width: 0px;
+      }
+
+      .p {
+        fill: #edf5ed;
+      }
+
+      .q {
+        fill: red;
+      }
+
+      .r {
+        fill: #fcfcfc;
+      }
+
+      .l {
+        letter-spacing: -.09em;
+      }
+    </style>
+  </defs>
+  <polygon class="r" points="302.4 55.15 209.37 55.15 133.53 0 226.55 0 302.4 55.15"/>
+  <path class="r" d="m104.59,326.51l-28.28-87.37L2.02,185.12l28.28,87.37-.25-.18c0,.07,0,.14,0,.21l.36.26,74.2,53.76h0l.16.12s0,0,0,0l-.18-.13Z"/>
+  <polygon class="r" points="105.24 9.64 76.09 98.13 .72 153.22 29.88 64.74 105.24 9.64"/>
+  <polygon class="r" points="303.01 282.45 228.22 337.11 135.47 337.11 210.26 282.45 303.01 282.45"/>
+  <polygon class="r" points="162.73 168.53 81.51 227.9 0 168.63 81.22 109.25 162.73 168.53"/>
+  <polygon class="r" points="201.52 274.11 119.41 334.12 88.19 237.68 170.29 177.67 201.52 274.11"/>
+  <polygon class="r" points="313.24 270.86 212.99 270.86 182.19 175.69 282.43 175.69 313.24 270.86"/>
+  <polygon class="o" points="291.2 172.88 294.04 181.65 291.19 172.9 291.2 172.88"/>
+  <polygon class="r" points="321.32 81.47 350 170.08 321.5 256.56 292.82 167.98 321.32 81.47"/>
+  <polygon class="r" points="200.83 63.63 169.41 158.99 87.76 99.61 119.18 4.25 200.83 63.63"/>
+  <polygon class="p" points="180.63 166.27 280.02 166.27 280.02 166.28 180.63 166.27"/>
+  <polygon class="r" points="312.62 67.35 281.02 163.22 181.64 163.22 213.23 67.35 312.62 67.35"/>
+  <polygon class="q" points="108.83 329.6 108.83 329.6 108.78 329.57 108.83 329.6"/>
+  <text class="n" transform="translate(471.53 329.2)"><tspan class="l" x="0" y="0">k</tspan><tspan class="i" x="154.82" y="0">l</tspan><tspan class="e" x="317.28" y="0">e</tspan><tspan class="f" x="494.18" y="0">e</tspan><tspan class="d" x="669.35" y="0">n</tspan><tspan class="k" x="843.99" y="0">e</tspan><tspan class="m" x="1025.8" y="0"> </tspan><tspan class="c" x="1146.21" y="0">d</tspan><tspan class="h" x="1320.06" y="0">o</tspan><tspan class="j" x="1489.98" y="0">c</tspan><tspan class="g" x="1656.28" y="0">s</tspan></text>
+</svg>

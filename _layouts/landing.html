@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<!-- Page generated {{ site.time }} -->
+<html lang="en">
+{%- include head.html -%}
+<body id="landing" class="landing">
+  <nav class="navbar header">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-content" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">
+          <img src="/assets/images/kleene-docs-logo.svg" alt="Kleene Docs" title="Kleene Docs" width="160" height="28" />
+        </a>
+      </div>
+      <div class="collapse navbar-collapse" id="header-content">
+        <ul class="nav navbar-nav">
+        {%- for entry in site.data.toc.horizontalnav -%}
+          {%- if entry.hide_home -%}{% continue %}{%- endif -%}
+          <li{% if entry.node == "home" %} class=active{% endif %}><a href="{{ entry.path }}" id="{{ entry.node }}">{{ entry.title }}</a></li>
+        {%- endfor -%}
+        <li><a href="/contribute/overview/">Contribute</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li>{% include theme-switch.html %}</li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero container">
+    <div class="row justify-content-center">
+      <div class="col-xs-12 text-center">
+        <h2>Container management in FreeBSD</h2>
+        <p><b>A new tool in need of testing. See <a href="/contribute/project-status/">project status</a> for
+            details.</b></p>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <form action="/search/" method="get" class="col-xs-12 col-sm-offset-2 col-sm-8 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
+        <label class="sr-only" for="st-search-input">Search</label>
+        <input
+          id="st-search-input"
+          class="form-control"
+          name="q"
+          placeholder="Search for guides, terms, commands and more..."
+          type="search"
+          autocomplete="off"
+          spellcheck="false"
+          dir="auto"
+          autofocus
+          data-hj-allow
+        />
+        <div id="autocompleteResults"></div>
+      </form>
+    </div>
+  </section>
+
+  <section class="container">
+    <div class="row">
+      <div class="col-xs-12 col-sm-6 col-lg-4 card-holder">
+        <a class="card get-started" href="/get-started/">
+          <h5 class="title">Get started</h5>
+          <p>
+            Learn Kleene basics and the benefits of containerizing your
+            applications.
+          </p>
+        </a>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-lg-4 card-holder">
+        <a class="card download-kleene" href="/install/">
+          <h5 class="title">Download and install</h5>
+          <p>
+            Download and install Kleene on your machine in a few easy steps.
+          </p>
+        </a>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-lg-4 card-holder">
+        <a class="card under-hood" href="/external-resources/">
+          <h5 class="title">Under the hood</h5>
+          <p>
+            Learn more about the FreeBSD platform that Kleene is built on.
+          </p>
+        </a>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-lg-4 card-holder">
+        <a class="card build-images" href="/building/introduction">
+          <h5 class="title">Build images</h5>
+          <p>
+            Learn how to build images from Dockerfiles.
+          </p>
+        </a>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-lg-4 card-holder">
+        <a class="card build-containers" href="/run/introduction/">
+          <h5 class="title">Run containers</h5>
+          <p>
+            Learn how to run containers based on your images.
+          </p>
+        </a>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-lg-4 card-holder">
+        <a class="card reference" href="/reference/">
+          <h5 class="title">Reference</h5>
+          <p>
+            Browse through the CLI and API reference documentation.
+          </p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    {% include footer.html %}
+  </footer>
+
+  <script>
+    window.onChangeHelpTab = function (name) {
+      const currentActiveTab = document.querySelector(".help-by-product ul.nav li.active");
+      if (currentActiveTab) currentActiveTab.classList.remove("active");
+      const currentActiveBody = document.querySelector(".help-by-product div.row.active[data-tab]");
+      if (currentActiveBody) currentActiveBody.classList.remove("active");
+      const nextActiveTab = document.querySelector('.help-by-product ul.nav li[data-tab="' + name + '"]');
+      if (nextActiveTab) nextActiveTab.classList.add("active");
+      const nextActiveBody = document.querySelector('.help-by-product div.row[data-tab="' + name + '"]');
+      if (nextActiveBody) nextActiveBody.classList.add("active");
+    };
+    window.onChangeHelpOs = function (os) {
+      const container = document.querySelector('div[data-tab="desktop"]');
+      if (container) container.setAttribute("data-os", os);
+    };
+  </script>
+</body>
+</html>

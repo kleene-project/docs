@@ -1,0 +1,77 @@
+﻿amd64: |
+  AMD64 is AMD's 64-bit extension of Intel's x86 architecture, and is also
+  referred to as x86_64 (or x86-64).
+arm64: |
+  ARM64 is the 64-bit extension of the ARM CPU architecture. arm64 architecture
+  is used in Apple silicon machines.
+base image: |
+  A *base image* has no parent image. It is created using one of the `klee image create` subcommands.
+build: |
+  *build* is the process of building images using a [Dockerfile](#dockerfile)
+  and a "context". The context is the set of files that is used when building the image.
+build container: |
+  The container created and used for the image building process. If the build succeeds, the build container is converted to an image.
+container: |
+  A container is a runtime instance (a [zfs](#zfs) clone) of an [image](#image), and consists of
+
+  - A ZFS dataset
+  - Configuration of the process-isolation environment ([jail](#jail))
+  - Zero or more network connections and volume mounts.
+context: |
+    Directory containing files used when building an image, including a Dockerfile. Files and directories from the context
+    can be copied using the `COPY` instruction during image build.
+Docker: The Docker project, which is a container platform for developers and sysadmins to develop, ship, and run applications.
+Dockerfile: |
+  A Dockerfile is a text document that contains all the commands you would
+  run manually in order to build an image. Kleened build images automatically
+  by reading the instructions from a Dockerfile.
+identifier: |
+    When manipulating objects you can (sometimes) refer to them by an *identifier*.
+    An identifier is either
+
+    - An initial segment of the objects ID that uniquely determines the object.
+    - The name or [nametag](#nametag) of an object.
+ident: See [identifier](#identifier)
+image: |
+  Images are the basis of [containers](#container). An image is root filesystem
+  snapt and some execution parameters for the container runtime. An image
+  does not have state and it never changes.
+jail: |
+    Jail is term used for FreeBSDs mechanism for kernel process isolation.
+    A set of processes running in a jailed environment is called a jail.
+    Kleene containers are based on jails, with some additional configuration.
+    See the FreeBSD handbook and man-pages for further details.
+Klee: The CLI client used to interact with the backend daemon Kleened.
+Kleene: The project documented on this website.
+Kleened: |
+    The backend component in Kleene that takes care of building images,
+    creating containers, networks, volumes etc.
+nametag: |
+    Naming scheme used for images, following the format `name:tag`, such as
+    `nginx:latest` or `nginx:1.24.0`. If a nametag is supplied without the `tag`
+    component, Kleened assumes it is equal to `latest`. E.g.,
+    `klee image build -t FreeBSD .` is equivalent to `klee image build -t FreeBSD:latest .`
+parent image: |
+  An image's **parent image** is the image designated in the `FROM` directive
+  in the image's Dockerfile. All subsequent commands are based on this parent
+  image.
+packet filter: |
+    Packet filter is the firewall in FreeBSD that is used by Kleened for network
+    configuration and connectivity. Consult the FreeBSD handbook and
+    man-pages for more information.
+pf: See [packet filter](#packet-filter)
+tag: |
+  A tag is a component in the [nametag](#nametag) naming scheme used for naming images.
+volume: |
+  A volume is a designated [zfs](#zfs) dataset mounted into zero or more containers
+  using nullfs. Volumes are used to persist data, independent of the container's life cycle.
+  Kleened therefore never automatically deletes volumes when you remove a container,
+  nor will it "garbage collect" volumes that are no longer referenced by a container.
+x86_64: |
+  x86_64 (or x86-64) refers to a 64-bit instruction set invented by AMD as an
+  extension of Intel's x86 architecture. AMD calls its x86_64 architecture,
+  AMD64, and Intel calls its implementation, Intel 64.
+zfs: |
+    Is the filesystem that containers, images and volumes are based on.
+    Especially `zfs clone` and `zfs snapshot` are frequently used when
+    building images and creating containers.

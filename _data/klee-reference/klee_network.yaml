@@ -1,0 +1,31 @@
+clink:
+- klee_network_create.yaml
+- klee_network_ls.yaml
+- klee_network_inspect.yaml
+- klee_network_rm.yaml
+- klee_network_prune.yaml
+- klee_network_disconnect.yaml
+- klee_network_connect.yaml
+cname:
+- klee network create
+- klee network ls
+- klee network inspect
+- klee network rm
+- klee network prune
+- klee network disconnect
+- klee network connect
+command: klee network
+deprecated: false
+experimental: false
+experimentalcli: false
+long: Manage networks
+options:
+- deprecated: false
+  description: Show this message and exit.
+  experimental: false
+  experimentalcli: false
+  option: help
+plink: klee.yaml
+pname: klee
+short: Manage networks
+usage: klee network [OPTIONS] COMMAND [ARGS]...

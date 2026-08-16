@@ -1,0 +1,58 @@
+command: klee image create
+deprecated: false
+experimental: false
+experimentalcli: false
+long: "Create a base image from a tar-archive or a ZFS dataset.\n\n**METHOD** can\
+  \ be one of the following:\n\n- **fetch-auto**: Automatically fetch a release/snapshot\
+  \ from the offical FreeBSD\n  mirrors, based on host information from uname(1).\
+  \ **SOURCE** is not used.\n- **fetch**: Fetch a custom version of the base system\
+  \ and use it for image creation.\n  **SOURCE** is a valid url for fetch(1), pointing\
+  \ to a base.txz file locally or remote.\n- **zfs-copy**: Create a base image from\
+  \ a copy of an existing ZFS dataset. **SOURCE** is the dataset.\n- **zfs-clone**:\
+  \ Create a base image from a clone of an existing ZFS dataset. **SOURCE** is the\
+  \ dataset."
+options:
+- deprecated: false
+  description: Name and optionally a tag in the 'name:tag' format
+  experimental: false
+  experimentalcli: false
+  option: tag
+  shorthand: t
+- deprecated: false
+  description: 'Whether or not to copy /etc/resolv.conf from the host to the new image.  [default:
+    dns]'
+  experimental: false
+  experimentalcli: false
+  option: dns
+  value_type: bool
+- deprecated: false
+  description: 'Whether or not to copy /etc/localtime from the host to the new image,
+    if it exists.  [default: localtime]'
+  experimental: false
+  experimentalcli: false
+  option: localtime
+  value_type: bool
+- deprecated: false
+  description: 'Update the userland using freebsd-update(8). See the freebsd-update
+    man-page for details on which FreeBSD versions can be updated.  [default: no-update]'
+  experimental: false
+  experimentalcli: false
+  option: update
+  value_type: bool
+- deprecated: false
+  description: 'Autogenerate a nametag ''FreeBSD-\<version\>:latest''. If `tag` is
+    set this is ignored. Method **fetch-auto** only.  [default: autotag]'
+  experimental: false
+  experimentalcli: false
+  option: autotag
+  shorthand: a
+  value_type: bool
+- deprecated: false
+  description: Show this message and exit.
+  experimental: false
+  experimentalcli: false
+  option: help
+plink: klee_image.yaml
+pname: klee image
+short: Create a new base image
+usage: klee image create [OPTIONS] METHOD [SOURCE]...

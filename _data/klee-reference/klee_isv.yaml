@@ -1,0 +1,25 @@
+command: klee isv
+deprecated: false
+examples: "\nCreate a volume, mount it into a container, and inspect it:\n\n```console\n\
+  $ klee volume create data\ndata\n$ klee run -m data:/data FreeBSD\n5faf4811c124\n\
+  created execution instance b00b2e926566\n\n...container output here...\n\nb00b2e926566\
+  \ has exited with exit-code 0\n$ klee volume inspect data\n{\n  \"mountpoints\"\
+  : [\n    {\n      \"container_id\": \"5faf4811c124\",\n      \"destination\": \"\
+  /data\",\n      \"read_only\": false,\n      \"source\": \"data\",\n      \"type\"\
+  : \"volume\"\n    }\n  ],\n  \"volume\": {\n    \"created\": \"2024-04-18T10:00:45.138987Z\"\
+  ,\n    \"dataset\": \"zroot/kleene/volumes/data\",\n    \"mountpoint\": \"/zroot/kleene/volumes/data\"\
+  ,\n    \"name\": \"data\"\n  }\n}\n```\n"
+experimental: false
+experimentalcli: false
+long: Display detailed information on an volume.
+options:
+- deprecated: false
+  description: Show this message and exit.
+  experimental: false
+  experimentalcli: false
+  option: help
+plink: klee.yaml
+pname: klee
+short: Display detailed information on an volume.
+shortcut: volume inspect
+usage: klee isv [OPTIONS] VOLUME
