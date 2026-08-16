@@ -1,5 +1,5 @@
 ---
-description: components and formatting examples used in Docker's docs
+description: components and formatting examples used in Kleene's docs
 title: Callouts
 toc_max: 3
 ---
@@ -25,7 +25,7 @@ We support these broad categories of callouts:
 
 > **Tip**
 >
-> For a smaller base image, use `alpine`.
+> Pin the base image to an explicit release, for example `FreeBSD-13.2-RELEASE:latest`.
 {: .tip }
 
 
@@ -40,11 +40,9 @@ We support these broad categories of callouts:
 >
 > Removing Volumes
 >
-> By default, named volumes in your compose file are NOT removed when running
-> `docker-compose down`. If you want to remove the volumes, you will need to add
-> the `--volumes` flag.
->
-> The Docker Dashboard does not remove volumes when you delete the app stack.
+> Volumes are NOT removed when you remove the container using them. Use
+> `klee volume rm` to remove a volume explicitly, or `klee volume prune` to
+> remove every volume that is not in use by a container.
 {: .warning}
 
 ## HTML
@@ -62,7 +60,7 @@ We support these broad categories of callouts:
 
 > **Tip**
 >
-> For a smaller base image, use `alpine`.
+> Pin the base image to an explicit release, for example `FreeBSD-13.2-RELEASE:latest`.
 {: .tip }
 
 > **Important**
@@ -75,10 +73,8 @@ We support these broad categories of callouts:
 >
 > Removing Volumes
 >
-> By default, named volumes in your compose file are NOT removed when running
-> `docker-compose down`. If you want to remove the volumes, you will need to add
-> the `--volumes` flag.
->
-> The Docker Dashboard does _not_ remove volumes when you delete the app stack.
+> Volumes are NOT removed when you remove the container using them. Use
+> `klee volume rm` to remove a volume explicitly, or `klee volume prune` to
+> remove every volume that is _not_ in use by a container.
 {: .warning}
 ```

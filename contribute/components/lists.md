@@ -1,5 +1,5 @@
 ---
-description: components and formatting examples used in Docker's docs
+description: components and formatting examples used in Kleene's docs
 title: Lists
 toc_max: 3
 ---
@@ -21,7 +21,7 @@ toc_max: 3
     the code block happens.
 
     ```bash
-    $ docker run hello-world
+    $ klee image ls
     ```
 
 4.  Numbered list item 4 with a bullet list inside it and a numbered list
@@ -56,7 +56,7 @@ toc_max: 3
     the code block happens.
 
     ```bash
-    $ docker run hello-world
+    $ klee image ls
     ```
 
 4.  Numbered list item 4 with a bullet list inside it and a numbered list

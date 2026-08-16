@@ -1,5 +1,5 @@
 ---
-description: components and formatting examples used in Docker's docs
+description: components and formatting examples used in Kleene's docs
 title: Code blocks
 toc_max: 3
 ---
@@ -33,7 +33,7 @@ Use the `bash` language code block when you want to a Bash script:
 
 ```bash
 #!/usr/bin/bash
-echo "deb https://packages.docker.com/1.12/apt/repo ubuntu-trusty main" | sudo tee /etc/apt/sources.list.d/docker.list
+pkg install -y kleene-daemon kleene-cli
 ```
 
 If you want to illustrate an interactive shell, use `console` instead.
@@ -41,7 +41,7 @@ In cases where you use `console`, make sure to add a dollar character
 for the user sign:
 
 ```console
-$ echo "deb https://packages.docker.com/1.12/apt/repo ubuntu-trusty main" | sudo tee /etc/apt/sources.list.d/docker.list
+$ sudo pkg install -y kleene-daemon kleene-cli
 ```
 
 ## Go
@@ -62,10 +62,9 @@ incoming := map[string]interface{}{
 ## PowerShell
 
 ```powershell
-Install-Module DockerMsftProvider -Force
-Install-Package Docker -ProviderName DockerMsftProvider -Force
-[System.Environment]::SetEnvironmentVariable("DOCKER_FIPS", "1", "Machine")
-Expand-Archive docker-18.09.1.zip -DestinationPath $Env:ProgramFiles -Force
+$config = Get-Content -Path kleened_config.yaml
+[System.Environment]::SetEnvironmentVariable("KLEENE_HOST", "10.0.0.1", "Machine")
+Expand-Archive klee-0.1.0.zip -DestinationPath $Env:ProgramFiles -Force
 ```
 
 ## Python
@@ -77,8 +76,12 @@ return html.format(name=os.getenv('NAME', "world"), hostname=socket.gethostname(
 ## Ruby
 
 ```ruby
-docker_service 'default' do
-  action [:create, :start]
+module Jekyll
+  class RenderTimeTag < Liquid::Tag
+    def render(context)
+      "#{context.registers[:site].time}"
+    end
+  end
 end
 ```
 
@@ -86,9 +89,9 @@ end
 
 ```json
 "server": {
-  "http_addr": ":4443",
-  "tls_key_file": "./fixtures/notary-server.key",
-  "tls_cert_file": "./fixtures/notary-server.crt"
+  "address": "https://127.0.0.1:8085",
+  "tls_key_file": "/usr/local/etc/kleened/certs/server-key.pem",
+  "tls_cert_file": "/usr/local/etc/kleened/certs/server-cert.pem"
 }
 ```
 
@@ -135,45 +138,29 @@ command=/usr/sbin/sshd -D
 ## Dockerfile
 
 ```dockerfile
-# syntax=docker/dockerfile:1
+FROM FreeBSD-13.2-RELEASE:latest
 
-FROM ubuntu
+RUN pkg install -y postgresql15-server
 
-RUN apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8
-
-RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main" > /etc/apt/sources.list.d/pgdg.list
-
-RUN apt-get update && apt-get install -y python-software-properties software-properties-common postgresql-9.3 postgresql-client-9.3 postgresql-contrib-9.3
-
-# Note: The official Debian and Ubuntu images automatically ``apt-get clean``
-# after each ``apt-get``
+ENV PGDATA=/var/db/postgres/data15
 
 USER postgres
 
-RUN    /etc/init.d/postgresql start &&\
-    psql --command "CREATE USER docker WITH SUPERUSER PASSWORD 'docker';" &&\
-    createdb -O docker docker
+RUN /usr/local/bin/initdb -D ${PGDATA} && \
+    echo "host all all 0.0.0.0/0 md5" >> ${PGDATA}/pg_hba.conf && \
+    echo "listen_addresses='*'" >> ${PGDATA}/postgresql.conf
 
-RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/9.3/main/pg_hba.conf
-
-RUN echo "listen_addresses='*'" >> /etc/postgresql/9.3/main/postgresql.conf
-
-EXPOSE 5432
-
-VOLUME  ["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql"]
-
-CMD ["/usr/lib/postgresql/9.3/bin/postgres", "-D", "/var/lib/postgresql/9.3/main", "-c", "config_file=/etc/postgresql/9.3/main/postgresql.conf"]
+CMD ["/usr/local/bin/postgres", "-D", "/var/db/postgres/data15"]
 ```
 
 ## YAML
 
 ```yaml
-authorizedkeys:
-  image: dockercloud/authorizedkeys
-  deployment_strategy: every_node
-  autodestroy: always
-  environment:
-    - AUTHORIZED_KEYS=ssh-rsa AAAAB3Nsomelongsshkeystringhereu9UzQbVKy9o00NqXa5jkmZ9Yd0BJBjFmb3WwUR8sJWZVTPFL
-  volumes:
-    /root:/user:rw
+kleene_root: "zroot/kleene"
+pf_config_template_path: "/usr/local/etc/kleened/pf.conf.kleene"
+pf_config_path: "/etc/pf.conf"
+api_listening_sockets:
+  - address: "http:///var/run/kleened.sock"
+enable_logging: true
+log_level: "info"
 ```
