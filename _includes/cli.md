@@ -24,8 +24,7 @@
 >
 > This command is experimental in Kleened. It should not be used in
 > production environments.
->
-> {% include experimental.md %}
+{: .important }
 
 {% endif %}
 
