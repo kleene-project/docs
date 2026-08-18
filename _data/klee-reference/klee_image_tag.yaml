@@ -10,7 +10,7 @@ examples: '
 
   ```console
 
-  $ klee tag 0e5574283393 13.2-STABLE/base
+  $ klee image tag 0e5574283393 13.2-STABLE/base
 
   ```
 
@@ -28,7 +28,7 @@ examples: '
 
   ```console
 
-  $ klee tag FreeBSD-13.1-RELEASE FreeBSD-13.1-RELEASE:fc952ac2212
+  $ klee image tag FreeBSD-13.1-RELEASE FreeBSD-13.1-RELEASE:fc952ac2212
 
   ```
 
@@ -44,7 +44,7 @@ examples: '
 
   ```console
 
-  $ docker tag nginx:test nginx:version1.0.test
+  $ klee image tag FreeBSD-13.1-RELEASE:test FreeBSD-13.1-RELEASE:version1.0.test
 
   ```
 

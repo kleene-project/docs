@@ -2,7 +2,7 @@ command: klee container exec
 deprecated: false
 examples: '
 
-  ### Run `docker exec` on a running container
+  ### Run `klee container exec` on a running container
 
 
   First, start a container.

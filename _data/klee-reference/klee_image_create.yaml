@@ -40,8 +40,8 @@ options:
   option: update
   value_type: bool
 - deprecated: false
-  description: 'Autogenerate a nametag ''FreeBSD-\<version\>:latest''. If `tag` is
-    set this is ignored. Method **fetch-auto** only.  [default: autotag]'
+  description: 'Autogenerate a nametag ''FreeBSD-<version>:latest''. If `tag` is set
+    this is ignored. Method **fetch-auto** only.  [default: autotag]'
   experimental: false
   experimentalcli: false
   option: autotag
