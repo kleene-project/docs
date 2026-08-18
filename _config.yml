@@ -7,6 +7,13 @@
 name: Kleene Documentation
 repo: https://github.com/kleene-project/docs
 
+# Canonical site URL, used for canonical links, Open Graph tags and robots.txt.
+#
+# This must be set here and not only in _plugins/config.rb: GitHub Pages builds
+# this site with its own Jekyll in safe mode, which ignores _plugins/ entirely,
+# so the plugin's value is never applied to the published site.
+docs_url: https://kleene.dev
+
 source: /
 markdown: kramdown
 highlighter: rouge
