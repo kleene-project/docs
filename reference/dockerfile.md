@@ -26,6 +26,12 @@ into a single large `RUN`-instruction is discouraged in Kleene.
 See [Dockerfile best practices](/building/dockerfile_best-practices/)
 for details.
 
+Two instructions you may know from other tools that Kleene does not implement
+are `EXPOSE` and `VOLUME`. Kleene handles container networking without
+per-image configuration (see [the networking docs](/run/network/)), and volumes
+are managed with [`klee volume`](/reference/klee/volume_create/) rather than
+through the image.
+
 Here is the format of the `Dockerfile` as it used in Kleene:
 
 ```dockerfile
