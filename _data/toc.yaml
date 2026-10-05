@@ -230,7 +230,7 @@ reference:
     title: Overview
   - path: /reference/kleened/configure-kleened/
     title: Configure Kleened
-  - path: /reference/kleened/api/kleened-v0.0.1/
+  - path: /reference/kleened/kleened-v0.0.1/
     title: Kleened API v0.0.1
   - path: /reference/kleened/version-history/
     title: Version history overview
