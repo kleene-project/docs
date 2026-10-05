@@ -1,0 +1,17 @@
+/* Kleene brand colors applied to Material.
+   Blue is carried over from the old Jekyll theme's theme-color meta (#2496ed). */
+
+[data-md-color-scheme="default"] {
+  --md-primary-fg-color: #2496ed;
+  --md-accent-fg-color: #0a58ca;
+}
+
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color: #2496ed;
+  --md-accent-fg-color: #5fb2ff;
+}
+
+/* The redoc API page: let it use the full width of the content area. */
+.md-container redoc-scroll {
+  display: block;
+}

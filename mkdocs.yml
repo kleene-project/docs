@@ -1,0 +1,99 @@
+site_name: Kleene Documentation
+site_url: https://kleene.dev
+site_description: Documentation for Kleene, a container management tool for FreeBSD
+site_author: The Kleene Project
+repo_url: https://github.com/kleene-project/docs
+repo_name: kleene-project/docs
+edit_uri: edit/main/docs/
+copyright: Copyright 2023 The Kleene Project — portions Copyright 2016 Docker, Inc., Apache-2.0
+
+docs_dir: docs
+use_directory_urls: true
+strict: true
+
+# SUMMARY.md is the literate-nav navigation source, not a page on the site.
+exclude_docs: |
+  SUMMARY.md
+
+# The site navigation lives in docs/SUMMARY.md, read by mkdocs-literate-nav.
+# scripts/gen_cli_reference.py reads the same file to know which klee reference
+# pages to generate, so navigation and generation cannot drift apart.
+
+theme:
+  name: material
+  language: en
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - navigation.indexes
+    - navigation.tracking
+    - search.highlight
+    - search.suggest
+    - search.share
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+    - toc.follow
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  font:
+    text: Roboto
+    code: Roboto Mono
+  icon:
+    logo: material/home
+  custom_dir: overrides/
+
+extra_css:
+  - assets/css/kleene.css
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+
+plugins:
+  - search:
+      lang: en
+  - gen-files:
+      scripts:
+        - scripts/gen_cli_reference.py
+        - scripts/gen_glossary.py
+  - literate-nav:
+      nav_file: SUMMARY.md
+  - redirects:
+      redirect_maps:
+        reference/builder.md: reference/dockerfile.md
+        reference/kleened/latest/index.md: reference/kleened/kleened-v0.0.1.md
+        reference/glossary.md: glossary.md
+        CONTRIBUTING.md: contribute/overview.md
+  - minify:
+      minify_html: true
