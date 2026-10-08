@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{# The klee reference pages are generated from klee's YAML at build time;
+   there is no source file to edit, so the edit button is misleading there. #}
+{% block content %}
+  {% if page.url.startswith("reference/klee/") and page.url != "reference/klee/cli/" and page.url != "reference/klee/configure-klee/" %}
+    {{ page.content }}
+  {% else %}
+    {{ super() }}
+  {% endif %}
+{% endblock content %}
