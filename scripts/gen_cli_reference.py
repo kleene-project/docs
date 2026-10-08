@@ -8,11 +8,6 @@ Click commands and dumps ``command``/``short``/``long``/``usage``/
 environment from ``data/klee-reference/klee_<name>.yaml``, so nothing is
 checked in twice.
 
-Only the keys klee actually emits are handled. The old Jekyll template
-also carried machinery for fields klee never produced
-(``inherited_options``, ``default_value``, ``min_api_version``,
-``details_url``) and links into Docker's site, which are not ported.
-
 Every YAML file must correspond to a nav entry: generation is keyed on
 SUMMARY.md, so a new klee subcommand without a nav entry fails the build
 (strict mode) rather than appearing silently - and, conversely, a stale
