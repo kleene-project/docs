@@ -1,29 +1,24 @@
 """Generate the klee CLI reference pages from data/klee-reference/*.yaml.
 
-This is the MkDocs port of the old Jekyll ``_includes/cli.md`` include, which
-was invoked 56 times and rendered the YAML files produced by klee's
-``scripts/generate_yaml_docs.py`` (``make docs`` in the klee repo).
+The YAML files are produced by klee's ``scripts/generate_yaml_docs.py``
+(``make docs`` in the klee repo), one per command: klee introspects its
+Click commands and dumps ``command``/``short``/``long``/``usage``/
+``options``/``examples`` plus parent/child links. Each nav entry
+``docs/reference/klee/<name>.md`` is generated here in the build
+environment from ``data/klee-reference/klee_<name>.yaml``, so nothing is
+checked in twice.
 
-The data contract is unchanged: klee introspects its Click commands and dumps
-one YAML file per command. Each stub page ``docs/reference/klee/<name>.md``
-rendered the YAML file ``data/klee-reference/klee_<name>.yaml``; here those
-pages are generated directly in the build environment instead, from the same
-YAML files, so nothing is checked in twice.
+Only the keys klee actually emits are handled. The old Jekyll template
+also carried machinery for fields klee never produced
+(``inherited_options``, ``default_value``, ``min_api_version``,
+``details_url``) and links into Docker's site, which are not ported.
 
-Only the keys klee actually emits are handled. The old template also carried
-machinery for fields klee never produced (``inherited_options``,
-``default_value``, ``min_api_version``, ``details_url``) and links into
-Docker's site (/engine/deprecated/, /engine/api/...), which are not ported.
-
-Two YAML files exist without pages: ``klee_network_lsn.yaml`` and
-``klee_volume_lsv.yaml`` (shortcut aliases that Jekyll never rendered either;
-they are the "network ls" alias of "network lsn" and "volume ls" alias of
-"volume lsv"). They are skipped here as well, by requiring that SUMMARY.md
-lists the page. This also makes a new klee subcommand fail the build (strict
-mode, missing nav entry) rather than appear silently.
+Every YAML file must correspond to a nav entry: generation is keyed on
+SUMMARY.md, so a new klee subcommand without a nav entry fails the build
+(strict mode) rather than appearing silently - and, conversely, a stale
+YAML file with no page is not silently ignored either.
 """
 
-import re
 from pathlib import Path
 
 import mkdocs_gen_files
@@ -33,49 +28,6 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = REPO_ROOT / "data" / "klee-reference"
 OUTPUT_DIR = Path("reference") / "klee"
 SUMMARY = REPO_ROOT / "docs" / "SUMMARY.md"
-
-CALLOUT = re.compile(r"^\s*\{: ?\.(note|tip|warning|important|caution) ?\}\s*$")
-ANY_ATTR_LIST = re.compile(r"^\s*\{:.*\}\s*$")
-
-
-def _convert_callouts(text):
-    """Convert kramdown blockquote callouts to Material admonitions.
-
-    klee's authored prose (klee/docs/*.md) carries kramdown attribute-list
-    callouts: a blockquote followed by ``{: .important }``. The attribute list
-    attaches to the preceding block; only blockquote targets are converted,
-    bare attribute lists are dropped.
-    """
-    if not text:
-        return text
-    lines = text.split("\n")
-    out = []
-    i = 0
-    while i < len(lines):
-        match = CALLOUT.match(lines[i])
-        if match and out and any(l.lstrip().startswith(">") for l in out[-3:]):
-            # Collect the contiguous blockquote block that ends at out[-1].
-            j = len(out) - 1
-            while j >= 0 and out[j].lstrip().startswith(">"):
-                j -= 1
-            quote = out[j + 1 :]
-            out = out[: j + 1]
-            body = [re.sub(r"^\s*>\s?", "", q) for q in quote]
-            while body and not body[0].strip():
-                body.pop(0)
-            out.append(f"!!! {match.group(1)}")
-            for qline in body:
-                out.append(f"    {qline}" if qline.strip() else "")
-            out.append("")
-            i += 1
-            continue
-        if ANY_ATTR_LIST.match(lines[i]) and not CALLOUT.match(lines[i]):
-            i += 1
-            continue
-        out.append(lines[i])
-        i += 1
-    return "\n".join(out)
-
 
 def render_command_page(data):
     """Render one command's YAML data as Markdown, mirroring _includes/cli.md."""
@@ -89,7 +41,7 @@ def render_command_page(data):
         )
         lines.append("")
 
-    short = _convert_callouts(data.get("short", ""))
+    short = data.get("short", "")
     if short:
         lines.append(short)
         lines.append("")
@@ -105,7 +57,7 @@ def render_command_page(data):
         lines.append("```")
         lines.append("")
 
-    long_help = _convert_callouts(data.get("long", ""))
+    long_help = data.get("long", "")
     if long_help and long_help.strip() != (data.get("short") or "").strip():
         if data.get("options"):
             lines.append(
@@ -143,7 +95,7 @@ def render_command_page(data):
     if data.get("examples"):
         lines.append("## Examples")
         lines.append("")
-        lines.append(_convert_callouts(data["examples"]))
+        lines.append(data["examples"])
         lines.append("")
 
     if data.get("pname") and data["pname"] != "klee":
@@ -187,9 +139,11 @@ def main():
         )
 
     listed = nav_pages()
+    unlisted = []
     for yaml_path in sorted(DATA_DIR.glob("*.yaml")):
         name = yaml_path.stem.removeprefix("klee_")
         if name not in listed:
+            unlisted.append(yaml_path.name)
             continue
         with open(yaml_path, "r", encoding="utf-8") as f:
             data = yaml.safe_load(f)
@@ -201,6 +155,15 @@ def main():
             f.write(f"---\ntitle: {data.get('command', name)}\n---\n\n")
             f.write(content)
         mkdocs_gen_files.set_edit_path(page, None)
+
+    if unlisted:
+        # A YAML file with no nav entry is either a new klee command that needs
+        # a SUMMARY.md entry, or a stale file that should be deleted. Both are
+        # drift between klee and the docs; fail the build rather than guess.
+        raise SystemExit(
+            "gen_cli_reference: YAML files without a nav entry in docs/SUMMARY.md "
+            "(add them or delete the stale files): " + ", ".join(unlisted)
+        )
 
 
 main()

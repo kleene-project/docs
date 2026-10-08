@@ -1,7 +1,6 @@
 """Generate the glossary page from data/glossary.yaml.
 
-Port of the old Jekyll glossary.md, which looped over the data file in Liquid.
-The YAML file stays the single source of truth for terms; this script renders
+The YAML file is the single source of truth for terms; this script renders
 it as Markdown during the build.
 
 Terms are rendered as `##` headings so the definitions can cross-reference
