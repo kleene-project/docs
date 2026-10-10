@@ -5,65 +5,100 @@ arm64: |
   ARM64 is the 64-bit extension of the ARM CPU architecture. arm64 architecture
   is used in Apple silicon machines.
 base image: |
-  A *base image* has no parent image. It is created using one of the `klee image create` subcommands.
+  A base image has no parent image. It is created using one of the `klee image create` subcommands.
 build: |
-  *build* is the process of building images using a [Dockerfile](#dockerfile)
+  A build is the process of building an image using a [Dockerfile](#dockerfile)
   and a "context". The context is the set of files that is used when building the image.
 build container: |
   The container created and used for the image building process. If the build succeeds, the build container is converted to an image.
+build snapshot: |
+  A ZFS snapshot of a build container's filesystem, taken automatically after
+  each successfully executed `RUN` or `COPY` instruction during a build.
+  Images and containers can be created from a build snapshot, which is useful
+  when developing images: for instance, to investigate the state of the build
+  container right before a failed instruction.
 container: |
-  A container is a runtime instance (a [zfs](#zfs) clone) of an [image](#image), and consists of
+  A container is a runtime instance (a [ZFS](#zfs) clone) of an [image](#image), and consists of
 
   - A ZFS dataset
   - Configuration of the process-isolation environment ([jail](#jail))
   - Zero or more network connections and volume mounts.
 context: |
-    Directory containing files used when building an image, including a Dockerfile. Files and directories from the context
-    can be copied using the `COPY` instruction during image build.
+  Directory containing files used when building an image, including a Dockerfile. Files and directories from the context
+  can be copied using the `COPY` instruction during image build.
 Docker: The Docker project, which is a container platform for developers and sysadmins to develop, ship, and run applications.
 Dockerfile: |
   A Dockerfile is a text document that contains all the commands you would
-  run manually in order to build an image. Kleened build images automatically
+  run manually in order to build an image. Kleened builds images automatically
   by reading the instructions from a Dockerfile.
+execution instance: |
+  An ephemeral object that represents a process spawned in a container. A
+  running container can have more than one execution instance; users can
+  create additional ones with Klee using `klee exec`.
 identifier: |
-    When manipulating objects you can (sometimes) refer to them by an *identifier*.
-    An identifier is either
+  When manipulating objects you can (sometimes) refer to them by an identifier.
+  An identifier is either
 
-    - An initial segment of the objects ID that uniquely determines the object.
-    - The name or [nametag](#nametag) of an object.
+  - An initial segment of the object's ID that uniquely determines the object.
+  - The name or [nametag](#nametag) of an object.
 ident: See [identifier](#identifier)
 image: |
-  Images are the basis of [containers](#container). An image is root filesystem
-  snapt and some execution parameters for the container runtime. An image
-  does not have state and it never changes.
+  Images are the basis of [containers](#container). An image is a root
+  filesystem snapshot and some execution parameters for the container runtime.
+  An image does not have state and it never changes.
 jail: |
-    Jail is term used for FreeBSDs mechanism for kernel process isolation.
-    A set of processes running in a jailed environment is called a jail.
-    Kleene containers are based on jails, with some additional configuration.
-    See the FreeBSD handbook and man-pages for further details.
-Klee: The CLI client used to interact with the backend daemon Kleened.
+  A jail is the term used for FreeBSD's mechanism for kernel process isolation.
+  A set of processes running in a jailed environment is called a jail.
+  Kleene containers are based on jails, with some additional configuration.
+  See the FreeBSD handbook and man-pages for further details.
+jail parameters: |
+  Configuration options accepted by FreeBSD's
+  [jail(8)](https://man.freebsd.org/cgi/man.cgi?query=jail) mechanism that
+  control how a jail is isolated and which capabilities it has. Kleene passes
+  jail parameters to containers, for example with `klee run -J`.
+Klee: The CLI client used to interact with the backend Kleened.
 Kleene: The project documented on this website.
+Kleene host: |
+  The machine that Kleened runs on. After the first mention, "the host" is
+  usually enough.
 Kleened: |
-    The backend component in Kleene that takes care of building images,
-    creating containers, networks, volumes etc.
+  The backend component in Kleene that takes care of building images,
+  creating containers, networks, volumes etc.
 nametag: |
-    Naming scheme used for images, following the format `name:tag`, such as
-    `nginx:latest` or `nginx:1.24.0`. If a nametag is supplied without the `tag`
-    component, Kleened assumes it is equal to `latest`. E.g.,
-    `klee image build -t FreeBSD .` is equivalent to `klee image build -t FreeBSD:latest .`
+  Naming scheme used for images, following the format `name:tag`, such as
+  `nginx:latest` or `nginx:1.24.0`. If a nametag is supplied without the `tag`
+  component, Kleened assumes it is equal to `latest`. E.g.,
+  `klee image build -t FreeBSD .` is equivalent to `klee image build -t FreeBSD:latest .`
+nullfs: |
+  A [nullfs(5)](https://man.freebsd.org/cgi/man.cgi?query=nullfs) mount, served
+  by the FreeBSD kernel, that makes a directory tree available at another
+  location. Kleene uses nullfs mounts to mount host directories and volumes
+  into containers.
 parent image: |
-  An image's **parent image** is the image designated in the `FROM` directive
-  in the image's Dockerfile. All subsequent commands are based on this parent
+  An image's parent image is the image designated in the `FROM` instruction
+  in the image's Dockerfile. All subsequent instructions are based on this parent
   image.
 packet filter: |
-    Packet filter is the firewall in FreeBSD that is used by Kleened for network
-    configuration and connectivity. Consult the FreeBSD handbook and
-    man-pages for more information.
-pf: See [packet filter](#packet-filter)
+  PF is the firewall in FreeBSD that is used by Kleened for network
+  configuration and connectivity. Consult the FreeBSD handbook and
+  man-pages for more information.
+PF: The common abbreviation of FreeBSD's [packet filter](#packet-filter) firewall.
+"`ipnet`": |
+  A network driver. Containers using an `ipnet` network driver inherit the
+  network configuration of the host, but only the IP addresses assigned to the
+  container are visible inside it.
+"`vnet`": |
+  A network driver. Containers using a `vnet` network driver have their own
+  virtual network stack, with a dedicated loopback interface, routing table and
+  firewall capabilities.
 tag: |
   A tag is a component in the [nametag](#nametag) naming scheme used for naming images.
+userland: |
+  The userland is the set of user-space programs and libraries of a FreeBSD
+  system, as opposed to its kernel. Kleene images usually contain an entire
+  FreeBSD userland.
 volume: |
-  A volume is a designated [zfs](#zfs) dataset mounted into zero or more containers
+  A volume is a designated [ZFS](#zfs) dataset mounted into zero or more containers
   using nullfs. Volumes are used to persist data, independent of the container's life cycle.
   Kleened therefore never automatically deletes volumes when you remove a container,
   nor will it "garbage collect" volumes that are no longer referenced by a container.
@@ -71,7 +106,7 @@ x86_64: |
   x86_64 (or x86-64) refers to a 64-bit instruction set invented by AMD as an
   extension of Intel's x86 architecture. AMD calls its x86_64 architecture,
   AMD64, and Intel calls its implementation, Intel 64.
-zfs: |
-    Is the filesystem that containers, images and volumes are based on.
-    Especially `zfs clone` and `zfs snapshot` are frequently used when
-    building images and creating containers.
+ZFS: |
+  ZFS is the filesystem that containers, images and volumes are based on.
+  Especially `zfs clone` and `zfs snapshot` are frequently used when
+  building images and creating containers.

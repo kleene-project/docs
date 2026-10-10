@@ -115,6 +115,7 @@
 - Contribute
     - [Overview](contribute/overview.md)
     - [Contribution guidelines](contribute/contribute-guide.md)
+    - [Style guide](contribute/style-guide.md)
     - [Source file conventions](contribute/file-conventions.md)
     - [UI elements in content](contribute/ui.md)
     - [Contribute to Klee and Kleened](contribute/klee-kleened.md)
