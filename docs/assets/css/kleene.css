@@ -15,12 +15,25 @@
   --md-accent-fg-color: #8fce9b;
 }
 
-/* The wordmark logo is white (it sits on the green header); in page content
-   (the home page) put it on a green chip so it stays visible. */
-.md-content img[src$="kleene-docs-logo.svg"] {
-  background: var(--md-primary-fg-color);
-  border-radius: 0.4rem;
-  padding: 0.4rem 0.8rem;
+/* The header wordmark (kleene-docs-logo.svg) already says "kleene docs", so the
+   page-title text next to it is hidden (the .md-header__title box stays, so the
+   search box keeps its place on the right). */
+.md-header__topic {
+  display: none;
+}
+
+/* The home page headline gets the colored emblem (kleene-logo.svg, the full
+   emblem of the wordmark logo with the faces colored) in front of it. */
+.md-content h1:has(.title-logo) {
+  font-size: 3rem;
+  line-height: 1.2;
+}
+
+.md-content .title-logo {
+  height: 1.1em;
+  width: auto;
+  vertical-align: -0.15em;
+  margin-right: 0.2em;
 }
 
 /* The redoc API page: let it use the full width of the content area. */

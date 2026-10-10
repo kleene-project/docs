@@ -55,7 +55,7 @@ theme:
   font:
     text: Roboto
     code: Roboto Mono
-  logo: images/kleene-docs-logo.svg
+  logo: assets/images/kleene-docs-logo.svg
   icon:
     repo: fontawesome/brands/github
   custom_dir: overrides/

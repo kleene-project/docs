@@ -6,9 +6,7 @@ hide:
   - navigation
 ---
 
-# Kleene Documentation
-
-![Kleene docs logo](assets/images/kleene-docs-logo.svg)
+# ![](assets/images/kleene-logo.svg){ .title-logo } Kleene Documentation
 
 Kleene is a container management tool for FreeBSD, similar to Docker but using
 FreeBSD jails, ZFS and `pf`.
