@@ -1,5 +1,5 @@
 ---
-title: "Overview"
+title: Tutorial overview
 description: Get an overview of the Get started guide and learn about containers and images.
 ---
 

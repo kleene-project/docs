@@ -30,7 +30,7 @@ If you are new to containers it is recommended to consult
 for an introduction to containerisation. However, while Kleene is heavily
 inspired by Docker and the Linux container community, there are also some
 substantial differences.
-See [the introduction](/get-started/) of the 'getting started' guide
+See [the introduction](index.md) of the 'getting started' guide
 to get a quick intro to containers and images in Kleene.
 
 ## Kleene's approach to container management
@@ -56,7 +56,7 @@ A few differences worth highlighting, however, are the following:
   with Kleene, such as `jls(8)`, `jexec(8)`, `zfs(8)` etc.
   These and similar tools provide ways of further customizing your FreeBSD
   host environment and its containers besides what is offered by Kleene.
-  See the [external resources](/external-resources)
+  See the [external resources](../external-resources.md)
   for a list of CLI tools and their documentation.
 
 - Build your own images and share code, not binaries. Reproducibility starts with
@@ -98,7 +98,7 @@ API requests to Kleened and renders the result to the user.
 
 ## Kleene conceptual architecture
 
-![Kleene Architecture diagram](/assets/images/kleene_conceptual_architecture.png)
+![Kleene Architecture diagram](../assets/images/kleene_conceptual_architecture.png)
 
 ### Kleene objects
 
@@ -166,4 +166,4 @@ directly on the same machine as Kleened.
 
 ## Project status
 
-See the [Project status](/contribute/project-status/) page.
+See the [Project status](../contribute/project-status.md) page.

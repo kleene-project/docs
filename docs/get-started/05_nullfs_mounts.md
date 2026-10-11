@@ -14,8 +14,7 @@ use a nullfs mount to mount source code into the container. Another usecase can 
 the need to make contents available from external storage such as `nfs`.
 
 In this chapter, we'll see how we can use nullfs mounts and a tool called
-[nodemon](https://npmjs.com/package/nodemon){:target="_blank" rel="noopener"
-class="_"} to watch for file changes, and then restart the application
+[nodemon](https://npmjs.com/package/nodemon) to watch for file changes, and then restart the application
 automatically. There are equivalent tools in most other languages and
 frameworks.
 
@@ -181,8 +180,7 @@ So, let's do it!
    almost immediately. It might take a few seconds for the Node server to
    restart. If you get an error, try refreshing after a few seconds.
 
-   ![Screenshot of updated label for Add button](/get-started/images/updated-add-button.webp){:
-   style="width:75%;" .text-center}
+   ![Screenshot of updated label for Add button](images/updated-add-button.webp){ width="75%" .text-center }
 
 Using nullfs mounts is useful for local development setups. The advantage is that
 the development machine doesn't need to have all of the build tools and

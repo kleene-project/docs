@@ -20,7 +20,7 @@ In the steps below, you will change the "empty text" when you don't have any tod
     ...
     ```
 
-2. Build your updated version of the image, using the `klee build` command you used in [part 2](./02_our_app.md/#build-the-apps-container-image){:target="_blank" rel="noopener" class="_"}.
+2. Build your updated version of the image, using the `klee build` command you used in [part 2](./02_our_app.md/#build-the-apps-container-image).
 
    ```console
    $ klee build -t webapp .
@@ -64,9 +64,8 @@ To remove a container, you first need to stop it.
 
 Repeat the last three steps to remove the updated container as well, and spin up a new container (step 3).
 
->**Note**
->
->You can stop and remove a container in a single command by adding the `force` flag to the `klee rmc` command. For example: `klee rmc -f <the-container-id>`
+!!! note
+    You can stop and remove a container in a single command by adding the `force` flag to the `klee rmc` command. For example: `klee rmc -f <the-container-id>`
 
 ### Start the updated app container
 
@@ -74,7 +73,7 @@ Repeat the last three steps to remove the updated container as well, and spin up
 
 8. Refresh your browser window from the previous chapter and see the updated text.
 
-![Updated application with updated empty text](images/todo-list-updated-empty-text.png){: style="width:55%" }
+![Updated application with updated empty text](images/todo-list-updated-empty-text.png){ width="55%" }
 
 ## Next steps
 

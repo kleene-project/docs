@@ -1,6 +1,6 @@
 ---
-title: VNET networking
-description: Introduction to VNET container networking
+title: "`vnet` networking"
+description: Introduction to `vnet` container networking
 ---
 
 This section describes how to setup container networking

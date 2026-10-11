@@ -54,14 +54,13 @@ The `Shortcuts` panel list convenient shortcuts to subcommands, e.g.,
 shortcut panel refer to several shortcuts covering all objects in Kleene.
 For instance, `lsX` is an abbreviation for the shortcuts: `lsc`, `lsi`, `lsn` and `lsv`.
 
-> **Note**
->
-> Depending on your Klee system configuration, you may be required to prefix
-> the `klee` command with `sudo`. The simples way to avoid using `sudo` with the
-> `klee` command, is to make an alias `alias klee='sudo klee'`. However,
-> `sudo` is still required even though it does not need to be typed explictly.
-> Alternatively, expose Kleened through a TCP-socket which requires some additional
-> security-considerations. Read more about this [here](/operation/protect-access/).
+!!! note
+    Depending on your Klee system configuration, you may be required to prefix
+    the `klee` command with `sudo`. The simples way to avoid using `sudo` with the
+    `klee` command, is to make an alias `alias klee='sudo klee'`. However,
+    `sudo` is still required even though it does not need to be typed explictly.
+    Alternatively, expose Kleened through a TCP-socket which requires some additional
+    security-considerations. Read more about this [here](../../operation/protect-access.md).
 
 ## Using Klee's help functionality
 

@@ -27,7 +27,7 @@ unexpected timeouts. Using `tcpdump` it is possible
 to see important information about the blocked packets,
 such as IP-addresses (`x.x.x.x`, `y.y.y.y` etc.), ports, traffic direction,
 protocols, interface receiving the traffic, and which rule triggered the block.
-In the [previous example](/run/network/firewall/) it was the first
+In the [previous example](firewall.md) it was the first
 rule, which in this case could correspond to a `block all` rule in `pf.conf`.
 
 Note that in some cases, such as ipnet-containers operating in restricted

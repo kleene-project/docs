@@ -16,7 +16,7 @@ we'd see the same files.
 
 There are two approches to persist container data in Kleene, 'volume' and 'nullfs' mounts.
 We will eventually use both, but we will start with volume mounts.
-[Volumes](/run/storage/volumes/) provide the ability to mount designated filesystem paths
+[Volumes](../run/storage/volumes.md) provide the ability to mount designated filesystem paths
 of the host machine into containers.
 
 ## Persist the todo data with volume mounts
@@ -50,7 +50,7 @@ so you only need to remember the volume's name.
 
 4. Once the container starts up, open the app and add a few items to your todo list.
 
-    ![Items added to todo list](images/items-added.png){: style="width: 55%; " }
+    ![Items added to todo list](images/items-added.png){ width="55%" }
 5. Stop and remove the container for the todo app using `klee rmc -f <container id>`.
 
 6. Start a new container using the same command from above.

@@ -17,7 +17,7 @@ Kleene. Advantages of using volumes over nullfs mounts:
 Volumes are based on nullfs-mounts and can be seen as managed, but less flexible,
 version of nullfs mounts.
 
-See the [`container create` command](/reference/klee/container_create/#specifying-mounts)
+See the [`container create` command](../../reference/klee/container_create.md#specifying-mounts)
 for details on how to mount volumes with Klee.
 
 When a volume is mounted into a container, a nullfs mount is created

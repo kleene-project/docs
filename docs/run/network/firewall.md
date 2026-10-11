@@ -13,7 +13,7 @@ This section describes how and provides a simple example.
     Customizing the firewall can cause unpredicted networking behavior in Kleene
     if the custom configuration interferes with Kleene's firewall rules.
     In case of problems, go to the
-    [networking debugging page](/run/network/troubleshoot/).
+    [networking debugging page](troubleshoot.md).
 
 ## Configuring a Kleene-managed firewall
 
@@ -178,4 +178,4 @@ in particular:
 ## Next steps
 
 When the networking configuration does not work as expected, what to do?
-This is the topic of the [next section](/run/network/troubleshoot/).
+This is the topic of the [next section](troubleshoot.md).

@@ -1,6 +1,6 @@
 ---
-title: Managing your runtime environments
-description: "Overview"
+title: Running containers
+description: How containers are created, started and managed with Klee
 ---
 
 When `klee run` is executed, a container is created and a process is started
@@ -19,9 +19,9 @@ following sections.
 ## Creating and running containers
 
 The most common way of using containers with the client is to use the command
-[`klee run`](/reference/klee/run).
-This command combines [`klee container create`](/reference/klee/container_create) and
-[`klee container start`](/reference/klee/start/).
+[`klee run`](../reference/klee/run.md).
+This command combines [`klee container create`](../reference/klee/container_create.md) and
+[`klee container start`](../reference/klee/start.md).
 Therefore, running
 
 ```console
@@ -65,8 +65,8 @@ are equivalent. A few things to notice with these two examples:
 - Lastly, the containers have connectivity using the `host` network driver,
   since no network driver was specified (with `--network-driver`/`-l`)
   when the containers were created. It is recommended to use networks instead,
-  and an easy way to get started with networks is by going through the [Get started](/get-started)
-  guide. Many more details are given in the [networking section](/run/network/).
+  and an easy way to get started with networks is by going through the [Get started](../get-started/index.md)
+  guide. Many more details are given in the [networking section](network/index.md).
 
 ## Detached vs. foreground
 
@@ -131,16 +131,15 @@ If the process that startede the container exists but it has spawned other
 processes that are still running, the container will continue to run in the
 background.
 
-> **Note**
->
-> When running a containerized process in the foreground and exiting Klee with
-> `ctrl+c`, Kleened responds by terminating the [jail(8)](https://man.freebsd.org/cgi/man.cgi?query=jail)
-> process and *not* any subprocesses.
-> Therefore, the jail might still be running even though the attached session is
-> closed. For instance, `klee exec my-container /bin/sh -c "nc -l 4000"`
-> keeps running after Klee exits. Shut it down by killing the proces with `kill`
-> from either host/container or, alternatively, stop the container entirely with
-> `klee stop my-container`.
+!!! note
+    When running a containerized process in the foreground and exiting Klee with
+    `ctrl+c`, Kleened responds by terminating the [jail(8)](https://man.freebsd.org/cgi/man.cgi?query=jail)
+    process and *not* any subprocesses.
+    Therefore, the jail might still be running even though the attached session is
+    closed. For instance, `klee exec my-container /bin/sh -c "nc -l 4000"`
+    keeps running after Klee exits. Shut it down by killing the proces with `kill`
+    from either host/container or, alternatively, stop the container entirely with
+    `klee stop my-container`.
 
 ## Accessing a running container
 
@@ -191,8 +190,8 @@ using this compressed form:
 IMAGE_ID|IMAGE_NAME[:tag][@snapshot]
 ```
 
-which is explained in detail in the [documentation of `klee container create`](/reference/klee/container_create).
-It is also possible to create images from build snapshots as described [here](/building/snapshots),
+which is explained in detail in the [documentation of `klee container create`](../reference/klee/container_create.md).
+It is also possible to create images from build snapshots as described [here](../building/snapshots.md),
 which can be useful during image development.
 
 ## Overriding image defaults

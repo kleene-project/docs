@@ -33,7 +33,7 @@ makes Klee connect to `http://127.0.0.1`.
 The root command parameters can be used to configure Klee and
 will override any parameters previously set in configuration files etc.
 
-See [klee root command](/reference/klee/klee/) documentation for details.
+See [klee root command](klee.md) documentation for details.
 
 ### Configure Klee with environment variables
 

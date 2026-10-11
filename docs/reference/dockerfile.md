@@ -19,13 +19,13 @@ Kleene compared to writing Dockerfiles for these tools.
 However, given Kleene's approach to building images, there are
 deviations in best-practices. For instance, aggregating commands
 into a single large `RUN`-instruction is discouraged in Kleene.
-See [Dockerfile best practices](/building/dockerfile_best-practices/)
+See [Dockerfile best practices](../building/dockerfile_best-practices.md)
 for details.
 
 Two instructions you may know from other tools that Kleene does not implement
 are `EXPOSE` and `VOLUME`. Kleene handles container networking without
-per-image configuration (see [the networking docs](/run/network/)), and volumes
-are managed with [`klee volume`](/reference/klee/volume_create/) rather than
+per-image configuration (see [the networking docs](../run/network/index.md)), and volumes
+are managed with [`klee volume`](klee/volume_create.md) rather than
 through the image.
 
 Here is the format of the `Dockerfile` as it used in Kleene:
@@ -41,7 +41,7 @@ be uppercase to distinguish them from arguments more easily.
 Kleene runs instructions in a `Dockerfile` in order. A `Dockerfile` **must
 begin with a `FROM` instruction**, with the exception of [comments](#format),
 and [ARGs](#arg). The `FROM` instruction specifies the [*Parent
-Image*](/glossary/#parent-image) from which you are
+Image*](../glossary.md#parent-image) from which you are
 building.
 
 Kleene always treats a `\` as the last character of a line as an escaped
@@ -154,7 +154,7 @@ The builder returns an error if it cannot find the `tag` value.
 Optionally, it is possible to specify which image snapshot should be used
 by providing a snapshot ID for `<snapshot>`.
 
-The `FROM` instruction initializes a [*build container*](/glossary/#build-container)
+The `FROM` instruction initializes a [*build container*](../glossary.md#build-container)
 within which subsequent instructions are executed.
 The build container follows the naming scheme `build_<image ID>`.
 A valid `Dockerfile` needs to begin with a `FROM` instruction,
@@ -199,11 +199,10 @@ a shell directly, for example: `RUN [ "sh", "-c", "echo $HOME" ]`.
 When using the exec form to execute a shell directly, it is the shell
 that is doing the environment variable expansion, not Kleened.
 
-> **Note**
->
-> The *exec* form is parsed as a JSON array, which means that
-> you must use double-quotes (") around words not single-quotes (').
-> Also, in the *JSON* form, it is necessary to escape backslashes.
+!!! note
+    The *exec* form is parsed as a JSON array, which means that
+    you must use double-quotes (") around words not single-quotes (').
+    Also, in the *JSON* form, it is necessary to escape backslashes.
 
 ## CMD
 
@@ -227,11 +226,10 @@ a shell directly, for example: `CMD [ "sh", "-c", "echo $HOME" ]`.
 When using the exec form to execute a shell directly, it is the shell
 that is doing the environment variable expansion, not Kleened.
 
-> **Note**
->
-> The *exec* form is parsed as a JSON array, which means that
-> you must use double-quotes (") around words not single-quotes (').
-> Also, in the *JSON* form, it is necessary to escape backslashes.
+!!! note
+    The *exec* form is parsed as a JSON array, which means that
+    you must use double-quotes (") around words not single-quotes (').
+    Also, in the *JSON* form, it is necessary to escape backslashes.
 
 When used in the shell or exec formats, the `CMD` instruction sets the
 default command to be executed when running containers based on the image.
@@ -451,11 +449,10 @@ and `COPY` instructions in the `Dockerfile`.
 If the path specified in `WORKDIR` doesn't exist, it will be created even if it's
 not used in any subsequent instructions.
 
-> **Note**
->
-> `WORKDIR` only works for `RUN` and `CMD` instructions in the *shell form*,
-> and if `CMD` is replaced, the new command won't automatically be
-> executed in `WORKDIR`.
+!!! note
+    `WORKDIR` only works for `RUN` and `CMD` instructions in the *shell form*,
+    and if `CMD` is replaced, the new command won't automatically be
+    executed in `WORKDIR`.
 
 The `WORKDIR` instruction can be used multiple times in a `Dockerfile`. If a
 relative path is provided, it will be relative to the path of the previous

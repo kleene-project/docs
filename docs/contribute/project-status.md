@@ -30,7 +30,7 @@ and maturing of the software. Kleene follows [semantic versioning](https://semve
 which means that there is no stable API (Kleened) or CLI (Klee) for now.
 In this initial phase, patch versions (y in 0.x.y) are intended for minor
 adjustments whereas minor versions (x in 0.x.y) are reserved for larger features
-or changes. Follow project progress [here](/release-notes/).
+or changes. Follow project progress [here](../release-notes.md).
 
 Minor versions of Klee and Kleene should be synced and released simultaneously.
 
