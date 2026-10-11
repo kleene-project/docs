@@ -44,25 +44,26 @@ Help us review your PRs more quickly by following these guidelines.
 
 ## Build and preview the docs locally
 
-Start by installing the build dependencies with
-[pip](https://pip.pypa.io/en/stable/installation/) into a virtual environment:
+Start by cloning the repository and setting up the build dependencies
+(the `setup` target creates a `.venv` and installs the pinned
+`requirements.txt`):
 
 ```console
 $ git clone https://github.com/kleene-project/docs.git
 $ cd docs
-$ python3 -m venv .venv
-$ .venv/bin/pip install -r requirements.txt
+$ make setup
 ```
 
 Then build and serve the docs with MkDocs' dev webserver:
 
 ```console
-$ .venv/bin/mkdocs serve
+$ make serve
 INFO    -  Building documentation...
 INFO    -  Documentation built in 11.23 seconds
 INFO    -  [19:00:00] Serving on http://127.0.0.1:8000/
 ```
 
 Voila! It's time to preview changes. Note that every time a change is made,
-MkDocs rebuilds the site automatically. Running `mkdocs build --strict` locally
+MkDocs rebuilds the site automatically. Running
+`.venv/bin/mkdocs build --strict` (the same command CI runs) locally
 catches broken links and files missing from the navigation before the CI does.
