@@ -25,7 +25,7 @@ Source of https://kleene.dev, the documentation site for Kleene (a FreeBSD jail/
 - New page: short one- or two-word, dash-separated file name (`nullfs-mounts.md`). Front matter requires `title` and `description` (optional `hide: [toc, navigation]`).
 - Every new page MUST be added to `docs/SUMMARY.md`, in the section matching its directory. Unlisted pages fail the strict build.
 - Wrap prose at about 80 characters, so review comments can target small chunks.
-- Voice: passive, objective (like the FreeBSD handbook), except in the Get started guide. "Klee" is the client, "Kleened" the backend, "Kleene" the whole project. Put commands in backticks, e.g. `klee run`.
+- Voice and naming: see `docs/contribute/style-guide.md` (sentence-case headings; drivers in code style `ipnet`/`vnet`; tutorial in second person).
 - Admonitions use `!!! note` style (the `admonition` extension). Icons use Material emoji shortcodes (`pymdownx.emoji`), not the old Jekyll/glyphicon syntax.
 - Commit messages: short imperative sentence, no prefix (e.g. "Fix brand colors, icon shortcodes and the missing logo after cutover"). Work lands via PR branches such as `docs/<topic>`.
 
