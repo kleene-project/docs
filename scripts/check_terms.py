@@ -82,13 +82,24 @@ def check_lines(raw_lines):
         if in_fence or ignore_next:
             ignore_next = False
             continue
-        masked = mask_line(raw)
-        for pattern, replacement in BANNED:
-            for match in re.finditer(pattern, masked):
-                yield lineno, match.group(0), replacement
+        for found, replacement in check_text(raw):
+            yield lineno, found, replacement
         match = re.search(ABS_LINK[0], raw)
         if match:
             yield lineno, match.group(0), ABS_LINK[1]
+
+
+def check_text(text):
+    """Yield (matched_text, replacement) for violations in masked prose.
+
+    Use for single values (front matter, glossary definitions) that are
+    not line-oriented markdown; line-oriented bodies go through
+    check_lines instead.
+    """
+    masked = mask_line(text)
+    for pattern, replacement in BANNED:
+        for match in re.finditer(pattern, masked):
+            yield match.group(0), replacement
 
 
 def strip_front_matter(content):
@@ -119,14 +130,11 @@ def scan_file(path):
         value = front_matter_value(front, key_regex)
         if value is None:
             continue
-        masked = mask_line(value)
-        for pattern, replacement in BANNED:
-            match = re.search(pattern, masked)
-            if match:
-                violations.append(
-                    f"{path}:front matter {label}: found "
-                    f"'{match.group(0)}', use '{replacement}'"
-                )
+        for found, replacement in check_text(value):
+            violations.append(
+                f"{path}:front matter {label}: found "
+                f"'{found}', use '{replacement}'"
+            )
 
     body_offset = content.index(body)
     fm_lines = content.count("\n", 0, body_offset)
@@ -145,15 +153,10 @@ def scan_glossary(path):
         terms = yaml.safe_load(f)
     violations = []
     for term, definition in terms.items():
-        definition = definition or ""
-        masked = mask_line(definition)
-        for pattern, replacement in BANNED:
-            match = re.search(pattern, masked)
-            if match:
-                violations.append(
-                    f"{path} [{term}]: found '{match.group(0)}', "
-                    f"use '{replacement}'"
-                )
+        for found, replacement in check_text(definition or ""):
+            violations.append(
+                f"{path} [{term}]: found '{found}', use '{replacement}'"
+            )
     return violations
 
 
