@@ -50,7 +50,7 @@ so you only need to remember the volume's name.
 
 4. Once the container starts up, open the app and add a few items to your todo list.
 
-    ![Items added to todo list](images/items-added.png){: style="width: 55%; " }
+    ![Items added to todo list](images/items-added.png){ width="55%" }
 5. Stop and remove the container for the todo app using `klee rmc -f <container id>`.
 
 6. Start a new container using the same command from above.
