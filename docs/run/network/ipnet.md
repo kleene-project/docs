@@ -1,6 +1,6 @@
 ---
-title: IPNet networking
-description: Introduction to IPNet container networking
+title: "`ipnet` networking"
+description: Introduction to `ipnet` container networking
 ---
 
 This section describes how to setup container networking

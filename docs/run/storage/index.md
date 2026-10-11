@@ -1,6 +1,6 @@
 ---
-title: Overview
-description: Oersisting data in containers
+title: Storage overview
+description: How containers persist and share data with volumes and nullfs mounts
 ---
 
 Lasting data should be stored outside of the container, and sometimes
