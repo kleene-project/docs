@@ -199,11 +199,10 @@ a shell directly, for example: `RUN [ "sh", "-c", "echo $HOME" ]`.
 When using the exec form to execute a shell directly, it is the shell
 that is doing the environment variable expansion, not Kleened.
 
-> **Note**
->
-> The *exec* form is parsed as a JSON array, which means that
-> you must use double-quotes (") around words not single-quotes (').
-> Also, in the *JSON* form, it is necessary to escape backslashes.
+!!! note
+    The *exec* form is parsed as a JSON array, which means that
+    you must use double-quotes (") around words not single-quotes (').
+    Also, in the *JSON* form, it is necessary to escape backslashes.
 
 ## CMD
 
@@ -227,11 +226,10 @@ a shell directly, for example: `CMD [ "sh", "-c", "echo $HOME" ]`.
 When using the exec form to execute a shell directly, it is the shell
 that is doing the environment variable expansion, not Kleened.
 
-> **Note**
->
-> The *exec* form is parsed as a JSON array, which means that
-> you must use double-quotes (") around words not single-quotes (').
-> Also, in the *JSON* form, it is necessary to escape backslashes.
+!!! note
+    The *exec* form is parsed as a JSON array, which means that
+    you must use double-quotes (") around words not single-quotes (').
+    Also, in the *JSON* form, it is necessary to escape backslashes.
 
 When used in the shell or exec formats, the `CMD` instruction sets the
 default command to be executed when running containers based on the image.
@@ -451,11 +449,10 @@ and `COPY` instructions in the `Dockerfile`.
 If the path specified in `WORKDIR` doesn't exist, it will be created even if it's
 not used in any subsequent instructions.
 
-> **Note**
->
-> `WORKDIR` only works for `RUN` and `CMD` instructions in the *shell form*,
-> and if `CMD` is replaced, the new command won't automatically be
-> executed in `WORKDIR`.
+!!! note
+    `WORKDIR` only works for `RUN` and `CMD` instructions in the *shell form*,
+    and if `CMD` is replaced, the new command won't automatically be
+    executed in `WORKDIR`.
 
 The `WORKDIR` instruction can be used multiple times in a `Dockerfile`. If a
 relative path is provided, it will be relative to the path of the previous

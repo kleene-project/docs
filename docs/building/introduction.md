@@ -1,5 +1,6 @@
 ---
-title: Building your runtime environments
+title: Building images
+description: How Kleened builds images from a Dockerfile and a build context
 ---
 
 ## Dockerfile
@@ -45,12 +46,11 @@ $ klee build [OPTIONS] PATH
 The build process can refer to any of the files or directories in the context
 using the [`COPY` instruction](../reference/dockerfile.md#copy).
 
-> **Note**
->
-> Presently, the `PATH` argment should refer to a path
-> *on the host machine* and not the client where `klee` is running.
-> If you are using Klee on the same system as Kleened, those
-> two are the same.
+!!! note
+    Presently, the `PATH` argment should refer to a path
+    *on the host machine* and not the client where `klee` is running.
+    If you are using Klee on the same system as Kleened, those
+    two are the same.
 
 ## How image building works
 

@@ -1,6 +1,6 @@
 ---
-title: Managing your runtime environments
-description: "Overview"
+title: Running containers
+description: How containers are created, started and managed with Klee
 ---
 
 When `klee run` is executed, a container is created and a process is started
@@ -131,16 +131,15 @@ If the process that startede the container exists but it has spawned other
 processes that are still running, the container will continue to run in the
 background.
 
-> **Note**
->
-> When running a containerized process in the foreground and exiting Klee with
-> `ctrl+c`, Kleened responds by terminating the [jail(8)](https://man.freebsd.org/cgi/man.cgi?query=jail)
-> process and *not* any subprocesses.
-> Therefore, the jail might still be running even though the attached session is
-> closed. For instance, `klee exec my-container /bin/sh -c "nc -l 4000"`
-> keeps running after Klee exits. Shut it down by killing the proces with `kill`
-> from either host/container or, alternatively, stop the container entirely with
-> `klee stop my-container`.
+!!! note
+    When running a containerized process in the foreground and exiting Klee with
+    `ctrl+c`, Kleened responds by terminating the [jail(8)](https://man.freebsd.org/cgi/man.cgi?query=jail)
+    process and *not* any subprocesses.
+    Therefore, the jail might still be running even though the attached session is
+    closed. For instance, `klee exec my-container /bin/sh -c "nc -l 4000"`
+    keeps running after Klee exits. Shut it down by killing the proces with `kill`
+    from either host/container or, alternatively, stop the container entirely with
+    `klee stop my-container`.
 
 ## Accessing a running container
 

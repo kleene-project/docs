@@ -1,13 +1,13 @@
 ---
-description: Installation overview
+title: Install Kleene
+description: Install Kleened and Klee from packages, ports or source
 ---
 
-# Basic installation
+## Basic installation
 
->**Kleene requires the ZFS filesystem and PF firewall to run**
->
-> Both should be included in the official releases but remember
-> to install FreeBSD using ZFS or manually create a zpool.
+!!! important "Kleene requires ZFS and PF"
+    Both should be included in the official releases but remember
+    to install FreeBSD using ZFS or manually create a zpool.
 
 The most straightforward way to install Kleene is using `pkg(7)`.
 
@@ -57,7 +57,8 @@ Now Kleene should be up and running!
 Start [creating images and containers with `klee`](../reference/klee/cli.md).
 
 
-# Alternative installation methods
+## Alternative installation methods
+
 ### Build from source using FreeBSD ports
 
 Alternatively, build `kleened` and `klee` from source

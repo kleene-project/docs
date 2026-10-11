@@ -64,8 +64,9 @@ a certificate signed by a CA.
 
 ### Create a CA, server and client keys with OpenSSL
 
-> **Note**: Replace all instances of `$HOST` in the following example with the
-> DNS name of the Kleened host.
+!!! note
+    Replace all instances of `$HOST` in the following example with the
+    DNS name of the Kleened host.
 
 First, on the **Kleened host machine**, generate CA private and public keys:
 
@@ -139,8 +140,9 @@ Enter pass phrase for ca-key.pem:
 For Klee client authentication, create a client key and certificate signing
 request:
 
-> **Note**: For simplicity of the next couple of steps, perform this
-> on the Kleend host machine as well.
+!!! note
+    For simplicity of the next couple of steps, perform this
+    on the Kleend host machine as well.
 
 ```console
 $ openssl genrsa -out key.pem 4096

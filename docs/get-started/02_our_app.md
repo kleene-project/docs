@@ -18,7 +18,7 @@ knowledge of Node.js or JavaScript is required.
 
 Before you can run the application, you need to get the application source code onto your machine.
 
-1. Clone the [getting-started repository](https://github.com/docker/getting-started/tree/master){:target="_blank" rel="noopener" class="_"} using the following command:
+1. Clone the [getting-started repository](https://github.com/docker/getting-started/tree/master) using the following command:
 
    ```console
    $ git clone https://github.com/docker/getting-started.git
@@ -55,7 +55,7 @@ You need to create a [base image](../building/base-images.md) and a network to u
 
 ## Build the app's container image
 
-In order to build the [container image](overview.md#kleene-objects){:target="_blank" rel="noopener" class="_"}, you'll need to use a `Dockerfile`.
+In order to build the [container image](overview.md#kleene-objects), you'll need to use a `Dockerfile`.
 A Dockerfile contains the instructions that Kleened uses to create the image.
 
 1. In the `app` directory mentioned previously, create a file named `Dockerfile`.
@@ -102,17 +102,16 @@ you can refer to that image when you run a container. Since we have not specifie
 
 The `.` at the end of the `klee build` command tells Kleene that it should look for the `Dockerfile` in the current directory.
 
->**Note**
->
-> The directory `.` is converted to its absolute path by Klee and then sent to Kleened.
-> *Kleened will then interpret this as a path on the host machine where it is running*.
-> If Klee and Kleened are runnning on the same host this is fine, but if Klee is running
-> on a remote machine this will probably not work. In the latter case, remember to use absolute
-> paths on the host machine where Kleened is running.
+!!! note
+    The directory `.` is converted to its absolute path by Klee and then sent to Kleened.
+    *Kleened will then interpret this as a path on the host machine where it is running*.
+    If Klee and Kleened are runnning on the same host this is fine, but if Klee is running
+    on a remote machine this will probably not work. In the latter case, remember to use absolute
+    paths on the host machine where Kleened is running.
 
 ## Start an app container
 
-Now that you have an image, you can run the application in a [container](overview.md#kleene-objects){:target="_blank" rel="noopener" class="_"}.
+Now that you have an image, you can run the application in a [container](overview.md#kleene-objects).
 To do so, you will use the `klee run` command.
 
 1. Start your container and specify the name of the image you just created:
@@ -134,12 +133,12 @@ To do so, you will use the `klee run` command.
    This also shows the ip address of the container that is needed for accessing the web application.
    Note that the IP is shown because the container uses the `ipnet` network driver.
 
-3. After a few seconds, open your web browser to [http://10.13.37.1:3000](http://10.13.37.1:3000){:target="_blank" rel="noopener" class="_"}.
+3. After a few seconds, open your web browser to [http://10.13.37.1:3000](http://10.13.37.1:3000).
    If you are not running the container locally you might need to access the app at another location or use a port forward etc.
    For example, using portforward with `ssh` such as `ssh -L 3000:10.13.37.1:3000 ...` you should be able to access the web application
    on [http://localhost:3000](http://localhost:3000) instead.
 
-   ![Empty todo list](images/todo-list-empty.png){: style="width:450px;margin-top:20px;"}
+   ![Empty todo list](images/todo-list-empty.png){ width="450" }
 4. Go ahead and add an item or two and see that it works as you expect. You can mark items as complete and remove items.
    Your frontend is successfully storing items in the backend.
 

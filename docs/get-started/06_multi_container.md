@@ -23,9 +23,8 @@ should be connected to the same network.
 While you don't have to be a network engineer the following simple rule
 (not immune to plenty of deviations) serves well for a start:
 
-> **Note**
->
-> If two containers are on the same network, they can talk to each other. If they aren't, they can't.
+!!! note
+    If two containers are on the same network, they can talk to each other. If they aren't, they can't.
 
 Generally, there are two ways to put a container on a network:
 1) Assign it during creation or
@@ -86,7 +85,7 @@ Go [here](../run/network/index.md) if you want to know more about networking.
    >
    > While using env vars to set connection settings is generally ok for development, it is **HIGHLY DISCOURAGED**
    > when running applications in production. Diogo Monica, a former lead of security at Docker,
-   > [wrote a fantastic blog post](https://diogomonica.com/2017/03/27/why-you-shouldnt-use-env-variables-for-secret-data/){:target="_blank" rel="noopener" class="_"}
+   > [wrote a fantastic blog post](https://diogomonica.com/2017/03/27/why-you-shouldnt-use-env-variables-for-secret-data/)
    > explaining why.
 
 2. To confirm we have the database up and running, connect to the database and verify it connects.

@@ -40,20 +40,21 @@ $ make init
 The last command clones the three repositories for Klee, Kleened, and this
 documentation, respectively.
 
-> **Note**
->
-> The `Vagrantfile` requires a version of the FreeBSD base system (`base.txz`)
-> to be available in the `kleene-dev` folder.
-> Remember to fetch one and adjust the `$base_txz` parameter accordingly,
-> in the `Vagrantfile`.
+!!! note
+    The `Vagrantfile` requires a version of the FreeBSD base system (`base.txz`)
+    to be available in the `kleene-dev` folder.
+    Remember to fetch one and adjust the `$base_txz` parameter accordingly,
+    in the `Vagrantfile`.
 
-Assuming [Jekyll is installed](contribute-guide.md#build-and-preview-the-docs-locally)
-there is a an additional make-target in the `kleene-dev` repos to build the
-docs:
+In the `kleene-docs` repository, the docs can be built and served locally.
+From the repository root, run:
 
 ```console
-$ make docs
+$ make serve
 ```
+
+This creates the `.venv` if needed (see the Makefile) and starts the MkDocs
+dev webserver at `http://127.0.0.1:8000/`.
 
 If Vagrant is installed, the development environment can be created by runnning:
 
