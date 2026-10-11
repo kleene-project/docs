@@ -18,7 +18,7 @@ in the container's filesystem.
 - **Volumes** are managed by Kleene and stored in the `<kleene_root>/volumes`
   dataset. This means that they are automatically kept in a fixed location on
   the zpool, together with other Kleene data. See the section on
-  [Kleene and ZFS](/operation/zfs) to read more about how to configure Kleene's ZFS filesystem.
+  [Kleene and ZFS](../../operation/zfs.md) to read more about how to configure Kleene's ZFS filesystem.
 
   If an **empty volume** is mounted into a non-empty directory in a container,
   the existing files and directories are copied into the volume.
@@ -37,7 +37,7 @@ in a container, the existing files or directories are hidden by the mount.
 The hidden files are not removed or altered, but are not accessible while the
 nullfs mount or volume is mounted.
 
-See the [`container create` command](/reference/klee/container_create/#specifying-mounts)
+See the [`container create` command](../../reference/klee/container_create.md#specifying-mounts)
 for details on how to specify volume or nullfs mounts with Klee.
 
 ## Next steps

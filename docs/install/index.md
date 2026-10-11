@@ -54,7 +54,7 @@ Finally, start Kleened
 ```
 
 Now Kleene should be up and running!
-Start [creating images and containers with `klee`](/reference/klee/cli/).
+Start [creating images and containers with `klee`](../reference/klee/cli.md).
 
 
 # Alternative installation methods

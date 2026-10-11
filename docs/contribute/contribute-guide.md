@@ -8,7 +8,7 @@ create pull requests against the `main` branch to update the docs.
 
 There are two ways to contribute a pull request to the docs repository:
 
-1. You can click **Edit this page** option at the top of every page on [https://kleene.dev/](/).
+1. You can click the **Edit this page** option at the top of every page on [https://kleene.dev/](https://kleene.dev/).
 
     This opens the GitHub editor, which means you don't need to know a lot about Git, or even about Markdown. When you save, Git prompts you to create a fork if you don't already have one, and to create a branch in your fork and submit the pull request.
 

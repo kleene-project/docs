@@ -28,7 +28,7 @@ where
   generate the firewall configuration file `pf.conf(5)`.
 
 - `pf_config_path`: Location of the generated `pf.conf(5)` file that is loaded into
-  the `pf(4)` firewall. See the [firewall configuration](/run/network/firewall) section
+  the `pf(4)` firewall. See the [firewall configuration](../../run/network/firewall.md) section
   for details.
 
 - `api_listening_sockets`: List of listening sockets for exposing the HTTP API.

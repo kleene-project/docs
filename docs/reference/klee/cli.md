@@ -61,7 +61,7 @@ For instance, `lsX` is an abbreviation for the shortcuts: `lsc`, `lsi`, `lsn` an
 > `klee` command, is to make an alias `alias klee='sudo klee'`. However,
 > `sudo` is still required even though it does not need to be typed explictly.
 > Alternatively, expose Kleened through a TCP-socket which requires some additional
-> security-considerations. Read more about this [here](/operation/protect-access/).
+> security-considerations. Read more about this [here](../../operation/protect-access.md).
 
 ## Using Klee's help functionality
 

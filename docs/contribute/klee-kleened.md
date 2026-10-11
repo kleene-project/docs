@@ -47,7 +47,7 @@ documentation, respectively.
 > Remember to fetch one and adjust the `$base_txz` parameter accordingly,
 > in the `Vagrantfile`.
 
-Assuming [Jekyll is installed](/contribute/contribute-guide/#build-and-preview-the-docs-locally)
+Assuming [Jekyll is installed](contribute-guide.md#build-and-preview-the-docs-locally)
 there is a an additional make-target in the `kleene-dev` repos to build the
 docs:
 

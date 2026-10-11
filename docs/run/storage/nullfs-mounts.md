@@ -8,7 +8,7 @@ a file or directory on the _host machine_ is mounted into a container.
 By contrast, when using a volume, a new directory is created within
 Kleene's root dataset on the host, and Kleene manages that directory's contents.
 
-See the [`container create` command](/reference/klee/container_create/#specifying-mounts)
+See the [`container create` command](../../reference/klee/container_create.md#specifying-mounts)
 for details on how to specify nullfs mounts with Klee.
 
 !!! important
@@ -25,7 +25,7 @@ In general, you should use volumes where possible. Nullfs mounts are appropriate
 for the following types of use case:
 
 - Sharing content used in development within a container.
-  See the [Get started](/get-started/05_nullfs_mounts/) guide for an example of this.
+  See the [Get started](../../get-started/05_nullfs_mounts.md) guide for an example of this.
 
 - Having storage that is not based on ZFS, such as NFS-mounts, that needs to
   be accessible in a container.
@@ -75,7 +75,7 @@ $ klee rmc -f devtest
 If a directory is nullfs-mounted into a non-empty directory on the container,
 the directory's existing contents are hidden by the nullfs mount.
 This can be beneficial when testing a new version of an application without
-building a new image, as illustrated in the [Get started](/get-started/05_nullfs_mounts/)
+building a new image, as illustrated in the [Get started](../../get-started/05_nullfs_mounts.md)
 guide. However, it can also be confusing to keep track of the state of files within
 the target directory.
 

@@ -11,9 +11,23 @@ docs_dir: docs
 use_directory_urls: true
 strict: true
 
+# With strict: true these warnings fail the build:
+validation:
+  nav:
+    omitted_files: warn
+  links:
+    absolute_links: warn
+    unrecognized_links: warn
+    anchors: warn
+
 # SUMMARY.md is the literate-nav navigation source, not a page on the site.
 exclude_docs: |
   SUMMARY.md
+
+# 404.md must stay out of the nav (MkDocs publishes it as the site's 404 page);
+# without this it would be flagged by validation.nav.omitted_files.
+not_in_nav: |
+  404.md
 
 # The site navigation lives in docs/SUMMARY.md, read by mkdocs-literate-nav.
 # scripts/gen_cli_reference.py reads the same file to know which klee reference

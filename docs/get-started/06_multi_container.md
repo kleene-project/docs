@@ -34,7 +34,7 @@ For now, we will continue to do the former, but if you need a container
 to be connected to several networks og to change network configurations later,
 the latter approach will come in handy.
 
-Go [here](/run/network) if you want to know more about networking.
+Go [here](../run/network/index.md) if you want to know more about networking.
 
 ## Build and start a MariaDB-container
 
@@ -198,5 +198,5 @@ container.
 
 If you want to dig deeper into Kleene, consider looking in:
 
-1. [Building images](/building/introduction/)
+1. [Building images](../building/introduction.md)
 2. [Running containers](http://localhost:4000/run/introduction/)

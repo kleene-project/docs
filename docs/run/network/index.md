@@ -117,10 +117,10 @@ The drivers are derived directly from the underlying
 
 Go to on of driver-specific pages for introductory walk-throughs:
 
-- [IPNet networking](/run/network/ipnet/)
-- [VNet networking](/run/network/vnet/)
-- [Host networking](/run/network/host/)
-- [Disable networking](/run/network/none/)
+- [IPNet networking](ipnet.md)
+- [VNet networking](vnet.md)
+- [Host networking](host.md)
+- [Disable networking](none.md)
 
 If you have experience with FreeBSD jails and know the different approaches to
 networking, the walk-throughs should be very familiar and hopefully it shows how
