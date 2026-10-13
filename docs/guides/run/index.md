@@ -8,7 +8,7 @@ within that container. The process runs in an isolated
 environment with its own file system, its own networking, and its own isolated
 process tree separate from the host.
 
-In FreeBSD terminolgy, the process is 'jailed' (using the jail kernel functionalty)
+In FreeBSD terminology, the process is 'jailed' (using the jail kernel functionality)
 and it can be managed using native FreeBSD tooling. Some of these is being used by
 Kleene under the hood, but some of the tools can be relevant to use alongside Kleene
 as well.
@@ -127,7 +127,7 @@ Tue Feb 13 13:04:21 UTC 2024
 Notice the last line compared to the previous examples:
 It only says that the execution instance has exited, and there is no mention of the
 container because it is stille running. Check with `klee lsc`.
-If the process that startede the container exists but it has spawned other
+If the process that started the container exits but it has spawned other
 processes that are still running, the container will continue to run in the
 background.
 

@@ -11,7 +11,7 @@ Given the capabilities of Kleened, it implies that having access to the Kleened 
 is equivalent to *having full root access to the host machine*. Therefore, obviously,
 **only trusted users should have access to Kleened**.
 For this reason, the REST API endpoint uses a UNIX socket by default,
-instead of, e.g., a TCP socket bound to 127.0.0.1 (or a similar widely accessable
+instead of, e.g., a TCP socket bound to 127.0.0.1 (or a similar widely accessible
 TCP socket). With a UNIX socket, traditional UNIX permission checks can be used to
 limit access to the API socket.
 
@@ -66,9 +66,9 @@ a certificate signed by a CA.
 
 !!! note
     Replace all instances of `$HOST` in the following example with the
-    DNS name of the Kleened host.
+    DNS name of the Kleene host.
 
-First, on the **Kleened host machine**, generate CA private and public keys:
+First, on the **Kleene host**, generate CA private and public keys:
 
 ```console
 $ openssl genrsa -aes256 -out ca-key.pem 4096
@@ -228,7 +228,7 @@ and the client cert + key needs to be copied to that machine.
     **Caution**:
     `sudo` is not needed with `klee` when certificate authentication
     is used, which means that anyone with the keys have root access to the
-    Kleened host. Guard these keys accordingly!
+    Kleene host. Guard these keys accordingly!
 
 #### Connecting to the secure Kleened port using `curl`
 

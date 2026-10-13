@@ -20,7 +20,7 @@ The build process can refer to any of the files or directories in the context
 using the [`COPY` instruction](../../reference/dockerfile.md#copy).
 
 !!! note
-    Presently, the `PATH` argment should refer to a path
+    Presently, the `PATH` argument should refer to a path
     *on the host machine* and not the client where `klee` is running.
     If you are using Klee on the same system as Kleened, those
     two are the same.
@@ -39,17 +39,17 @@ duplicated with practically zero storage costs. Only the data that is written du
 the build process takes up actual space on the hosts filesystem.
 
 Note that unlike images of, e.g., Docker and Podman, Kleene has no concept of layers.
-Kleene uses zfs [snapshots](https://man.freebsd.org/cgi/man.cgi?query=zfs-snapshot)
+Kleene uses ZFS [snapshots](https://man.freebsd.org/cgi/man.cgi?query=zfs-snapshot)
 and [clones](https://man.freebsd.org/cgi/man.cgi?query=zfs-clone)
 for creating images and containers.
 
 ## Example: Creating an image
 
 Here's a simple Dockerfile example to get you started with building images.
-We'll take a simple "Hello World" Python Flask application, and bundle it into
+This example takes a simple "Hello World" Python Flask application and bundles it into
 an image that can be easily deployed by Kleene.
 
-Remember to [prepare the Kleene host](../../get-started/tutorial/containerize-app.md#prepare-the-kleened-host)
+Remember to [prepare the Kleene host](../../get-started/tutorial/containerize-app.md#prepare-the-kleene-host)
 if haven't already been done:
 
 ```console
@@ -61,7 +61,7 @@ $ klee network create --subnet 10.13.37.0/24 testnet
 Since no tag was given, kleene automatically uses `latest`, meaning that the
 nametag of the image created above will be `FreeBSD:latest`.
 
-Now, let's say we have a `hello.py` file with the following content:
+Now, let's say the build context contains a `hello.py` file with the following content:
 
 ```python
 from flask import Flask
@@ -76,7 +76,7 @@ If you're not familiar with Python, it's just a simple web server that
 will contain a single page that says "Hello World". However, remember to
 preserve indentation.
 
-Here's the Dockerfile that will be used to create an image for our application:
+Here's the Dockerfile that will be used to create an image for the application:
 
 ```dockerfile
 FROM FreeBSD:latest
@@ -92,14 +92,14 @@ ENV FLASK_APP=hello
 CMD flask run --host 0.0.0.0 --port 8000
 ```
 
-First, we define the `FROM`-instruction:
+First, the `FROM` instruction is defined:
 
 ```dockerfile
 FROM FreeBSD:latest
 ```
 
 Here the [`FROM` instruction](../../reference/dockerfile.md#from) sets the
-parent image of our "Hello World"-app to the [base image](base-images.md) that we created just before.
+parent image of the "Hello World" app to the [base image](base-images.md) that was created just before.
 
 All following instructions are executed on (a clone of) this base image.
 
@@ -111,20 +111,20 @@ RUN pkg install -y py39-flask
 The [`RUN` instruction](../../reference/dockerfile.md#run) executes a shell
 command that installs Flask and all it's dependencies, including Python.
 
-In this example, our context is a full FreeBSD base system matching that of the host.
+In this example, the context is a full FreeBSD base system matching that of the host.
 
 Also note the `# install app dependencies` comment line. Comments in
 Dockerfiles begin with the `#` symbol. As your Dockerfile evolves, comments can
-be instrumental to document how your dockerfile works for any future readers
+be instrumental to document how your Dockerfile works for any future readers
 and editors of the file.
 
 ```dockerfile
 COPY hello.py /
 ```
 
-Now we use the [`COPY` instruction](../../reference/dockerfile.md#copy) to
-copy our `hello.py` file from the local [build context](../../glossary.md#context) into the
-root directory of our image. After being executed, we'll end up with a file
+Now the [`COPY` instruction](../../reference/dockerfile.md#copy) is used to
+copy the `hello.py` file from the local [build context](../../glossary.md#context) into the
+root directory of the image. After being executed, there is a file
 called `/hello.py` inside the image.
 
 ```dockerfile
@@ -132,9 +132,9 @@ ENV FLASK_APP=hello
 ```
 
 The [`ENV` instruction](../../reference/dockerfile.md#env) sets an
-environment variable we'll need later. This is a flask-specific variable,
-that configures the command later used to run our `hello.py` application.
-Without this, flask wouldn't know where to find our application to be able to
+environment variable needed later. This is a flask-specific variable,
+that configures the command later used to run the `hello.py` application.
+Without this, flask wouldn't know where to find the application to be able to
 run it.
 
 ```dockerfile
@@ -143,19 +143,19 @@ CMD flask run --host 0.0.0.0 --port 8000
 
 Finally, [`CMD` instruction](../../reference/dockerfile.md#cmd) sets the
 command that is run when the user starts a container based on this image. In
-this case we'll start the flask development server listening on all addresses
+this case the flask development server is started listening on all addresses
 on port `8000`.
 
 ### Building the image and running the app
 
-To test our Dockerfile, we'll first build it using the [`klee build` command](../../reference/klee/build.md):
+To test the Dockerfile, build it using the [`klee build` command](../../reference/klee/build.md):
 
 ```console
 $ klee build -t test:latest .
 ```
 
 Here `-t test:latest` option specifies the name (required) and tag (optional)
-of the image we're building. `.` specifies the [build context](../../glossary.md#context) as
+of the image being built. `.` specifies the [build context](../../glossary.md#context) as
 the current directory. In this example, this is where Kleene expects to find the
 Dockerfile and the local files the Dockerfile needs to access, in this case
 your Python application (`hello.py`).
@@ -169,7 +169,7 @@ Now run your newly built image:
 $ klee run --network testnet test:latest
 ```
 
-Now the application should be running on your computer. We did not specify
+Now the application should be running on your computer. `klee run` did not specify
 an IP-address, so Kleene automatically found a unused one from the subnet
 of the `testnet` network. There are several ways to identify it, however,
 using `jls` or using `klee container inspect <container-id>` where

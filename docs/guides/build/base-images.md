@@ -29,7 +29,7 @@ have different methods of creating base images to support many different use-cas
   remotely, using `fetch(1)`. That could be a pre-compiled userland
   (`base.txz`) of a different version than what is running on the host.
 
-- `zfs-clone`: Create a base image by [zfs-cloning](https://man.freebsd.org/cgi/man.cgi?query=zfs-clone)
+- `zfs-clone`: Create a base image by [ZFS cloning](https://man.freebsd.org/cgi/man.cgi?query=zfs-clone)
   an existing dataset on the Kleene host. This is ideal, for example, if you have
   compiled a custom version of the userland from source.
   It can also be relevant for completely customized
@@ -48,7 +48,7 @@ the previously mentioned methods of creating base images.
 
 ## Examples
 
-### Creating base images automagically
+### Creating base images automatically
 
 The easiest way to get a base image is to use the `fetch-auto` method
 

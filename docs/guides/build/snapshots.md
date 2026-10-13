@@ -11,7 +11,7 @@ when developing images. For instance, when an image build fail and you need
 to understand why it crashed, you can investigate the runtime environment as it
 looked before the build failed.
  
-This is illustrated with a somewhat artifical image development scenario
+This is illustrated with a somewhat artificial image development scenario
 which, nevertheless, aims to illustrate how to: Use image snapshots as a
 flexible tool for image development, and reduce build-times between test-builds.
 
@@ -62,7 +62,7 @@ Failed to build image f472c80affa4. Most recent snapshot is @fb70baa07e6e
 ```
 
 It failed! 
-The last line informs us of the most recent snapshot, i.e., the snapshot taken
+The last line tells you which snapshot is the most recent one, i.e., the snapshot taken
 after the last succesful `COPY`/`RUN` instruction.
 
 !!! tip
@@ -86,10 +86,10 @@ $ klee lsi
 
 If the tag already exists, the existing image will be untagged.
 
-After a bit of research we discovered that PostgresSQL needs a specific
+As it turns out, PostgreSQL needs a specific
 kernel functionalty that is disabled for containers by default. This can be
-enabled using jail-parameter `allow.sysvipc`. We rebuild using the last vaild
-snapshot from our previous (failed) build, by modifying our draft Dockerfile:
+enabled using the `allow.sysvipc` jail parameter. Rebuild using the last valid
+snapshot from the previous (failed) build, by modifying the draft Dockerfile:
 
 ```dockerfile
 FROM PostgreSQL:failed@fb70baa07e6e
@@ -102,9 +102,9 @@ RUN psql -c "CREATE DATABASE my_db;"
 RUN service postgresql stop
 ``` 
 
-We use the snapshot as our parent image in `FROM` instruction, and comment
-out the instructions that worked as expected in the previous build.
-We rebuild with
+The snapshot is used as the parent image in the `FROM` instruction, and the
+instructions that worked as expected in the previous build are commented out.
+Rebuild with
 
 ```console
 $ klee build -J allow.sysvipc -t PostgreSQL .
@@ -120,8 +120,8 @@ Failed to build image 5db4e03a7a4e. Most recent snapshot is @0b4c07e5d8ad
 
 The `RUN service postgresql initdb` now runs succesfully, but a new error occurs
 in `RUN psql -c "CREATE DATABASE my_db;"`.
-We immediately know what this error is about (wrong user) and start an interactive container,
-based on the failed build, to verify our intended solution to the problem:
+The error is about the wrong user, so start an interactive container,
+based on the failed build, to verify the intended solution to the problem:
 
 ```console
 $ klee run -J allow.sysvipc -it PostgreSQL:failed /bin/sh
@@ -143,8 +143,8 @@ $ psql -c "CREATE DATABASE my_db;"
 CREATE DATABASE
 ```
 
-Great! We just need to switch to the `postgres` user when we are using `psql`.
-We rebuild again with an updated Dockerfile containing our new solution,
+Great! The `postgres` user just has to be used when running `psql`.
+Rebuild again with an updated Dockerfile containing the new solution,
 represented by a couple of `USER` instructions:
 
 ```dockerfile
@@ -160,17 +160,17 @@ USER root
 RUN service postgresql stop
 ```
 
-Also, we adapted the `FROM`-instruction in our Dockerfile to the snapshot
+Also, the `FROM` instruction in the Dockerfile is adapted to the snapshot
 that was taken after `RUN service postgresql initdb` finished. That means
-our build will start right after the database has been initialized.
+the build will start right after the database has been initialized.
 
 Note that even though the nametag `PostgreSQL:failed` remains the same, it
 points to a different image. Now it refers to the latest failed build.
 The previous image is still visible with `klee lsi` but without any nametag.
 
-We rebuild from the last snapshot and hopefully this should complete succesfully.
+Rebuild from the last snapshot and hopefully this should complete succesfully.
 
-Finally, we create the final Dockerfile
+Finally, create the final Dockerfile
 
 ```Dockerfile
 FROM FreeBSD:latest

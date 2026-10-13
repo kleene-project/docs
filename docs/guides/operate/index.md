@@ -8,7 +8,7 @@ Kleene host.
 
 ## Pruning unused objects
 
-Images, containers, networks and volumes can quickly accumulater,
+Images, containers, networks and volumes can quickly accumulate,
 when developing images and experimenting with containers. To easily remove them,
 use the `klee <object> prune` family of commands. The conditions on what is
 removed differs, depending on which object is being pruned.

@@ -26,10 +26,10 @@ in the container's filesystem.
   does not already exist, an empty volume is created.
   This is a good way to pre-populate data that another container needs.
 
-- **Nullfs mounts** are flexible and may be stored *anywhere* on the host system.
+- **nullfs mounts** are flexible and may be stored *anywhere* on the host system.
   They may even be important system files or directories. The flexibility comes
   with the risk of using/modifying files that is also used by any host processes,
-  including Kleened. Nullfs mounts are not managed by Kleene except for the
+  including Kleened. nullfs mounts are not managed by Kleene except for the
   mount-operation during container creation.
 
 If a nullfs mount or a non-empty volume is mounted into a non-empty directory

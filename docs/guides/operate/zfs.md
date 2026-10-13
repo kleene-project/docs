@@ -77,7 +77,7 @@ Another useful feature of ZFS is to set a limit on how much storage a dataset
 can use. This can be configured using by, e.g., setting the `quota` property:
 
 ```console
-## We start be disabling compression, otherwise we can write a large file :)
+## Compression is disabled first, so a large file can be written
 $ sudo zfs set compression=off zroot/kleene/container/ab7857f95f13
 $ sudo zfs set quota=1M zroot/kleene/container/ab7857f95f13
 $ sudo jexec 19 /bin/dd if=/dev/zero of=too_large bs=1M count=1

@@ -57,7 +57,8 @@ is a great resource to learn more.
   - `rctl(8)`: CLI tool displaying and updating resource limits, including
     jails/conitainers. Also covers the syntax used.
 
+<!-- check-terms: ignore -->
 - [Jail vnet by Examples](https://freebsdfoundation.org/wp-content/uploads/2020/03/Jail-vnet-by-Examples.pdf)
-  is a great article publish in the FreeBSD journal, that show by examples how
-  VNet-jails work. There is a lot of spin-off knowledge on FreeBSD jails and
+  is a great article publish in the FreeBSD journal, that shows by examples how
+  `vnet` jails work. There is a lot of spin-off knowledge on FreeBSD jails and
   networking as well.

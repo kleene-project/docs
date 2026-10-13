@@ -6,7 +6,7 @@ description: Using more than one container in our application
 Up to this point, we have been working with single container apps. Now it is time to add a more
 advanced RDBMS to the application stack. Since the application supports both SQLite,
 MySQL, and MariaDB, we will use the latter for our new production-like setup.
-We will run MariaDB in a seperate container. A few reasons for using a seperate container
+MariaDB will be run in a separate container. A few reasons for using a separate container
 for the database:
 
 - There's a good chance you'd have to scale APIs and front-ends differently than databases
@@ -35,7 +35,7 @@ the latter approach will come in handy.
 
 Go [here](../../guides/network/index.md) if you want to know more about networking.
 
-## Build and start a MariaDB-container
+## Build and start a MariaDB container
 
 1. We start by creating a new image and container for our new RDBMS.
    From [part 4](persist-data.md) we learned how to persist data so let's

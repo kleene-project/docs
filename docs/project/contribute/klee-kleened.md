@@ -16,7 +16,7 @@ be patient with us
   Kleene, and functional tests should be added to the Klee test-suite. Most of the
   functional tests in the Kleened repository are going to be migrated to Klee bit by bit.
 - Unittests should be stored in their respective (Klee or Kleened) repositories.
-- Make sure that tests runs fast, e.g., do not create a complicated vnet-container that starts with `/bin/sh /etc/rc`
+- Make sure that tests runs fast, e.g., do not create a complicated `vnet` container that starts with `/bin/sh /etc/rc`
   if it can be avoided.
 - Do not make pull requests for new flags, features etc. without discussing it with
   the maintainers first.

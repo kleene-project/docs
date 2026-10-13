@@ -30,13 +30,13 @@ protocols, interface receiving the traffic, and which rule triggered the block.
 In the [previous example](firewall.md) it was the first
 rule, which in this case could correspond to a `block all` rule in `pf.conf`.
 
-Note that in some cases, such as ipnet-containers operating in restricted
+Note that in some cases, such as `ipnet` containers operating in restricted
 networking environments, if a service tries to create an outgoing connection
 that is blocked by the firewall, the connection operation will fail with a
 permission error instead of timing out.
 
-If vnet-containers is used, the container has its own network stack, including
-a seperate firewall and `pflog0` for independent firewall configuration.
+If `vnet` containers are used, the container has its own network stack, including
+a separate firewall and `pflog0` for independent firewall configuration.
 
 Lastly, there can be problems with NAT'ing, in which case it can be relevant to
 inspect traffic on other interfaces with `tcpdump`. It might be
@@ -46,7 +46,7 @@ terminal might be flooded with traffic.
 ## Problems with routes
 
 If there is routing problems, i.e., receiving an error `No route to host` it is
-possible to inspect the routing table on the host (or within vnet-containers)
+possible to inspect the routing table on the host (or within `vnet` containers)
 using `netstat -rn`. Consult the FreeBSD Handbooks section on
 [Gateways and Routes](https://docs.freebsd.org/en/books/handbook/advanced-networking/#network-routing)
 for more information.

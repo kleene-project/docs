@@ -14,7 +14,7 @@ This section deals with one of the more comprehensive topics when working with
 containers. For any readers having experience with networking in
 Docker, they should expect a substantially different approach to the subject.
 This page gives a brief introduction to the ideas related to
-networking and the remaning parts of the networking chapter covers
+networking and the remaining parts of the networking chapter cover
 them in more detail.
 
 The two central concepts of container networking are: Networks and network driver.
@@ -36,7 +36,7 @@ by an interface on the host.
 - `bridge`: Kleene creates a [bridge](https://man.freebsd.org/cgi/man.cgi?query=if_bridge) interface on the host for the network.
   The bridge network can be used to (logically) link interfaces on the host
   machine (physical or virtual). The bridge network is used for containers with
-  the vnet network driver (see below).
+  the `vnet` network driver (see below).
 
 - `custom`: The user determines which interface on the host should be used for
   the network. For instance, if the container should have an IP directly on the
@@ -58,64 +58,64 @@ The drivers are derived directly from the underlying
   all IP-addresses on the host, *including those used by other containers*.
   It is not possible to connect to any networks with this driver,
   and since it does not require a network, it is the default driver.
-  However, in production setups it is recommended to use networks and ipnet/vnet
+  However, in production setups it is recommended to use networks and the `ipnet`/`vnet` drivers
   drivers instead, since they provide much better isolation from the host and
   other containers.
 
 - `ipnet`: Inherit the network configuration from the host, but restrict
-  which IP-addresses of the host that is accesible to the container.
+  which IP addresses of the host that are accessible to the container.
   All interfaces of the host are visible within the container but not the IP's.
   Only assigned IP's are visible within the container, and configuring network
   interfaces using tools such as [`ifconfig(8)`](https://man.freebsd.org/cgi/man.cgi?query=ifconfig)
-  is prohibited. A few pro's and con's of ipnet-containers:
+  is prohibited. A few pros and cons of `ipnet` containers:
 
   - It is lightweight way of providing connectivity to a container while
     retaining isolation from the host and other containers.
 
-  - Ipnet containers can connect to all network types.
+  - `ipnet` containers can connect to all network types.
 
   - The IP's assigned to the container is also visible from the host so
-    getting an overview of IP usage of ipnet-containers is straightforward.
+    getting an overview of IP usage of `ipnet` containers is straightforward.
 
   - Access to localhost aka. `127.0.0.1` is prohibited by default. This might
     require additional configuration of applications that expects this IP to
-    be accessable.
+    be accessible.
 
-  - The restricted networking environment limits the possibilites of what you
+  - The restricted networking environment limits the possibilities of what you
     can do within the container. For instance, it is not possible to setup a
     firewall or manipulating routes, network interfaces etc. Use the `vnet`
     driver in that case.
 
-- `vnet`: vnet-containers has their own virtual network stack, such as
-  a dedicated `loopback` interface, routing table, firwall capabilities etc.
-  Vnet-containers are connected through a virtual `cross-over` cable represented
+- `vnet`: `vnet` containers have their own virtual network stack, such as
+  a dedicated `loopback` interface, routing table, firewall capabilities etc.
+  `vnet` containers are connected through a virtual `cross-over` cable represented
   by a pair of [`epair(4)` interfaces](https://man.freebsd.org/cgi/man.cgi?query=epair).
   One of these is designated to the container and the other resides
   on the host, where it is added to a `bridge` interface.
-  A few pro's and con's of vnet-containers:
+  A few pros and cons of `vnet` containers:
 
-  - Because vnet-containers have their own network stack, they can create
+  - Because `vnet` containers have their own network stack, they can create
     virtual interfaces, manipulate existing ones, and run their own firewall.
     This makes them ideal for more complicated networking requirements.
 
   - Slightly more host and container configuration is needed compared to
-    ipnet-containers since epair interfaces has to be allocated/configured
+    `ipnet` containers since epair interfaces has to be allocated/configured
     and gateways has to be added during container startup.
 
   - Since the network-stack is isolated from the host, the networking
     configuration of the container is only visible from within the container.
 
-  - vnet-containers can only connect to bridge-networks.
+  - `vnet` containers can only connect to bridge-networks.
 
-- `disabled`: Networking capabilites are disabled. Containers using this driver
+- `disabled`: Networking capabilities are disabled. Containers using this driver
   can see all network interfaces of the host but none of the IP-addresses.
 
 ## Next steps
 
 Go to on of driver-specific pages for introductory walk-throughs:
 
-- [IPNet networking](ipnet.md)
-- [VNet networking](vnet.md)
+- [`ipnet` networking](ipnet.md)
+- [`vnet` networking](vnet.md)
 - [Host networking](host.md)
 - [Disable networking](none.md)
 

@@ -19,7 +19,7 @@ containers. For instance, the `exec.[pre|post]start` and `exec.[pre|post]stop`
 jail parameters enable custom commands to be run during container creation and
 removal, and are also used by Kleene in some cases.
 
-Jail parameters also provides many ways of expanding the allowed capabilites in a
+Jail parameters also provide many ways of expanding the allowed capabilities in a
 container, and there are many different use cases that is out of scope
 here, where containers are allowed to create virtual machines, manage ZFS
 datasets, creating jails within jails and more.

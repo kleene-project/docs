@@ -1,6 +1,6 @@
 ---
 description: Using nullfs mounts
-title: Nullfs mounts
+title: nullfs mounts
 ---
 
 When using a [nullfs mount](https://man.freebsd.org/cgi/man.cgi?query=nullfs),
@@ -12,7 +12,7 @@ See the [`container create` command](../../reference/klee/container_create.md#sp
 for details on how to specify nullfs mounts with Klee.
 
 !!! important
-    Nullfs mounts allow access to sensitive files
+    nullfs mounts allow access to sensitive files
     One side effect of using nullfs mounts, for better or for worse,
     is that the host filesystem can be changed via processes running in a
     container, including creating, modifying, or deleting important system
@@ -21,7 +21,7 @@ for details on how to specify nullfs mounts with Klee.
 
 ## Good use cases for nullfs mounts
 
-In general, you should use volumes where possible. Nullfs mounts are appropriate
+In general, you should use volumes where possible. nullfs mounts are appropriate
 for the following types of use case:
 
 - Sharing content used in development within a container.

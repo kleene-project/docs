@@ -15,9 +15,9 @@ $ klee network create --subnet 10.2.3.0/24 testnet
 6b933304be4a
 ```
 
-That's it! Now we can connect containers to it. Using the `klee run` command we
+That's it! Now containers can be connected to it. Using the `klee run` command you
 can connect a container on-the-fly. For instance, to create a container with the
-ipnet network-driver, connecting it to the new network, and runing `ifconfig` within the
+`ipnet` network driver, connecting it to the new network, and runing `ifconfig` within the
 container do as follows:
 
 ```console
@@ -46,7 +46,7 @@ In the output of `ifconfig`, the only visible IP is `10.2.3.1`, within
 the `testnet` subnet. It is on the loopback interface `kleene0` that Kleene created
 for the network.
 
-To verify connectivity, spin up a second container and try to reach our
+To verify connectivity, spin up a second container and try to reach the
 DNS-server:
 
 ```console
@@ -107,7 +107,7 @@ gets the following output:
 
 In the `container_endpoints` section there is an endpoint for the `testnet`
 network having ip `10.2.3.2`. As expected there is no `epair` allocated since
-this is used for VNET-containers.
+this is used for `vnet` containers.
 
 Inspecting the network with `klee network inspect testnet` produces:
 
@@ -148,10 +148,10 @@ Inspecting the network with `klee network inspect testnet` produces:
 ```
 
 Here both endpoints are shown, one from each container connected to
-the network. We can also see the properties that has been assigned to the
-network (the default values), such as NAT'in, subnets etc.
+the network. The properties that have been assigned to the
+network (the default values), such as NAT'in, subnets etc., are also visible.
 The `gateway`/`gateway6` properties is not relevant here,
-as they are only used for VNET-containers and they can't connect to loopback
+as they are only used for `vnet` containers and they can't connect to loopback
 networks.
 
 ## Inter-container communication on the same network
@@ -201,7 +201,7 @@ ping: ssend socket: Operation not permitted
 2845c545dfc0 has exited with exit-code 71
 ```
 
-By default, raw sockets, which is used by `ping`, are not allowed in ipnet
+By default, raw sockets, which is used by `ping`, are not allowed in `ipnet` containers
 containers. It can be allowed by adding the `allow.raw_sockets` jail parameter
 to the containers or instead use TCP-connections to verify inter-container connectivity.
 TCP will be used here, and a simple TCP-server is started in one container:

@@ -8,7 +8,7 @@ This is because each container has its own filesystem and removing a
 container also removes its filesystem. Using volumes, we can persist
 data and share it across containers.
 
-## Container Storage
+## Container storage
 
 If a directory mounted into a container is changed from within the container,
 those changes are also seen on the host machine. Similarily, if we mount that same directory into a new container,
@@ -37,7 +37,7 @@ so you only need to remember the volume's name.
     $ klee volume create todo-db
     ```
 
-    You can verify it has been succesfully created by using the `klee lsv` command as well as see it's location in the filsystem using `zfs list`.
+    You can verify it has been succesfully created by using the `klee lsv` command as well as see its location in the filesystem using `zfs list`.
 
 2. Stop and remove the todo app container once again.
 

@@ -23,7 +23,7 @@ frameworks.
 The following table outlines the main differences between volume mounts and nullfs
 mounts.
 
-|                 | Volumes                                                     | Nullfs mounts                              |
+|                 | Volumes                                                     | nullfs mounts                              |
 | --------------- | ----------------------------------------------------------- | ------------------------------------------ |
 | Host location   | Kleened stores it under the `<kleene-root>/volumes` dataset | You decide                                 |
 | Example         | `--mount my-volume:/usr/local/data`                         | `--mount /path/to/data:/usr/local/data`    |
@@ -31,7 +31,7 @@ mounts.
 Under the hood, volume mounts are nullfs mounts where Kleene manages the
 underlying ZFS filesystem.
 
-Nullfs mounts are, as the name suggests, mountpoints created using the
+nullfs mounts are, as the name suggests, mountpoints created using the
 [`nullfs(5)` file system layer](https://man.freebsd.org/cgi/man.cgi?query=nullfs) of FreeBSD.
 
 ## Trying out Kleene's nullfs mounts
@@ -98,7 +98,7 @@ nullfs mounts during application development.
 
 The following steps describe how to run a development container that does the following:
 
-- Nullfs-mount our source code stored on the host in `/home/jane/getting-started/app`, into the container.
+- nullfs-mount our source code stored on the host in `/home/jane/getting-started/app`, into the container.
 - Install all dependencies
 - Start `nodemon` to watch for filesystem changes
 

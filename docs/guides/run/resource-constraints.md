@@ -10,7 +10,7 @@ in the following.
 
 ## ZFS
 
-Since a container reside on a seperate ZFS dataset it is possible restrict
+Since a container resides on a separate ZFS dataset it is possible to restrict
 filesystem-related resources, such as limiting the amount of space that can be
 used by a container. This and other ways of configuring the underlying dataset
 of a container are discussed in the section on [ZFS configuration](../operate/zfs.md).

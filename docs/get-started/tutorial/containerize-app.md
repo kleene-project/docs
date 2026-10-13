@@ -27,7 +27,7 @@ Before you can run the application, you need to get the application source code 
 2. View the contents of the cloned repository. Inside the `app` root-directory of the repository you should see
    a `package.json`, two subdirectories (`src` and `spec`), and perhaps a few other files.
 
-## Prepare the Kleened host
+## Prepare the Kleene host
 
 When you have a fresh installation, a few preparations is needed before you can start
 building images and creating containers.
@@ -78,9 +78,8 @@ A Dockerfile contains the instructions that Kleened uses to create the image.
    # Listens on port 3000
    CMD cd /app && node src/index.js
    ```
-   > **Note**
-   >
-   > Click on an instruction in the Dockerfile example to learn more about the instruction.
+   !!! note
+      Click on an instruction in the Dockerfile example to learn more about the instruction.
 
 3. Build the container image, and assuming you are still in the `app` directory, run
 
@@ -91,7 +90,7 @@ A Dockerfile contains the instructions that Kleened uses to create the image.
    to build the container image.
 
 Kleene uses the Dockerfile to build a new container image.
-The `Dockerfile` starts with `FROM FreeBSD-13.2-RELEASE:latest` that refers to the base-image we created previously,
+The `Dockerfile` starts with `FROM FreeBSD-13.2-RELEASE:latest` that refers to the base image created previously,
 so it will be used as the foundation for our new `webapp` image.
 
 The remaining instructions from the Dockerfile installs the application dependencies, copies application data into the image, and uses `yarn` to install the application's JavaScript dependencies.
@@ -144,7 +143,7 @@ To do so, you will use the `klee run` command.
 
 At this point, you should have a running todo list manager with a few items, all built by you.
 
-Note that our images and containers are just zfs datasets one the host. Use `zfs list` to get an overview of how Kleene
+Note that our images and containers are just ZFS datasets on the host. Use `zfs list` to get an overview of how Kleene
 stores its objects.
 
 ## Next steps

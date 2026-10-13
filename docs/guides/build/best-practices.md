@@ -253,13 +253,13 @@ RUN some_command
 RUN some_other_command
 ```
 
-Each `RUN`-instruction causes Kleene to make a [zfs snapshot](https://man.freebsd.org/cgi/man.cgi?query=zfs-snapshot)
+Each `RUN` instruction causes Kleene to make a [ZFS snapshot](https://man.freebsd.org/cgi/man.cgi?query=zfs-snapshot)
 which a fast operation that takes up (practically) no
 space. It also makes debugging easier, since more snapshots
 increases flexibility when investigating a failed build.
 See [Using build snapshots](snapshots.md) for details.
 
-### Using pipes in `RUN`-instructions
+### Using pipes in `RUN` instructions
 
 Some `RUN` commands depend on the ability to pipe the output of one command into another, using the pipe character (`|`), as in the following example:
 
@@ -307,7 +307,7 @@ executable 98d33442355c and its container exited with exit-code 0
 
 To prevent this, and really unset the environment variable, use a `RUN` command
 with shell commands, to set, use, and unset the variable all in a single instruction.
-Seperate commands with `;` or `&&`. If the second method is used,
+Separate commands with `;` or `&&`. If the second method is used,
 and one of the commands fails, `klee build` also fails. This is usually a
 good idea. Using `\` as a line continuation character for Dockerfiles
 improves readability. Alternatively, put all of the commands into a shell script

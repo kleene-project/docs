@@ -17,7 +17,7 @@ networks, encapsulating OS-specfic primitives and taking care of the underlying
 configration, such as:
 
 - Setting up [jailed](https://man.freebsd.org/cgi/man.cgi?query=jail&sektion=8) applications
-  in lightweight environments using [zfs(8)](https://man.freebsd.org/cgi/man.cgi?query=zfs&sektion=8).
+  in lightweight environments using [`zfs(8)`](https://man.freebsd.org/cgi/man.cgi?query=zfs&sektion=8).
 - Configuring host networking and creating necessary network devices.
 - Setting up connectivity using the [packet filter](https://man.freebsd.org/cgi/man.cgi?query=pf&sektion=4) firewall.
 
@@ -82,7 +82,7 @@ In general, the FreeBSD handbook is a great resource on the operating system.
 Kleene uses a client-server design. Klee (the client) tells Kleened (the server)
 what to do, and the latter does all the work with building and running your containers.
 Klee and Kleened can run on the same system, or you can connect Klee to a remote
-Kleened host. They communicate using a REST API, over UNIX sockets or a network interface.
+Kleene host. They communicate using a REST API, over UNIX sockets or a network interface.
 
 ### Kleened, the backend daemon
 
@@ -108,7 +108,7 @@ of those objects.
 
 #### Images
 
-An _image_ is a zfs dataset containing a configured runtime used for creating containers.
+An _image_ is a ZFS dataset containing a configured runtime used for creating containers.
 Images usually includes an entire FreeBSD userland with additional application-specific
 configurations. Often, an image is based on another image, adding additional
 configurations. For example, you may build an image based on a parent-image of
@@ -146,7 +146,7 @@ based on how the contaner-connectivity is configured in FreeBSD.
 #### Volumes
 
 Volumes are used to provide persistent storage for the ephemeral containers.
-Basically, volumes are zfs datasets that are mounted into one or more containers.
+Basically, volumes are ZFS datasets that are mounted into one or more containers.
 
 ## The underlying technology
 
@@ -154,7 +154,7 @@ Kleene's backend, Kleened, is mostly written in the [Elixir programming language
 using the underlying OTP-framework and the BEAM VM of [Erlang](https://www.erlang.org/).
 This technology stack is chosen for it's high focus on concurrency and fault-tolerance.
 Kleened's objects (images, containers, networks etc.) are implemented by orchestrating
-FreeBSD's core technologies such as jails, pf, and zfs. These objects can be manipulated
+FreeBSD's core technologies such as jails, PF, and ZFS. These objects can be manipulated
 using Kleened's HTTP-based API which consist of a REST API and some websocket
 endpoints for streaming/interactive communication.
 
