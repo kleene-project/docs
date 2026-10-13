@@ -16,7 +16,7 @@ for the database:
 
 ## Container networking
 
-In [part 2](./02_our_app.md) we created a network to provide upstream/internet connectivity to our
+In [part 2](containerize-app.md) we created a network to provide upstream/internet connectivity to our
 container. To enable private inter-container connectivity between containers they
 should be connected to the same network.
 
@@ -33,12 +33,12 @@ For now, we will continue to do the former, but if you need a container
 to be connected to several networks og to change network configurations later,
 the latter approach will come in handy.
 
-Go [here](../run/network/index.md) if you want to know more about networking.
+Go [here](../../guides/network/index.md) if you want to know more about networking.
 
 ## Build and start a MariaDB-container
 
 1. We start by creating a new image and container for our new RDBMS.
-   From [part 4](./04_persisting_data.md) we learned how to persist data so let's
+   From [part 4](persist-data.md) we learned how to persist data so let's
    start by creating a volume for the database in our new MariaDB-container:
 
    ```
@@ -197,5 +197,5 @@ container.
 
 If you want to dig deeper into Kleene, consider looking in:
 
-1. [Building images](../building/introduction.md)
+1. [Building images](../../guides/build/index.md)
 2. [Running containers](http://localhost:4000/run/introduction/)

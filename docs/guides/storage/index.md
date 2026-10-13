@@ -18,7 +18,7 @@ in the container's filesystem.
 - **Volumes** are managed by Kleene and stored in the `<kleene_root>/volumes`
   dataset. This means that they are automatically kept in a fixed location on
   the zpool, together with other Kleene data. See the section on
-  [Kleene and ZFS](../../operation/zfs.md) to read more about how to configure Kleene's ZFS filesystem.
+  [Kleene and ZFS](../operate/zfs.md) to read more about how to configure Kleene's ZFS filesystem.
 
   If an **empty volume** is mounted into a non-empty directory in a container,
   the existing files and directories are copied into the volume.

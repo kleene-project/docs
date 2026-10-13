@@ -1,38 +1,11 @@
 ---
-title: Building images
-description: How Kleened builds images from a Dockerfile and a build context
+title: Build context
+description: What the build context is and how Kleene uses it
 ---
 
-## Dockerfile
-
-It all starts with a Dockerfile. For a thorough walk-through of what a
-Dockerfile is, it is recommended to consult [Docker's documention](https://docs.docker.com/build/building/packaging/) or
-Kleene's [getting started](../get-started/index.md) guide, which is an adapted version
-of Docker's [guide](https://docs.docker.com/get-started/), to highlight differences.
-
-Kleened builds images by reading the instructions from a Dockerfile,
-using a subset of the instructions known from Docker.
-You can find Kleene's specification reference in the [Dockerfile reference](../reference/dockerfile.md).
-
-Here are the most common and basic instructions:
-
-| Instruction                                                | Description                                                                                                              |
-|------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|
-| [`FROM <image>`](../reference/dockerfile.md#from)              | Defines a base for your image. This is used to create a new designated filesystem for the image that is being built.     |
-| [`RUN <command>`](../reference/dockerfile.md#run)           | Executes any commands within the designated filesystem. `RUN` also has a shell form for running commands.                |
-| [`WORKDIR <directory>`](../reference/dockerfile.md#workdir) | Sets the working directory for any `RUN`, `CMD`, and `COPY` instructions that follow it in the Dockerfile.               |
-| [`COPY <src> <dest>`](../reference/dockerfile.md#copy)      | Copies new files or directories from `<src>` and adds them to the filesystem of the container at the path `<dest>`.      |
-| [`CMD <command>`](../reference/dockerfile.md#cmd)           | Defines the default command that runs when starting containers based on this image.                                      |
-
-The default filename to use for a Dockerfile is `Dockerfile`, without a file
-extension. Using the default name allows you to run the `klee build` command
-without having to specify additional command flags.
-
-Some projects may need distinct Dockerfiles for specific purposes. A common
-convention is to name these `Dockerfile.<something>`. Such Dockerfiles can then
-be used through the `--file` (or `-f` shorthand) option on the `klee build` command.
-Refer to the [`klee build` section](../reference/klee/build.md)
-in the `klee` reference documentation to learn about build configuration.
+The build context determines which files are available to an image build.
+This page explains what it contains, how Kleene builds images from it,
+and how to design images that build efficiently.
 
 ## Context
 
@@ -44,7 +17,7 @@ $ klee build [OPTIONS] PATH
 ```
 
 The build process can refer to any of the files or directories in the context
-using the [`COPY` instruction](../reference/dockerfile.md#copy).
+using the [`COPY` instruction](../../reference/dockerfile.md#copy).
 
 !!! note
     Presently, the `PATH` argment should refer to a path
@@ -76,7 +49,7 @@ Here's a simple Dockerfile example to get you started with building images.
 We'll take a simple "Hello World" Python Flask application, and bundle it into
 an image that can be easily deployed by Kleene.
 
-Remember to [prepare the Kleene host](../get-started/02_our_app.md#prepare-the-kleened-host)
+Remember to [prepare the Kleene host](../../get-started/tutorial/containerize-app.md#prepare-the-kleened-host)
 if haven't already been done:
 
 ```console
@@ -125,7 +98,7 @@ First, we define the `FROM`-instruction:
 FROM FreeBSD:latest
 ```
 
-Here the [`FROM` instruction](../reference/dockerfile.md#from) sets the
+Here the [`FROM` instruction](../../reference/dockerfile.md#from) sets the
 parent image of our "Hello World"-app to the [base image](base-images.md) that we created just before.
 
 All following instructions are executed on (a clone of) this base image.
@@ -135,7 +108,7 @@ All following instructions are executed on (a clone of) this base image.
 RUN pkg install -y py39-flask
 ```
 
-The [`RUN` instruction](../reference/dockerfile.md#run) executes a shell
+The [`RUN` instruction](../../reference/dockerfile.md#run) executes a shell
 command that installs Flask and all it's dependencies, including Python.
 
 In this example, our context is a full FreeBSD base system matching that of the host.
@@ -149,8 +122,8 @@ and editors of the file.
 COPY hello.py /
 ```
 
-Now we use the [`COPY` instruction](../reference/dockerfile.md#copy) to
-copy our `hello.py` file from the local [build context](../glossary.md#context) into the
+Now we use the [`COPY` instruction](../../reference/dockerfile.md#copy) to
+copy our `hello.py` file from the local [build context](../../glossary.md#context) into the
 root directory of our image. After being executed, we'll end up with a file
 called `/hello.py` inside the image.
 
@@ -158,7 +131,7 @@ called `/hello.py` inside the image.
 ENV FLASK_APP=hello
 ```
 
-The [`ENV` instruction](../reference/dockerfile.md#env) sets an
+The [`ENV` instruction](../../reference/dockerfile.md#env) sets an
 environment variable we'll need later. This is a flask-specific variable,
 that configures the command later used to run our `hello.py` application.
 Without this, flask wouldn't know where to find our application to be able to
@@ -168,26 +141,26 @@ run it.
 CMD flask run --host 0.0.0.0 --port 8000
 ```
 
-Finally, [`CMD` instruction](../reference/dockerfile.md#cmd) sets the
+Finally, [`CMD` instruction](../../reference/dockerfile.md#cmd) sets the
 command that is run when the user starts a container based on this image. In
 this case we'll start the flask development server listening on all addresses
 on port `8000`.
 
 ### Building the image and running the app
 
-To test our Dockerfile, we'll first build it using the [`klee build` command](../reference/klee/build.md):
+To test our Dockerfile, we'll first build it using the [`klee build` command](../../reference/klee/build.md):
 
 ```console
 $ klee build -t test:latest .
 ```
 
 Here `-t test:latest` option specifies the name (required) and tag (optional)
-of the image we're building. `.` specifies the [build context](../glossary.md#context) as
+of the image we're building. `.` specifies the [build context](../../glossary.md#context) as
 the current directory. In this example, this is where Kleene expects to find the
 Dockerfile and the local files the Dockerfile needs to access, in this case
 your Python application (`hello.py`).
 
-So, in accordance with the build command issued and how [build context](../glossary.md#context)
+So, in accordance with the build command issued and how [build context](../../glossary.md#context)
 works, your Dockerfile and python app need to be in the same directory.
 
 Now run your newly built image:
@@ -217,7 +190,7 @@ need to restrict the build environment for security reasons.
 
 The configuration parameters used to configure the build container with
 `klee build` is almost identical to the container configuration of `klee run`.
-See the [the reference documentation](../reference/klee/build.md)
+See the [the reference documentation](../../reference/klee/build.md)
 for details.
 
 ## Image design
@@ -246,10 +219,10 @@ achieve that:
 
 ### Where and how to persist application data
 
-- Store data using [volumes](../run/storage/volumes.md).
+- Store data using [volumes](../storage/volumes.md).
 
 - One case where it is appropriate to use
-  [nullfs mounts](../run/storage/nullfs-mounts.md) is during development,
+  [nullfs mounts](../storage/nullfs-mounts.md) is during development,
   where it is desirable to mount a source directory or newly built binaries
   into the container. For production, use a volume instead, mounting it into
   the same location as the bind mount that was used during development.

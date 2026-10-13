@@ -109,9 +109,58 @@ plugins:
       nav_file: SUMMARY.md
   - redirects:
       redirect_maps:
+        # Pre-existing entries (re-pointed where their target moved)
         reference/builder.md: reference/dockerfile.md
         reference/kleened/latest/index.md: reference/kleened/kleened-v0.0.1.md
         reference/glossary.md: glossary.md
-        CONTRIBUTING.md: contribute/overview.md
+        CONTRIBUTING.md: project/contribute/index.md
+        # get-started: overview becomes "What is Kleene?", old index becomes the tutorial overview
+        get-started/overview.md: get-started/index.md
+        get-started/index.md: get-started/tutorial/index.md
+        get-started/02_our_app.md: get-started/tutorial/containerize-app.md
+        get-started/03_updating_app.md: get-started/tutorial/update-app.md
+        get-started/04_persisting_data.md: get-started/tutorial/persist-data.md
+        get-started/05_nullfs_mounts.md: get-started/tutorial/nullfs-mounts.md
+        get-started/06_multi_container.md: get-started/tutorial/multi-container.md
+        # install
+        install/index.md: get-started/install.md
+        # guides/build (introduction.md was split: index.md + context.md)
+        building/introduction.md: guides/build/index.md
+        building/dockerfile_best-practices.md: guides/build/best-practices.md
+        building/snapshots.md: guides/build/snapshots.md
+        building/base-images.md: guides/build/base-images.md
+        # guides/run
+        run/introduction.md: guides/run/index.md
+        run/jail-parameters.md: guides/run/jail-parameters.md
+        run/resource_constraints.md: guides/run/resource-constraints.md
+        run/start-containers-automatically.md: guides/run/autostart.md
+        # guides/network
+        run/network/index.md: guides/network/index.md
+        run/network/ipnet.md: guides/network/ipnet.md
+        run/network/vnet.md: guides/network/vnet.md
+        run/network/host.md: guides/network/host.md
+        run/network/none.md: guides/network/none.md
+        run/network/publish-ports.md: guides/network/publish-ports.md
+        run/network/firewall.md: guides/network/firewall.md
+        run/network/troubleshoot.md: guides/network/troubleshoot.md
+        # guides/storage
+        run/storage/index.md: guides/storage/index.md
+        run/storage/volumes.md: guides/storage/volumes.md
+        run/storage/nullfs-mounts.md: guides/storage/nullfs-mounts.md
+        # guides/operate
+        operation/index.md: guides/operate/index.md
+        operation/protect-access.md: guides/operate/protect-access.md
+        operation/zfs.md: guides/operate/zfs.md
+        # project
+        external-resources.md: project/freebsd-resources.md
+        release-notes.md: project/release-notes.md
+        contribute/project-status.md: project/status.md
+        contribute/community.md: project/community.md
+        contribute/overview.md: project/contribute/index.md
+        contribute/contribute-guide.md: project/contribute/guidelines.md
+        contribute/style-guide.md: project/contribute/style-guide.md
+        contribute/file-conventions.md: project/contribute/file-conventions.md
+        contribute/ui.md: project/contribute/ui.md
+        contribute/klee-kleened.md: project/contribute/klee-kleened.md
   - minify:
       minify_html: true

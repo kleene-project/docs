@@ -195,4 +195,4 @@ you'll keep with a relational database and switch your application to use MariaD
 But, how should you run MariaDB? How do you allow the containers to talk to each
 other? You'll learn about that next!
 
-[Multi container apps](06_multi_container.md)
+[Multi container apps](multi-container.md)

@@ -16,7 +16,7 @@ we'd see the same files.
 
 There are two approches to persist container data in Kleene, 'volume' and 'nullfs' mounts.
 We will eventually use both, but we will start with volume mounts.
-[Volumes](../run/storage/volumes.md) provide the ability to mount designated filesystem paths
+[Volumes](../../guides/storage/volumes.md) provide the ability to mount designated filesystem paths
 of the host machine into containers.
 
 ## Persist the todo data with volume mounts
@@ -68,4 +68,4 @@ At this point, you have a functioning application that can survive restarts!
 However, you saw earlier that rebuilding images for every change takes quite a bit of time.
 With nullfs-mounts (which was hinted at earlier), there is a better way!
 
-[Using nullfs mounts](05_nullfs_mounts.md)
+[Using nullfs mounts](nullfs-mounts.md)

@@ -19,9 +19,9 @@ following sections.
 ## Creating and running containers
 
 The most common way of using containers with the client is to use the command
-[`klee run`](../reference/klee/run.md).
-This command combines [`klee container create`](../reference/klee/container_create.md) and
-[`klee container start`](../reference/klee/start.md).
+[`klee run`](../../reference/klee/run.md).
+This command combines [`klee container create`](../../reference/klee/container_create.md) and
+[`klee container start`](../../reference/klee/start.md).
 Therefore, running
 
 ```console
@@ -65,8 +65,8 @@ are equivalent. A few things to notice with these two examples:
 - Lastly, the containers have connectivity using the `host` network driver,
   since no network driver was specified (with `--network-driver`/`-l`)
   when the containers were created. It is recommended to use networks instead,
-  and an easy way to get started with networks is by going through the [Get started](../get-started/index.md)
-  guide. Many more details are given in the [networking section](network/index.md).
+  and an easy way to get started with networks is by going through the [Get started](../../get-started/tutorial/index.md)
+  guide. Many more details are given in the [networking section](../network/index.md).
 
 ## Detached vs. foreground
 
@@ -190,8 +190,8 @@ using this compressed form:
 IMAGE_ID|IMAGE_NAME[:tag][@snapshot]
 ```
 
-which is explained in detail in the [documentation of `klee container create`](../reference/klee/container_create.md).
-It is also possible to create images from build snapshots as described [here](../building/snapshots.md),
+which is explained in detail in the [documentation of `klee container create`](../../reference/klee/container_create.md).
+It is also possible to create images from build snapshots as described [here](../build/snapshots.md),
 which can be useful during image development.
 
 ## Overriding image defaults

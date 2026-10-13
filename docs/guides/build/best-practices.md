@@ -34,7 +34,7 @@ Let's make this concrete with a few examples.
 
 ### Example 1: MariaDB
 
-Consider the `Dockerfile.mariadb` file from [part 6](../get-started/06_multi_container.md):
+Consider the `Dockerfile.mariadb` file from [part 6](../../get-started/tutorial/multi-container.md):
 
 ```dockerfile
 FROM FreeBSD-13.2-RELEASE:latest
@@ -74,7 +74,7 @@ require a MariaDB database but require a different database schema.
 
 ### Example 2: A web application
 
-Similarily, the `Dockerfile` used for the 'production' `webapp` image from [part 2](../get-started/02_our_app.md)
+Similarily, the `Dockerfile` used for the 'production' `webapp` image from [part 2](../../get-started/tutorial/containerize-app.md)
 
 ```dockerfile
 FROM FreeBSD-13.2-RELEASE:latest
@@ -85,7 +85,7 @@ RUN yarn install --production
 CMD cd /app && node src/index.js
 ```
 
-and `Dockerfile.dev` for the 'development' `webapp-dev` image from [part 5](../get-started/05_nullfs_mounts.md)
+and `Dockerfile.dev` for the 'development' `webapp-dev` image from [part 5](../../get-started/tutorial/nullfs-mounts.md)
 
 ```dockerfile
 FROM webapp:latest
@@ -122,7 +122,7 @@ CMD cd /app && yarn install && yarn run dev
 
 ## 'ephemeral' vs. 'thin VM' containers
 
-The images in the [Getting started](../get-started/index.md) guide are designed as
+The images in the [Getting started](../../get-started/tutorial/index.md) guide are designed as
 ["ephemeral containers"](https://docs.docker.com/develop/develop-images/guidelines/#create-ephemeral-containers),
 where the containerized application is started
 with the container using the `CMD`-instruction.
@@ -231,7 +231,7 @@ containers, each with its own unique image, to manage the web application,
 database, and an in-memory cache in a decoupled manner.
 
 Try and keep containers as clean and modular as possible. If
-containers depend on each other, use container [networks](../run/network/index.md)
+containers depend on each other, use container [networks](../network/index.md)
 to ensure that the containers can communicate.
 
 ### Keep Dockerfile instructions simple

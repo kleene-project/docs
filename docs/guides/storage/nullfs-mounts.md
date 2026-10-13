@@ -25,7 +25,7 @@ In general, you should use volumes where possible. Nullfs mounts are appropriate
 for the following types of use case:
 
 - Sharing content used in development within a container.
-  See the [Get started](../../get-started/05_nullfs_mounts.md) guide for an example of this.
+  See the [Get started](../../get-started/tutorial/nullfs-mounts.md) guide for an example of this.
 
 - Having storage that is not based on ZFS, such as NFS-mounts, that needs to
   be accessible in a container.
@@ -75,7 +75,7 @@ $ klee rmc -f devtest
 If a directory is nullfs-mounted into a non-empty directory on the container,
 the directory's existing contents are hidden by the nullfs mount.
 This can be beneficial when testing a new version of an application without
-building a new image, as illustrated in the [Get started](../../get-started/05_nullfs_mounts.md)
+building a new image, as illustrated in the [Get started](../../get-started/tutorial/nullfs-mounts.md)
 guide. However, it can also be confusing to keep track of the state of files within
 the target directory.
 

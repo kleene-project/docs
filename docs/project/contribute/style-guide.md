@@ -55,7 +55,7 @@ Notes on the table:
 - **Admonitions** use `!!! note`, `!!! tip`, `!!! warning`, `!!! important`.
   Never `> **Note**` blockquotes.
 - **Links** are relative links to `.md` files
-  (`[volumes](../storage/volumes.md)`), never absolute site paths. The only
+  (`[volumes](../../guides/storage/volumes.md)`), never absolute site paths. The only
   exception is the `/assets/redoc/…` path on the Kleened API page. Use
   descriptive link text, never "here".
 - **Commands** go in ```console blocks with a `$ ` prompt for commands run as
@@ -64,7 +64,7 @@ Notes on the table:
 - **Icons** use Material emoji shortcodes (`:material-console:`), not
   Bootstrap classes or Font Awesome.
 - The **first mention** of a Kleene object on a page links to its glossary
-  entry (`[volume](../glossary.md#volume)`, with the relative depth
+  entry (`[volume](../../glossary.md#volume)`, with the relative depth
   adjusted).
 - **No hyphenated compounds** of names: "MariaDB container", not
   "MariaDB-container"; "a `vnet` container", not "`vnet`-container".

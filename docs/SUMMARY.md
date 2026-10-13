@@ -1,45 +1,45 @@
 # Summary
 
 - [Home](index.md)
-- Handbook
-    - [Kleene overview](get-started/overview.md)
-    - [Installation](install/index.md)
-    - Get started
-        - [Part 1: Overview](get-started/index.md)
-        - [Part 2: Containerize an application](get-started/02_our_app.md)
-        - [Part 3: Update the application](get-started/03_updating_app.md)
-        - [Part 4: Persist the DB](get-started/04_persisting_data.md)
-        - [Part 5: Using nullfs mounts](get-started/05_nullfs_mounts.md)
-        - [Part 6: Multi-container apps](get-started/06_multi_container.md)
+- Get started
+    - [What is Kleene?](get-started/index.md)
+    - [Install Kleene](get-started/install.md)
+    - Tutorial
+        - [Overview](get-started/tutorial/index.md)
+        - [1. Containerize an application](get-started/tutorial/containerize-app.md)
+        - [2. Update the application](get-started/tutorial/update-app.md)
+        - [3. Persist the database](get-started/tutorial/persist-data.md)
+        - [4. Use nullfs mounts](get-started/tutorial/nullfs-mounts.md)
+        - [5. Multi-container applications](get-started/tutorial/multi-container.md)
+- Guides
     - Building images
-        - [Introduction](building/introduction.md)
-        - [Dockerfile best practices](building/dockerfile_best-practices.md)
-        - [Using build snapshots](building/snapshots.md)
-        - [Create your own base image](building/base-images.md)
+        - [Building images](guides/build/index.md)
+        - [Build context](guides/build/context.md)
+        - [Best practices](guides/build/best-practices.md)
+        - [Build snapshots](guides/build/snapshots.md)
+        - [Base images](guides/build/base-images.md)
     - Running containers
-        - [Introduction](run/introduction.md)
-        - Networking
-            - [Overview](run/network/index.md)
-            - [IPNet networking](run/network/ipnet.md)
-            - [VNet networking](run/network/vnet.md)
-            - [Host networking](run/network/host.md)
-            - [Disable networking for a container](run/network/none.md)
-            - [Publishing ports](run/network/publish-ports.md)
-            - [Firewall customization](run/network/firewall.md)
-            - [Troubleshoot](run/network/troubleshoot.md)
-        - Storage
-            - [Overview](run/storage/index.md)
-            - [Volume mounts](run/storage/volumes.md)
-            - [Nullfs mounts](run/storage/nullfs-mounts.md)
-        - [Jail parameters](run/jail-parameters.md)
-        - [Container resource constraints](run/resource_constraints.md)
-        - [Start containers automatically](run/start-containers-automatically.md)
-    - Kleene operation
-        - [Overview](operation/index.md)
-        - [Protect the Kleened socket](operation/protect-access.md)
-        - [ZFS configuration](operation/zfs.md)
-    - [External resources](external-resources.md)
-    - [Release notes](release-notes.md)
+        - [Running containers](guides/run/index.md)
+        - [Jail parameters](guides/run/jail-parameters.md)
+        - [Resource constraints](guides/run/resource-constraints.md)
+        - [Start automatically](guides/run/autostart.md)
+    - Networking
+        - [Networking overview](guides/network/index.md)
+        - [`ipnet` networking](guides/network/ipnet.md)
+        - [`vnet` networking](guides/network/vnet.md)
+        - [Host networking](guides/network/host.md)
+        - [Disable networking](guides/network/none.md)
+        - [Publish ports](guides/network/publish-ports.md)
+        - [Customize the firewall](guides/network/firewall.md)
+        - [Troubleshooting](guides/network/troubleshoot.md)
+    - Storage
+        - [Storage overview](guides/storage/index.md)
+        - [Volumes](guides/storage/volumes.md)
+        - [Nullfs mounts](guides/storage/nullfs-mounts.md)
+    - Operating Kleene
+        - [Operating Kleene](guides/operate/index.md)
+        - [Protect the Kleened socket](guides/operate/protect-access.md)
+        - [ZFS configuration](guides/operate/zfs.md)
 - Reference
     - [Reference documentation](reference/index.md)
     - Klee (client)
@@ -112,12 +112,15 @@
         - [Version history overview](reference/kleened/version-history.md)
     - [Dockerfile reference](reference/dockerfile.md)
     - [Glossary](glossary.md)
-- Contribute
-    - [Overview](contribute/overview.md)
-    - [Contribution guidelines](contribute/contribute-guide.md)
-    - [Style guide](contribute/style-guide.md)
-    - [Source file conventions](contribute/file-conventions.md)
-    - [UI elements in content](contribute/ui.md)
-    - [Contribute to Klee and Kleened](contribute/klee-kleened.md)
-    - [Project status](contribute/project-status.md)
-    - [Community](contribute/community.md)
+- Project
+    - [Project status](project/status.md)
+    - [Release notes](project/release-notes.md)
+    - [FreeBSD resources](project/freebsd-resources.md)
+    - [Community](project/community.md)
+    - Contribute
+        - [Contribute to Kleene's docs](project/contribute/index.md)
+        - [Contribution guidelines](project/contribute/guidelines.md)
+        - [Style guide](project/contribute/style-guide.md)
+        - [Source file conventions](project/contribute/file-conventions.md)
+        - [UI elements in content](project/contribute/ui.md)
+        - [Contribute to Klee and Kleened](project/contribute/klee-kleened.md)

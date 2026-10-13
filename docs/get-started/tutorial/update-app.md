@@ -3,7 +3,7 @@ title: "Update the application"
 description: Making changes to our example learning application
 ---
 
-In [part 2](./02_our_app.md), you containerized a todo application.
+In [part 2](containerize-app.md), you containerized a todo application.
 In this part, you will update the application image and corresponding container.
 
 ## Update the source code
@@ -20,7 +20,7 @@ In the steps below, you will change the "empty text" when you don't have any tod
     ...
     ```
 
-2. Build your updated version of the image, using the `klee build` command you used in [part 2](./02_our_app.md/#build-the-apps-container-image).
+2. Build your updated version of the image, using the `klee build` command you used in [part 2](containerize-app.md#build-the-apps-container-image).
 
    ```console
    $ klee build -t webapp .
@@ -84,4 +84,4 @@ shortly.
 - There were a lot of steps involved for such a small change. In the next section, you'll learn
 how to see code updates without needing to rebuild and start a new container every time you make a change.
 
-[Persist application data](04_persisting_data.md)
+[Persist application data](persist-data.md)

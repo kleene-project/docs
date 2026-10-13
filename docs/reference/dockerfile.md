@@ -19,12 +19,12 @@ Kleene compared to writing Dockerfiles for these tools.
 However, given Kleene's approach to building images, there are
 deviations in best-practices. For instance, aggregating commands
 into a single large `RUN`-instruction is discouraged in Kleene.
-See [Dockerfile best practices](../building/dockerfile_best-practices.md)
+See [Dockerfile best practices](../guides/build/best-practices.md)
 for details.
 
 Two instructions you may know from other tools that Kleene does not implement
 are `EXPOSE` and `VOLUME`. Kleene handles container networking without
-per-image configuration (see [the networking docs](../run/network/index.md)), and volumes
+per-image configuration (see [the networking docs](../guides/network/index.md)), and volumes
 are managed with [`klee volume`](klee/volume_create.md) rather than
 through the image.
 

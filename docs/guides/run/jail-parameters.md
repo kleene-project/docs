@@ -73,7 +73,7 @@ The jail parameters where Kleene provide defaults are as follows:
 ## Examples
 
 There are a few examples throught this documentation. For instance, in the last
-chapter of the [guide on how to use image snapshots](../building/snapshots.md)
+chapter of the [guide on how to use image snapshots](../build/snapshots.md)
 `-J allow.sysvipc=true` is required for the PostgreSQL database to work.
 
 Another small example frequently used, is to allow raw sockets in the jail,
@@ -92,4 +92,4 @@ Aborted!
 ```
 
 Allowing raw sockets is also actively used in the
-[networking section](network/ipnet.md#inter-container-communication-on-the-same-network).
+[networking section](../network/ipnet.md#inter-container-communication-on-the-same-network).
