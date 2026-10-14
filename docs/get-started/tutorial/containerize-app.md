@@ -47,7 +47,7 @@ You need to create a [base image](../../guides/build/base-images.md) and a netwo
    ```
 
    It is recommended to connect containers to a network, instead of using the
-   default `host` network driver for connectivty. Using networks provides
+   default `host` network driver for connectivity. Using networks provides
    a higher degree of isolation from the host's networking configuration.
    If you decide to use the `host` network driver instead, remember to omit the
    `-n testnet` option when creating containers in this guide.
@@ -108,7 +108,7 @@ The `.` at the end of the `klee build` command tells Kleene that it should look 
 !!! note
     The directory `.` is converted to its absolute path by Klee and then sent to Kleened.
     *Kleened will then interpret this as a path on the host machine where it is running*.
-    If Klee and Kleened are runnning on the same host this is fine, but if Klee is running
+    If Klee and Kleened are running on the same host this is fine, but if Klee is running
     on a remote machine this will probably not work. In the latter case, remember to use absolute
     paths on the host machine where Kleened is running.
 

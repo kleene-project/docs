@@ -1,0 +1,3 @@
+[codespell]
+skip = ./docs/assets/redoc,./docs/reference/kleened/*.yaml,./data/klee-reference,./site,./.venv,./_site,*.png,*.svg,*.webp
+ignore-words = .codespell-ignore

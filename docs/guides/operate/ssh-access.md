@@ -16,7 +16,7 @@ desecribed above, with the SSH + portward method described in the beginning.
 
 Combining these gives:
 
-- The possibilty to leverage sophisticated authentication mechanisms of SSH
+- The possibility to leverage sophisticated authentication mechanisms of SSH
   (like 2FA) to gain host access, while
 
 - Protecting the socket on 127.0.0.1 with mutual (client/server) TLS to add a layer

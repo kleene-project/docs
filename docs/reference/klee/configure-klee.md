@@ -64,6 +64,6 @@ A Klee configuration file (if any) is found by following these steps:
 Klee comes with to different visual themes for outputting results:
 
 - The `fancy` theme is primarily based on Python's `rich` package and uses special unicode characters and colors when formatting output.
-- The `simple` theme uses Python's `click` package for printting the help-text, and uses only ASCII-characters and little/no colors when formatting output.
+- The `simple` theme uses Python's `click` package for printing the help text, and uses only ASCII-characters and little/no colors when formatting output.
 
 The `fancy` theme is used by default.

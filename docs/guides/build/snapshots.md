@@ -63,7 +63,7 @@ Failed to build image f472c80affa4. Most recent snapshot is @fb70baa07e6e
 
 It failed! 
 The last line tells you which snapshot is the most recent one, i.e., the snapshot taken
-after the last succesful `COPY`/`RUN` instruction.
+after the last successful `COPY`/`RUN` instruction.
 
 !!! tip
     **Tip**
@@ -87,7 +87,7 @@ $ klee lsi
 If the tag already exists, the existing image will be untagged.
 
 As it turns out, PostgreSQL needs a specific
-kernel functionalty that is disabled for containers by default. This can be
+kernel functionality that is disabled for containers by default. This can be
 enabled using the `allow.sysvipc` jail parameter. Rebuild using the last valid
 snapshot from the previous (failed) build, by modifying the draft Dockerfile:
 
@@ -118,7 +118,7 @@ The command '/bin/sh -c psql -c "CREATE DATABASE my_db;"' returned a non-zero co
 Failed to build image 5db4e03a7a4e. Most recent snapshot is @0b4c07e5d8ad
 ```
 
-The `RUN service postgresql initdb` now runs succesfully, but a new error occurs
+The `RUN service postgresql initdb` now runs successfully, but a new error occurs
 in `RUN psql -c "CREATE DATABASE my_db;"`.
 The error is about the wrong user, so start an interactive container,
 based on the failed build, to verify the intended solution to the problem:
@@ -128,7 +128,7 @@ $ klee run -J allow.sysvipc -it PostgreSQL:failed /bin/sh
 # cat /etc/passwd 
 # $FreeBSD$
 # 
-# Lines ommited for brevity
+# Lines omitted for brevity
 root:*:0:0:Charlie &:/root:/bin/csh
 toor:*:0:0:Bourne-again Superuser:/root:
 daemon:*:1:1:Owner of many system processes:/root:/usr/sbin/nologin
@@ -168,7 +168,7 @@ Note that even though the nametag `PostgreSQL:failed` remains the same, it
 points to a different image. Now it refers to the latest failed build.
 The previous image is still visible with `klee lsi` but without any nametag.
 
-Rebuild from the last snapshot and hopefully this should complete succesfully.
+Rebuild from the last snapshot and hopefully this should complete successfully.
 
 Finally, create the final Dockerfile
 

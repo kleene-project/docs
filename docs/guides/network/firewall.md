@@ -93,7 +93,7 @@ pass in quick on $ext_if from 10.0.2.2 to 10.0.2.15 port 22
 ### KLEENED FILTERING RULES END #######
 ```
 
-The modfied template file is saved at `/usr/local/etc/pf.conf.kleene` and Kleened is
+The modified template file is saved at `/usr/local/etc/pf.conf.kleene` and Kleened is
 restarted for the changes to take effect.
 
 See `pf.conf(5)` for details on the PF configuration file syntax.
@@ -168,7 +168,7 @@ the network just created and the containers connected to it.
 
 ## External FreeBSD resources on firewall configuration
 
-A few relevant external ressources to learn more about FreeBSD firewalls and PF
+A few relevant external resources to learn more about FreeBSD firewalls and PF
 in particular:
 
 - [Firewall chapter in the FreeBSD handbook](https://docs.freebsd.org/en/books/handbook/firewalls/)

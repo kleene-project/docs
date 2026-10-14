@@ -12,7 +12,7 @@ Kleene uses some of these parameters under the hood to configure basic behavior,
 
 - What network driver is used to provide connectivity to the container.
 - What user is running the initial process in the container
-- Which host ressources are available to the container
+- Which host resources are available to the container
 
 Jail parameters offers flexible and powerful configuration options when creating
 containers. For instance, the `exec.[pre|post]start` and `exec.[pre|post]stop`
@@ -26,7 +26,7 @@ datasets, creating jails within jails and more.
 
 See the 'Jail parameters' section of the
 [`jail` man page](https://man.freebsd.org/cgi/man.cgi?query=jail) for a complete
-list of all possbile parameters and a description of each. It might also come in
+list of all possible parameters and a description of each. It might also come in
 handy in the following, where some of the parameters are introduced.
 
 ## How jail parameters are handled in Kleene
@@ -72,7 +72,7 @@ The jail parameters where Kleene provide defaults are as follows:
 
 ## Examples
 
-There are a few examples throught this documentation. For instance, in the last
+There are a few examples throughout this documentation. For instance, in the last
 chapter of the [guide on how to use image snapshots](../build/snapshots.md)
 `-J allow.sysvipc=true` is required for the PostgreSQL database to work.
 

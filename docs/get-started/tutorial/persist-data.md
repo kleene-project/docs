@@ -11,10 +11,10 @@ data and share it across containers.
 ## Container storage
 
 If a directory mounted into a container is changed from within the container,
-those changes are also seen on the host machine. Similarily, if we mount that same directory into a new container,
+those changes are also seen on the host machine. Similarly, if we mount that same directory into a new container,
 we'd see the same files.
 
-There are two approches to persist container data in Kleene, 'volume' and 'nullfs' mounts.
+There are two approaches to persist container data in Kleene, 'volume' and 'nullfs' mounts.
 We will eventually use both, but we will start with volume mounts.
 [Volumes](../../guides/storage/volumes.md) provide the ability to mount designated filesystem paths
 of the host machine into containers.
@@ -37,7 +37,7 @@ so you only need to remember the volume's name.
     $ klee volume create todo-db
     ```
 
-    You can verify it has been succesfully created by using the `klee lsv` command as well as see its location in the filesystem using `zfs list`.
+    You can verify it has been successfully created by using the `klee lsv` command as well as see its location in the filesystem using `zfs list`.
 
 2. Stop and remove the todo app container once again.
 

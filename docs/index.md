@@ -11,8 +11,7 @@ hide:
 Kleene is a container management tool for FreeBSD, similar to Docker but using
 FreeBSD jails, ZFS and PF.
 
-!!! note "Kleene is under active development"
-    A new tool in need of testing. See the [project status](project/status.md).
+*Kleene is under active development. See the [project status](project/status.md).*
 
 ## Pick your path
 

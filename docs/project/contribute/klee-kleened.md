@@ -28,7 +28,7 @@ be patient with us
 ## Creating a development environment
 
 To facilitate development, there exists a development repos containing a
-Vagrantfile for a development environemnt and a couple of useful `Makefile`'s.
+Vagrantfile for a development environment and a couple of useful `Makefile`'s.
 To set it up the environment, do the following:
 
 ```console
@@ -56,7 +56,7 @@ $ make serve
 This creates the `.venv` if needed (see the Makefile) and starts the MkDocs
 dev webserver at `http://127.0.0.1:8000/`.
 
-If Vagrant is installed, the development environment can be created by runnning:
+If Vagrant is installed, the development environment can be created by running:
 
 ```console
 $ vagrant up dev

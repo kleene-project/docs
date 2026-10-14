@@ -37,7 +37,7 @@ for the following types of use case:
 Consider a case with a directory `source` that contains source code,
 which, when compiled, produce artifacts saved into the subdirectory
 `source/target/`. The artifacts should be available within a container at `/app/`,
-and always be up to date with the newest build, everytime it is produced on the
+and always be up to date with the newest build, every time it is produced on the
 host. Use the following command to nullfs-mount the `source/target/`
 directory into a container at `/app/` (run the command from within the
 `source` directory).

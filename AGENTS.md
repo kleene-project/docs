@@ -6,9 +6,10 @@ Source of https://kleene.dev, the documentation site for Kleene (a FreeBSD jail/
 
 - `make setup`  creates `.venv` and installs `requirements.txt` (pinned versions; re-runs when requirements.txt changes).
 - `make serve`  runs `.venv/bin/mkdocs serve` at http://127.0.0.1:8000/.
+- `make check`  runs everything CI runs: `scripts/check_terms.py`, `scripts/check_frontmatter.py`, `codespell`, then `mkdocs build --strict`. Installs `requirements-dev.txt` on first use.
 - `make clean`  removes `.venv` and `site/`.
-- Full check (same as CI): `.venv/bin/mkdocs build --strict`
-- There is no test suite or linter. The strict build is the check: CI (`.github/workflows/deploy.yml`) runs it on every PR and push to `main`, and deploys only from `main`. Python 3.12 in CI; the system python3 is 3.13, and there is no system pip (use the venv).
+- Full check (same as CI): `make check`
+- There is no test suite. CI (`.github/workflows/deploy.yml`) runs the checks on every PR and push to `main`, and deploys only from `main`: the terminology checker, the front-matter checker, codespell and the strict build. Python 3.12 in CI; the system python3 is 3.13, and there is no system pip (use the venv).
 
 ## Layout
 

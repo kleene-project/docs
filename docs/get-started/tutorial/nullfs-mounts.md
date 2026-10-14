@@ -1,6 +1,5 @@
 ---
 title: "Using nullfs mounts"
-  get started, setup
 description: Using nullfs mounts in our application
 ---
 

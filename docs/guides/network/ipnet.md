@@ -18,7 +18,7 @@ $ klee network create --subnet 10.2.3.0/24 testnet
 
 That's it! Now containers can be connected to it. Using the `klee run` command you
 can connect a container on-the-fly. For instance, to create a container with the
-`ipnet` network driver, connecting it to the new network, and runing `ifconfig` within the
+`ipnet` network driver, connecting it to the new network, and running `ifconfig` within the
 container do as follows:
 
 ```console

@@ -60,7 +60,7 @@ All the shortcut commands are listed in the
     Depending on your Klee system configuration, you may be required to prefix
     the `klee` command with `sudo`. The simples way to avoid using `sudo` with the
     `klee` command, is to make an alias `alias klee='sudo klee'`. However,
-    `sudo` is still required even though it does not need to be typed explictly.
+    `sudo` is still required even though it does not need to be typed explicitly.
     Alternatively, expose Kleened through a TCP-socket which requires some additional
     security-considerations. Read more about this [here](../../guides/operate/protect-access.md).
 
@@ -87,7 +87,7 @@ Usage: klee run [OPTIONS] IMAGE [COMMAND]...
 │                     overwritten by the jail parameter exec.jail_user if it is set.                       │
 │  -e  --env          Set environment variables (e.g. --env FIRST=SomeValue --env SECOND=AnotherValue)     │
 │  -m  --mount list   Mount a volume/directory/file on the host filesystem into the container. Mounts are  │
-│                     specfied using a --mount SOURCE:DESTINATION[:rw|ro] syntax.                          │
+│                     specified using a --mount SOURCE:DESTINATION[:rw|ro] syntax.                          │
 │  -J  --jailparam    Specify one or more jail parameters to use. If you do not want mount.devfs,          │
 │                     exec.clean, and exec.stop="/bin/sh /etc/rc.shutdown" enabled, you must actively      │
 │                     disable them                                                                         │
@@ -97,7 +97,7 @@ Usage: klee run [OPTIONS] IMAGE [COMMAND]...
 │                     no]                                                                                  │
 │  -l  --driver       Network driver of the container. Possible values: ipnet, host, vnet, and disabled.   │
 │                     If no network and no network driver is supplied, the network driver is set to host.  │
-│                     If a network is specfied but no network driver, it is set to ipnet,                  │
+│                     If a network is specified but no network driver, it is set to ipnet,                  │
 │  -n  --network      Connect container to this network.                                                   │
 │      --ip           IPv4 address used for the container. If omitted, an unused ip is allocated from the  │
 │                     IPv4 subnet of --network.                                                            │

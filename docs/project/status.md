@@ -47,4 +47,4 @@ The tentative highly condensed roadmap is:
 4. Introduce 'namespacing', similar to Ansible host-vars.
 
 This is definitely subject to change. See the [GitHub organisation](https://github.com/kleene-project) for
-details and dicussion.
+details and discussion.

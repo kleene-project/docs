@@ -3,9 +3,9 @@ title: Creating base images
 description: How to create base images
 ---
 
-Images form a hierachy since all image builds start by cloning a parent image,
+Images form a hierarchy since all image builds start by cloning a parent image,
 specified in the `FROM`-instruction, which in turn can be used in other
-images etc. However, this hiearchy has to start with an image without
+images etc. However, this hierarchy has to start with an image without
 a parent, i.e., a *base image*.
 
 ## Overview

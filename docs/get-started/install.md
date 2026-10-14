@@ -80,7 +80,7 @@ There are several ways of installing Klee depending on tooling and platform.
 The following provides a couple of examples using `pipx`.
 Alternatively, `pip` can be used in a similar way.
 
-`pipx` works on many differen platforms and can be used to install python packages
+`pipx` works on many different platforms and can be used to install python packages
 in isolated environments to avoid dependency conflicts with other python applications.
 `pipx` can be installed on most operating systems.
 

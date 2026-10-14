@@ -6,7 +6,7 @@ title: External resources
 Learning more about underlying technologies makes it easier to
 understand how Kleene works, how to use it efficiently, and how to tweak
 the environment to specific needs. Therefore, a list of valuable external
-ressources is compiled for the interested reader that wants to know more.
+resources is compiled for the interested reader that wants to know more.
 
 ## Resources on containers in general
 

@@ -177,7 +177,7 @@ RUN has 2 forms:
   `/bin/sh -c <command>`.
 - `RUN ["executable", "param1", "param2"]` *exec* form.
 
-After a `RUN` instruction have been succesfully executed in the build-container,
+After a `RUN` instruction has been successfully executed in the build-container,
 a ZFS snapshot is created. Snapshotting instructions in this way makes it possible
 to create containers from any point in an image's history.
 
@@ -262,7 +262,7 @@ ENV <key>=<value> ...
 
 The `ENV` instruction sets the environment variable `<key>` to the value
 `<value>`. This value will be in the environment for all subsequent instructions
-and can be [substitued inline](#environment-replacement) in many instructions as well.
+and can be [substituted inline](#environment-replacement) in many instructions as well.
 Outer quote characters will be removed if they are not escaped.
 Like command line parsing, quotes and backslashes can be used to include spaces
 within values.
@@ -322,7 +322,7 @@ Each `<src>` will be expanded using Erlangs's
 [filelib.wildcard/1](https://www.erldocs.com/current/stdlib/filelib.html?#wildcard/1)
 rules and then copied with the [`cp -R` command](https://man.freebsd.org/cgi/man.cgi?query=cp).
 These external external resources, describes the mechanics of the
-`COPY` instrcution. For instance, adding all files starting with "hom":
+`COPY` instruction. For instance, adding all files starting with "hom":
 
 ```dockerfile
 COPY hom* /mydir/

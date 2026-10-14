@@ -7,7 +7,7 @@ description: "Documentation of changes that have been made to Kleened API."
 
 [Kleened API v0.1.0](kleened-v0.0.1.md) documentation
 
-* This is still under heavy development so changes are occuring all the time.
+* This is still under heavy development so changes are occurring all the time.
 
 ## v0.0.1 API changes
 

@@ -8,7 +8,7 @@ If Kleened is enabled i `rc.conf`, it will start during FreeBSD startup
 and automatically start any containers configured to do so.
 
 This can also be combined with the `--persist` option for containers,
-to avoid it being accidentially removed when pruning containers.
+to avoid it being accidentally removed when pruning containers.
 
 ## Use a restart policy
 

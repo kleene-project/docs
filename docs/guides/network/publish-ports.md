@@ -12,7 +12,7 @@ expose sockets on the external interfaces of the host.
 !!! note
     While there is large overlap in syntax, publishing ports in Kleene is
     completely different compared to Docker. Kleene exposes its ports by
-    redirecting traffic from interfaces to the container, whereas Docker proxys traffic
+    redirecting traffic from interfaces to the container, whereas Docker proxies traffic
     from a listening socket on the host to the container.
 
 When a port is published, Kleene configures the host firewall to redirect and

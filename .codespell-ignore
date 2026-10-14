@@ -1,0 +1,12 @@
+# Words codespell flags that are legitimate here. One word per line.
+# "succesfully" is klee's actual output string; it appears verbatim in
+# captured console output (D4: never edit captured output).
+Succesfully
+succesfully
+# "[c]ontainer" bracket notation in the klee help panel (docs/reference/klee/cli.md)
+ontainer
+# (words below predate codespell; kept for local dictionaries)
+astest
+basenames
+nd
+ue

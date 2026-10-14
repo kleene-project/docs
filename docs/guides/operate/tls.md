@@ -63,7 +63,7 @@ If you enter '.', the field will be left blank.
 Country Name (2 letter code) [AU]:
 State or Province Name (full name) [Some-State]:
 Locality Name (eg, city) []:
-Organization Name (eg, company) [Internet Widgits Pty Ltd]:
+Organization Name (eg, company) [Internet Widgets Pty Ltd]:
 Organizational Unit Name (eg, section) []:
 Common Name (e.g. server FQDN or YOUR name) []:$HOST
 Email Address []:John@example.com
@@ -183,7 +183,7 @@ api_listening_sockets:
 in `/usr/local/etc/kleened/kleened_config.yaml`.
 
 To connect to Kleened and validate its certificate and present the client
-certifcate:
+certificate:
 
 ```console
 $ klee --tlsverify \

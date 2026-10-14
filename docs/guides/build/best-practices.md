@@ -27,7 +27,7 @@ Dividing images this way has several advantages:
    requirements than the present setup, or if there is a need for different environments such as 'development'
    and 'production'.
 
-3. If an new application is builded from scratch, the 'package installation' image can be shared to other
+3. If an new application is built from scratch, the 'package installation' image can be shared to other
    users, while having a custom 'configuration' image for specific internal deployments.
 
 Let's make this concrete with a few examples.
@@ -69,12 +69,12 @@ CMD service mysql-server onestart && \
 
 The latter builds much faster, and can be used to experiment with the database
 configuration and initialization. The former image
-from `Dockerfile.mariadb-pkg` is resuable for different projects that also
+from `Dockerfile.mariadb-pkg` is reusable for different projects that also
 require a MariaDB database but require a different database schema.
 
 ### Example 2: A web application
 
-Similarily, the `Dockerfile` used for the 'production' `webapp` image from [part 2](../../get-started/tutorial/containerize-app.md)
+Similarly, the `Dockerfile` used for the 'production' `webapp` image from [part 2](../../get-started/tutorial/containerize-app.md)
 
 ```dockerfile
 FROM FreeBSD-15.1-RELEASE-p3:latest
@@ -115,7 +115,7 @@ CMD cd /app && node src/index.js
 and
 
 ```dockerfile
-# Developemnt image
+# Development image
 FROM webapp-pkg:latest
 CMD cd /app && yarn install && yarn run dev
 ```
@@ -136,10 +136,10 @@ In this setup, containers are often started with the system startup script
 FreeBSD userland available.
 Applications and services in the container are then managed with [rc.conf(5)](https://man.freebsd.org/cgi/man.cgi?query=rc.conf)
 (or a third-party service manager such as `py-supervisord`).
-Sometimes auxillary services such as `sshd` may be running together with the
+Sometimes auxiliary services such as `sshd` may be running together with the
 main application.
 
-Both the 'ephemeral' and 'thin VM' approaches to container design aim for seperation
+Both the 'ephemeral' and 'thin VM' approaches to container design aim for separation
 of concerns and isolation of services:
 Run the database in one container and the web-application in another.
 Also, it is not a 'one or the other' situation, since both approaches can be used,
@@ -213,7 +213,7 @@ the password and start playing around!
 
 ## General guidelines and recommendations
 
-The following sections contain a few tips and conrete advices for image development.
+The following sections contain a few tips and concrete advice for image development.
 
 ### Don't install unnecessary packages
 

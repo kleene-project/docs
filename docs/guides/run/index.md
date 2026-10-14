@@ -92,7 +92,7 @@ created execution instance acba96f0411c
 ```
 
 Here, Kleene started the container, and exits back to the terminal.
-In this case, the container stops immediatly after `echo` has printed
+In this case, the container stops immediately after `echo` has printed
 'Hello!' but if it was a long-running process it would continue to
 run in the background. This is exemplified in the following.
 
@@ -137,7 +137,7 @@ background.
     process and *not* any subprocesses.
     Therefore, the jail might still be running even though the attached session is
     closed. For instance, `klee exec my-container /bin/sh -c "nc -l 4000"`
-    keeps running after Klee exits. Shut it down by killing the proces with `kill`
+    keeps running after Klee exits. Shut it down by killing the process with `kill`
     from either host/container or, alternatively, stop the container entirely with
     `klee stop my-container`.
 
@@ -167,7 +167,7 @@ order to allocate a tty for the container process. `-i -t` is usually written `-
 The advantage of using the Kleene client is that it wraps the interactive session
 with relevant information such container/execution instance ID's an whether the
 container terminated or just the execution instance. It can also run on a remote
-machine instead of the Kleene host. It is still experiemental, however, and
+machine instead of the Kleene host. It is still experimental, however, and
 it communicates through a websocket, which incurs some overhead.
 
 ### Using `jexec`

@@ -14,7 +14,7 @@ and spend less time on nitty gritty system configuration.
 
 This is done by introducing highlevel concepts of containers, images, and
 networks, encapsulating OS-specfic primitives and taking care of the underlying
-configration, such as:
+configuration, such as:
 
 - Setting up [jailed](https://man.freebsd.org/cgi/man.cgi?query=jail&sektion=8) applications
   in lightweight environments using [`zfs(8)`](https://man.freebsd.org/cgi/man.cgi?query=zfs&sektion=8).
@@ -50,7 +50,7 @@ A few differences worth highlighting, however, are the following:
   More specifically, the [jail](https://man.freebsd.org/cgi/man.cgi?query=jail&sektion=8)-mechanism
   of process isolation differs from the Linux-world.
 
-- Kleene tries to make its use of the host system as transparant as possible
+- Kleene tries to make its use of the host system as transparent as possible
   for the user and to make it easy to use FreeBSD's built-in tooling.
   FreeBSD already contain a few helpful tools that can be used in conjunction
   with Kleene, such as `jls(8)`, `jexec(8)`, `zfs(8)` etc.
@@ -139,8 +139,8 @@ any changes to its state that are not stored in persistent storage volumes disap
 #### Networks
 
 In order for containers to be able to communicate with the surroundings,
-they need to be attache to a network. A network connects one or more containers
-to eachother and to other networks. There exists a couple of different network-types,
+they need to be attached to a network. A network connects one or more containers
+to each other and to other networks. There exists a couple of different network-types,
 based on how the contaner-connectivity is configured in FreeBSD.
 
 #### Volumes
@@ -161,7 +161,7 @@ endpoints for streaming/interactive communication.
 Kleene's frontend CLI, Klee, is written in [Python](https://www.python.org/)
 using the `click` and `rich` packages.
 Klee communicates with Kleened through it's API and can thus run on a
-seperate machine from Kleened. However, for now it is recommended to use Klee
+separate machine from Kleened. However, for now it is recommended to use Klee
 directly on the same machine as Kleened.
 
 ## Project status

@@ -96,5 +96,5 @@ as tentative suggestion. However, since all of Kleene i stored on ZFS it opens
 up several possibilities of taking snapshots and backups of Kleene and its
 objects. A few options are:
 
-- [The `zfs-periodic` package](https://www.freshports.org/sysutils/zfs-periodic/) for periodically taking snpashots.
+- [The `zfs-periodic` package](https://www.freshports.org/sysutils/zfs-periodic/) for periodically taking snapshots.
 - [The `sanoid` package](https://www.freshports.org/sysutils/sanoid/) contains the `syncoid` CLI for backups with ZFS datasets to a remote host.

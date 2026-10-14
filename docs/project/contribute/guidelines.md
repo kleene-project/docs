@@ -64,6 +64,14 @@ INFO    -  [19:00:00] Serving on http://127.0.0.1:8000/
 ```
 
 Voila! It's time to preview changes. Note that every time a change is made,
-MkDocs rebuilds the site automatically. Running
-`.venv/bin/mkdocs build --strict` (the same command CI runs) locally
-catches broken links and files missing from the navigation before the CI does.
+MkDocs rebuilds the site automatically. Before opening a PR, run all the
+checks CI runs — the style-guide terminology checker, the front-matter
+checker, the spell check and the strict build:
+
+```console
+$ make check
+```
+
+This installs `requirements-dev.txt` on first use. It catches broken links,
+files missing from the navigation, banned terminology (see the
+[style guide](style-guide.md)), missing front matter and typos before the CI does.
