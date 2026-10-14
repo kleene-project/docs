@@ -11,8 +11,10 @@ description: Overview of networking concepts in Kleene
     — [Podman documentation](https://github.com/containers/podman/blob/e7a3236358c74c08fe33e860ec045c30468cbdcd/docs/tutorials/basic_networking.md)
 
 This section deals with one of the more comprehensive topics when working with
-containers. For any readers having experience with networking in
-Docker, they should expect a substantially different approach to the subject.
+containers. Readers with experience from networking in Docker should expect a
+substantially different approach; see
+[Kleene for Docker users](../../get-started/docker-users.md) for an overview
+of the differences.
 This page gives a brief introduction to the ideas related to
 networking and the remaining parts of the networking chapter cover
 them in more detail.

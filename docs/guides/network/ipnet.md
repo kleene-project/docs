@@ -4,7 +4,8 @@ description: Introduction to `ipnet` container networking
 ---
 
 This section describes how to setup container networking
-using the `ipnet` network driver.
+using the `ipnet` network driver. The [tutorial](../../get-started/tutorial/multi-container.md)
+shows a multi-container application using an `ipnet` network.
 
 ## Creating network and containers
 

@@ -68,4 +68,6 @@ At this point, you have a functioning application that can survive restarts!
 However, you saw earlier that rebuilding images for every change takes quite a bit of time.
 With nullfs-mounts (which was hinted at earlier), there is a better way!
 
+**Learn more** about volumes in the [storage guide](../../guides/storage/volumes.md).
+
 [Using nullfs mounts](nullfs-mounts.md)

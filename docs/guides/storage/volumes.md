@@ -4,7 +4,8 @@ title: Volumes
 ---
 
 Volumes are the preferred mechanism for persisting data used
-by containers. While [nullfs mounts](nullfs-mounts.md) are dependent on the
+by containers. The [tutorial](../../get-started/tutorial/persist-data.md)
+shows them in action. While [nullfs mounts](nullfs-mounts.md) are dependent on the
 directory structure of the host machine, volumes are managed by
 Kleene. Advantages of using volumes over nullfs mounts:
 

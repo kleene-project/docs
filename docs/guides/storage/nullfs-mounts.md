@@ -5,6 +5,8 @@ title: nullfs mounts
 
 When using a [nullfs mount](https://man.freebsd.org/cgi/man.cgi?query=nullfs),
 a file or directory on the _host machine_ is mounted into a container.
+The [tutorial](../../get-started/tutorial/nullfs-mounts.md) shows them in
+action.
 By contrast, when using a volume, a new directory is created within
 Kleene's root dataset on the host, and Kleene manages that directory's contents.
 

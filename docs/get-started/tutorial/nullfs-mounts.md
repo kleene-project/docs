@@ -45,7 +45,7 @@ let's run a quick experiment to get a practical understanding of how they work.
    nullfs mount.
 
    ```console
-   $ klee run -it --mount /path/to/getting-started:/mnt FreeBSD-13.2-RELEASE /bin/sh
+   $ klee run -it --mount /path/to/getting-started:/mnt FreeBSD-15.1-RELEASE-p3 /bin/sh
    ```
 
    The `--mount` option tells Kleene to create a nullfs mount, where `/path/to/getting-started`
@@ -188,6 +188,9 @@ environments installed. With a single `klee run` command, dependencies and
 tools are ready to go.
 
 ## Next steps
+
+**Learn more** about nullfs mounts in the
+[storage guide](../../guides/storage/nullfs-mounts.md).
 
 In order to prepare for production, you need to migrate your database from
 working in SQLite to something that can scale a little better. For simplicity,

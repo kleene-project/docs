@@ -45,49 +45,47 @@ The example is equivalent to `klee image ls`.
     $ sudo curl --unix-socket /var/run/kleened.sock http://localhost/images/list
     [
       {
-        "buildargs": {},
-        "command": [
-          "/bin/sh",
-          "-c",
-          "echo \"Hello World\""
-        ],
-        "created": "2023-11-16T11:39:05.215568Z",
-        "env": [],
-        "id": "be56be1db5af",
-        "instructions": [
-          [
-            "FROM FreeBSD-13.2-STABLE:latest",
-            ""
-          ],
-          [
-            "RUN ls -lh /",
-            "@0551db16e1d2"
-          ],
-          [
-            "CMD echo \"Hello World\"",
-            ""
-          ]
-              ],
-        "layer_id": "c74a290a1406",
-        "name": "FreeBSD",
-        "tag": "testing",
-        "user": "root"
-      },
-      {
-        "buildargs": {},
-        "command": [
+        "cmd": [
           "/bin/sh",
           "/etc/rc"
         ],
-        "created": "2023-11-16T11:35:09.440185Z",
+        "created": "2026-10-14T07:22:11.573140Z",
+        "dataset": "zroot/kleene/image/cd7ff1aade41",
         "env": [],
-        "id": "25963b5053e5",
+        "id": "cd7ff1aade41",
         "instructions": [],
-        "layer_id": "a9cb0ebd68b0",
-        "name": "FreeBSD-13.2-STABLE",
+        "name": "151api",
         "tag": "latest",
         "user": "root"
       },
+      {
+        "cmd": [
+          "/bin/sh",
+          "/etc/rc"
+        ],
+        "created": "2026-10-13T17:50:15.503292Z",
+        "dataset": "zroot/kleene/image/a1041764afd3",
+        "env": [],
+        "id": "a1041764afd3",
+        "instructions": [],
+        "name": "FreeBSD-15.1-RELEASE-p3",
+        "tag": "latest",
+        "user": "root"
+      },
+      {
+        "cmd": [
+          "/bin/sh",
+          "/etc/rc"
+        ],
+        "created": "2023-09-14T21:21:57.990515Z",
+        "dataset": "zroot/kleene/image/4dc21e9594be",
+        "env": [],
+        "id": "4dc21e9594be",
+        "instructions": [],
+        "name": "FreeBSD",
+        "tag": "testing",
+        "user": "root"
+      }
     ]
     ```
 
@@ -100,14 +98,14 @@ Equivalent to `klee run -a FreeBSD:testing ls`
 
     ```console
     $ curl --unix-socket /var/run/kleened.sock -H "Content-Type: application/json" \
-      -d '{"image": "FreeBSD-13.2-STABLE:latest", "cmd": ["/bin/sh", "-c", "ls"]}' \
+      -d (json)'{"image": "FreeBSD-15.1-RELEASE-p3:latest", "cmd": ["/bin/sh", "-c", "ls"]}' \
       -X POST http://localhost/containers/create
-    {"id":"7816a46bd063"}
+    {"id":"daa0e1f1d3c8"}
 
     $ curl --unix-socket /var/run/kleened.sock -H "Content-Type: application/json" \
-      -d '{"container_id": "7816a46bd063"}' \
+      -d (json)'{"container_id": "daa0e1f1d3c8"}' \
       -X POST http://localhost/exec/create
-    {"id":"c00fa9c8c32e"}
+    {"id":"2916977b8a09"}
 
     # The first JSON-object is supplied by the user interactively - could be piped in as well.
     # Could not get unix-socket working, using ipv6 instead

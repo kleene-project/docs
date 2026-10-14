@@ -48,8 +48,8 @@ Go [here](../../guides/network/index.md) if you want to know more about networki
    Next, save the following content in the file `Dockerfile.mariadb`
 
    ```dockerfile
-   FROM FreeBSD-13.2-RELEASE:latest
-   RUN pkg install -y mariadb106-client mariadb106-server
+   FROM FreeBSD-15.1-RELEASE-p3:latest
+   RUN pkg install -y mariadb1011-client mariadb1011-server
 
    CMD service mysql-server onestart && \
        mysql -u root -e "CREATE DATABASE IF NOT EXISTS $DATABASE_NAME;" && \
@@ -195,7 +195,11 @@ This ends the 'getting started' tutorial!
 At this point, you have an application that now stores its data in an external database running in a separate
 container.
 
-If you want to dig deeper into Kleene, consider looking in:
+**What you learned:** how multiple containers communicate over a shared
+network, and how to run a database in its own container.
+
+**Learn more** in the [`ipnet` networking guide](../../guides/network/ipnet.md),
+or dig deeper into Kleene in general:
 
 1. [Building images](../../guides/build/index.md)
-2. [Running containers](http://localhost:4000/run/introduction/)
+2. [Running containers](../../guides/run/index.md)

@@ -3,8 +3,10 @@ description: Release notes for Kleene
 title: Kleene release notes
 ---
 
-Here will be release notes about new features, improvements,
-and bug fixes in each release.
+Kleene's components are released separately: the release notes for the
+[`klee` CLI client](https://github.com/kleene-project/klee/releases) and the
+[`kleened` backend](https://github.com/kleene-project/kleened/releases) are
+published on their respective GitHub releases pages.
 
-At the moment all Kleene componenents are under heavy development
-and no stable releases of Klee nor Kleened have been made yet.
+Kleene is still under active development, so commands and APIs may change
+between releases. See the [project status](status.md).

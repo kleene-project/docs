@@ -70,3 +70,4 @@ Notes on the table:
   "MariaDB-container"; "a `vnet` container", not "`vnet`-container".
 - Wrap prose at about 80 characters, so review comments can target small
   chunks.
+- The examples in this documentation were run on FreeBSD 15.1-RELEASE.

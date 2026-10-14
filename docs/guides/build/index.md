@@ -5,10 +5,14 @@ description: How Kleened builds images from a Dockerfile and a build context
 
 ## Dockerfile
 
-It all starts with a Dockerfile. For a thorough walk-through of what a
-Dockerfile is, it is recommended to consult [Docker's documention](https://docs.docker.com/build/building/packaging/) or
-Kleene's [getting started](../../get-started/tutorial/index.md) guide, which is an adapted version
-of Docker's [guide](https://docs.docker.com/get-started/), to highlight differences.
+It all starts with a Dockerfile: a text file that lists the instructions
+Kleene runs to turn a base image into a new image — which packages to
+install, which files to copy in, and what the image runs by default.
+Kleene's [getting started](../../get-started/tutorial/index.md) guide walks
+through writing one step by step. Docker's
+[documentation](https://docs.docker.com/build/building/packaging/) is
+useful further reading, since Kleene's Dockerfiles follow the same format
+with some differences.
 
 Kleened builds images by reading the instructions from a Dockerfile,
 using a subset of the instructions known from Docker.

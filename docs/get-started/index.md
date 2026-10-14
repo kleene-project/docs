@@ -36,11 +36,11 @@ to get a quick intro to containers and images in Kleene.
 ## Kleene's approach to container management
 
 If you already have experience using Docker or Podman then Kleene will
-seem very familiar.
-The `klee` command line tool follows (almost) the same structure as `docker` and
-the basic concepts (container, image, network, volume) are the same.
-Kleene also implements (a subset of) Dockers `Dockerfile` specification, with minor
-differences.
+seem very familiar: the `klee` command line tool follows (almost) the same
+structure as `docker`, the basic concepts (container, image, network, volume)
+are the same, and Kleene implements a subset of the `Dockerfile`
+specification. The differences are collected in
+[Kleene for Docker users](docker-users.md).
 
 A few differences worth highlighting, however, are the following:
 
@@ -112,7 +112,7 @@ An _image_ is a ZFS dataset containing a configured runtime used for creating co
 Images usually includes an entire FreeBSD userland with additional application-specific
 configurations. Often, an image is based on another image, adding additional
 configurations. For example, you may build an image based on a parent-image of
-FreeBSD 13.2-RELEASE, that installs the Nginx web server and your application,
+FreeBSD 15.1-RELEASE, that installs the Nginx web server and your application,
 as well as the configuration details needed to make your application run.
 
 To build your own image, you create a _Dockerfile_

@@ -11,9 +11,8 @@ hide:
 Kleene is a container management tool for FreeBSD, similar to Docker but using
 FreeBSD jails, ZFS and PF.
 
-!!! warning "Kleene is under active development"
-    Kleene has not had a stable release yet, and commands and APIs may
-    change. See the [project status](project/status.md).
+!!! note "A new tool in need of testing"
+    See the [project status](project/status.md).
 
 ## Pick your path
 
@@ -131,7 +130,7 @@ FreeBSD jails, ZFS and PF.
 Kleene defines itself relative to Docker. Most concepts map directly, but
 Kleene runs full FreeBSD userlands in jails backed by ZFS, has no image
 registry, and implements a subset of the Dockerfile instructions. See
-[Kleene for Docker users](get-started/index.md) for the full picture.
+[Kleene for Docker users](get-started/docker-users.md) for the full picture.
 
 | Docker | Kleene |
 |---|---|

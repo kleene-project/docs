@@ -4,6 +4,7 @@
 - Get started
     - [What is Kleene?](get-started/index.md)
     - [Install Kleene](get-started/install.md)
+    - [Kleene for Docker users](get-started/docker-users.md)
     - Tutorial
         - [Overview](get-started/tutorial/index.md)
         - [1. Containerize an application](get-started/tutorial/containerize-app.md)
@@ -39,6 +40,8 @@
     - Operating Kleene
         - [Operating Kleene](guides/operate/index.md)
         - [Protect the Kleened socket](guides/operate/protect-access.md)
+        - [SSH access to the Kleened socket](guides/operate/ssh-access.md)
+        - [TLS for the Kleened socket](guides/operate/tls.md)
         - [ZFS configuration](guides/operate/zfs.md)
 - Reference
     - [Reference documentation](reference/index.md)

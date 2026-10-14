@@ -37,8 +37,8 @@ Let's make this concrete with a few examples.
 Consider the `Dockerfile.mariadb` file from [part 6](../../get-started/tutorial/multi-container.md):
 
 ```dockerfile
-FROM FreeBSD-13.2-RELEASE:latest
-RUN pkg install -y mariadb106-client mariadb106-server
+FROM FreeBSD-15.1-RELEASE-p3:latest
+RUN pkg install -y mariadb1011-client mariadb1011-server
 
 CMD service mysql-server onestart && \
     mysql -u root -e "CREATE DATABASE IF NOT EXISTS $DATABASE_NAME;" && \
@@ -51,8 +51,8 @@ This can be split up into
 
 ```dockerfile
 # Dockerfile.mariadb-pkg build with tag 'MariaDB'
-FROM FreeBSD-13.2-RELEASE:latest
-RUN pkg install -y mariadb106-client mariadb106-server
+FROM FreeBSD-15.1-RELEASE-p3:latest
+RUN pkg install -y mariadb1011-client mariadb1011-server
 ```
 
 and
@@ -77,7 +77,7 @@ require a MariaDB database but require a different database schema.
 Similarily, the `Dockerfile` used for the 'production' `webapp` image from [part 2](../../get-started/tutorial/containerize-app.md)
 
 ```dockerfile
-FROM FreeBSD-13.2-RELEASE:latest
+FROM FreeBSD-15.1-RELEASE-p3:latest
 RUN pkg install -y node20 npm-node20 yarn-node20
 WORKDIR /app
 COPY . .
@@ -97,7 +97,7 @@ can be refactored into a time-consuming `pkg install ...` 'installation' image,
 
 ```dockerfile
 # Dockerfile.pkg build with tag 'webapp-pkg'
-FROM FreeBSD-13.2-RELEASE:latest
+FROM FreeBSD-15.1-RELEASE-p3:latest
 RUN pkg install -y node20 npm-node20 yarn-node20
 ```
 
@@ -152,7 +152,7 @@ creates a user, grants it password-free sudo in the `sudoers` file, and lastly e
 the ssh-server at container startup:
 
 ```dockerfile
-FROM FreeBSD-13.2-RELEASE:latest
+FROM FreeBSD-15.1-RELEASE-p3:latest
 ARG MY_USER=stephen
 ARG MY_PASSWORD=changeme
 

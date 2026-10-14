@@ -34,7 +34,7 @@ building images and creating containers.
 
 You need to create a [base image](../../guides/build/base-images.md) and a network to use for the images and containers that are created in this guide.
 
-1. Create a base image. The simplest way to do this is to let Kleened find and download an approriate relase of the FreeBSD userland:
+1. Create a base image. The simplest way to do this is to let Kleened find and download an appropriate release of the FreeBSD userland:
 
    ```console
    $ klee image create fetch-auto
@@ -70,8 +70,8 @@ A Dockerfile contains the instructions that Kleened uses to create the image.
 2. Add the following contents to the Dockerfile:
 
    ```dockerfile
-   FROM FreeBSD-13.2-RELEASE:latest
-   RUN pkg install -y node20 npm-node20 yarn-node20
+   FROM FreeBSD-15.1-RELEASE-p3:latest
+   RUN pkg install -y node20 npm-node20 yarn-node20 python3 py312-setuptools
    WORKDIR /app
    COPY . .
    RUN yarn install --production
@@ -90,7 +90,11 @@ A Dockerfile contains the instructions that Kleened uses to create the image.
    to build the container image.
 
 Kleene uses the Dockerfile to build a new container image.
-The `Dockerfile` starts with `FROM FreeBSD-13.2-RELEASE:latest` that refers to the base image created previously,
+The `python3` and `py312-setuptools` packages are needed to compile the app's
+`sqlite3` dependency: it builds native code with `node-gyp`, which requires a
+Python that still provides the `distutils` module that its pinned version
+expects.
+The `Dockerfile` starts with `FROM FreeBSD-15.1-RELEASE-p3:latest` that refers to the base image created previously,
 so it will be used as the foundation for our new `webapp` image.
 
 The remaining instructions from the Dockerfile installs the application dependencies, copies application data into the image, and uses `yarn` to install the application's JavaScript dependencies.
@@ -124,10 +128,10 @@ To do so, you will use the `klee run` command.
 
 2. Verify that the container is running as expected using `klee lsc`. This command shows the id and auto-generated name of your new container.
    It is also possible to verify that the container is running using the FreeBSD native tool `jls`:
-   ```
+   ```console
    $ jls
       JID  IP Address      Hostname                      Path
-        6  10.13.37.1                                    /zroot/kleene/container/d23e37375ffd
+      221  10.13.37.1      efec05e5643e                  /zroot/kleene/container/efec05e5643e
    ```
    This also shows the ip address of the container that is needed for accessing the web application.
    Note that the IP is shown because the container uses the `ipnet` network driver.
