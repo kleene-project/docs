@@ -45,6 +45,7 @@
     - Klee (client)
         - [Using Klee](reference/klee/cli.md)
         - [Configure Klee](reference/klee/configure-klee.md)
+        - [Klee shortcut commands](reference/klee/cheat-sheet.md)
         - [klee (root command)](reference/klee/klee.md)
         - klee shortcut commands
             - [klee build](reference/klee/build.md)

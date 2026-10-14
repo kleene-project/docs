@@ -53,6 +53,8 @@ The `Shortcuts` panel list convenient shortcuts to subcommands, e.g.,
 `klee build` is a shortcut for `klee image build` and so on. The last entries in the
 shortcut panel refer to several shortcuts covering all objects in Kleene.
 For instance, `lsX` is an abbreviation for the shortcuts: `lsc`, `lsi`, `lsn` and `lsv`.
+All the shortcut commands are listed in the
+[klee shortcut commands](cheat-sheet.md) overview.
 
 !!! note
     Depending on your Klee system configuration, you may be required to prefix

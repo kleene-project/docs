@@ -44,11 +44,13 @@ theme:
     - navigation.top
     - navigation.indexes
     - navigation.tracking
+    - navigation.footer
     - search.highlight
     - search.suggest
     - search.share
     - content.code.copy
     - content.code.annotate
+    - content.action.edit
     - content.tabs.link
     - toc.follow
   palette:
