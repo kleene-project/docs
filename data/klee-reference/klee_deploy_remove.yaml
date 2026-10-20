@@ -1,0 +1,39 @@
+command: klee deploy remove
+deprecated: false
+experimental: false
+experimentalcli: false
+long: Remove the containers, networks and volumes defined in a deployment file.
+options:
+- deprecated: false
+  description: 'Specify the deployment file to use.  [default: deployment.yml]'
+  experimental: false
+  experimentalcli: false
+  option: file
+  shorthand: f
+- deprecated: false
+  description: Remove any volumes attached to containers
+  experimental: false
+  experimentalcli: false
+  option: volume
+  shorthand: v
+- deprecated: false
+  description: Do not ask before removing deployment
+  experimental: false
+  experimentalcli: false
+  option: force
+  shorthand: F
+- deprecated: false
+  description: Stop running containers before removing
+  experimental: false
+  experimentalcli: false
+  option: stop
+  shorthand: s
+- deprecated: false
+  description: Show this message and exit.
+  experimental: false
+  experimentalcli: false
+  option: help
+plink: klee_deploy.yaml
+pname: klee deploy
+short: Remove containers related objects specified in a deployment file
+usage: klee deploy remove [OPTIONS]

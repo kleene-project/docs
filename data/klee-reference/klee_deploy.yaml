@@ -1,0 +1,37 @@
+clink:
+- klee_deploy_build.yaml
+- klee_deploy_create.yaml
+- klee_deploy_remove.yaml
+- klee_deploy_stop.yaml
+- klee_deploy_start.yaml
+- klee_deploy_diff.yaml
+- klee_deploy_up.yaml
+- klee_deploy_down.yaml
+- klee_deploy_restart.yaml
+- klee_deploy_prune.yaml
+cname:
+- klee deploy build
+- klee deploy create
+- klee deploy remove
+- klee deploy stop
+- klee deploy start
+- klee deploy diff
+- klee deploy up
+- klee deploy down
+- klee deploy restart
+- klee deploy prune
+command: klee deploy
+deprecated: false
+experimental: false
+experimentalcli: false
+long: Manage deployment
+options:
+- deprecated: false
+  description: Show this message and exit.
+  experimental: false
+  experimentalcli: false
+  option: help
+plink: klee.yaml
+pname: klee
+short: Manage deployment
+usage: klee deploy [OPTIONS] COMMAND [ARGS]...

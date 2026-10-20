@@ -1,0 +1,26 @@
+command: klee deploy up
+deprecated: false
+experimental: false
+experimentalcli: false
+long: Create all objects in the deployment file and start its containers.
+options:
+- deprecated: false
+  description: 'Specify the deployment file to use.  [default: deployment.yml]'
+  experimental: false
+  experimentalcli: false
+  option: file
+  shorthand: f
+- deprecated: false
+  description: Build images before starting containers
+  experimental: false
+  experimentalcli: false
+  option: build
+- deprecated: false
+  description: Show this message and exit.
+  experimental: false
+  experimentalcli: false
+  option: help
+plink: klee_deploy.yaml
+pname: klee deploy
+short: Create all objects in a deployment file and start its containers
+usage: klee deploy up [OPTIONS]
