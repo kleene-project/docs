@@ -1,9 +1,11 @@
 clink:
+- klee_deploy.yaml
 - klee_container.yaml
 - klee_image.yaml
 - klee_network.yaml
 - klee_volume.yaml
 cname:
+- klee deploy
 - klee container
 - klee image
 - klee network

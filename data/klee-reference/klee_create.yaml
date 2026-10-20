@@ -77,7 +77,7 @@ options:
 - deprecated: false
   description: 'Mount a volume/directory/file on the host filesystem into the container.
 
-    Mounts are specfied by `--mount SOURCE:DESTINATION[:rw|ro]`.'
+    Mounts are specified by `--mount SOURCE:DESTINATION[:rw|ro]`.'
   experimental: false
   experimentalcli: false
   option: mount

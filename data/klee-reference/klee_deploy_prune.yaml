@@ -1,0 +1,21 @@
+command: klee deploy prune
+deprecated: false
+experimental: false
+experimentalcli: false
+long: Remove containers, networks and volumes not defined in the deployment file.
+options:
+- deprecated: false
+  description: 'Specify the deployment file to use.  [default: deployment.yml]'
+  experimental: false
+  experimentalcli: false
+  option: file
+  shorthand: f
+- deprecated: false
+  description: Show this message and exit.
+  experimental: false
+  experimentalcli: false
+  option: help
+plink: klee_deploy.yaml
+pname: klee deploy
+short: Remove objects not specified in a deployment file
+usage: klee deploy prune [OPTIONS]
