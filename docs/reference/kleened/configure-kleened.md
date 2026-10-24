@@ -28,7 +28,9 @@ where
   generate the firewall configuration file `pf.conf(5)`.
 
 - `pf_config_path`: Location of the generated `pf.conf(5)` file that is loaded into
-  the `pf(4)` firewall. See the [firewall configuration](../../guides/network/firewall.md) section
+  the `pf(4)` firewall. Before Kleene overwrites a file at this location that it
+  did not generate itself, the existing file is backed up next to it with a
+  `.kleene.bak` suffix. See the [firewall configuration](../../guides/network/firewall.md) section
   for details.
 
 - `api_listening_sockets`: List of listening sockets for exposing the HTTP API.
