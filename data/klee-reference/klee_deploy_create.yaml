@@ -11,6 +11,11 @@ options:
   option: file
   shorthand: f
 - deprecated: false
+  description: Build images before creating containers
+  experimental: false
+  experimentalcli: false
+  option: build
+- deprecated: false
   description: Show this message and exit.
   experimental: false
   experimentalcli: false
