@@ -33,6 +33,18 @@ The locations of both the template and PF-config file can be configured
 in `/usr/local/etc/kleened_config.yaml`. See the
 [Kleened configuration](../../reference/kleened/configure-kleened.md) page for details.
 
+Since Kleene rewrites the PF configuration file whenever the networking
+configuration changes, any pre-existing configuration at `pf_config_path`
+would be overwritten. To keep it from being destroyed, the first time Kleene
+is about to overwrite a PF configuration file that it did not generate
+itself, the existing file is copied to `pf_config_path.kleene.bak` (default:
+`/etc/pf.conf.kleene.bak`). An existing backup is never overwritten.
+
+Kleene recognizes the files it generates by the header comment line it writes
+at the top of every PF configuration file. This also means that if you replace
+the generated file with your own configuration, Kleene preserves a copy of it
+before it is overwritten.
+
 Using the template file, it is possible to add custom firewall rules
 as long as Kleene's tags `<%= kleene_macros %>`, `<%= kleene_translation %>`,
 and `<%= kleene_filtering %>` is present, and in the correct order etc.
