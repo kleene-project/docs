@@ -43,7 +43,7 @@ itself, the existing file is copied to `pf_config_path.kleene.bak` (default:
 Kleene recognizes the files it generates by the header comment line it writes
 at the top of every PF configuration file. This also means that if you replace
 the generated file with your own configuration, Kleene preserves a copy of it
-before taking the file back.
+before it is overwritten.
 
 Using the template file, it is possible to add custom firewall rules
 as long as Kleene's tags `<%= kleene_macros %>`, `<%= kleene_translation %>`,
