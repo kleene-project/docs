@@ -136,7 +136,7 @@ With all of that explained, let's start our dev-ready container!
 1. We'll specify each of the environment variables above, as well as connect the container to our app network.
 
     ```console
-    $ klee run -m /home/vagrant/getting-started/app:/app \
+    $ klee run -m /home/jane/getting-started/app:/app \
       -n testnet \
       --ip 10.13.37.2 \
       -e MYSQL_HOST=10.13.37.1 \
