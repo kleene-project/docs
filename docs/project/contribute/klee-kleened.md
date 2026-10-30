@@ -27,27 +27,14 @@ be patient with us
 
 ## Creating a development environment
 
-To facilitate development, there exists a development repos containing a
-Vagrantfile for a development environment and a couple of useful `Makefile`'s.
-To set it up the environment, do the following:
-
-```console
-$ git clone https://github.com/kleene-project/kleene-dev
-$ cd kleene-dev
-$ make init
-```
-
-The last command clones the three repositories for Klee, Kleened, and this
-documentation, respectively.
-
 !!! note
-    The `Vagrantfile` requires a version of the FreeBSD base system (`base.txz`)
-    to be available in the `kleene-dev` folder.
-    Remember to fetch one and adjust the `$base_txz` parameter accordingly,
-    in the `Vagrantfile`.
+    Kleene only runs on FreeBSD. Anything that drives jails, ZFS or a running
+    Kleened must be executed on a FreeBSD host, e.g., inside a FreeBSD VM.
 
-In the `kleene-docs` repository, the docs can be built and served locally.
-From the repository root, run:
+Development happens in the `klee` and `kleened` repositories; clone them and
+follow their `README.md` files for how to build and run each project. The
+documentation (this repository) can be built and served locally — from the
+repository root, run:
 
 ```console
 $ make serve
@@ -55,25 +42,3 @@ $ make serve
 
 This creates the `.venv` if needed (see the Makefile) and starts the MkDocs
 dev webserver at `http://127.0.0.1:8000/`.
-
-If Vagrant is installed, the development environment can be created by running:
-
-```console
-$ vagrant up dev
-```
-
-Note that it will take quite some time to setup the environment, while Vagrant
-takes care of
-
-- Creating a dummy zpool.
-- Installing relevant packages, such as `elixir`, `python` and `openapi-python-client`
-- Installing development configuration files into `/usr/local/etc/kleened`
-- Creating a utility `Makefile` in `~/`
-- Creating a Poetry environment for Klee and installing it (using `pipx`) in editable-mode.
-- Finally, a custom script `customize_vagrant_user.sh` is run to install any user-specific files such as,
-  e.g., dotfiles. This needs to be created by the user and placed in the
-  `kleene-dev` directory.
-
-Consult `/home/vagrant/Makefile` to see useful make-targets for use during
-development. For instance, `make test-shell` starts Kleened and creates a
-base image image for testing.
