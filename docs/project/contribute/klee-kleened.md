@@ -27,25 +27,14 @@ be patient with us
 
 ## Creating a development environment
 
-To facilitate development, there exists a development repo containing a
-couple of useful `Makefile`'s for setting up and using a FreeBSD development
-environment. To set up the environment, do the following:
-
-```console
-$ git clone https://github.com/kleene-project/kleene-dev
-$ cd kleene-dev
-$ make init
-```
-
-The last command clones the three repositories for Klee, Kleened, and this
-documentation.
-
 !!! note
     Kleene only runs on FreeBSD. Anything that drives jails, ZFS or a running
     Kleened must be executed on a FreeBSD host, e.g., inside a FreeBSD VM.
 
-In the kleene-docs repository, the docs can be built and served locally.
-From the repository root, run:
+Development happens in the `klee` and `kleened` repositories; clone them and
+follow their `README.md` files for how to build and run each project. The
+documentation (this repository) can be built and served locally — from the
+repository root, run:
 
 ```console
 $ make serve
@@ -53,8 +42,3 @@ $ make serve
 
 This creates the `.venv` if needed (see the Makefile) and starts the MkDocs
 dev webserver at `http://127.0.0.1:8000/`.
-
-Consult the `README.md` and `AGENTS.md` in the `kleene-dev` repository for the
-current development-environment layout, and the `Makefile.vm` inside the VM
-for useful make-targets to use during development. For instance, `make
-test-shell` starts Kleened and creates a base image for testing.
