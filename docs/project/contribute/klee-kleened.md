@@ -25,20 +25,6 @@ be patient with us
   In the rare case that it poses a problem, an inline pylint-exception can be made, i.e., `# pylint: disable=unused-argument`.
 - All code for Kleened should be formatted using `mix format`.
 
-## Creating a development environment
-
 !!! note
     Kleene only runs on FreeBSD. Anything that drives jails, ZFS or a running
     Kleened must be executed on a FreeBSD host, e.g., inside a FreeBSD VM.
-
-Development happens in the `klee` and `kleened` repositories; clone them and
-follow their `README.md` files for how to build and run each project. The
-documentation (this repository) can be built and served locally — from the
-repository root, run:
-
-```console
-$ make serve
-```
-
-This creates the `.venv` if needed (see the Makefile) and starts the MkDocs
-dev webserver at `http://127.0.0.1:8000/`.
