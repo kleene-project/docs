@@ -9,3 +9,14 @@ site/
 .vscode
 /vendor
 /lint
+
+# Generated klee reference pages: produced by scripts/gen_cli_reference.py at
+# build time from data/klee-reference/*.yaml. Only the hand-written pages
+# below are tracked; everything else in the directory is build output.
+docs/reference/klee/*
+!docs/reference/klee/cheat-sheet.md
+!docs/reference/klee/cli.md
+!docs/reference/klee/configure-klee.md
+
+# Local agent scratch (plans, session artifacts)
+.hermes/
