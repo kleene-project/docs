@@ -42,8 +42,8 @@ will (roughly) make Kleene start a jail/container on the host with:
 
 ```console
 # /usr/sbin/jail -c path=<kleene-root-mountpoint>/container/9b4fd69fb5f2 \
-  name=9b4fd69fb5f2 \
-  host.hostname=9b4fd69fb5f2 \
+  name=mycontainer \
+  host.hostname=mycontainer \
   ip4=inherit ip6=inherit \
   exec.jail_user=root \
   exec.clean=true \
@@ -52,14 +52,15 @@ will (roughly) make Kleene start a jail/container on the host with:
   command=echo Hello World
 ```
 
-The `ip4` and `ip6` jail parameter values are derived
-from the default `host` network driver.
+The example assumes the container was named `mycontainer` (e.g.
+`klee run --name mycontainer FreeBSD echo "Hello World"`). The `ip4` and `ip6`
+jail parameter values are derived from the default `host` network driver.
 
 The jail parameters where Kleene provide defaults are as follows:
 
 | Parameter        | Default                                | Overwrite manually                                                                 |
 |------------------|----------------------------------------|------------------------------------------------------------------------------------|
-| `host.hostname`  | `host.hostname=<container ID>`         | `-J host.hostname=myhostname`                                                      |
+| `host.hostname`  | `host.hostname=<container name>`       | `-J host.hostname=myhostname`                                                      |
 |------------------|----------------------------------------|------------------------------------------------------------------------------------|
 | `mount.devfs`    | `mount.devfs=true`                     | `-J mount.devfs=false` or `-J mount.nodevfs`                                       |
 |------------------|----------------------------------------|------------------------------------------------------------------------------------|
@@ -68,6 +69,14 @@ The jail parameters where Kleene provide defaults are as follows:
 | `exec.clean`     | `exec.clean=true`                      | `-J exec.clean=false` or `-J exec.noclean`                                         |
 |------------------|----------------------------------------|------------------------------------------------------------------------------------|
 | `exec.stop`      | `exec.stop="/bin/sh /etc/rc.shutdown"` | `-J exec.nostop` or `-J exec.stop=""`                                              |
+
+Both the jail `name` parameter and `host.hostname` default to the container
+name, which is what shows up in `jls` and monitoring tools. There is one
+exception: a jail name may not contain a `.` (it is the separator for
+[child-jail hierarchies](https://man.freebsd.org/cgi/man.cgi?query=jail)), so
+a container named e.g. `my.app` gets its container id as jail name and
+hostname instead. Renaming a running container does not rename its jail; the
+new name takes effect the next time the container is started.
 
 
 ## Examples
