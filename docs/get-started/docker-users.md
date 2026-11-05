@@ -16,6 +16,7 @@ the same as Docker, where it deliberately differs, and what is left out.
 | image | image (a ZFS snapshot of a filesystem, no layers) |
 | Dockerfile | `Dockerfile` (a subset of the Dockerfile instructions) |
 | network (bridge) | network (`ipnet` or `vnet`) |
+| embedded DNS on user-defined networks | built-in per-network resolver ([container name resolution](../guides/network/dns.md)) |
 | volume | volume (a ZFS dataset mounted with nullfs) |
 | bind mount | nullfs mount (`klee run --mount /host:/ctr`) |
 | registry / pull / push | build your own images from a FreeBSD base image |
