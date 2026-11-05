@@ -43,7 +43,7 @@ will (roughly) make Kleene start a jail/container on the host with:
 ```console
 # /usr/sbin/jail -c path=<kleene-root-mountpoint>/container/9b4fd69fb5f2 \
   name=9b4fd69fb5f2 \
-  host.hostname=9b4fd69fb5f2 \
+  host.hostname=mycontainer \
   ip4=inherit ip6=inherit \
   exec.jail_user=root \
   exec.clean=true \
@@ -52,14 +52,18 @@ will (roughly) make Kleene start a jail/container on the host with:
   command=echo Hello World
 ```
 
-The `ip4` and `ip6` jail parameter values are derived
-from the default `host` network driver.
+The example assumes the container was named `mycontainer` (e.g.
+`klee run --name mycontainer FreeBSD echo "Hello World"`). The jail itself is
+named after the container id — it is what `jls -j`, `jexec` and `jail -r`
+expect, and the id can always be looked up with `klee lsc`. The `ip4` and
+`ip6` jail parameter values are derived from the default `host` network
+driver.
 
 The jail parameters where Kleene provide defaults are as follows:
 
 | Parameter        | Default                                | Overwrite manually                                                                 |
 |------------------|----------------------------------------|------------------------------------------------------------------------------------|
-| `host.hostname`  | `host.hostname=<container ID>`         | `-J host.hostname=myhostname`                                                      |
+| `host.hostname`  | `host.hostname=<container name>`       | `-J host.hostname=myhostname`                                                      |
 |------------------|----------------------------------------|------------------------------------------------------------------------------------|
 | `mount.devfs`    | `mount.devfs=true`                     | `-J mount.devfs=false` or `-J mount.nodevfs`                                       |
 |------------------|----------------------------------------|------------------------------------------------------------------------------------|
@@ -68,6 +72,13 @@ The jail parameters where Kleene provide defaults are as follows:
 | `exec.clean`     | `exec.clean=true`                      | `-J exec.clean=false` or `-J exec.noclean`                                         |
 |------------------|----------------------------------------|------------------------------------------------------------------------------------|
 | `exec.stop`      | `exec.stop="/bin/sh /etc/rc.shutdown"` | `-J exec.nostop` or `-J exec.stop=""`                                              |
+
+When `host.hostname` is not set, Kleene defaults it to the container name, so
+`jls` (which shows the hostname) and monitoring tools report meaningful names
+instead of container ids. A container without a name keeps the id as its
+hostname. Unlike a jail name, a hostname may contain `.`, so a container
+named e.g. `my.app` gets `my.app` as hostname. Renaming a running container
+does not change its hostname until the container is started again.
 
 
 ## Examples
