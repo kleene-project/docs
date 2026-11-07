@@ -29,6 +29,7 @@
         - [`ipnet` networking](guides/network/ipnet.md)
         - [`vnet` networking](guides/network/vnet.md)
         - [Host networking](guides/network/host.md)
+        - [Container name resolution](guides/network/dns.md)
         - [Disable networking](guides/network/none.md)
         - [Publish ports](guides/network/publish-ports.md)
         - [Customize the firewall](guides/network/firewall.md)
