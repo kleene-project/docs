@@ -43,6 +43,12 @@ To initialize the host and make sure all host requirements are met, run
 # service kleened init
 ```
 
+`init` verifies that ZFS is enabled and that a zpool exists, but it does not
+enable ZFS for you: creating a zpool cannot be automated. If the check fails,
+set `zfs_enable="YES"` in `/etc/rc.conf`, load the module with `kldload zfs`
+and make sure a zpool exists (see zpool(8)), then run `service kleened init`
+again. The `pf` and `pflog` kernel modules are still enabled automatically.
+
 It is also possible to do a dry-run initialization using
 `service kleened dryinit` to see if requirements are met and what
 should be configured.
