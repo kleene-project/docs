@@ -13,6 +13,8 @@ as `klee <shortcut>` instead of `klee <object> <verb>` — for example,
 | [`klee build`](build.md) | `klee image build` |
 | [`klee create`](create.md) | `klee container create` |
 | [`klee exec`](exec.md) | `klee container exec` |
+| [`klee import`](import.md) | `klee image import` |
+| [`klee pull`](pull.md) | `klee image pull` |
 | [`klee run`](run.md) | `klee container run` |
 | [`klee start`](start.md) | `klee container start` |
 | [`klee stop`](stop.md) | `klee container stop` |

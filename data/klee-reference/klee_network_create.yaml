@@ -109,6 +109,12 @@ options:
   option: internal
   value_type: flag
 - deprecated: false
+  description: Disable Kleene's built-in DNS resolver on the network (container-name
+    resolution).
+  experimental: false
+  experimentalcli: false
+  option: no-dns
+- deprecated: false
   description: Show this message and exit.
   experimental: false
   experimentalcli: false

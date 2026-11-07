@@ -34,30 +34,36 @@ examples: "\n### <a name=\"name\"></a> Assign name and allocate pseudo-TTY (--na
   VAR1=value1\nVAR2=value2\n```\n\nIf you need to use variables that you've exported\
   \ to your local environment:\n\n```console\nexport VAR1=value1\nexport VAR2=value2\n\
   \n$ klee run --env VAR1=$VAR1 --env VAR2=$VAR2 FreeBSD-13.2-STABLE env | grep VAR\n\
-  VAR1=value1\nVAR2=value2\n```\n\n### <a name=\"network\"></a> Connect a container\
-  \ to a network (--network)\n\nWhen you start a container use the `--network` flag\
-  \ to connect it to a network.\n\nThe following commands create a network named `testnet`,\
-  \ and adds a container\nto it.\n\n```console\n$ klee network create --subnet 10.20.30.0/24\
-  \ --type loopback testnet\ndcd762b8f34c\n$ klee container run --network testnet\
-  \ FreeBSD\n59e291c07673\ncreated execution instance 4b4998af008a\n... container\
-  \ initialization output ...\n4b4998af008a has exited with exit-code 0\n```\n\nYou\
-  \ can also choose the IP addresses for the container with the `--ip`\noptions, when\
-  \ you start the container on a user-defined network.\n\n```console\n$ klee run --network=testnet\
-  \ --ip=10.20.30.75 FreeBSD:testing\n```\n\nYou can also create a container with\
-  \ full access to the host networking using the `host` network-driver.\n\n```console\n\
-  $ klee run --driver=host FreeBSD:latest\n```\n\nWhen you create a container using,\
-  \ e.g., `klee run` you can only connect the container\nto a single network. However,\
-  \ you can add containers to additional\nnetworks using `klee network connect`.\n\
-  \nContainers can be disconnected from networks using `klee network disconnect`.\n\
-  \n### <a name=\"detach\"></a> Start a container detached from process IO (-d, --detach)\n\
-  \nThe `--detach` (or `-d`) flag tells `klee run` to ignore output from the container's\n\
-  `STDIN`, `STDOUT` and `STDERR`.\n\n```console\n$ klee run -d FreeBSD-13.2-STABLE\
-  \ echo test\n8d8d235e3489\ncreated execution instance 3891db558a90\n```\n\nOnce\
-  \ the container has started, Klee exists and the container runs in the background.\n\
-  \n### <a name=\"jailparam\"></a> Specifying Jail parameters (-J, --jailparam)\n\n\
-  It is possible to set jail-parameters when creating a container.\nUsing jail-parameters\
-  \ it is possible to configure the container/jail environment\nin various ways. See\
-  \ the [`jails(8)` manual pages](https://man.freebsd.org/cgi/man.cgi?query=jail)\n\
+  VAR1=value1\nVAR2=value2\n```\n\nThe container's environment is constructed by kleened:\
+  \ `PATH`, `HOME`,\n`USER` and `SHELL` default to the configured user's values, with\
+  \ variables\nfrom the image configuration and `-e`/`--env` added on top (an explicit\n\
+  `PATH` overrides the default). This holds for the default `root` user; when\nthe\
+  \ container runs as a **non-root user**, FreeBSD's `setusercontext(3)`\nre-builds\
+  \ `PATH` from that user's login class, so the process can end up\nwith a different\
+  \ `PATH` than the injected one (see the note in\n[klee container exec](/reference/klee/container_exec/)).\n\
+  \n### <a name=\"network\"></a> Connect a container to a network (--network)\n\n\
+  When you start a container use the `--network` flag to connect it to a network.\n\
+  \nThe following commands create a network named `testnet`, and adds a container\n\
+  to it.\n\n```console\n$ klee network create --subnet 10.20.30.0/24 --type loopback\
+  \ testnet\ndcd762b8f34c\n$ klee container run --network testnet FreeBSD\n59e291c07673\n\
+  created execution instance 4b4998af008a\n... container initialization output ...\n\
+  4b4998af008a has exited with exit-code 0\n```\n\nYou can also choose the IP addresses\
+  \ for the container with the `--ip`\noptions, when you start the container on a\
+  \ user-defined network.\n\n```console\n$ klee run --network=testnet --ip=10.20.30.75\
+  \ FreeBSD:testing\n```\n\nYou can also create a container with full access to the\
+  \ host networking using the `host` network-driver.\n\n```console\n$ klee run --driver=host\
+  \ FreeBSD:latest\n```\n\nWhen you create a container using, e.g., `klee run` you\
+  \ can only connect the container\nto a single network. However, you can add containers\
+  \ to additional\nnetworks using `klee network connect`.\n\nContainers can be disconnected\
+  \ from networks using `klee network disconnect`.\n\n### <a name=\"detach\"></a>\
+  \ Start a container detached from process IO (-d, --detach)\n\nThe `--detach` (or\
+  \ `-d`) flag tells `klee run` to ignore output from the container's\n`STDIN`, `STDOUT`\
+  \ and `STDERR`.\n\n```console\n$ klee run -d FreeBSD-13.2-STABLE echo test\n8d8d235e3489\n\
+  created execution instance 3891db558a90\n```\n\nOnce the container has started,\
+  \ Klee exists and the container runs in the background.\n\n### <a name=\"jailparam\"\
+  ></a> Specifying Jail parameters (-J, --jailparam)\n\nIt is possible to set jail-parameters\
+  \ when creating a container.\nUsing jail-parameters it is possible to configure\
+  \ the container/jail environment\nin various ways. See the [`jails(8)` manual pages](https://man.freebsd.org/cgi/man.cgi?query=jail)\n\
   for details on the available jail-parameters and the Kleene handbook section on\n\
   [jail parameters](/run/jail-parameters/) for a discussion on how jail parameters\n\
   is used by Kleene.\n\nFor example, opening raw sockets is not permitted in containers\
