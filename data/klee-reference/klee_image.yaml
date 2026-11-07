@@ -1,5 +1,7 @@
 clink:
 - klee_image_create.yaml
+- klee_image_import.yaml
+- klee_image_pull.yaml
 - klee_image_build.yaml
 - klee_image_ls.yaml
 - klee_image_inspect.yaml
@@ -8,6 +10,8 @@ clink:
 - klee_image_tag.yaml
 cname:
 - klee image create
+- klee image import
+- klee image pull
 - klee image build
 - klee image ls
 - klee image inspect
