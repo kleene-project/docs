@@ -163,7 +163,8 @@ So, let's do it!
    ```
    
    Now you can hit `Ctrl`+`C` to return to the terminal prompt. Don't worry,
-   your container is stilling running. Use `klee lsc` to be sure.
+   your container is still running — the process inside it does not receive
+   the signal. Use `klee lsc` to be sure.
 
 8. Now, make a change to the app. In the `src/static/js/app.js` file, on line
    109, change the "Add Item" button to simply say "Add":
