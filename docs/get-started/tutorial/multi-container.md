@@ -162,8 +162,10 @@ With all of that explained, let's start our dev-ready container!
    Listening on port 3000
    ```
 
-   Pressing `Ctrl`+`C` exits terminal from the jail, but it is still running in the background.
-   As previously, you can check for yourself by using `jls` or `klee lsc`.
+   Pressing `Ctrl`+`C` stops Klee, but the container — and the process it runs — keeps
+   running in the background. The process does not receive the `Ctrl`+`C` signal; it is
+   only stopped when the container is. As previously, you can check for yourself by using
+   `jls` or `klee lsc`, and stop the container entirely with `klee container stop`.
 
 4. Open the app in your browser and add a few items to your todo list.
 
