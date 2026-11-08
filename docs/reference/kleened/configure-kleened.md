@@ -37,10 +37,50 @@ where
   The general format for specifying socket types and TLS-parameters is described
   below.
 
-- `enable_logging`: Whether or not enable logging to `/var/log/Kleened.log`.
+- `enable_logging`: Whether or not enable logging to `/var/log/kleened.log`.
 
-- `log_level`: Logging verbosity. Values ordered by vebosity are: `debug`, `info`,
-  `notice`, `warning`, `error`, and `critical`.
+- `log_level`: Logging verbosity. A message is logged if it is `log_level` or more
+  severe. Values ordered by verbosity are: `debug`, `info`, `notice`, `warning`,
+  `error`, `critical`, `alert`, and `emergency`.
+
+## Additional logging configuration
+
+Kleened's logging is built on the logger that ships with Erlang/OTP (Elixir's
+`Logger` calls feed into it). `enable_logging` and `log_level` are the only
+kleened-specific options; the behaviour around them is standard OTP logger
+behaviour.
+
+### Log file and rotation
+
+With `enable_logging: true`, kleened writes to `/var/log/kleened.log`. The
+location is fixed and cannot be changed from the configuration file.
+
+Rotation is built into the logging itself, independent of newsyslog(8): the
+log is rotated when it reaches 10 MB, and the five most recent rotated files
+are kept. The handler also re-checks the log file every five seconds, so
+rotating it with newsyslog(8) instead works as well.
+
+### Setting the log level at boot
+
+`log_level` is applied while the daemon reads its configuration at startup.
+To control logging even earlier — for example to quiet boot-time messages
+while debugging a daemon that fails before the configuration is read — set
+the primary log level with the kernel's `logger_level` parameter:
+
+```sh
+ERL_AFLAGS="-kernel logger_level warning" service kleened start
+```
+
+When kleened runs from the FreeBSD port, the variable belongs in
+`kleened_env` in `/etc/rc.conf`. Note that `kleened_env` replaces its default
+value, so keep the `PATH` and `LANG` entries from the default when setting it.
+Once the configuration file has been read, `log_level` overrides the
+boot-time level.
+
+The log format and logging handlers cannot be customized from kleened's
+configuration file; see the [OTP logger
+documentation](https://www.erlang.org/doc/apps/kernel/logger) for what can be
+done with the underlying system.
 
 ## Specifying listening sockets
 
